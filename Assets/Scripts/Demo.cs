@@ -3,25 +3,27 @@ using System.Collections;
 
 public class Demo : MonoBehaviour 
 {
-	void OnEnable ()
-	{
-		InputController.moveEvent += OnMoveEvent;
-		InputController.fireEvent += OnFireEvent;
-	}
-	
-	void OnDisable ()
-	{
-		InputController.moveEvent -= OnMoveEvent;
-		InputController.fireEvent -= OnFireEvent;
-	}
+		enum State
+		{
+			Loading,
+			Playing,
+			GameOver
+		}
+		State _state;
 
-	void OnMoveEvent (object sender, InfoEventArgs<Point> e)
+	void CheckState ()
 	{
-		Debug.Log("Move " + e.info.ToString());
-	}
-
-	void OnFireEvent (object sender, InfoEventArgs<int> e)
-	{
-		Debug.Log("Fire " + e.info);
+		switch (_state)
+		{
+		case State.Loading:
+			// Loading Logic here
+			break;
+		case State.Playing:
+			// Playing Logic here
+			break;
+		case State.GameOver:
+			// GameOver Logic here
+			break;
+		}
 	}
 }
