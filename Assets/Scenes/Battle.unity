@@ -239,7 +239,7 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f857aee139928457989ee1d6b5558393, type: 2}
   m_IsPrefabParent: 0
---- !u!4 &697354563
+--- !u!4 &697354563 stripped
 Transform:
   m_PrefabParentObject: {fileID: 447854, guid: f857aee139928457989ee1d6b5558393, type: 2}
   m_PrefabInternal: {fileID: 697354562}
@@ -314,6 +314,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd6f3545f53e143f1a529dc1af193a24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  heroPrefab: {fileID: 152258, guid: b6393481ca39e413da3f524a675e1245, type: 2}
   cameraRig: {fileID: 81033365}
   board: {fileID: 373292836}
   levelData: {fileID: 11400000, guid: 1db812f2ce6b14599b4f1358e4d98fc9, type: 2}
@@ -321,6 +322,7 @@ MonoBehaviour:
   pos:
     x: 0
     y: 0
+  currentUnit: {fileID: 0}
 --- !u!114 &1725097817
 MonoBehaviour:
   m_ObjectHideFlags: 0
