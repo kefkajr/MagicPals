@@ -100,6 +100,7 @@ public class AbilityMenuPanelController : MonoBehaviour
 		Poolable p = GameObjectPoolController.Dequeue(EntryPoolKey);
 		AbilityMenuEntry entry = p.GetComponent<AbilityMenuEntry>();
 		entry.transform.SetParent(panel.transform, false);
+		entry.transform.localScale = Vector3.one;
 		entry.gameObject.SetActive(true);
 		entry.Reset();
 		return entry;
