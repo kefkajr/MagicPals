@@ -5,10 +5,11 @@ using System.Collections.Generic;
 public abstract class Movement : MonoBehaviour
 {
 	#region Properties
-	public int range;
-	public int jumpHeight;
+	public int range { get { return stats[StatTypes.MOV]; }}
+	public int jumpHeight { get { return stats[StatTypes.JMP]; }}
 	protected Unit unit;
 	protected Transform jumper;
+	protected Stats stats;
 	#endregion
 
 	#region MonoBehaviour
@@ -16,6 +17,11 @@ public abstract class Movement : MonoBehaviour
 	{
 		unit = GetComponent<Unit>();
 		jumper = transform.FindChild("Jumper");
+	}
+
+	protected virtual void Start ()
+	{
+		stats = GetComponent<Stats>();
 	}
 	#endregion
 

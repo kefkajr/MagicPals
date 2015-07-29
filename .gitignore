@@ -9,5 +9,7 @@
 Library/
 Temp/
 Build/
+Assets/Resources/Jobs/
 *.orig
 *.orig.meta
+Jobs.meta
