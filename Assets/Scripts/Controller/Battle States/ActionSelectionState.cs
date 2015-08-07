@@ -8,6 +8,18 @@ public class ActionSelectionState : BaseAbilityMenuState
 	string[] whiteMagicOptions = new string[] { "Cure", "Raise", "Holy" };
 	string[] blackMagicOptions = new string[] { "Fire", "Ice", "Lightning" };
 
+	public override void Enter ()
+	{
+		base.Enter ();
+		statPanelController.ShowPrimary(turn.actor.gameObject);
+	}
+	
+	public override void Exit ()
+	{
+		base.Exit ();
+		statPanelController.HidePrimary();
+	}
+
 	protected override void LoadMenu ()
 	{
 		if (menuOptions == null)
