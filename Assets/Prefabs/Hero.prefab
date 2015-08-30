@@ -9,6 +9,8 @@ GameObject:
   m_Component:
   - 4: {fileID: 441298}
   - 114: {fileID: 11425844}
+  - 114: {fileID: 11411396}
+  - 114: {fileID: 11415696}
   m_Layer: 0
   m_Name: Attack
   m_TagString: Untagged
@@ -271,6 +273,30 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 180450}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &11411396
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 123118}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bfc060451846474682d03d2523aafaf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  horizontal: 1
+  vertical: 1
+--- !u!114 &11415696
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 123118}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0016ccd840ffa4c18a0cc68d4a42e8a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11425844
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -341,7 +367,15 @@ Prefab:
     m_Modifications:
     - target: {fileID: 0}
       propertyPath: horizontal
-      value: 3
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: vertical
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
