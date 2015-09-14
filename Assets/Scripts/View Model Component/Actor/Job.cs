@@ -23,7 +23,7 @@ public class Job : MonoBehaviour
 	#region MonoBehaviour
 	void OnDestroy ()
 	{
-		this.RemoveObserver(OnLvlChangeNotification, Stats.DidChangeNotification(StatTypes.LVL));
+		this.RemoveObserver(OnLvlChangeNotification, Stats.DidChangeNotification(StatTypes.LVL), stats);
 	}
 	#endregion
 
