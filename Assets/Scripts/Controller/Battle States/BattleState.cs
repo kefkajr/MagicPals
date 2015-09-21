@@ -13,6 +13,7 @@ public abstract class BattleState : State
 	public Tile currentTile { get { return owner.currentTile; }}
 	public AbilityMenuPanelController abilityMenuPanelController { get { return owner.abilityMenuPanelController; }}
 	public StatPanelController statPanelController { get { return owner.statPanelController; }}
+	public HitSuccessIndicator hitSuccessIndicator { get { return owner.hitSuccessIndicator; }}
 	public Turn turn { get { return owner.turn; }}
 	public List<Unit> units { get { return owner.units; }}
 

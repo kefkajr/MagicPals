@@ -11,6 +11,7 @@ GameObject:
   - 114: {fileID: 11425844}
   - 114: {fileID: 11411396}
   - 114: {fileID: 11415696}
+  - 114: {fileID: 11446576}
   m_Layer: 0
   m_Name: Attack
   m_TagString: Untagged
@@ -45,6 +46,8 @@ GameObject:
   m_Component:
   - 4: {fileID: 447706}
   - 114: {fileID: 11459440}
+  - 114: {fileID: 11467952}
+  - 114: {fileID: 11436704}
   m_Layer: 0
   m_Name: Hero
   m_TagString: Untagged
@@ -310,6 +313,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   horizontal: 3
   vertical: 2147483647
+--- !u!114 &11436704
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 152258}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5305545bc606428c8a2a734f060cd0e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &11446576
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 123118}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c31885ee665d94da498258f6760acaa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11459440
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -322,6 +347,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dir: 0
+--- !u!114 &11467952
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 152258}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e56e9c13410294a6f8f40dd6794b66db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!135 &13522074
 SphereCollider:
   m_ObjectHideFlags: 1
