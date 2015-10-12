@@ -609,7 +609,6 @@ GameObject:
   - 4: {fileID: 1725097815}
   - 114: {fileID: 1725097816}
   - 114: {fileID: 1725097817}
-  - 114: {fileID: 1725097818}
   m_Layer: 0
   m_Name: Battle Controller
   m_TagString: Untagged
@@ -668,17 +667,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8ed02cdc8154a429d9134617348dea86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1725097818
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1725097814}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 77a037f425be44d0f869ab19c97f0435, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1786019209

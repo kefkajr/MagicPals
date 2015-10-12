@@ -3,9 +3,10 @@ using System.Collections;
 
 public class FullTypeHitRate : HitRate 
 {
-	public override int Calculate (Unit attacker, Unit target)
+	public override int Calculate (Tile target)
 	{
-		if (AutomaticMiss(attacker, target))
+		Unit defender = target.content.GetComponent<Unit>();
+		if (AutomaticMiss(defender))
 			return Final(100);
 
 		return Final (0);
