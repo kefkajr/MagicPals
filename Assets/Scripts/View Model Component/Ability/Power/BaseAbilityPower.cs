@@ -10,45 +10,48 @@ public abstract class BaseAbilityPower : MonoBehaviour
 
 	void OnEnable ()
 	{
-		this.AddObserver(OnGetBaseAttack, DamageAbilityEffect.GetAttackNotification);
-		this.AddObserver(OnGetBaseDefense, DamageAbilityEffect.GetDefenseNotification);
-		this.AddObserver(OnGetPower, DamageAbilityEffect.GetPowerNotification);
+		this.AddObserver(OnGetBaseAttack, BaseAbilityEffect.GetAttackNotification);
+		this.AddObserver(OnGetBaseDefense, BaseAbilityEffect.GetDefenseNotification);
+		this.AddObserver(OnGetPower, BaseAbilityEffect.GetPowerNotification);
 	}
 
 	void OnDisable ()
 	{
-		this.RemoveObserver(OnGetBaseAttack, DamageAbilityEffect.GetAttackNotification);
-		this.RemoveObserver(OnGetBaseDefense, DamageAbilityEffect.GetDefenseNotification);
-		this.RemoveObserver(OnGetPower, DamageAbilityEffect.GetPowerNotification);
+		this.RemoveObserver(OnGetBaseAttack, BaseAbilityEffect.GetAttackNotification);
+		this.RemoveObserver(OnGetBaseDefense, BaseAbilityEffect.GetDefenseNotification);
+		this.RemoveObserver(OnGetPower, BaseAbilityEffect.GetPowerNotification);
 	}
 
 	void OnGetBaseAttack (object sender, object args)
 	{
-		var info = args as Info<Unit, Unit, List<ValueModifier>>;
-		if (info.arg0 != GetComponentInParent<Unit>())
-			return;
-
-		AddValueModifier mod = new AddValueModifier(0, GetBaseAttack());
-		info.arg2.Add( mod );
+		if (IsMyEffect(sender))
+		{
+			var info = args as Info<Unit, Unit, List<ValueModifier>>;
+			info.arg2.Add( new AddValueModifier(0, GetBaseAttack()) );
+		}
 	}
 
 	void OnGetBaseDefense (object sender, object args)
 	{
-		var info = args as Info<Unit, Unit, List<ValueModifier>>;
-		if (info.arg0 != GetComponentInParent<Unit>())
-			return;
-		
-		AddValueModifier mod = new AddValueModifier(0, GetBaseDefense(info.arg1));
-		info.arg2.Add( mod );
+		if (IsMyEffect(sender))
+		{
+			var info = args as Info<Unit, Unit, List<ValueModifier>>;
+			info.arg2.Add( new AddValueModifier(0, GetBaseDefense(info.arg1)) );
+		}
 	}
 
 	void OnGetPower (object sender, object args)
 	{
-		var info = args as Info<Unit, Unit, List<ValueModifier>>;
-		if (info.arg0 != GetComponentInParent<Unit>())
-			return;
-		
-		AddValueModifier mod = new AddValueModifier(0, GetPower());
-		info.arg2.Add( mod );
+		if (IsMyEffect(sender))
+		{
+			var info = args as Info<Unit, Unit, List<ValueModifier>>;
+			info.arg2.Add( new AddValueModifier(0, GetPower()) );
+		}
+	}
+
+	bool IsMyEffect (object sender)
+	{
+		MonoBehaviour obj = sender as MonoBehaviour;
+		return (obj != null && obj.transform.parent == transform);
 	}
 }

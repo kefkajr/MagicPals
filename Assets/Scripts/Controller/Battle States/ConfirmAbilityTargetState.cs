@@ -4,7 +4,6 @@ using System.Collections.Generic;
 
 public class ConfirmAbilityTargetState : BattleState
 {
-	AbilityEffectTarget[] targeters;
 	List<Tile> tiles;
 	AbilityArea aa;
 	int index = 0;
@@ -58,18 +57,20 @@ public class ConfirmAbilityTargetState : BattleState
 	void FindTargets ()
 	{
 		turn.targets = new List<Tile>();
-		targeters = turn.ability.GetComponentsInChildren<AbilityEffectTarget>();
 		for (int i = 0; i < tiles.Count; ++i)
-			if (IsTarget(tiles[i], targeters))
+			if (IsTarget(tiles[i]))
 				turn.targets.Add(tiles[i]);
 	}
 	
-	bool IsTarget (Tile tile, AbilityEffectTarget[] list)
+	bool IsTarget (Tile tile)
 	{
-		for (int i = 0; i < list.Length; ++i)
-			if (list[i].IsTarget(tile))
+		Transform obj = turn.ability.transform;
+		for (int i = 0; i < obj.childCount; ++i)
+		{
+			AbilityEffectTarget targeter = obj.GetChild(i).GetComponent<AbilityEffectTarget>();
+			if (targeter.IsTarget(tile))
 				return true;
-		
+		}
 		return false;
 	}
 
@@ -94,14 +95,16 @@ public class ConfirmAbilityTargetState : BattleState
 		int amount = 0;
 		Tile target = turn.targets[index];
 
-		for (int i = 0; i < targeters.Length; ++i)
+		Transform obj = turn.ability.transform;
+		for (int i = 0; i < obj.childCount; ++i)
 		{
-			if (targeters[i].IsTarget(target))
+			AbilityEffectTarget targeter = obj.GetChild(i).GetComponent<AbilityEffectTarget>();
+			if (targeter.IsTarget(target))
 			{
-				HitRate hitRate = targeters[i].GetComponent<HitRate>();
+				HitRate hitRate = targeter.GetComponent<HitRate>();
 				chance = hitRate.Calculate(target);
 
-				BaseAbilityEffect effect = targeters[i].GetComponent<BaseAbilityEffect>();
+				BaseAbilityEffect effect = targeter.GetComponent<BaseAbilityEffect>();
 				amount = effect.Predict(target);
 				break;
 			}

@@ -19,31 +19,26 @@ public class CategorySelectionState : BaseAbilityMenuState
 	protected override void LoadMenu ()
 	{
 		if (menuOptions == null)
-		{
-			menuTitle = "Action";
-			menuOptions = new List<string>(3);
-			menuOptions.Add("Attack");
-			menuOptions.Add("White Magic");
-			menuOptions.Add("Black Magic");
-		}
+			menuOptions = new List<string>();
+		else
+			menuOptions.Clear();
+
+		menuTitle = "Action";
+		menuOptions.Add("Attack");
+
+		AbilityCatalog catalog = turn.actor.GetComponentInChildren<AbilityCatalog>();
+		for (int i = 0; i < catalog.CategoryCount(); ++i)
+			menuOptions.Add( catalog.GetCategory(i).name );
 		
 		abilityMenuPanelController.Show(menuTitle, menuOptions);
 	}
 
 	protected override void Confirm ()
 	{
-		switch (abilityMenuPanelController.selection)
-		{
-		case 0:
+		if (abilityMenuPanelController.selection == 0)
 			Attack();
-			break;
-		case 1:
-			SetCategory(0);
-			break;
-		case 2:
-			SetCategory(1);
-			break;
-		}
+		else
+			SetCategory(abilityMenuPanelController.selection - 1);
 	}
 	
 	protected override void Cancel ()
@@ -53,7 +48,7 @@ public class CategorySelectionState : BaseAbilityMenuState
 
 	void Attack ()
 	{
-		turn.ability = turn.actor.GetComponentInChildren<AbilityRange>().gameObject;
+		turn.ability = turn.actor.GetComponentInChildren<Ability>();
 		owner.ChangeState<AbilityTargetState>();
 	}
 
