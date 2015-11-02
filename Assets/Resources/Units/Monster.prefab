@@ -253,7 +253,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bea3b35f769384c6d80fbcc2d88d5ad6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tile: {fileID: 0}
+  dir: 0
 --- !u!135 &13532412
 SphereCollider:
   m_ObjectHideFlags: 1
