@@ -13,6 +13,8 @@ public class MoveTargetState : BattleState
 		tiles = mover.GetTilesInRange(board);
 		board.SelectTiles(tiles);
 		RefreshPrimaryStatPanel(pos);
+		if (driver.Current == Drivers.Computer)
+			StartCoroutine(ComputerHighlightMoveTarget());
 	}
 	
 	public override void Exit ()
@@ -40,5 +42,21 @@ public class MoveTargetState : BattleState
 		{
 			owner.ChangeState<CommandSelectionState>();
 		}
+	}
+
+	IEnumerator ComputerHighlightMoveTarget ()
+	{
+		Point cursorPos = pos;
+		while (cursorPos != turn.plan.moveLocation)
+		{
+			if (cursorPos.x < turn.plan.moveLocation.x) cursorPos.x++;
+			if (cursorPos.x > turn.plan.moveLocation.x) cursorPos.x--;
+			if (cursorPos.y < turn.plan.moveLocation.y) cursorPos.y++;
+			if (cursorPos.y > turn.plan.moveLocation.y) cursorPos.y--;
+			SelectTile(cursorPos);
+			yield return new WaitForSeconds(0.25f);
+		}
+		yield return new WaitForSeconds(0.5f);
+		owner.ChangeState<MoveSequenceState>();
 	}
 }

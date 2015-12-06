@@ -10,6 +10,7 @@ public class Turn
 	public bool lockMove;
 	public Ability ability;
 	public List<Tile> targets;
+	public PlanOfAttack plan;
 	Tile startTile;
 	Directions startDir;
 
@@ -21,6 +22,7 @@ public class Turn
 		lockMove = false;
 		startTile = actor.tile;
 		startDir = actor.dir;
+		plan = null;
 	}
 
 	public void UndoMove ()

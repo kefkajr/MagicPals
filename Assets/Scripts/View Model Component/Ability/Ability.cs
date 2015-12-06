@@ -29,6 +29,18 @@ public class Ability : MonoBehaviour
 		this.PostNotification(DidPerformNotification);
 	}
 
+	public bool IsTarget (Tile tile)
+	{
+		Transform obj = transform;
+		for (int i = 0; i < obj.childCount; ++i)
+		{
+			AbilityEffectTarget targeter = obj.GetChild(i).GetComponent<AbilityEffectTarget>();
+			if (targeter.IsTarget(tile))
+				return true;
+		}
+		return false;
+	}
+
 	void Perform (Tile target)
 	{
 		for (int i = 0; i < transform.childCount; ++i)

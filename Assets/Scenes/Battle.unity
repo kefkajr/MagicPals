@@ -603,6 +603,58 @@ Prefab:
 Transform:
   m_PrefabParentObject: {fileID: 465962, guid: 9d0fdb7275c714aec90835f234acb79b, type: 2}
   m_PrefabInternal: {fileID: 1175967349}
+--- !u!1001 &1399851165
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1725097815}
+    m_Modifications:
+    - target: {fileID: 425340, guid: f8ed9d70dd39042ef9311c964d194abe, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 425340, guid: f8ed9d70dd39042ef9311c964d194abe, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 425340, guid: f8ed9d70dd39042ef9311c964d194abe, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 425340, guid: f8ed9d70dd39042ef9311c964d194abe, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 425340, guid: f8ed9d70dd39042ef9311c964d194abe, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 425340, guid: f8ed9d70dd39042ef9311c964d194abe, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 425340, guid: f8ed9d70dd39042ef9311c964d194abe, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 425340, guid: f8ed9d70dd39042ef9311c964d194abe, type: 2}
+      propertyPath: m_RootOrder
+      value: 7
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: f8ed9d70dd39042ef9311c964d194abe, type: 2}
+  m_IsPrefabParent: 0
+--- !u!4 &1399851166 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 425340, guid: f8ed9d70dd39042ef9311c964d194abe, type: 2}
+  m_PrefabInternal: {fileID: 1399851165}
+--- !u!114 &1399851167 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 11490450, guid: f8ed9d70dd39042ef9311c964d194abe,
+    type: 2}
+  m_PrefabInternal: {fileID: 1399851165}
+  m_Script: {fileID: 11500000, guid: 344acf034332c459e8d0aa0f34886f7c, type: 3}
 --- !u!1 &1725097814
 GameObject:
   m_ObjectHideFlags: 0
@@ -614,6 +666,7 @@ GameObject:
   - 114: {fileID: 1725097816}
   - 114: {fileID: 1725097817}
   - 114: {fileID: 1725097818}
+  - 114: {fileID: 1725097819}
   m_Layer: 0
   m_Name: Battle Controller
   m_TagString: Untagged
@@ -638,6 +691,7 @@ Transform:
   - {fileID: 909305849}
   - {fileID: 292808606}
   - {fileID: 275820492}
+  - {fileID: 1399851166}
   m_Father: {fileID: 0}
   m_RootOrder: 1
 --- !u!114 &1725097816
@@ -661,8 +715,10 @@ MonoBehaviour:
   abilityMenuPanelController: {fileID: 2031122890}
   statPanelController: {fileID: 308611629}
   hitSuccessIndicator: {fileID: 2122481282}
+  battleMessageController: {fileID: 1399851167}
   facingIndicator: {fileID: 697354564}
   units: []
+  cpu: {fileID: 1725097819}
 --- !u!114 &1725097817
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -683,6 +739,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d776467b4c10c45faaeaac4b97db0393, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1725097819
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1725097814}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 943e46e5acdbe4defbe9150f94ee7179, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1786019209

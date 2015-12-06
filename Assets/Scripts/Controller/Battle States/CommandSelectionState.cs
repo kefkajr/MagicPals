@@ -8,6 +8,8 @@ public class CommandSelectionState : BaseAbilityMenuState
 	{
 		base.Enter ();
 		statPanelController.ShowPrimary(turn.actor.gameObject);
+		if (driver.Current == Drivers.Computer)
+			StartCoroutine( ComputerTurn() );
 	}
 
 	public override void Exit ()
@@ -60,5 +62,23 @@ public class CommandSelectionState : BaseAbilityMenuState
 		{
 			owner.ChangeState<ExploreState>();
 		}
+	}
+
+	IEnumerator ComputerTurn ()
+	{
+		if (turn.plan == null)
+		{
+			turn.plan = owner.cpu.Evaluate();
+			turn.ability = turn.plan.ability;
+		}
+
+		yield return new WaitForSeconds (1f);
+
+		if (turn.hasUnitMoved == false && turn.plan.moveLocation != turn.actor.tile.pos)
+			owner.ChangeState<MoveTargetState>();
+		else if (turn.hasUnitActed == false && turn.plan.ability != null)
+			owner.ChangeState<AbilityTargetState>();
+		else
+			owner.ChangeState<EndFacingState>();
 	}
 }

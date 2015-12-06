@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public abstract class BattleState : State 
 {
 	protected BattleController owner;
+	protected Driver driver;
 	public CameraRig cameraRig { get { return owner.cameraRig; }}
 	public Board board { get { return owner.board; }}
 	public LevelData levelData { get { return owner.levelData; }}
@@ -24,14 +25,23 @@ public abstract class BattleState : State
 
 	protected override void AddListeners ()
 	{
-		InputController.moveEvent += OnMove;
-		InputController.fireEvent += OnFire;
+		if (driver == null || driver.Current == Drivers.Human)
+		{
+			InputController.moveEvent += OnMove;
+			InputController.fireEvent += OnFire;
+		}
 	}
 	
 	protected override void RemoveListeners ()
 	{
 		InputController.moveEvent -= OnMove;
 		InputController.fireEvent -= OnFire;
+	}
+
+	public override void Enter ()
+	{
+		driver = (turn.actor != null) ? turn.actor.GetComponent<Driver>() : null;
+		base.Enter ();
 	}
 
 	protected virtual void OnMove (object sender, InfoEventArgs<Point> e)

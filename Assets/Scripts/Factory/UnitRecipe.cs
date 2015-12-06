@@ -7,6 +7,7 @@ public class UnitRecipe : ScriptableObject
 	public string job;
 	public string attack;
 	public string abilityCatalog;
+	public string strategy;
 	public Locomotions locomotion;
 	public Alliances alliance;
 }

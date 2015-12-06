@@ -14,6 +14,7 @@ MonoBehaviour:
   model: Monster
   job: Wizard
   attack: Common/Attack
-  abilityCatalog: DemoCatalog
-  alliance: 4
+  abilityCatalog: Enemy Wizard
+  strategy: Mage Attack Pattern
   locomotion: 2
+  alliance: 4
