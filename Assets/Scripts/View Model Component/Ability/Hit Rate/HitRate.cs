@@ -23,6 +23,7 @@ public abstract class HitRate : MonoBehaviour
 	#endregion
 
 	#region Fields
+	public virtual bool IsAngleBased { get { return true; }}
 	protected Unit attacker;
 	#endregion
 
