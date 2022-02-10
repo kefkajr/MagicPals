@@ -50,8 +50,12 @@ public class ActionSelectionState : BaseAbilityMenuState
 
 	protected override void Confirm ()
 	{
-		turn.ability = catalog.GetAbility(category, abilityMenuPanelController.selection);
-		owner.ChangeState<AbilityTargetState>();
+		int currentSelection = abilityMenuPanelController.selection;
+		if (!abilityMenuPanelController.GetLocked(currentSelection))
+        {
+			turn.ability = catalog.GetAbility(category, currentSelection);
+			owner.ChangeState<AbilityTargetState>();
+		}
 	}
 
 	protected override void Cancel ()

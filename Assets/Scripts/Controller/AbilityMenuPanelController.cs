@@ -73,6 +73,11 @@ public class AbilityMenuPanelController : MonoBehaviour
 			Next();
 	}
 
+	public bool GetLocked(int index)
+	{
+		return menuEntries[index].IsLocked;
+	}
+
 	public void Next ()
 	{
 		for (int i = selection + 1; i < selection + menuEntries.Count; ++i)

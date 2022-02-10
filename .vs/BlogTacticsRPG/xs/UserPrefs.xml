@@ -1,26 +1,16 @@
 ﻿<Properties StartupConfiguration="{73812A29-5856-E3FB-7A6D-82D40E98EC20}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Editor/JobParser.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Controller/AbilityMenuPanelController.cs">
     <Files>
-      <File FileName="Assets/Scripts/View Model Component/HitSuccessIndicator.cs" Line="13" Column="26" />
-      <File FileName="Assets/Scripts/Controller/StatPanelController.cs" Line="13" Column="26" />
-      <File FileName="Assets/Scripts/View Model Component/FacingIndicator.cs" Line="8" Column="26" />
-      <File FileName="Assets/Scripts/View Model Component/Board.cs" Line="9" Column="26" />
-      <File FileName="Assets/Scripts/Controller/ConversationController.cs" Line="20" Column="26" />
-      <File FileName="Assets/Scripts/Controller/BattleMessageController.cs" Line="10" Column="26" />
-      <File FileName="Assets/Scripts/PreProduction/BoardCreator.cs" Line="16" Column="26" />
-      <File FileName="Assets/Scripts/View Model Component/AbilityMenuEntry.cs" Line="83" Column="26" />
-      <File FileName="Assets/Scripts/Controller/AbilityMenuPanelController.cs" Line="19" Column="26" />
-      <File FileName="Assets/Scripts/Common/UI/Panel.cs" Line="37" Column="26" />
-      <File FileName="Assets/Editor/JobParser.cs" Line="98" Column="1" />
+      <File FileName="Assets/Scripts/Controller/StatPanelController.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Controller/Battle States/ActionSelectionState.cs" Line="48" Column="33" />
+      <File FileName="Assets/Scripts/Controller/AbilityMenuPanelController.cs" Line="66" Column="2" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="BlogTacticsRPG" expanded="True">
             <Node name="Assets" expanded="True">
-              <Node name="Editor" expanded="True">
-                <Node name="JobParser.cs" selected="True" />
-              </Node>
+              <Node name="Editor" expanded="True" />
               <Node name="Scripts" expanded="True">
                 <Node name="Adjustments" expanded="True" />
                 <Node name="Common" expanded="True">
@@ -30,6 +20,7 @@
                 <Node name="Controller" expanded="True">
                   <Node name="Battle States" expanded="True" />
                   <Node name="Victory Conditions" expanded="True" />
+                  <Node name="AbilityMenuPanelController.cs" selected="True" />
                 </Node>
                 <Node name="Factory" expanded="True" />
                 <Node name="Model" expanded="True" />
