@@ -16,8 +16,8 @@ public class ConversationController : MonoBehaviour
 	#endregion
 
 	#region Fields
-	[SerializeField] ConversationPanel leftPanel;
-	[SerializeField] ConversationPanel rightPanel;
+	[SerializeField] public ConversationPanel leftPanel;
+	[SerializeField] public ConversationPanel rightPanel;
 
 	Canvas canvas;
 	IEnumerator conversation;

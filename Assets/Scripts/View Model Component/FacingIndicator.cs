@@ -3,9 +3,9 @@ using System.Collections;
 
 public class FacingIndicator : MonoBehaviour 
 {
-	[SerializeField] Renderer[] directions;
-	[SerializeField] Material normal;
-	[SerializeField] Material selected;
+	[SerializeField] public Renderer[] directions;
+	[SerializeField] public Material normal;
+	[SerializeField] public Material selected;
 	
 	public void SetDirection (Directions dir)
 	{

@@ -7,10 +7,10 @@ public class HitSuccessIndicator : MonoBehaviour
 	const string ShowKey = "Show";
 	const string HideKey = "Hide";
 
-	[SerializeField] Canvas canvas;
-	[SerializeField] Panel panel;
-	[SerializeField] Image arrow;
-	[SerializeField] Text label;
+	[SerializeField] public Canvas canvas;
+	[SerializeField] public Panel panel;
+	[SerializeField] public Image arrow;
+	[SerializeField] public Text label;
 	Tweener transition;
 
 	void Start ()

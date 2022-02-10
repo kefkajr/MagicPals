@@ -93,10 +93,10 @@ public static class JobParser
 
 	static GameObject Create (string fullPath)
 	{
-		GameObject instance = new GameObject ("temp");
-		instance.AddComponent<Job>();
-		GameObject prefab = PrefabUtility.CreatePrefab( fullPath, instance );
-		GameObject.DestroyImmediate(instance);
-		return prefab;
+		GameObject instance = new GameObject("temp");
+        instance.AddComponent<Job>();
+        GameObject prefab = PrefabUtility.SaveAsPrefabAsset(instance, fullPath);
+        GameObject.DestroyImmediate(instance);
+        return prefab;
 	}
 }

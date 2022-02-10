@@ -9,8 +9,8 @@ public class StatPanelController : MonoBehaviour
 	#endregion
 
 	#region Fields
-	[SerializeField] StatPanel primaryPanel;
-	[SerializeField] StatPanel secondaryPanel;
+	[SerializeField] public StatPanel primaryPanel;
+	[SerializeField] public StatPanel secondaryPanel;
 	
 	Tweener primaryTransition;
 	Tweener secondaryTransition;

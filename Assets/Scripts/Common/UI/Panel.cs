@@ -34,7 +34,7 @@ public class Panel : MonoBehaviour
 	#endregion
 
 	#region Fields / Properties
-	[SerializeField] List<Position> positionList;
+	[SerializeField] public List<Position> positionList;
 	Dictionary<string, Position> positionMap;
 	LayoutAnchor anchor;
 

@@ -7,13 +7,13 @@ using System.Collections.Generic;
 public class BoardCreator : MonoBehaviour 
 {
 	#region Fields / Properties
-	[SerializeField] GameObject tileViewPrefab;
-	[SerializeField] GameObject tileSelectionIndicatorPrefab;
-	[SerializeField] int width = 10;
-	[SerializeField] int depth = 10;
-	[SerializeField] int height = 8;
-	[SerializeField] Point pos;
-	[SerializeField] LevelData levelData;
+	[SerializeField] public GameObject tileViewPrefab;
+	[SerializeField] public GameObject tileSelectionIndicatorPrefab;
+	[SerializeField] public int width = 10;
+	[SerializeField] public int depth = 10;
+	[SerializeField] public int height = 8;
+	[SerializeField] public Point pos;
+	[SerializeField] public LevelData levelData;
 	Dictionary<Point, Tile> tiles = new Dictionary<Point, Tile>();
 
 	Transform marker

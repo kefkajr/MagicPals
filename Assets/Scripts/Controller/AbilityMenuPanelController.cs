@@ -13,10 +13,10 @@ public class AbilityMenuPanelController : MonoBehaviour
 	#endregion
 
 	#region Fields / Properties
-	[SerializeField] GameObject entryPrefab;
-	[SerializeField] Text titleLabel;
-	[SerializeField] Panel panel;
-	[SerializeField] GameObject canvas;
+	[SerializeField] public GameObject entryPrefab;
+	[SerializeField] public Text titleLabel;
+	[SerializeField] public Panel panel;
+	[SerializeField] public GameObject canvas;
 	List<AbilityMenuEntry> menuEntries = new List<AbilityMenuEntry>(MenuCount);
 	public int selection { get; private set; }
 	#endregion

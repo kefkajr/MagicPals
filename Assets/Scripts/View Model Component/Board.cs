@@ -6,7 +6,7 @@ using System.Collections.Generic;
 public class Board : MonoBehaviour 
 {
 	#region Fields / Properties
-	[SerializeField] GameObject tilePrefab;
+	[SerializeField] public GameObject tilePrefab;
 	public Dictionary<Point, Tile> tiles = new Dictionary<Point, Tile>();
 	public Point min { get { return _min; }}
 	public Point max { get { return _max; }}

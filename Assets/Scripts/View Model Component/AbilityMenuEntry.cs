@@ -76,11 +76,11 @@ public class AbilityMenuEntry : MonoBehaviour
 	}
 	States state;
 	
-	[SerializeField] Image bullet;
-	[SerializeField] Sprite normalSprite;
-	[SerializeField] Sprite selectedSprite;
-	[SerializeField] Sprite disabledSprite;
-	[SerializeField] Text label;
+	[SerializeField] public Image bullet;
+	[SerializeField] public Sprite normalSprite;
+	[SerializeField] public Sprite selectedSprite;
+	[SerializeField] public Sprite disabledSprite;
+	[SerializeField] public Text label;
 	Outline outline;
 	#endregion
 	

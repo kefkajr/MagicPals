@@ -5,9 +5,9 @@ using System.Collections;
 
 public class BattleMessageController : MonoBehaviour 
 {
-	[SerializeField] Text label;
-	[SerializeField] GameObject canvas;
-	[SerializeField] CanvasGroup group;
+	[SerializeField] public Text label;
+	[SerializeField] public GameObject canvas;
+	[SerializeField] public CanvasGroup group;
 	EasingControl ec;
 
 	void Awake ()
