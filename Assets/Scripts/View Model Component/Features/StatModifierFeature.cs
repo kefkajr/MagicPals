@@ -10,7 +10,7 @@ public class StatModifierFeature : Feature
 	Stats stats 
 	{ 
 		get 
-		{ 
+		{
 			return _target.GetComponentInParent<Stats>();
 		}
 	}

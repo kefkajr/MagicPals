@@ -22,8 +22,8 @@ public class WeaponAbilityPower : BaseAbilityPower
 	int PowerFromEquippedWeapon ()
 	{
 		int power = 0;
-		Equipment eq = GetComponentInParent<Equipment>();
-		Equippable item = eq.GetItem(EquipSlots.Primary);
+		Inventory inv = GetComponentInParent<Inventory>();
+		Equippable item = inv.GetEquipment(EquipSlots.Primary);
 		StatModifierFeature[] features = item.GetComponentsInChildren<StatModifierFeature>();
 
 		for (int i = 0; i < features.Length; ++i)

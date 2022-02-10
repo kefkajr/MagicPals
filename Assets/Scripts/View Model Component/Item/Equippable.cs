@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class Equippable : MonoBehaviour 
+public class Equippable : Merchandise
 {
 	#region Fields
 	/// <summary>
@@ -24,34 +24,44 @@ public class Equippable : MonoBehaviour
 	/// <summary>
 	/// The slot(s) where an item is currently equipped
 	/// </summary>
-	public EquipSlots slots;
+	public EquipSlots currentSlots;
 
 	bool _isEquipped;
+	[SerializeField]
+	public bool isEquipped
+	{
+		get { return _isEquipped;}
+		set
+		{
+			_isEquipped = value;
+			if (value)
+			{
+				OnEquip();
+			}
+			else
+			{
+				OnUnEquip();
+			}
+		}
+	}
 	#endregion
 
-	#region Public
-	public void OnEquip ()
+	void OnEquip()
 	{
-		if (_isEquipped)
-			return;
-
-		_isEquipped = true;
-
 		Feature[] features = GetComponentsInChildren<Feature>();
 		for (int i = 0; i < features.Length; ++i)
+		{
 			features[i].Activate(gameObject);
+			gameObject.name = gameObject.name + "*"; // Add marker
+		}
 	}
-
-	public void OnUnEquip ()
+	void OnUnEquip()
 	{
-		if (!_isEquipped)
-			return;
-
-		_isEquipped = false;
-
 		Feature[] features = GetComponentsInChildren<Feature>();
 		for (int i = 0; i < features.Length; ++i)
+		{
 			features[i].Deactivate();
+			gameObject.name = gameObject.name.Remove(gameObject.name.Length-1); // Remove marker
+		}
 	}
-	#endregion
 }
