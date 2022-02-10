@@ -1,0 +1,62 @@
+﻿<Properties StartupConfiguration="{73812A29-5856-E3FB-7A6D-82D40E98EC20}|">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Editor/JobParser.cs">
+    <Files>
+      <File FileName="Assets/Scripts/View Model Component/AbilityMenuEntry.cs" Line="82" Column="1" />
+      <File FileName="Assets/Scripts/View Model Component/Ability/Effect Target/UndeadAbilityEffectTarget.cs" />
+      <File FileName="Assets/Scripts/View Model Component/Ability/Effect Target/KOdAbilityEffectTarget.cs" />
+      <File FileName="Assets/Scripts/View Model Component/Ability/Area Of Effect/SpecifyAbilityArea.cs" />
+      <File FileName="Assets/Scripts/View Model Component/Ability/Effect Target/AbsorbDamageAbilityEffectTarget.cs" />
+      <File FileName="Assets/Scripts/Factory/UnitFactory.cs" />
+      <File FileName="Assets/Scripts/Controller/BattleController.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Controller/Battle States/InitBattleState.cs" Line="61" Column="1" />
+      <File FileName="Assets/Scripts/Factory/UnitRecipe.cs" Line="14" Column="2" />
+      <File FileName="Assets/Scripts/Controller/Victory Conditions/BaseVictoryCondition.cs" Line="65" Column="7" />
+      <File FileName="Assets/Editor/JobParser.cs" Line="98" Column="1" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="BlogTacticsRPG" expanded="True">
+            <Node name="Assets" expanded="True">
+              <Node name="Editor" expanded="True">
+                <Node name="JobParser.cs" selected="True" />
+              </Node>
+              <Node name="Scripts" expanded="True">
+                <Node name="Common" expanded="True">
+                  <Node name="Notification Center" expanded="True" />
+                </Node>
+                <Node name="Controller" expanded="True">
+                  <Node name="Battle States" expanded="True" />
+                  <Node name="Victory Conditions" expanded="True" />
+                </Node>
+                <Node name="Factory" expanded="True" />
+                <Node name="Model" expanded="True" />
+                <Node name="View Model Component" expanded="True">
+                  <Node name="Ability" expanded="True">
+                    <Node name="Area Of Effect" expanded="True" />
+                    <Node name="Effect Target" expanded="True" />
+                  </Node>
+                </Node>
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State />
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="3f105f0e-6166-4ac2-975f-0e12eef47279" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore>
+      <Breakpoint file="/Users/terrytorres/BlogTacticsRPG/Assets/Scripts/View Model Component/Ability/Effect Target/AbsorbDamageAbilityEffectTarget.cs" relfile="Assets/Scripts/View Model Component/Ability/Effect Target/AbsorbDamageAbilityEffectTarget.cs" line="48" column="1" />
+      <Breakpoint file="/Users/terrytorres/BlogTacticsRPG/Assets/Scripts/View Model Component/Ability/Effect Target/AbsorbDamageAbilityEffectTarget.cs" relfile="Assets/Scripts/View Model Component/Ability/Effect Target/AbsorbDamageAbilityEffectTarget.cs" line="34" column="1" />
+      <Breakpoint file="/Users/terrytorres/BlogTacticsRPG/Assets/Scripts/View Model Component/Ability/Effect Target/AbsorbDamageAbilityEffectTarget.cs" relfile="Assets/Scripts/View Model Component/Ability/Effect Target/AbsorbDamageAbilityEffectTarget.cs" line="40" column="1" />
+      <Breakpoint file="/Users/terrytorres/BlogTacticsRPG/Assets/Scripts/View Model Component/Ability/Effect Target/AbsorbDamageAbilityEffectTarget.cs" relfile="Assets/Scripts/View Model Component/Ability/Effect Target/AbsorbDamageAbilityEffectTarget.cs" line="41" column="1" />
+    </BreakpointStore>
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>

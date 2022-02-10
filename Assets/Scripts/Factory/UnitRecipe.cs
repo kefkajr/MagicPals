@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[CreateAssetMenu(menuName = "Create new unit recipe")]
 public class UnitRecipe : ScriptableObject 
 {
 	public string model;

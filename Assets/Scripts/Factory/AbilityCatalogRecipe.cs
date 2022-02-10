@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[CreateAssetMenu(menuName = "Create new ability catalog recipe")]
 public class AbilityCatalogRecipe : ScriptableObject 
 {
 	[System.Serializable]

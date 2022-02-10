@@ -58,7 +58,7 @@ public class InitBattleState : BattleState
 		
 		SelectTile(units[0].tile.pos);
 	}
-	
+
 	void AddVictoryCondition ()
 	{
 		DefeatTargetVictoryCondition vc = owner.gameObject.AddComponent<DefeatTargetVictoryCondition>();

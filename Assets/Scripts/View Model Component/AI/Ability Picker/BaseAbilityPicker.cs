@@ -26,7 +26,7 @@ public abstract class BaseAbilityPicker : MonoBehaviour
 		for (int i = 0; i < ac.transform.childCount; ++i)
 		{
 			Transform category = ac.transform.GetChild(i);
-			Transform child = category.FindChild(abilityName);
+			Transform child = category.Find(abilityName);
 			if (child != null)
 				return child.GetComponent<Ability>();
 		}
