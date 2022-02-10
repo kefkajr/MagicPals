@@ -26,28 +26,15 @@ public class Equippable : Merchandise
 	/// </summary>
 	public EquipSlots currentSlots;
 
-	bool _isEquipped;
-	[SerializeField]
-	public bool isEquipped
-	{
-		get { return _isEquipped;}
-		set
-		{
-			_isEquipped = value;
-			if (value)
-			{
-				OnEquip();
-			}
-			else
-			{
-				OnUnEquip();
-			}
-		}
-	}
+	public bool isEquipped { get; private set; }
 	#endregion
 
-	void OnEquip()
+	public void OnEquip()
 	{
+		if (isEquipped)
+			return;
+		isEquipped = true;
+
 		Feature[] features = GetComponentsInChildren<Feature>();
 		for (int i = 0; i < features.Length; ++i)
 		{
@@ -55,8 +42,12 @@ public class Equippable : Merchandise
 			gameObject.name = gameObject.name + "*"; // Add marker
 		}
 	}
-	void OnUnEquip()
+	public void OnUnEquip()
 	{
+		if (!isEquipped)
+			return;
+		isEquipped = false;
+
 		Feature[] features = GetComponentsInChildren<Feature>();
 		for (int i = 0; i < features.Length; ++i)
 		{

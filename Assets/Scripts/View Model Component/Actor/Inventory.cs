@@ -28,26 +28,20 @@ public class Inventory : MonoBehaviour
 
 	public void Equip (Equippable equippable, EquipSlots slots)
 	{
-		if (equippable.isEquipped)
-			return;
-
 		UnEquip(slots);
 
 		equippable.currentSlots = slots;
 
-		equippable.isEquipped = true;
+		equippable.OnEquip();
 
 		this.PostNotification(EquippedNotification, equippable);
 	}
 
 	public void UnEquip (Equippable equippable)
 	{
-		if (!equippable.isEquipped)
-			return;
-
 		equippable.currentSlots = EquipSlots.None;
 
-		equippable.isEquipped = false;
+		equippable.OnUnEquip();
 
 		this.PostNotification(UnEquippedNotification, equippable);
 	}
