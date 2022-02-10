@@ -66,9 +66,9 @@ public class TurnOrderController : MonoBehaviour
 	#region Private
 	bool CanTakeTurn (Unit target)
 	{
-		BaseException exc = new BaseException( GetCounter(target) >= turnActivation );
-		target.PostNotification( TurnCheckNotification, exc );
-		return exc.toggle;
+		BaseAdjustment adj = new BaseAdjustment( GetCounter(target) >= turnActivation);
+		target.PostNotification( TurnCheckNotification, adj);
+		return adj.toggle;
 	}
 
 	int GetCounter (Unit target)

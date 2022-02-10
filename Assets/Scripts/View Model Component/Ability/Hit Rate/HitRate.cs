@@ -5,12 +5,12 @@ public abstract class HitRate : MonoBehaviour
 {
 	#region Notifications
 	/// <summary>
-	/// Includes a toggleable MatchException argument which defaults to false.
+	/// Includes a toggleable MatchAdjustment argument which defaults to false.
 	/// </summary>
 	public const string AutomaticHitCheckNotification = "HitRate.AutomaticHitCheckNotification";
 
 	/// <summary>
-	/// Includes a toggleable MatchException argument which defaults to false.
+	/// Includes a toggleable MatchAdjustment argument which defaults to false.
 	/// </summary>
 	public const string AutomaticMissCheckNotification = "HitRate.AutomaticMissCheckNotification";
 
@@ -52,16 +52,16 @@ public abstract class HitRate : MonoBehaviour
 	#region Protected
 	protected virtual bool AutomaticHit (Unit target)
 	{
-		MatchException exc = new MatchException(attacker, target);
-		this.PostNotification(AutomaticHitCheckNotification, exc);
-		return exc.toggle;
+		MatchAdjustment adj = new MatchAdjustment(attacker, target);
+		this.PostNotification(AutomaticHitCheckNotification, adj);
+		return adj.toggle;
 	}
 
 	protected virtual bool AutomaticMiss (Unit target)
 	{
-		MatchException exc = new MatchException(attacker, target);
-		this.PostNotification(AutomaticMissCheckNotification, exc);
-		return exc.toggle;
+		MatchAdjustment adj = new MatchAdjustment(attacker, target);
+		this.PostNotification(AutomaticMissCheckNotification, adj);
+		return adj.toggle;
 	}
 
 	protected virtual int AdjustForStatusEffects (Unit target, int rate)

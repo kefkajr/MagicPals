@@ -21,15 +21,15 @@ public class StopStatusEffect : StatusEffect
 	
 	void OnCounterWillChange (object sender, object args)
 	{
-		ValueChangeException exc = args as ValueChangeException;
-		exc.FlipToggle();
+		ValueChangeAdjustment adj = args as ValueChangeAdjustment;
+		adj.FlipToggle();
 	}
 
 	void OnAutomaticHitCheck (object sender, object args)
 	{
 		Unit owner = GetComponentInParent<Unit>();
-		MatchException exc = args as MatchException;
-		if (owner == exc.target)
-			exc.FlipToggle();
+		MatchAdjustment adj = args as MatchAdjustment;
+		if (owner == adj.target)
+			adj.FlipToggle();
 	}
 }

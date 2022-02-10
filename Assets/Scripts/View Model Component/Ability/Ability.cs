@@ -10,9 +10,9 @@ public class Ability : MonoBehaviour
 
 	public bool CanPerform ()
 	{
-		BaseException exc = new BaseException(true);
-		this.PostNotification(CanPerformCheck, exc);
-		return exc.toggle;
+		BaseAdjustment adj = new BaseAdjustment(true);
+		this.PostNotification(CanPerformCheck, adj);
+		return adj.toggle;
 	}
 
 	public void Perform (List<Tile> targets)

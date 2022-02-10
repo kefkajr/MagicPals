@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class ValueChangeException : BaseException
+public class ValueChangeAdjustment : BaseAdjustment
 {
 	#region Fields / Properteis
 	public readonly float fromValue;
@@ -12,7 +12,7 @@ public class ValueChangeException : BaseException
 	#endregion
 
 	#region Constructor
-	public ValueChangeException (float fromValue, float toValue) : base (true)
+	public ValueChangeAdjustment (float fromValue, float toValue) : base (true)
 	{
 		this.fromValue = fromValue;
 		this.toValue = toValue;

@@ -45,7 +45,7 @@ public class Mana : MonoBehaviour
 	#region Event Handlers
 	void OnMPWillChange (object sender, object args)
 	{
-		ValueChangeException vce = args as ValueChangeException;
+		ValueChangeAdjustment vce = args as ValueChangeAdjustment;
 		vce.AddModifier(new ClampValueModifier(int.MaxValue, 0, stats[StatTypes.MHP]));
 	}
 	

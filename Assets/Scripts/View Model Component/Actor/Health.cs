@@ -42,7 +42,7 @@ public class Health : MonoBehaviour
 	#region Event Handlers
 	void OnHPWillChange (object sender, object args)
 	{
-		ValueChangeException vce = args as ValueChangeException;
+		ValueChangeAdjustment vce = args as ValueChangeAdjustment;
 		vce.AddModifier(new ClampValueModifier(int.MaxValue, MinHP, stats[StatTypes.MHP]));
 	}
 	

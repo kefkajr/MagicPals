@@ -19,8 +19,8 @@ public class SlowStatusEffect : StatusEffect
 	
 	void OnCounterWillChange (object sender, object args)
 	{
-		ValueChangeException exc = args as ValueChangeException;
+		ValueChangeAdjustment adj = args as ValueChangeAdjustment;
 		MultDeltaModifier m = new MultDeltaModifier(0, 0.5f);
-		exc.AddModifier(m);
+		adj.AddModifier(m);
 	}
 }

@@ -51,7 +51,7 @@ public class Rank : MonoBehaviour
 	#region Event Handlers
 	void OnExpWillChange (object sender, object args)
 	{
-		ValueChangeException vce = args as ValueChangeException;
+		ValueChangeAdjustment vce = args as ValueChangeAdjustment;
 		vce.AddModifier(new ClampValueModifier(int.MaxValue, EXP, maxExperience));
 	}
 	

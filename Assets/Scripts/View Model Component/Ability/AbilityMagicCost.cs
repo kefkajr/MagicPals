@@ -33,8 +33,8 @@ public class AbilityMagicCost : MonoBehaviour
 		Stats s = GetComponentInParent<Stats>();
 		if (s[StatTypes.MP] < amount)
 		{
-			BaseException exc = (BaseException)args;
-			exc.FlipToggle();
+			BaseAdjustment adj = (BaseAdjustment)args;
+			adj.FlipToggle();
 		}
 	}
 

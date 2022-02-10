@@ -33,25 +33,25 @@ public class Stats : MonoBehaviour
 	#endregion
 	
 	#region Public
-	public void SetValue (StatTypes type, int value, bool allowExceptions)
+	public void SetValue (StatTypes type, int value, bool allowAdjustments)
 	{
 		int oldValue = this[type];
 		if (oldValue == value)
 			return;
 		
-		if (allowExceptions)
+		if (allowAdjustments)
 		{
-			// Allow exceptions to the rule here
-			ValueChangeException exc = new ValueChangeException( oldValue, value );
+			// Allow adjustments to the rule here
+			ValueChangeAdjustment adj = new ValueChangeAdjustment( oldValue, value );
 			
 			// The notification is unique per stat type
-			this.PostNotification(WillChangeNotification(type), exc);
+			this.PostNotification(WillChangeNotification(type), adj);
 			
 			// Did anything modify the value?
-			value = Mathf.FloorToInt(exc.GetModifiedValue());
+			value = Mathf.FloorToInt(adj.GetModifiedValue());
 			
 			// Did something nullify the change?
-			if (exc.toggle == false || value == oldValue)
+			if (adj.toggle == false || value == oldValue)
 				return;
 		}
 		

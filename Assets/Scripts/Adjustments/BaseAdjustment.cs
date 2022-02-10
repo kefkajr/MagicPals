@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class BaseException 
+public class BaseAdjustment 
 {
 	public bool toggle { get; private set; }
 	public readonly bool defaultToggle;
 	
-	public BaseException (bool defaultToggle)
+	public BaseAdjustment (bool defaultToggle)
 	{
 		this.defaultToggle = defaultToggle;
 		toggle = defaultToggle;
