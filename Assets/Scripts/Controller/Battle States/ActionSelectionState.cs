@@ -35,7 +35,7 @@ public class ActionSelectionState : BaseAbilityMenuState
 		for (int i = 0; i < count; ++i)
 		{
 			Ability ability = catalog.GetAbility(category, i);
-			AbilityMagicCost cost = ability.GetComponent<AbilityMagicCost>();
+			AbilityStatCost cost = ability.GetComponent<AbilityStatCost>();
 			if (cost)
 				menuOptions.Add(string.Format("{0}: {1}", ability.name, cost.amount));
 			else

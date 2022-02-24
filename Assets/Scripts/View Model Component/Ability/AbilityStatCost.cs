@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class AbilityMagicCost : MonoBehaviour 
+public class AbilityStatCost : MonoBehaviour 
 {
 	#region Fields
+	public StatTypes type = StatTypes.MP;
 	public int amount;
 	Ability owner;
 	#endregion
@@ -31,7 +32,7 @@ public class AbilityMagicCost : MonoBehaviour
 	void OnCanPerformCheck (object sender, object args)
 	{
 		Stats s = GetComponentInParent<Stats>();
-		if (s[StatTypes.MP] < amount)
+		if (s[type] < amount)
 		{
 			BaseAdjustment adj = (BaseAdjustment)args;
 			adj.FlipToggle();
@@ -41,7 +42,7 @@ public class AbilityMagicCost : MonoBehaviour
 	void OnDidPerformNotification (object sender, object args)
 	{
 		Stats s = GetComponentInParent<Stats>();
-		s[StatTypes.MP] -= amount;
+		s[type] -= amount;
 	}
 	#endregion
 }
