@@ -25,7 +25,6 @@ public static class UnitFactory
 		AddStats(unitObject);
 		AddLocomotion(unitObject, recipe.locomotion);
 		unitObject.AddComponent<Status>();
-		AddInventory(unitObject);
 		AddJob(unitObject, recipe.job);
 		AddRank(unitObject, level);
 		unitObject.AddComponent<Health>();
@@ -34,6 +33,7 @@ public static class UnitFactory
 		AddAbilityCatalog(unitObject, recipe.abilityCatalog);
 		AddAlliance(unitObject, recipe.alliance);
 		AddAttackPattern(unitObject, recipe.strategy);
+		AddInventory(unitObject);
 		return unitObject;
 	}
 	#endregion
@@ -137,50 +137,29 @@ public static class UnitFactory
 		invObject.transform.SetParent(unitObject.transform);
 
 		// Create item objects
+
+		// TODO Instead of this, instantiate the prefabs
+
 		List <GameObject> items = new List<GameObject>();
-		items.Add(CreateConsumable(inv, "Health Potion", StatTypes.HP, 300));
-		items.Add(CreateConsumable(inv, "Bomb", StatTypes.HP, -150));
-		items.Add(CreateEquipment(inv, "Sword", StatTypes.ATK, 10, EquipSlots.Primary));
-		items.Add(CreateEquipment(inv, "Winged Helmet", StatTypes.MHP, 15, EquipSlots.Head));
-		items.Add(CreateEquipment(inv, "Shield", StatTypes.DEF, 10, EquipSlots.Secondary));
+		items.Add(InstantiatePrefab("Merchandise/" + "Sword"));
+		items.Add(InstantiatePrefab("Merchandise/" + "Shield"));
+		items.Add(InstantiatePrefab("Merchandise/" + "Winged Helmet"));
+		items.Add(InstantiatePrefab("Merchandise/" + "Health Potion"));
+		items.Add(InstantiatePrefab("Merchandise/" + "Bomb"));
 
-		// Set items within inventory, and equip them if possible
-		foreach(GameObject item in items)
+        // Set items within inventory, and equip them if possible
+        foreach (GameObject item in items)
         {
-			item.transform.SetParent(invObject.transform);
-			EquipItem(inv, item);
+            item.transform.SetParent(invObject.transform);
+			Merchandise merchandise = item.GetComponent<Merchandise>();
+			inv.Add(merchandise);
+            EquipItem(inv, item);
         }
-	}
-
-	static GameObject CreateItem(string title, StatTypes type, int amount)
-	{
-		GameObject item = new GameObject(title);
-		StatModifierFeature smf = item.AddComponent<StatModifierFeature>();
-		smf.type = type;
-		smf.amount = amount;
-		return item;
-	}
-
-	static GameObject CreateConsumable(Inventory inv, string title, StatTypes type, int amount)
-	{
-		GameObject item = CreateItem(title, type, amount);
-		item.AddComponent<Consumable>();
-		inv.Add(item.GetComponent<Consumable>());
-		return item;
-	}
-
-	static GameObject CreateEquipment(Inventory inv, string title, StatTypes type, int amount, EquipSlots slot)
-	{
-		GameObject item = CreateItem(title, type, amount);
-		Equippable equip = item.AddComponent<Equippable>();
-		equip.defaultSlots = slot;
-		inv.Add(item.GetComponent<Equippable>());
-		return item;
-	}
+    }
 
 	static void EquipItem(Inventory inv, GameObject item)
 	{
-		Equippable toEquip = item.GetComponent<Equippable>();
+		Equippable toEquip = item.GetComponentInChildren<Equippable>();
 		if (toEquip != null)
 			inv.Equip(toEquip, toEquip.defaultSlots);
 	}

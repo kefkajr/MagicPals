@@ -49,7 +49,11 @@ public class AbilityTargetState : BattleState
 		}
 		else
 		{
-			owner.ChangeState<CategorySelectionState>();
+			Merchandise merchandise = turn.ability.GetComponentInParent<Merchandise>();
+			if (merchandise != null)
+				owner.ChangeState<ItemOptionState>();
+			else
+				owner.ChangeState<CategorySelectionState>();
 		}
 	}
 	

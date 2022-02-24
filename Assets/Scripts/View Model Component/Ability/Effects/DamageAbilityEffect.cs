@@ -4,9 +4,14 @@ using System.Collections.Generic;
 
 public class DamageAbilityEffect : BaseAbilityEffect 
 {
+	public string constantValue = null;
+
 	#region Public
 	public override int Predict (Tile target)
 	{
+		if (constantValue != null && constantValue != "")
+			return -int.Parse(constantValue);
+
 		Unit attacker = GetComponentInParent<Unit>();
 		Unit defender = target.content.GetComponent<Unit>();
 
@@ -45,11 +50,15 @@ public class DamageAbilityEffect : BaseAbilityEffect
 		// Start with the predicted damage value
 		int value = Predict(target);
 
-		// Add some random variance
-		value = Mathf.FloorToInt(value * UnityEngine.Random.Range(0.9f, 1.1f));
+		// If the value isn't constant, calculate the final result
+		if (constantValue == null || constantValue == "")
+		{
+			// Add some random variance
+			value = Mathf.FloorToInt(value * UnityEngine.Random.Range(0.9f, 1.1f));
 
-		// Clamp the damage to a range
-		value = Mathf.Clamp(value, minDamage, maxDamage);
+			// Clamp the damage to a range
+			value = Mathf.Clamp(value, minDamage, maxDamage);
+		}
 
 		// Apply the damage to the target
 		Stats s = defender.GetComponent<Stats>();

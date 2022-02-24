@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Consumable : Merchandise 
+public class Consumable : MonoBehaviour
 {
-	public void Consume (GameObject target)
+	public void Consume ()
 	{
-		Feature[] features = GetComponentsInChildren<Feature>();
-		for (int i = 0; i < features.Length; ++i)
-			features[i].Apply(target);
+		Merchandise merchandise = GetComponentInParent<Merchandise>();
+		Inventory inventory = merchandise.GetComponentInParent<Inventory>();
+		inventory.Discard(merchandise);
 	}
 }

@@ -15,7 +15,7 @@ public class Inventory : MonoBehaviour
 	public List<Merchandise> items { get { return _items; } }
 	List<Merchandise> _items = new List<Merchandise>();
 
-	public List<Equippable> equippableItems { get { return items.OfType<Equippable>().ToList(); }}
+	public List<Equippable> equippableItems { get { return items.Select(i => i.GetComponentInChildren<Equippable>()).Where(i => i != null).ToList(); }}
 	public List<Equippable> equippedItems { get { return equippableItems.FindAll(equippable => equippable.isEquipped); } }
 	#endregion
 
@@ -34,6 +34,8 @@ public class Inventory : MonoBehaviour
 
 		equippable.OnEquip();
 
+		equippable.transform.parent.gameObject.name = equippable.transform.parent.gameObject.name + "*"; // Add marker
+
 		this.PostNotification(EquippedNotification, equippable);
 	}
 
@@ -42,6 +44,8 @@ public class Inventory : MonoBehaviour
 		equippable.currentSlots = EquipSlots.None;
 
 		equippable.OnUnEquip();
+
+		equippable.transform.parent.gameObject.name = equippable.transform.parent.gameObject.name.Remove(equippable.transform.parent.gameObject.name.Length - 1); // Remove marker
 
 		this.PostNotification(UnEquippedNotification, equippable);
 	}

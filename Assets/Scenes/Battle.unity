@@ -440,8 +440,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35301ef7ed53f4848a52804c50c4bf27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  introClip: {fileID: 8300000, guid: 7608e9b60ae034ff88ca8f0f2f130091, type: 3}
-  loopClip: {fileID: 8300000, guid: 9d4d930a674a24942ba49417c6b10dc3, type: 3}
+  introClip: {fileID: 0}
+  loopClip: {fileID: 0}
 --- !u!1 &674843572
 GameObject:
   m_ObjectHideFlags: 0

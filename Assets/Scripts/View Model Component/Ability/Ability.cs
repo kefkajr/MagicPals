@@ -26,6 +26,12 @@ public class Ability : MonoBehaviour
 		for (int i = 0; i < targets.Count; ++i)
 			Perform(targets[i]);
 
+		// If the ability is attached to a consumable item, consume the item
+		Merchandise merchandise = GetComponentInParent<Merchandise>();
+		Consumable consumable = merchandise != null ? merchandise.GetComponentInChildren<Consumable>() : null;
+		if (consumable != null)
+			consumable.Consume();
+
 		this.PostNotification(DidPerformNotification);
 	}
 

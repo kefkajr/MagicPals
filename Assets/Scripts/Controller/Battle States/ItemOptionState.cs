@@ -9,6 +9,7 @@ public class ItemOptionState : BaseAbilityMenuState
 
 	class Option
     {
+		public static string Use = "Use";
 		public static string Equip = "Equip";
 		public static string Unequip = "Unequip";
 		public static string Discard = "Discard";
@@ -37,7 +38,11 @@ public class ItemOptionState : BaseAbilityMenuState
 
 		menuTitle = item.name;
 
-		Equippable equippable = item as Equippable;
+		Ability ability = item.GetComponentInChildren<Ability>();
+		if (ability != null)
+			menuOptions.Add(Option.Use);
+
+		Equippable equippable = item.GetComponentInChildren<Equippable>();
 		if (equippable != null)
         {
 			if (equippable.isEquipped)
@@ -56,22 +61,35 @@ public class ItemOptionState : BaseAbilityMenuState
 		int currentSelection = abilityMenuPanelController.selection;
 		string selectedOption = menuOptions[currentSelection];
 
-		Equippable equippable = item as Equippable;
-		if (selectedOption == Option.Equip)
+		Ability ability = item.GetComponentInChildren<Ability>();
+		Equippable equippable = item.GetComponentInChildren<Equippable>();
+		if (selectedOption == Option.Use)
+		{
+			turn.ability = ability;
+			owner.ChangeState<AbilityTargetState>();
+		}
+		else if (selectedOption == Option.Equip)
+		{
 			inventory.Equip(equippable, equippable.defaultSlots);
+			owner.ChangeState<ItemSelectionState>();
+		}
 		else if (selectedOption == Option.Unequip)
+		{
 			inventory.UnEquip(equippable);
+			owner.ChangeState<ItemSelectionState>();
+		}
 		else if (selectedOption == Option.Discard)
-        {
+		{
 			if (equippable != null)
 				inventory.UnEquip(equippable);
 			inventory.Discard(item);
-        }
 
-		if (inventory.items.Count > 0)
-			owner.ChangeState<ItemSelectionState>();
-		else
-			owner.ChangeState<CommandSelectionState>();
+			// Either reweind to 
+			if (inventory.items.Count > 0)
+				owner.ChangeState<ItemSelectionState>();
+			else
+				owner.ChangeState<CommandSelectionState>();
+		}
 	}
 
 	protected override void Cancel()

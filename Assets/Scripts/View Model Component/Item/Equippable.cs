@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class Equippable : Merchandise
+public class Equippable : MonoBehaviour
 {
 	#region Fields
 	/// <summary>
@@ -39,7 +39,6 @@ public class Equippable : Merchandise
 		for (int i = 0; i < features.Length; ++i)
 		{
 			features[i].Activate(gameObject);
-			gameObject.name = gameObject.name + "*"; // Add marker
 		}
 	}
 	public void OnUnEquip()
@@ -52,7 +51,6 @@ public class Equippable : Merchandise
 		for (int i = 0; i < features.Length; ++i)
 		{
 			features[i].Deactivate();
-			gameObject.name = gameObject.name.Remove(gameObject.name.Length-1); // Remove marker
 		}
 	}
 }

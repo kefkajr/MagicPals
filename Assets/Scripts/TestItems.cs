@@ -143,6 +143,8 @@ public class TestItems : MonoBehaviour
         else
             EquipItem(item);
     }
+
+    // TODO This no longer makes sense now that consumable merchandise are prefabs
     void ConsumeItem(GameObject item)
     {
         inventory.Remove(item);
@@ -150,12 +152,12 @@ public class TestItems : MonoBehaviour
         StatModifierFeature smf = item.GetComponent<StatModifierFeature>();
         if (smf.amount > 0)
         {
-            item.GetComponent<Consumable>().Consume(combatants[0]);
+            item.GetComponent<Consumable>().Consume();
             Debug.Log("Ah... a potion!");
         }
         else
         {
-            item.GetComponent<Consumable>().Consume(combatants[1]);
+            item.GetComponent<Consumable>().Consume();
             Debug.Log("Take this you stupid monster!");
         }
     }
