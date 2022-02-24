@@ -23,15 +23,22 @@ public class CommandSelectionState : BaseAbilityMenuState
 		if (menuOptions == null)
 		{
 			menuTitle = "Commands";
-			menuOptions = new List<string>(3);
-			menuOptions.Add("Move");
-			menuOptions.Add("Action");
-			menuOptions.Add("Wait");
-		}
+			menuOptions = new List<string>();
+		}	
+		else
+			menuOptions.Clear();
+
+		menuOptions.Add("Move");
+		menuOptions.Add("Action");
+		menuOptions.Add("Item");
+		menuOptions.Add("Wait");
 
 		abilityMenuPanelController.Show(menuTitle, menuOptions);
 		abilityMenuPanelController.SetLocked(0, turn.hasUnitMoved);
 		abilityMenuPanelController.SetLocked(1, turn.hasUnitActed);
+
+		Inventory inventory = turn.actor.GetComponentInChildren<Inventory>();
+		abilityMenuPanelController.SetLocked(2, inventory.items.Count < 1);
 	}
 
 	protected override void Confirm ()
@@ -44,7 +51,10 @@ public class CommandSelectionState : BaseAbilityMenuState
 		case 1: // Action
 			owner.ChangeState<CategorySelectionState>();
 			break;
-		case 2: // Wait
+		case 2: // Item
+			owner.ChangeState<ItemSelectionState>();
+			break;
+		case 3: // Wait
 			owner.ChangeState<EndFacingState>();
 			break;
 		}

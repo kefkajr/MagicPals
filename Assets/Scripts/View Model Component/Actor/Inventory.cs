@@ -66,5 +66,11 @@ public class Inventory : MonoBehaviour
 		}
 		return null;
 	}
+
+	public void Discard(Merchandise item)
+	{
+		_items.Remove(item);
+		Destroy(item.gameObject);
+	}
 	#endregion
 }
