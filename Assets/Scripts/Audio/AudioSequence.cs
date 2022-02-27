@@ -29,6 +29,11 @@ public class AudioSequence : MonoBehaviour {
 		double startTime = GetNextStartTime();
 		for (int i = 0; i < clips.Length; ++i) {
 			AudioClip clip = clips[i];
+			if (clip == null)
+            {
+				Debug.Log("Audio clip is missing");
+				continue;
+            }
 			AudioSequenceData data = GetData(clip);
 			data.Schedule(startTime);
 			startTime += clip.length;
