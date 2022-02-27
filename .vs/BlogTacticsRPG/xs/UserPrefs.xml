@@ -1,15 +1,22 @@
 ﻿<Properties StartupConfiguration="{73812A29-5856-E3FB-7A6D-82D40E98EC20}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/View Model Component/Ability/Effects/DamageAbilityEffect.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/View Model Component/Ability/AbilityItemCost.cs">
     <Files>
-      <File FileName="Assets/Scripts/Controller/Battle States/ConfirmAbilityTargetState.cs" Line="98" Column="25" />
-      <File FileName="Assets/Scripts/View Model Component/Ability/Effects/BaseAbilityEffect.cs" />
-      <File FileName="Assets/Scripts/View Model Component/Ability/Effects/DamageAbilityEffect.cs" Line="53" Column="4" />
-      <File FileName="Assets/Scripts/View Model Component/Ability/Effects/HealAbilityEffect.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Common/Notification Center/NotificationExtensions.cs" />
-      <File FileName="Assets/Scripts/View Model Component/Actor/Health.cs" />
-      <File FileName="Assets/Scripts/Factory/UnitFactory.cs" />
-      <File FileName="Assets/Scripts/View Model Component/Ability/Effect Target/UndeadAbilityEffectTarget.cs" Line="17" Column="49" />
+      <File FileName="Assets/Scripts/View Model Component/Ability/AbilityItemCost.cs" Line="88" Column="1" />
+      <File FileName="Assets/Scripts/View Model Component/Actor/Inventory.cs" Line="45" Column="1" />
+      <File FileName="Assets/Scripts/View Model Component/Item/Equippable.cs" Line="45" Column="89" />
+      <File FileName="Assets/Scripts/Common/Notification Center/NotificationCenter.cs" Line="171" Column="1" />
+      <File FileName="Assets/Scripts/Common/Notification Center/NotificationExtensions.cs" Line="15" Column="1" />
     </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="BlogTacticsRPG" expanded="True" selected="True" />
+        </State>
+      </Pad>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State />
+      </Pad>
+    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
@@ -23,8 +30,16 @@
       <Catchpoint exceptionName="System.Exception" includeSubclasses="True" />
       <Breakpoint file="/Users/terrytorres/BlogTacticsRPG/Assets/Scripts/Model/Turn.cs" relfile="Assets/Scripts/Model/Turn.cs" line="11" column="1" />
       <Breakpoint file="/Users/terrytorres/BlogTacticsRPG/Assets/Scripts/View Model Component/AI/ComputerPlayer.cs" relfile="Assets/Scripts/View Model Component/AI/ComputerPlayer.cs" line="49" column="1" />
-      <Breakpoint file="/Users/terrytorres/BlogTacticsRPG/Assets/Scripts/View Model Component/Ability/Effects/DamageAbilityEffect.cs" relfile="Assets/Scripts/View Model Component/Ability/Effects/DamageAbilityEffect.cs" line="68" column="1" />
       <Breakpoint file="/Users/terrytorres/BlogTacticsRPG/Assets/Scripts/View Model Component/Ability/Effects/HealAbilityEffect.cs" relfile="Assets/Scripts/View Model Component/Ability/Effects/HealAbilityEffect.cs" line="41" column="1" />
+      <Breakpoint file="/Users/terrytorres/BlogTacticsRPG/Assets/Scripts/Audio/AudioSequence.cs" relfile="Assets/Scripts/Audio/AudioSequence.cs" line="39" column="1" />
+      <Catchpoint exceptionName="System.Exception" includeSubclasses="True" />
+      <Breakpoint file="/Users/terrytorres/BlogTacticsRPG/Assets/Scripts/View Model Component/Ability/AbilityItemCost.cs" relfile="Assets/Scripts/View Model Component/Ability/AbilityItemCost.cs" line="58" column="1" />
+      <Breakpoint file="/Users/terrytorres/BlogTacticsRPG/Assets/Scripts/View Model Component/Ability/AbilityItemCost.cs" relfile="Assets/Scripts/View Model Component/Ability/AbilityItemCost.cs" line="62" column="1" />
+      <Breakpoint file="/Users/terrytorres/BlogTacticsRPG/Assets/Scripts/View Model Component/Ability/AbilityItemCost.cs" relfile="Assets/Scripts/View Model Component/Ability/AbilityItemCost.cs" line="52" column="1" />
+      <Breakpoint file="/Users/terrytorres/BlogTacticsRPG/Assets/Scripts/View Model Component/Ability/AbilityItemCost.cs" relfile="Assets/Scripts/View Model Component/Ability/AbilityItemCost.cs" line="82" column="1" />
+      <Breakpoint file="/Users/terrytorres/BlogTacticsRPG/Assets/Scripts/View Model Component/Ability/AbilityItemCost.cs" relfile="Assets/Scripts/View Model Component/Ability/AbilityItemCost.cs" line="88" column="1" />
+      <Breakpoint file="/Users/terrytorres/BlogTacticsRPG/Assets/Scripts/View Model Component/Ability/AbilityItemCost.cs" relfile="Assets/Scripts/View Model Component/Ability/AbilityItemCost.cs" line="84" column="1" />
+      <Breakpoint file="/Users/terrytorres/BlogTacticsRPG/Assets/Scripts/View Model Component/Ability/AbilityItemCost.cs" relfile="Assets/Scripts/View Model Component/Ability/AbilityItemCost.cs" line="74" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MultiItemStartupConfigurations />

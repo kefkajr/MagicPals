@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 public class Equippable : MonoBehaviour
 {
+	static public string IsEquippedMarker = "*";
 	#region Fields
 	/// <summary>
 	/// The EquipSlots flag which is the default
@@ -40,6 +41,8 @@ public class Equippable : MonoBehaviour
 		{
 			features[i].Activate(gameObject);
 		}
+
+		transform.parent.gameObject.name = transform.parent.gameObject.name + IsEquippedMarker; // Add marker
 	}
 	public void OnUnEquip()
 	{
@@ -52,5 +55,7 @@ public class Equippable : MonoBehaviour
 		{
 			features[i].Deactivate();
 		}
+
+		transform.parent.gameObject.name = transform.parent.gameObject.name.Remove(transform.parent.gameObject.name.Length - 1); // Remove marker
 	}
 }

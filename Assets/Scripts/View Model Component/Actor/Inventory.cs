@@ -34,8 +34,6 @@ public class Inventory : MonoBehaviour
 
 		equippable.OnEquip();
 
-		equippable.transform.parent.gameObject.name = equippable.transform.parent.gameObject.name + "*"; // Add marker
-
 		this.PostNotification(EquippedNotification, equippable);
 	}
 
@@ -44,8 +42,6 @@ public class Inventory : MonoBehaviour
 		equippable.currentSlots = EquipSlots.None;
 
 		equippable.OnUnEquip();
-
-		equippable.transform.parent.gameObject.name = equippable.transform.parent.gameObject.name.Remove(equippable.transform.parent.gameObject.name.Length - 1); // Remove marker
 
 		this.PostNotification(UnEquippedNotification, equippable);
 	}

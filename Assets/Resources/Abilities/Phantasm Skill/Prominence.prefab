@@ -69,6 +69,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a05a8af6d47c44e7ad11d705acfed06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  constantValue: 
 --- !u!1 &164424
 GameObject:
   m_ObjectHideFlags: 0
@@ -82,7 +83,7 @@ GameObject:
   - component: {fileID: 11476540}
   - component: {fileID: 11462964}
   - component: {fileID: 11487096}
-  - component: {fileID: 11420130}
+  - component: {fileID: 6590035066047150096}
   m_Layer: 0
   m_Name: Prominence
   m_TagString: Untagged
@@ -156,7 +157,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffd7ea7b3905740319e4815a4502c137, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &11420130
+--- !u!114 &6590035066047150096
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -165,8 +166,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 164424}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f1449afc18e4a47038c694139eb7df52, type: 3}
+  m_Script: {fileID: 11500000, guid: c6ff3db17deae4a27b9fa377a665d024, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 4
-  amount: 32
+  itemCostDescriptors:
+  - itemName: Bomb
+    itemAmount: 1
+  - itemName: Winged Helmet
+    itemAmount: 1
+  - itemName: Health Potion
+    itemAmount: 1
