@@ -11,13 +11,13 @@ public class HealAbilityEffect : BaseAbilityEffect
 			return int.Parse(constantValue);
 
 		Unit attacker = GetComponentInParent<Unit>();
-		Unit defender = target.content.GetComponent<Unit>();
+		Unit defender = target.occupant.GetComponent<Unit>();
 		return GetStat(attacker, defender, GetPowerNotification, 0);
 	}
 
 	protected override int OnApply (Tile target)
 	{
-		Unit defender = target.content.GetComponent<Unit>();
+		Unit defender = target.occupant.GetComponent<Unit>();
 		int value;
 		if (constantValue == null || constantValue == "")
 		{

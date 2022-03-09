@@ -26,7 +26,7 @@ public class InflictAbilityEffect : BaseAbilityEffect
 		Type[] types = new Type[]{ statusType, typeof(DurationStatusCondition) };
 		MethodInfo constructed = mi.MakeGenericMethod(types);
 
-		Status status = target.content.GetComponent<Status>();
+		Status status = target.occupant.GetComponent<Status>();
 		object retValue = constructed.Invoke(status, null);
 
 		DurationStatusCondition condition = retValue as DurationStatusCondition;

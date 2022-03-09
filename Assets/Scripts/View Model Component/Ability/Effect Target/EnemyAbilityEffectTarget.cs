@@ -12,10 +12,10 @@ public class EnemyAbilityEffectTarget : AbilityEffectTarget
 
 	public override bool IsTarget (Tile tile)
 	{
-		if (tile == null || tile.content == null)
+		if (tile == null || tile.occupant == null)
 			return false;
 
-		Alliance other = tile.content.GetComponentInChildren<Alliance>();
+		Alliance other = tile.occupant.GetComponentInChildren<Alliance>();
 		return alliance.IsMatch(other, Targets.Foe);
 	}
 }

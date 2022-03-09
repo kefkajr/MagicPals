@@ -9,14 +9,14 @@ public class Unit : MonoBehaviour
 	public void Place (Tile target)
 	{
 		// Make sure old tile location is not still pointing to this unit
-		if (tile != null && tile.content == gameObject)
-			tile.content = null;
+		if (tile != null && tile.occupant == gameObject)
+			tile.occupant = null;
 		
 		// Link unit and tile references
 		tile = target;
 		
 		if (target != null)
-			target.content = gameObject;
+			target.occupant = gameObject;
 	}
 
 	public void Match ()

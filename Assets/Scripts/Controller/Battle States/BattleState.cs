@@ -66,7 +66,7 @@ public abstract class BattleState : State
 	protected virtual Unit GetUnit (Point p)
 	{
 		Tile t = board.GetTile(p);
-		GameObject content = t != null ? t.content : null;
+		GameObject content = t != null ? t.occupant : null;
 		return content != null ? content.GetComponent<Unit>() : null;
 	}
 

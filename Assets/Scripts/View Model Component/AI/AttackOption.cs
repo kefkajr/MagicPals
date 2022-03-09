@@ -167,10 +167,10 @@ public class AttackOption
 
 	int MultiplierForAngle (Unit caster, Tile tile)
 	{
-		if (tile.content == null)
+		if (tile.occupant == null)
 			return 0;
 
-		Unit defender = tile.content.GetComponentInChildren<Unit>();
+		Unit defender = tile.occupant.GetComponentInChildren<Unit>();
 		if (defender == null)
 			return 0;
 

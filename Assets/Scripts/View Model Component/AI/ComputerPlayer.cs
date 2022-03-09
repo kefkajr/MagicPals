@@ -144,7 +144,7 @@ public class ComputerPlayer : MonoBehaviour
 			isMatch = true;
 		else if (poa.target != Targets.None)
 		{
-			Alliance other = tile.content.GetComponentInChildren<Alliance>();
+			Alliance other = tile.occupant.GetComponentInChildren<Alliance>();
 			if (other != null && alliance.IsMatch(other, poa.target))
 				isMatch = true;
 		}
@@ -229,9 +229,9 @@ public class ComputerPlayer : MonoBehaviour
 	{
 		nearestFoe = null;
 		bc.board.Search(actor.tile, delegate(Tile arg1, Tile arg2) {
-			if (nearestFoe == null && arg2.content != null)
+			if (nearestFoe == null && arg2.occupant != null)
 			{
-				Alliance other = arg2.content.GetComponentInChildren<Alliance>();
+				Alliance other = arg2.occupant.GetComponentInChildren<Alliance>();
 				if (other != null && alliance.IsMatch(other, Targets.Foe))
 				{
 					Unit unit = other.GetComponent<Unit>();

@@ -12,7 +12,7 @@ public class ItemOptionState : BaseAbilityMenuState
 		public static string Use = "Use";
 		public static string Equip = "Equip";
 		public static string Unequip = "Unequip";
-		public static string Discard = "Discard";
+		public static string Drop = "Drop";
 	}
 
 	public override void Enter()
@@ -51,7 +51,7 @@ public class ItemOptionState : BaseAbilityMenuState
 				menuOptions.Add(Option.Equip);
 		}
 
-		menuOptions.Add(Option.Discard);
+		menuOptions.Add(Option.Drop);
 
 		abilityMenuPanelController.Show(menuTitle, menuOptions);
 	}
@@ -78,19 +78,24 @@ public class ItemOptionState : BaseAbilityMenuState
 			inventory.UnEquip(equippable);
 			owner.ChangeState<ItemSelectionState>();
 		}
-		else if (selectedOption == Option.Discard)
+		else if (selectedOption == Option.Drop)
 		{
 			if (equippable != null)
 				inventory.UnEquip(equippable);
-			inventory.Discard(item);
+			Drop();
 
-			// Either reweind to 
+			// Either rewind to item list, or back to command selection
 			if (inventory.items.Count > 0)
 				owner.ChangeState<ItemSelectionState>();
 			else
 				owner.ChangeState<CommandSelectionState>();
 		}
 	}
+
+	void Drop()
+    {
+		owner.turn.actor.tile.AddItem(item, inventory);
+    }
 
 	protected override void Cancel()
 	{

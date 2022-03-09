@@ -27,7 +27,7 @@ public class EsunaAbilityEffect : BaseAbilityEffect
 
 	protected override int OnApply (Tile target)
 	{
-		Unit defender = target.content.GetComponent<Unit>();
+		Unit defender = target.occupant.GetComponent<Unit>();
 		Status status = defender.GetComponentInChildren<Status>();
 
 		DurationStatusCondition[] candidates = status.GetComponentsInChildren<DurationStatusCondition>();

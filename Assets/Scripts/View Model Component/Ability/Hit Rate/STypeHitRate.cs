@@ -5,7 +5,7 @@ public class STypeHitRate : HitRate
 {
 	public override int Calculate (Tile target)
 	{
-		Unit defender = target.content.GetComponent<Unit>();
+		Unit defender = target.occupant.GetComponent<Unit>();
 		if (AutomaticMiss(defender))
 			return Final(100);
 

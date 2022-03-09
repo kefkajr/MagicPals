@@ -12,7 +12,7 @@ public class WalkMovement : Movement
 			return false;
 
 		// Skip if the tile is occupied by an enemy
-		if (to.content != null)
+		if (to.occupant != null)
 			return false;
 
 		return base.ExpandSearch(from, to);

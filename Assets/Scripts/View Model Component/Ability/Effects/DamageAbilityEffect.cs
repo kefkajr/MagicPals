@@ -13,7 +13,7 @@ public class DamageAbilityEffect : BaseAbilityEffect
 			return -int.Parse(constantValue);
 
 		Unit attacker = GetComponentInParent<Unit>();
-		Unit defender = target.content.GetComponent<Unit>();
+		Unit defender = target.occupant.GetComponent<Unit>();
 
 		// Get the attackers base attack stat considering
 		// mission items, support check, status check, and equipment, etc
@@ -45,7 +45,7 @@ public class DamageAbilityEffect : BaseAbilityEffect
 	
 	protected override int OnApply (Tile target)
 	{
-		Unit defender = target.content.GetComponent<Unit>();
+		Unit defender = target.occupant.GetComponent<Unit>();
 
 		// Start with the predicted damage value
 		int value = Predict(target);
