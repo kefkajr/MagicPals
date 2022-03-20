@@ -6,6 +6,7 @@ public class BattleController : StateMachine
 {
 	public CameraRig cameraRig;
 	public Board board;
+	public BoardInventory boardInventory;
 	public LevelData levelData;
 	public Transform tileSelectionIndicator;
 	public Point pos;

@@ -15,9 +15,6 @@ public class Tile : MonoBehaviour
 	public GameObject occupant;
 	public List<Merchandise> items;
 
-	public GameObject itemIndicator;
-	IEnumerator itemIndicatorRotateCoroutine;
-
 	[HideInInspector] public Tile prev;
 	[HideInInspector] public int distance;
 	#endregion
@@ -45,51 +42,6 @@ public class Tile : MonoBehaviour
 	public void Load (Vector3 v)
 	{
 		Load (new Point((int)v.x, (int)v.z), (int)v.y);
-	}
-
-	public void AddItem(Merchandise item, Inventory fromInventory)
-    {
-		items.Add(item);
-		fromInventory.items.Remove(item);
-		item.gameObject.transform.SetParent(this.transform);
-		RefreshItemIndicator();
-	}
-
-	public void RemoveItem(Merchandise item, Inventory toInventory)
-    {
-		toInventory.items.Add(item);
-		items.Remove(item);
-		item.gameObject.transform.SetParent(toInventory.transform);
-		RefreshItemIndicator();
-	}
-
-	public void RefreshItemIndicator()
-    {
-		if (items.Count > 0)
-        {
-			itemIndicator.SetActive(true);
-			StartCoroutine(itemIndicatorRotateCoroutine);
-        } else
-        {
-			itemIndicator.SetActive(false);
-			StopCoroutine(itemIndicatorRotateCoroutine);
-        }
-    }
-    #endregion
-
-    #region Private
-    private void Awake()
-    {
-		itemIndicatorRotateCoroutine = RotateItemIndicator();
-    }
-
-	IEnumerator RotateItemIndicator()
-	{
-		while (itemIndicator.activeSelf)
-		{
-			itemIndicator.transform.Rotate(Vector3.down, (30 * Time.deltaTime));
-			yield return null;
-		}
 	}
 
 	void Match ()

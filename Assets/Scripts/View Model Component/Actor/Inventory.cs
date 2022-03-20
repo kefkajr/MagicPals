@@ -21,10 +21,16 @@ public class Inventory : MonoBehaviour
 
 	#region Public
 
-	public void Add (Merchandise item)
+	public virtual void Add (Merchandise item)
     {
 		_items.Add(item);
-    }
+		item.gameObject.transform.SetParent(this.transform);
+	}
+
+	public virtual void Remove(Merchandise item)
+	{
+		_items.Remove(item);
+	}
 
 	public void Equip (Equippable equippable, EquipSlots slots)
 	{
