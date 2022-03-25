@@ -189,6 +189,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buy: 0
   sell: 0
+  description: Max HP+10. Equipped on head. Grants Raise ability.
 --- !u!1 &5927322495574570249
 GameObject:
   m_ObjectHideFlags: 0

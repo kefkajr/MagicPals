@@ -2,8 +2,17 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class CommandSelectionState : BaseAbilityMenuState 
+public class CommandSelectionState : BaseAbilityMenuState
 {
+	class Option
+	{
+		public static string Move = "Move";
+		public static string Action = "Action";
+		public static string Item = "Item";
+		public static string PickUp = "Pick up";
+		public static string Wait = "Wait";
+	}
+
 	public override void Enter ()
 	{
 		base.Enter ();
@@ -28,35 +37,37 @@ public class CommandSelectionState : BaseAbilityMenuState
 		else
 			menuOptions.Clear();
 
-		menuOptions.Add("Move");
-		menuOptions.Add("Action");
-		menuOptions.Add("Item");
-		menuOptions.Add("Wait");
+		menuOptions.Add(Option.Move);
+		menuOptions.Add(Option.Action);
+		menuOptions.Add(Option.Item);
+		if (owner.boardInventory.GetItemsByPoint(turn.actor.tile.pos).Count > 0)
+			menuOptions.Add(Option.PickUp);
+		menuOptions.Add(Option.Wait);
 
 		abilityMenuPanelController.Show(menuTitle, menuOptions);
-		abilityMenuPanelController.SetLocked(0, turn.hasUnitMoved);
-		abilityMenuPanelController.SetLocked(1, turn.hasUnitActed);
+		abilityMenuPanelController.SetLocked(menuOptions.IndexOf(Option.Move), turn.hasUnitMoved);
+		abilityMenuPanelController.SetLocked(menuOptions.IndexOf(Option.Action), turn.hasUnitActed);
 
 		Inventory inventory = turn.actor.GetComponentInChildren<Inventory>();
-		abilityMenuPanelController.SetLocked(2, inventory.items.Count < 1);
+		abilityMenuPanelController.SetLocked(menuOptions.IndexOf(Option.Item), inventory.items.Count < 1);
 	}
 
 	protected override void Confirm ()
 	{
-		switch (abilityMenuPanelController.selection)
-		{
-		case 0: // Move
+		int currentSelection = abilityMenuPanelController.selection;
+		string selectedOption = menuOptions[currentSelection];
+		if (selectedOption == Option.Move) {
 			owner.ChangeState<MoveTargetState>();
-			break;
-		case 1: // Action
+		} else if (selectedOption == Option.Action) {
 			owner.ChangeState<CategorySelectionState>();
-			break;
-		case 2: // Item
+		} else if (selectedOption == Option.Item) {
 			owner.ChangeState<ItemSelectionState>();
-			break;
-		case 3: // Wait
+		} else if (selectedOption == Option.PickUp) {
+			ItemPickUpState.boardInventory = owner.boardInventory;
+			ItemPickUpState.point = turn.actor.tile.pos;
+			owner.ChangeState<ItemPickUpState>();
+		} else if (selectedOption == Option.Wait) {
 			owner.ChangeState<EndFacingState>();
-			break;
 		}
 	}
 
@@ -65,8 +76,8 @@ public class CommandSelectionState : BaseAbilityMenuState
 		if (turn.hasUnitMoved && !turn.lockMove)
 		{
 			turn.UndoMove();
-			abilityMenuPanelController.SetLocked(0, false);
 			SelectTile(turn.actor.tile.pos);
+			LoadMenu();
 		}
 		else
 		{

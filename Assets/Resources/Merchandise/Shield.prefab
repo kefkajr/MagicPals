@@ -46,6 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buy: 0
   sell: 0
+  description: Defense+10. Equipped in secondary.
 --- !u!1 &6077161108366587144
 GameObject:
   m_ObjectHideFlags: 0

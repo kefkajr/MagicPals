@@ -30,4 +30,11 @@ public class ItemIndicator : MonoBehaviour
 		}
 	}
 
+	public void SetPosition(Tile tile)
+    {
+		Vector3 newPosition = tile.center;
+		newPosition.y += 0.25f;
+		transform.position = newPosition;
+	}
+
 }

@@ -32,9 +32,19 @@ public class BoardInventory : Inventory
 		GameObjectPoolController.Enqueue(p);
 	}
 
-	public void AddByPoint(Merchandise item, Point point)
+	public List<Merchandise> GetItemsByPoint(Point point)
+	{
+		List<Merchandise> itemsAtPoint;
+		itemsByPoint.TryGetValue(point, out itemsAtPoint);
+		if (itemsAtPoint == null)
+			return new List<Merchandise>();
+		return itemsAtPoint;
+	}
+
+		public void AddByTile(Merchandise item, Tile tile)
     {
 		base.Add(item);
+		Point point = tile.pos;
 		List<Merchandise> itemsAtPoint;
 		itemsByPoint.TryGetValue(point, out itemsAtPoint);
 		if (itemsAtPoint == null)
@@ -43,9 +53,7 @@ public class BoardInventory : Inventory
 
 		// Set the position of the item indicator to be that of the original inventory
 		ItemIndicator itemIndicator = Dequeue();
-		Vector3 newPosition = item.transform.position;
-		newPosition.y += 0.25f;
-		itemIndicator.transform.position = newPosition;
+		itemIndicator.SetPosition(tile);
 		itemIndicators[item] = itemIndicator;
 	}
 
@@ -56,6 +64,9 @@ public class BoardInventory : Inventory
 		itemsAtPoint.Remove(item);
 
 		Enqueue(itemIndicators[item]);
+
+		if (itemsAtPoint.Count == 0)
+			itemsByPoint[point] = null;
 	}
 
 }

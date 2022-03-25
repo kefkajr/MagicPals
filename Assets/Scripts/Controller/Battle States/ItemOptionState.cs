@@ -95,7 +95,7 @@ public class ItemOptionState : BaseAbilityMenuState
 	void Drop()
     {
 		inventory.Remove(item);
-		owner.boardInventory.AddByPoint(item, turn.actor.tile.pos);
+		owner.boardInventory.AddByTile(item, turn.actor.tile);
     }
 
 	protected override void Cancel()

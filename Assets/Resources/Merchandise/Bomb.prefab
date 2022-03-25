@@ -119,6 +119,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buy: 0
   sell: 0
+  description: Hi, I explode in a sra
 --- !u!1 &6077161108366587144
 GameObject:
   m_ObjectHideFlags: 0
