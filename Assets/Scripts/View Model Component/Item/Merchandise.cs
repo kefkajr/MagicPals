@@ -5,5 +5,6 @@ public class Merchandise : MonoBehaviour
 {
 	public int buy;
 	public int sell;
-	public string description = "Hi, I am an item.";
+
+	public Describable describable { get { return GetComponent<Describable>(); } }
 }

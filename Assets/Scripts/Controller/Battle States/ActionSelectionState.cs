@@ -46,6 +46,8 @@ public class ActionSelectionState : BaseAbilityMenuState
 		abilityMenuPanelController.Show(menuTitle, menuOptions);
 		for (int i = 0; i < count; ++i)
 			abilityMenuPanelController.SetLocked(i, locks[i]);
+
+		descriptionPanelController.Show(catalog.GetAbility(category, 0).describable);
 	}
 
 	protected override void Confirm ()
@@ -61,5 +63,13 @@ public class ActionSelectionState : BaseAbilityMenuState
 	protected override void Cancel ()
 	{
 		owner.ChangeState<CategorySelectionState>();
+	}
+
+	protected override void OnMove(object sender, InfoEventArgs<Point> e)
+	{
+		base.OnMove(sender, e);
+		int currentSelection = abilityMenuPanelController.selection;
+		Ability ability = catalog.GetAbility(category, currentSelection);
+		descriptionPanelController.Show(ability.describable);
 	}
 }

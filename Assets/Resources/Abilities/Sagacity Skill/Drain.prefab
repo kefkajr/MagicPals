@@ -84,6 +84,7 @@ GameObject:
   - component: {fileID: 11413530}
   - component: {fileID: 11414936}
   - component: {fileID: 11485574}
+  - component: {fileID: 5656811731403737568}
   m_Layer: 0
   m_Name: Drain
   m_TagString: Untagged
@@ -172,6 +173,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 4
   amount: 12
+--- !u!114 &5656811731403737568
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 110506}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7104ab92576514a18bf1e2712532a874, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  description: Damages target and restore HP to self.
 --- !u!1 &132532
 GameObject:
   m_ObjectHideFlags: 0
@@ -241,3 +255,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a05a8af6d47c44e7ad11d705acfed06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  constantValue: 

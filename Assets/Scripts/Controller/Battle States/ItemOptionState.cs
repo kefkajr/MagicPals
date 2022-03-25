@@ -54,6 +54,7 @@ public class ItemOptionState : BaseAbilityMenuState
 		menuOptions.Add(Option.Drop);
 
 		abilityMenuPanelController.Show(menuTitle, menuOptions);
+		descriptionPanelController.Show(item.describable);
 	}
 
 	protected override void Confirm()
@@ -102,4 +103,5 @@ public class ItemOptionState : BaseAbilityMenuState
 	{
 		owner.ChangeState<ItemSelectionState>();
 	}
+
 }

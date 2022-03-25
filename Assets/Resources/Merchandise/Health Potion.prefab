@@ -81,6 +81,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6666491410007316803}
   - component: {fileID: 4586565204807513298}
+  - component: {fileID: 7622309273131057166}
   m_Layer: 0
   m_Name: Health Potion
   m_TagString: Untagged
@@ -118,6 +119,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buy: 0
   sell: 0
+--- !u!114 &7622309273131057166
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3169269333088208462}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7104ab92576514a18bf1e2712532a874, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   description: Restores 300 HP.
 --- !u!1 &6077161108366587144
 GameObject:

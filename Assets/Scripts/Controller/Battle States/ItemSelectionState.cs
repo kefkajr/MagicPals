@@ -33,6 +33,8 @@ public class ItemSelectionState : BaseAbilityMenuState
 			menuOptions.Add(inventory.items[i].name);
 
 		abilityMenuPanelController.Show(menuTitle, menuOptions);
+		Describable describable = inventory.items[0].describable;
+		descriptionPanelController.Show(describable);
 	}
 
 	protected override void Confirm()
@@ -47,4 +49,12 @@ public class ItemSelectionState : BaseAbilityMenuState
 	{
 		owner.ChangeState<CommandSelectionState>();
 	}
+
+	protected override void OnMove(object sender, InfoEventArgs<Point> e)
+	{
+		base.OnMove(sender, e);
+		Merchandise item = inventory.items[abilityMenuPanelController.selection]; ;
+		descriptionPanelController.Show(item.describable);
+	}
+
 }

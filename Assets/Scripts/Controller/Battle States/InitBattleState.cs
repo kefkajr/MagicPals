@@ -19,7 +19,8 @@ public class InitBattleState : BattleState
 		AddVictoryCondition();
 		owner.round = owner.gameObject.AddComponent<TurnOrderController>().Round();
 		yield return null;
-		owner.ChangeState<CutSceneState>();
+		//owner.ChangeState<CutSceneState>();
+		owner.ChangeState<SelectUnitState>();
 	}
 	
 	void SpawnTestUnits ()
@@ -29,9 +30,9 @@ public class InitBattleState : BattleState
 			"Alaois",
 			"Hania",
 			"Kamau",
-			"Enemy Rogue",
-			"Enemy Warrior",
-			"Enemy Wizard"
+			//"Enemy Rogue",
+			//"Enemy Warrior",
+			//"Enemy Wizard"
 		};
 		
 		GameObject unitContainer = new GameObject("Units");

@@ -140,6 +140,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a05a8af6d47c44e7ad11d705acfed06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  constantValue: 
 --- !u!1 &183090
 GameObject:
   m_ObjectHideFlags: 0
@@ -154,6 +155,7 @@ GameObject:
   - component: {fileID: 11469620}
   - component: {fileID: 11449536}
   - component: {fileID: 11407410}
+  - component: {fileID: 2736243379367831932}
   m_Layer: 0
   m_Name: Raise
   m_TagString: Untagged
@@ -245,6 +247,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 4
   amount: 22
+--- !u!114 &2736243379367831932
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 183090}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7104ab92576514a18bf1e2712532a874, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  description: Removes KO status, damages Undead.
 --- !u!1 &190092
 GameObject:
   m_ObjectHideFlags: 0
@@ -315,3 +330,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33a8c371d21e14efa8f4541b7cc531aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  constantValue: 

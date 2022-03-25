@@ -82,6 +82,7 @@ GameObject:
   - component: {fileID: 11465328}
   - component: {fileID: 11410598}
   - component: {fileID: 11433784}
+  - component: {fileID: 9097252680891679438}
   m_Layer: 0
   m_Name: Esuna
   m_TagString: Untagged
@@ -158,3 +159,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 4
   amount: 18
+--- !u!114 &9097252680891679438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 146382}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7104ab92576514a18bf1e2712532a874, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  description: Removes status effects.

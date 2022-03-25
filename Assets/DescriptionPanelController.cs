@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 
-public class ItemDescriptionPanelController : MonoBehaviour
+public class DescriptionPanelController : MonoBehaviour
 {
 	#region Constants
 	const string ShowKey = "Show";
@@ -26,11 +26,17 @@ public class ItemDescriptionPanelController : MonoBehaviour
 	#endregion
 
 	#region Public
-	public void Show(Merchandise item)
+	public void Show(Describable describable)
 	{
+		if (describable == null)
+        {
+			Hide();
+			return;
+        }
+
 		canvas.SetActive(true);
-		titleLabel.text = item.name;
-		descriptionLabel.text = item.description;
+		titleLabel.text = describable.name;
+		descriptionLabel.text = describable.description;
 
 		TogglePos(ShowKey);
 	}

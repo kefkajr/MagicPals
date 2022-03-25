@@ -83,6 +83,7 @@ public class Panel : MonoBehaviour
 
 	public Tweener SetPosition (string positionName, bool animated)
 	{
+		Canvas.ForceUpdateCanvases(); // *** Do not know if this is safe, but it works to get the dimensions of Content Size Fitters with Preferred Size!
 		return SetPosition(this[positionName], animated);
 	}
 	

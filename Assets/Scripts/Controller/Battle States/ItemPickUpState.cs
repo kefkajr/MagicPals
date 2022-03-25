@@ -17,7 +17,6 @@ public class ItemPickUpState : BaseAbilityMenuState
 	{
 		base.Exit();
 		statPanelController.HidePrimary();
-		itemDescriptionPanelController.Hide();
 	}
 
 	protected override void LoadMenu()
@@ -34,7 +33,7 @@ public class ItemPickUpState : BaseAbilityMenuState
 			menuOptions.Add(items[i].name);
 
 		abilityMenuPanelController.Show(menuTitle, menuOptions);
-		itemDescriptionPanelController.Show(items[0]);
+		descriptionPanelController.Show(items[0].describable);
 	}
 
 	protected override void Confirm()
@@ -57,7 +56,7 @@ public class ItemPickUpState : BaseAbilityMenuState
 	{
 		base.OnMove(sender, e);
 		Merchandise item = GetCurrentlySelectedItem();
-		itemDescriptionPanelController.Show(item);
+		descriptionPanelController.Show(item.describable);
 	}
 
 	private Merchandise GetCurrentlySelectedItem()

@@ -84,6 +84,7 @@ GameObject:
   - component: {fileID: 11462964}
   - component: {fileID: 11487096}
   - component: {fileID: 6590035066047150096}
+  - component: {fileID: 2343059858174611895}
   m_Layer: 0
   m_Name: Prominence
   m_TagString: Untagged
@@ -176,3 +177,17 @@ MonoBehaviour:
     itemAmount: 1
   - itemName: Health Potion
     itemAmount: 1
+--- !u!114 &2343059858174611895
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 164424}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7104ab92576514a18bf1e2712532a874, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  description: Deal damage to all enemies.\nRequires Bomb, Winged Helmet, and Health
+    Potion.
