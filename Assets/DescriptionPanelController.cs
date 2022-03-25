@@ -36,7 +36,7 @@ public class DescriptionPanelController : MonoBehaviour
 
 		canvas.SetActive(true);
 		titleLabel.text = describable.name;
-		descriptionLabel.text = describable.description;
+		descriptionLabel.text = FormatDescription(describable.description);
 
 		TogglePos(ShowKey);
 	}
@@ -59,6 +59,12 @@ public class DescriptionPanelController : MonoBehaviour
 		t.duration = 0.5f;
 		t.equation = EasingEquations.EaseOutQuad;
 		return t;
+	}
+
+
+	string FormatDescription(string description)
+    {
+		return description.Replace("\\n", "\n");
 	}
 	#endregion
 }
