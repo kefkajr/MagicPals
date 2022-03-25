@@ -1,18 +1,19 @@
 ﻿<Properties StartupConfiguration="{422E8762-CC4A-4CE0-0179-1FC34FF9D511}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/View Model Component/Item/Merchandise.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Controller/Battle States/CategorySelectionState.cs">
     <Files>
       <File FileName="Assets/Scripts/View Model Component/Actor/Inventory.cs" Line="30" Column="22" />
       <File FileName="Assets/Scripts/View Model Component/BoardInventory.cs" Line="62" Column="21" />
       <File FileName="Assets/Scripts/View Model Component/ItemIndicator.cs" Line="33" Column="25" />
       <File FileName="Assets/Scripts/View Model Component/Board.cs" />
-      <File FileName="Assets/Scripts/Controller/Battle States/CommandSelectionState.cs" Line="79" Column="1" />
+      <File FileName="Assets/Scripts/Controller/Battle States/CommandSelectionState.cs" Line="62" Column="39" />
       <File FileName="Assets/Scripts/Controller/Battle States/ItemSelectionState.cs" Line="25" Column="27" />
       <File FileName="Assets/Scripts/Controller/Battle States/ItemPickUpState.cs" Line="20" Column="41" />
       <File FileName="Assets/Scripts/View Model Component/Unit.cs" Line="6" Column="1" />
       <File FileName="Assets/Scripts/Controller/Battle States/ItemOptionState.cs" Line="97" Column="26" />
-      <File FileName="Assets/ItemDescriptionPanelController.cs" Line="11" Column="1" />
+      <File FileName="Assets/ItemDescriptionPanelController.cs" Line="33" Column="43" />
       <File FileName="Assets/Scripts/Controller/Battle States/BaseAbilityMenuState.cs" Line="32" Column="2" />
-      <File FileName="Assets/Scripts/View Model Component/Item/Merchandise.cs" Line="8" Column="23" />
+      <File FileName="Assets/Scripts/View Model Component/Item/Merchandise.cs" Line="9" Column="2" />
+      <File FileName="Assets/Scripts/Controller/Battle States/CategorySelectionState.cs" Line="5" Column="14" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
