@@ -13,6 +13,7 @@ public class Tile : MonoBehaviour
 	public int height;
 	public Vector3 center { get { return new Vector3(pos.x, height * stepHeight, pos.y); }}
 	public GameObject occupant;
+	public Trap trap;
 	public List<Merchandise> items;
 
 	[HideInInspector] public Tile prev;

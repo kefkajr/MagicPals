@@ -12,8 +12,13 @@ public class MoveSequenceState : BattleState
 	IEnumerator Sequence ()
 	{
 		Movement m = turn.actor.GetComponent<Movement>();
-		yield return StartCoroutine(m.Traverse(owner.currentTile));
+		yield return StartCoroutine(m.Traverse(owner.currentTile, DidFindTrap));
 		turn.hasUnitMoved = true;
 		owner.ChangeState<CommandSelectionState>();
 	}
+
+    void DidFindTrap(Tile tile)
+    {
+		Debug.Log("trap found");
+    }
 }

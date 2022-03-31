@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -18,7 +19,7 @@ public class WalkMovement : Movement
 		return base.ExpandSearch(from, to);
 	}
 	
-	public override IEnumerator Traverse (Tile tile)
+	public override IEnumerator Traverse (Tile tile, Action<Tile> TrapHandler)
 	{
 		unit.Place(tile);
 
@@ -45,6 +46,13 @@ public class WalkMovement : Movement
 				yield return StartCoroutine(Walk(to));
 			else
 				yield return StartCoroutine(Jump(to));
+
+			if(tile.trap != null)
+            {
+				// Run trap handler and end traversal
+				TrapHandler(to);
+				yield break;
+            }
 		}
 
 		yield return null;

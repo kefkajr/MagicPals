@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -33,7 +34,7 @@ public abstract class Movement : MonoBehaviour
 		return retValue;
 	}
 
-	public abstract IEnumerator Traverse (Tile tile);
+	public abstract IEnumerator Traverse (Tile tile, Action<Tile> TrapHandler);
 	#endregion
 
 	#region Protected
