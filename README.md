@@ -2,22 +2,11 @@
 This is where change summaries, work intentions, and related planning will be written.
 
 #### 3/31
-I created the Trap component and updated the MovementSequenceState to do something when a trap is find.
+I created the Trap component and updated the MovementSequenceState to do something when a trap is found.
 
 However, no Traps can be placed on Tiles yet. A Mine ability prefab exists that has the Trap component, but it's not treated differently than other abilities yet.
 
 It's worth testing how the AbilityTargetState and ConfirmAbilityTargetState behave with this ablity. At the very least, the PerformAbilityState will need to updated to place the Trap Ability on the tile rather than activating the ability at that moment.
-
-##### Change ItemDescriptionPanelController to DescriptionPanelController.
-##### Create a Describable script and attach it to items and abilities alike.
-##### Update ItemOptionState, ItemPickupState, and ActionSelectionState to search for a Describable object on each selection, and display the ItemDescriptionPanel for each.
-
-UPDATE: All the above has been done. There was some trouble getting the DescriptionPanel to start in the right position, since it was using a "preferred" size that was not certain by the first frame. I used a neat trick by calling Canvas.ForceUpdateCanvases() to get the size. Seems great, I wonder what the downside is?
-
-Next question is: How would you create an ability to put a landmine onto a tile?
-
-##### Try adding a trap property to Tile. Update the Traverse coroutine to accept a "trap check" method action. Pass the method through MoveSequenceState. In the Traverse coroutine, on each tile, check for the presence of traps. If there is a trap, call the trap check method from the Traverse coroutine and then exit the coroutine. The passed method should start a TrapTriggeredState that outputs a Debug line that says "trapped!!"
-
 
 #### 3/25
 Items can now be picked up from the board.
