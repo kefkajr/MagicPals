@@ -47,8 +47,10 @@ public class ConfirmAbilityTargetState : BattleState
 	{
 		if (e.info == 0)
 		{
-			if (turn.targets.Count > 0)
-			{
+			Trap trap = turn.ability.GetComponent<Trap>();
+			if (trap != null) {
+				owner.ChangeState<TrapSetState>();
+            } else if (turn.targets.Count > 0) {
 				owner.ChangeState<PerformAbilityState>();
 			}
 		}

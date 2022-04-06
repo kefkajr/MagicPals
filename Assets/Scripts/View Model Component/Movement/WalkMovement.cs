@@ -47,7 +47,7 @@ public class WalkMovement : Movement
 			else
 				yield return StartCoroutine(Jump(to));
 
-			if(tile.trap != null)
+			if(to.trap != null)
             {
 				// Run trap handler and end traversal
 				TrapHandler(to);

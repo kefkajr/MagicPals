@@ -1,13 +1,14 @@
 ﻿<Properties StartupConfiguration="{422E8762-CC4A-4CE0-0179-1FC34FF9D511}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Controller/Battle States/PerformAbilityState.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/View Model Component/Movement/WalkMovement.cs">
     <Files>
       <File FileName="Assets/Scripts/Controller/Battle States/BaseAbilityMenuState.cs" Line="22" Column="37" />
-      <File FileName="Assets/Scripts/Controller/Battle States/CommandSelectionState.cs" Line="60" Column="33" />
-      <File FileName="Assets/Scripts/Controller/Battle States/MoveTargetState.cs" Line="39" Column="33" />
-      <File FileName="Assets/Scripts/Controller/Battle States/MoveSequenceState.cs" Line="2" Column="1" />
-      <File FileName="Assets/Scripts/Controller/Battle States/AbilityTargetState.cs" Line="48" Column="34" />
-      <File FileName="Assets/Scripts/Controller/Battle States/ConfirmAbilityTargetState.cs" Line="52" Column="35" />
-      <File FileName="Assets/Scripts/Controller/Battle States/PerformAbilityState.cs" Line="4" Column="14" />
+      <File FileName="Assets/Scripts/Controller/Battle States/CommandSelectionState.cs" Line="70" Column="31" />
+      <File FileName="Assets/Scripts/Controller/Battle States/MoveTargetState.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Controller/Battle States/MoveSequenceState.cs" Line="16" Column="39" />
+      <File FileName="Assets/Scripts/Controller/Battle States/TrapSetState.cs" Line="29" Column="4" />
+      <File FileName="Assets/Scripts/Controller/Battle States/ConfirmAbilityTargetState.cs" Line="71" Column="1" />
+      <File FileName="Assets/Scripts/View Model Component/Movement/Movement.cs" Line="37" Column="30" />
+      <File FileName="Assets/Scripts/View Model Component/Movement/WalkMovement.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -22,11 +23,9 @@
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="feba60ba-715e-4490-b463-293cd5ac65f3" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="9bcaea11-48d0-48ba-876d-97efb8eb6adf" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore>
-      <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/Controller/Battle States/ActionSelectionState.cs" relfile="Assets/Scripts/Controller/Battle States/ActionSelectionState.cs" line="73" column="1" />
-    </BreakpointStore>
+    <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MultiItemStartupConfigurations />
 </Properties>

@@ -80,9 +80,9 @@ GameObject:
   m_Component:
   - component: {fileID: 9094739454846053841}
   - component: {fileID: 9094739454840401965}
-  - component: {fileID: 9094739454845797428}
-  - component: {fileID: 9094739454840404445}
   - component: {fileID: 1039325133546752817}
+  - component: {fileID: 8128830888591797273}
+  - component: {fileID: 2302125467362943187}
   m_Layer: 0
   m_Name: Mine
   m_TagString: Untagged
@@ -117,32 +117,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26e1788e9444143a5a79ea3477544eb8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &9094739454845797428
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9094739454845797419}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c16bb6d46a9544a89b01fffbf7177c42, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  horizontal: 1
-  vertical: 2147483647
---- !u!114 &9094739454840404445
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9094739454845797419}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ffd7ea7b3905740319e4815a4502c137, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1039325133546752817
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -153,5 +127,31 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ac8b6342907d5461faa8bcec23891d87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8128830888591797273
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9094739454845797419}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d478dccdfc0c249c8b0c70151dfbadfa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  horizontal: 1
+  vertical: 2147483647
+--- !u!114 &2302125467362943187
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9094739454845797419}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10818c1677de84b63ae618cba26e2f2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
