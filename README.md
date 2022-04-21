@@ -2,7 +2,7 @@
 This is where change summaries, work intentions, and related planning will be written.
 
 #### 4/6
-I created the TrapSetState to place a Trap on the "current" tile, and updated the MovementSequenceState to halt the unit if a trap is found, find the Ability on the trap, and perform it at that moment. Currently, an ability being "performed" instantly calculates the change in state of the targeted units with no animation. MovementSequenceState does at least print the name of the Trap, though.
+I created the TrapSetState to place a Trap on the "current" tile, and updated the MovementSequenceState to halt the unit if a trap is found, find the Ability on the trap, and perform it at that moment. Currently, an ability being "performed" instantly calculates the result and changes the state of the targeted units with no animation – this was true before, as well. MovementSequenceState does at least print the name of the Trap, though.
 
 I'm surprised that simply keeping a reference to a component on an object (Trap) is enough to get another component from that same object (Ability), even though the object itself is not tracked in these states. I suppose simply because the unit using the trap HAS that ability object in its hierarchy, Unity is able to keep it as a reference via the Trap component. It will be good to be aware of how this changes after any refactors that alter the hierarchies of our prefabs.
 
@@ -10,11 +10,11 @@ Next question is: How would you put walls at the edges of tiles?
 
 This is an exciting question for sure. I think the steps might involve:
 - Creating a Wall class like the Tile class.
--- Give it ints: origin (0 is the border of the tile, -/+ is inside/outside), thickness, height.
+  - Give it several `int` properties: origin (0 is the border of the tile, less is inside, more is outside), thickness, height.
 - Give the Tile class a dictionary property that stores a Wall instance for each direction.
-- Create a Wall prefab, the the tile by standing up.
+- Create a Wall prefab, probably just the Tile standing on its side.
 - Use the tile map editor again. See what updates can be made to include the creations of Walls
--- In particular, see how a Tile's properties are used to buid and visualize each Tile when the board is constructed
+  - In particular, see how a Tile's properties are used to buid and visualize each Tile when the board is constructed
 
 
 #### 3/31
