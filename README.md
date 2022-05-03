@@ -1,6 +1,12 @@
 # MagicPals
 This is where change summaries, work intentions, and related planning will be written.
 
+#### 5/2
+The Board Creator scene has been updated place to Walls on top of tiles, changing their height, thickness, and relative origin from the tile. Cool!!
+
+The next goal would be to save and load these Walls within map data.
+
+
 #### 4/6
 I created the TrapSetState to place a Trap on the "current" tile, and updated the MovementSequenceState to halt the unit if a trap is found, find the Ability on the trap, and perform it at that moment. Currently, an ability being "performed" instantly calculates the result and changes the state of the targeted units with no animation – this was true before, as well. MovementSequenceState does at least print the name of the Trap, though.
 
