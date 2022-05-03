@@ -16,7 +16,19 @@ public class BoardCreatorInspector : Editor
 	public override void OnInspectorGUI ()
 	{
 		DrawDefaultInspector();
-		
+
+		if (GUILayout.Button("Grow Wall"))
+			current.GrowWall();
+		if (GUILayout.Button("Shrink Wall"))
+			current.ShrinkWall();
+		if (GUILayout.Button("Thicken Wall"))
+			current.ThickenWall();
+		if (GUILayout.Button("Thin Wall"))
+			current.ThinWall();
+		if (GUILayout.Button("Move Wall In"))
+			current.MoveWallIn();
+		if (GUILayout.Button("Move Wall Out"))
+			current.MoveWallOut();
 		if (GUILayout.Button("Clear"))
 			current.Clear();
 		if (GUILayout.Button("Grow"))

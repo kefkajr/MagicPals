@@ -12,6 +12,7 @@ public class Tile : MonoBehaviour
 	public Point pos;
 	public int height;
 	public Vector3 center { get { return new Vector3(pos.x, height * stepHeight, pos.y); }}
+	public Dictionary<Directions, Wall> walls = new Dictionary<Directions, Wall>();
 	public GameObject occupant;
 	public Trap trap;
 	public List<Merchandise> items;
@@ -49,6 +50,11 @@ public class Tile : MonoBehaviour
 	{
 		transform.localPosition = new Vector3( pos.x, height * stepHeight / 2f, pos.y );
 		transform.localScale = new Vector3(1, height * stepHeight, 1);
+
+		foreach (KeyValuePair<Directions, Wall> w in walls)
+        {
+			w.Value.Load(this, w.Key);
+        }
 	}
 	#endregion
 }
