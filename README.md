@@ -2,6 +2,8 @@
 This is where change summaries, work intentions, and related planning will be written.
 
 #### 5/10
+![Some walls](https://raw.githubusercontent.com/kefkajr/MagicPals/develop/Progress%20Pics/Screen%20Shot%202022-05-10%20at%204.01.37%20PM.png)
+
 LevelData now contains a list of TileData, which in turn contains a list of WallData. These can be saved, loaded, and displayed when the game runs!
 
 However, they don't do anything yet. Before we even begin introducing the stealth element (the idea that enemies can't see units blocked by walls), we should start with updating the current targeting methods.
