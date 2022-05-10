@@ -13,7 +13,7 @@ public class InitBattleState : BattleState
 	IEnumerator Init ()
 	{
 		board.Load( levelData );
-		Point p = new Point((int)levelData.tiles[0].x, (int)levelData.tiles[0].z);
+		Point p = new Point((int)levelData.tiles[0].point.x, (int)levelData.tiles[0].point.y);
 		SelectTile(p);
 		SpawnTestUnits();
 		AddVictoryCondition();

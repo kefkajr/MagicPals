@@ -107,11 +107,11 @@ public class BoardCreator : MonoBehaviour
 			CreateSaveDirectory ();
 		
 		LevelData board = ScriptableObject.CreateInstance<LevelData>();
-		board.tiles = new List<Vector3>( tiles.Count );
+		board.tiles = new List<TileData>( tiles.Count );
 		foreach (Tile t in tiles.Values)
-			board.tiles.Add( new Vector3(t.pos.x, t.height, t.pos.y) );
+			board.tiles.Add( new TileData(t) );
 		
-		string fileName = string.Format("Assets/Resources/Levels/{1}.asset", filePath, name);
+		string fileName = string.Format("Assets/Resources/Levels/{1}.asset", filePath, levelData != null ? levelData.name : "New Level");
 		AssetDatabase.CreateAsset(board, fileName);
 	}
 
@@ -121,11 +121,18 @@ public class BoardCreator : MonoBehaviour
 		if (levelData == null)
 			return;
 		
-		foreach (Vector3 v in levelData.tiles)
+		foreach (TileData td in levelData.tiles)
 		{
 			Tile t = CreateTile();
-			t.Load(v);
+			t.Load(td);
 			tiles.Add(t.pos, t);
+
+			foreach (WallData wd in td.wallData)
+			{
+				Wall w = CreateWall();
+				w.Load(t, wd);
+				t.walls[wd.direction] = w;
+			}
 		}
 	}
 	#endregion

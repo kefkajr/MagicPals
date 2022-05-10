@@ -397,6 +397,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tilePrefab: {fileID: 169248, guid: 38155ffa822c343e0811c469abe4118d, type: 3}
+  wallPrefab: {fileID: 169248, guid: 62c0e675ae7a645cc8506fdd82c9bbe0, type: 3}
 --- !u!1001 &411106485
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1078,7 +1079,7 @@ MonoBehaviour:
   cameraRig: {fileID: 81033365}
   board: {fileID: 373292836}
   boardInventory: {fileID: 1629048031}
-  levelData: {fileID: 11400000, guid: 1db812f2ce6b14599b4f1358e4d98fc9, type: 2}
+  levelData: {fileID: 11400000, guid: 0bbf75f699440421ab3a6e5273194d87, type: 2}
   tileSelectionIndicator: {fileID: 697354563}
   pos:
     x: 0

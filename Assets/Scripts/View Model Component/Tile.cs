@@ -41,9 +41,9 @@ public class Tile : MonoBehaviour
 		Match();
 	}
 	
-	public void Load (Vector3 v)
+	public void Load (TileData t)
 	{
-		Load (new Point((int)v.x, (int)v.z), (int)v.y);
+		Load (t.point, t.height);
 	}
 
 	void Match ()
@@ -51,10 +51,28 @@ public class Tile : MonoBehaviour
 		transform.localPosition = new Vector3( pos.x, height * stepHeight / 2f, pos.y );
 		transform.localScale = new Vector3(1, height * stepHeight, 1);
 
-		foreach (KeyValuePair<Directions, Wall> w in walls)
+		foreach (Wall w in walls.Values)
         {
-			w.Value.Load(this, w.Key);
+			w.Load(this, w.direction);
         }
 	}
 	#endregion
+}
+
+[System.Serializable]
+public class TileData
+{
+	public Point point;
+	public int height;
+	public List<WallData> wallData = new List<WallData>();
+
+	public TileData(Tile tile)
+	{
+		this.point = tile.pos;
+		this.height = tile.height;
+		foreach (Wall wall in tile.walls.Values)
+		{
+			this.wallData.Add(new WallData(wall));
+		}
+	}
 }

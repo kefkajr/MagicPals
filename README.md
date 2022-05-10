@@ -1,6 +1,17 @@
 # MagicPals
 This is where change summaries, work intentions, and related planning will be written.
 
+#### 5/10
+LevelData now contains a list of TileData, which in turn contains a list of WallData. These can be saved, loaded, and displayed when the game runs!
+
+However, they don't do anything yet. Before we even begin introducing the stealth element (the idea that enemies can't see units blocked by walls), we should start with updating the current targeting methods.
+
+When calculating navigable paths for walking movement, walls should block the path and units should walk around them.
+
+When selecting a target for a physical attack, a target should not be accessible if a wall divides them and the attacker. Start with the physical attack.
+
+Should there be some exceptions? Some magical attacks should be able to target units on the other side of a wall. But the wall should block the area of effect, too. That is, a fireball dropped on the opposite side of a wall should not be able to burn back through the wall and cause damage on the near side of the wall.
+
 #### 5/2
 The Board Creator scene has been updated place to Walls on top of tiles, changing their height, thickness, and relative origin from the tile. Cool!!
 

@@ -23,6 +23,15 @@ public class Wall : MonoBehaviour
         Match();
     }
 
+    public void Load(Tile tile, WallData wallData)
+    {
+        this.tile = tile;
+        this.direction = wallData.direction;
+        this.thickness = wallData.thickness;
+        this.height = wallData.height;
+        Match();
+    }
+
     public void Grow()
     {
         height++;
@@ -91,12 +100,12 @@ public class Wall : MonoBehaviour
                 scaleX = 1;
                 scaleZ = thickness * stepThickness;
                 posX = tile.pos.x;
-                posZ = tile.pos.y - 0.5f + OriginOffSetFromScale(scaleZ);
+                posZ = tile.pos.y - 0.5f - OriginOffSetFromScale(scaleZ);
                 break;
             default: // Directions.West:
                 scaleX = thickness * stepThickness;
                 scaleZ = 1;
-                posX = tile.pos.x - 0.5f + OriginOffSetFromScale(scaleZ);
+                posX = tile.pos.x - 0.5f - OriginOffSetFromScale(scaleX);
                 posZ = tile.pos.y;
                 break;
         }
@@ -117,5 +126,22 @@ public class Wall : MonoBehaviour
             default: // Origin.onBoarder
                 return 0;
         }
+    }
+}
+
+[System.Serializable]
+public class WallData
+{
+    public Directions direction;
+    public Wall.Origin origin;
+    public int thickness;
+    public int height;
+
+    public WallData(Wall wall)
+    {
+        this.direction = wall.direction;
+        this.origin = wall.origin;
+        this.thickness = wall.thickness;
+        this.height = wall.height;
     }
 }
