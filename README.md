@@ -70,3 +70,7 @@ I gave the Tile class an Items property which would store any number of items. W
 How about picking the item up again?
 
 ##### Try making an Inventory object for the board itself. Subclass Inventory and have it Add and Remove items in a different way, using an object pool to show and hide item indicators.
+
+#### Prior
+
+This prototype is being built off of the [Tactics RPG tutorial by Liquid Fire](http://theliquidfire.com/category/projects/tactics-rpg/).
