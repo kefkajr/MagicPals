@@ -22,11 +22,7 @@ MonoBehaviour:
       x: 2
       y: 7
     height: 4
-    wallData:
-    - direction: 0
-      origin: 1
-      thickness: 1
-      height: 3
+    wallData: []
   - point:
       x: 1
       y: 7
@@ -367,3 +363,31 @@ MonoBehaviour:
       y: 5
     height: 1
     wallData: []
+  - point:
+      x: 1
+      y: 8
+    height: 2
+    wallData: []
+  - point:
+      x: 0
+      y: 8
+    height: 2
+    wallData: []
+  - point:
+      x: 2
+      y: 8
+    height: 3
+    wallData:
+    - direction: 2
+      origin: 0
+      thickness: 1
+      height: 4
+  - point:
+      x: 3
+      y: 8
+    height: 2
+    wallData:
+    - direction: 2
+      origin: 0
+      thickness: 1
+      height: 4
