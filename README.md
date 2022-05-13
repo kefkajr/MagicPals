@@ -2,6 +2,15 @@
 This is where change summaries, work intentions, and related planning will be written.
 
 #### 5/10
+![Cone attack range restricted by walls](https://raw.githubusercontent.com/kefkajr/MagicPals/develop/Progress%20Pics/Screen%20Recording%202022-05-13%20at%2012.08.45%20PM.gif)
+
+Walking movement and several ability ranges now take walls into account!
+
+Deciding a logic for cone range was quite difficult. Take note of the range when the unit is facing downward. The ability range is able to reach around a corner, but the "wing" against the wall does not extend as far as the wing without a wall. It may be more fair to disallow the range from going around corners at all. Playtesting will tell if that feels fair or not.
+
+A few more ranges need to be adjusted to deal with walls. Additionally, it may be time for some quality of life additions: skipping the walking animation on a button press, and being able to move the camera (while keeping directional control input consistent).
+
+#### 5/10
 ![Some walls](https://raw.githubusercontent.com/kefkajr/MagicPals/develop/Progress%20Pics/Screen%20Shot%202022-05-10%20at%204.01.37%20PM.png)
 
 LevelData now contains a list of TileData, which in turn contains a list of WallData. These can be saved, loaded, and displayed when the game runs!

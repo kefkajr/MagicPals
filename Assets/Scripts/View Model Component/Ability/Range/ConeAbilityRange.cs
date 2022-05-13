@@ -16,94 +16,69 @@ public class ConeAbilityRange : AbilityRange
 		int dir = (unit.dir == Directions.North || unit.dir == Directions.East) ? 1 : -1;
 		Tile fromTile = unit.tile;
 
-		// Commit these changes, then try to combine the North/South with the East/West
-		if (unit.dir == Directions.North || unit.dir == Directions.South)
+		Tile NewTile(int medial, int lateral, Directions direction, bool isAdditive)
 		{
-			int wing1 = 0;
-			int wing2 = 0;
-			for (int y = 1; y <= horizontal; ++y)
+			Point point;
+			if (unit.dir == Directions.North || unit.dir == Directions.South)
 			{
-				Point primary = new Point(pos.x, pos.y + (y * dir));
-				Tile primaryTile = board.GetTile(primary);
-				if (ValidateTile(board, fromTile, primaryTile))
-					validatedTiles.Add(primaryTile);
-				fromTile = primaryTile;
-
-				// Go one way from the center
-				for (int x = 1; x <= wing1; ++x)
-				{
-					Point next = new Point(pos.x + x, pos.y + (y * dir));
-					Tile nextTile = board.GetTile(next);
-					if (ValidateTile(board, fromTile, nextTile))
-						validatedTiles.Add(nextTile);
-					else
-						--wing1; // Decrease range of wing
-
-					fromTile = nextTile;
-				}
-				++wing1;
-				fromTile = primaryTile;
-
-				// Then the other way
-				for (int x = 1; x <= wing2; ++x)
-				{
-					Point next = new Point(pos.x - x, pos.y + (y * dir));
-					Tile nextTile = board.GetTile(next);
-					if (ValidateTile(board, fromTile, nextTile))
-						validatedTiles.Add(nextTile);
-					else
-						--wing2; // Decrease range of wing
-
-					fromTile = nextTile;
-				}
-				++wing2;
-				fromTile = primaryTile;
+				if (isAdditive)
+					point = new Point(pos.x + lateral, pos.y + (medial * dir));
+				else
+					point = new Point(pos.x - lateral, pos.y + (medial * dir));
 			}
+			else
+			{
+				if (isAdditive)
+					point = new Point(pos.x + (medial * dir), pos.y + lateral);
+				else
+					point = new Point(pos.x + (medial * dir), pos.y - lateral);
+			}
+			return board.GetTile(point);
 		}
-		else
+
+		int wing1 = 0;
+		int wing2 = 0;
+		for (int medial = 1; medial <= horizontal; ++medial)
 		{
-			int wing1 = 0;
-			int wing2 = 0;
-			for (int x = 1; x <= horizontal; ++x)
+			Point primary;
+			if (unit.dir == Directions.North || unit.dir == Directions.South)
+				primary = new Point(pos.x, pos.y + (medial * dir));
+			else
+				primary = new Point(pos.x + (medial * dir), pos.y);
+			Tile primaryTile = board.GetTile(primary);
+			if (ValidateTile(board, fromTile, primaryTile))
+				validatedTiles.Add(primaryTile);
+			fromTile = primaryTile;
+
+			// Go one way from the center
+			for (int lateral = 1; lateral <= wing1; ++lateral)
 			{
-				Point primary = new Point(pos.x + (x * dir), pos.y);
-				Tile primaryTile = board.GetTile(primary);
-				if (ValidateTile(board, fromTile, primaryTile))
-					validatedTiles.Add(primaryTile);
-				fromTile = primaryTile;
+				Tile nextTile = NewTile(medial, lateral, unit.dir, true);
+				if (ValidateTile(board, fromTile, nextTile))
+					validatedTiles.Add(nextTile);
+				else
+					--wing1; // Decrease range of wing
 
-				// Go one way from the center
-				for (int y = 1; y <= wing1; ++y)
-				{
-					Point next = new Point(pos.x + (x * dir), pos.y + y);
-					Tile nextTile = board.GetTile(next);
-					if (ValidateTile(board, fromTile, nextTile))
-						validatedTiles.Add(nextTile);
-					else
-						--wing1;
-
-					fromTile = nextTile;
-				}
-				++wing1;
-				fromTile = primaryTile;
-
-				// Then the other way
-				for (int y = 1; y <= wing2; ++y)
-				{
-					Point next = new Point(pos.x + (x * dir), pos.y - y);
-					Tile nextTile = board.GetTile(next);
-					if (ValidateTile(board, fromTile, nextTile))
-						validatedTiles.Add(nextTile);
-					else
-						--wing2;
-
-					fromTile = nextTile;
-				}
-				++wing2;
-				fromTile = primaryTile;
+				fromTile = nextTile;
 			}
+			++wing1;
+			fromTile = primaryTile;
+
+			// Then the other way
+			for (int lateral = 1; lateral <= wing2; ++lateral)
+			{
+				Tile nextTile = NewTile(medial, lateral, unit.dir, false);
+				if (ValidateTile(board, fromTile, nextTile))
+					validatedTiles.Add(nextTile);
+				else
+					--wing2; // Decrease range of wing
+
+				fromTile = nextTile;
+			}
+			++wing2;
+			fromTile = primaryTile;
 		}
-		
+
 		return validatedTiles;
 	}
 	
