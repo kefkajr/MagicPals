@@ -29,17 +29,22 @@ public class LineAbilityRange : AbilityRange
 		}
 
 		int dist = 0;
-		while (startPos != endPos)
+		Point currentPos = new Point(startPos.x, startPos.y);
+		while (currentPos != endPos)
 		{
-			if (startPos.x < endPos.x) startPos.x++;
-			else if (startPos.x > endPos.x) startPos.x--;
+			if (currentPos.x < endPos.x) currentPos.x++;
+			else if (currentPos.x > endPos.x) currentPos.x--;
 			
-			if (startPos.y < endPos.y) startPos.y++;
-			else if (startPos.y > endPos.y) startPos.y--;
-			
-			Tile t = board.GetTile(startPos);
-			if (t != null && Mathf.Abs(t.height - unit.tile.height) <= vertical)
-				retValue.Add(t);
+			if (currentPos.y < endPos.y) currentPos.y++;
+			else if (currentPos.y > endPos.y) currentPos.y--;
+
+			Tile startTile = board.GetTile(startPos);
+			Tile currentTile = board.GetTile(currentPos);
+			if (currentTile == null || Tile.DoesWallSeparateTiles(startTile, currentTile))
+				break;
+
+			if (currentTile != null && Mathf.Abs(currentTile.height - unit.tile.height) <= vertical)
+				retValue.Add(currentTile);
 
 			dist++;
 			if (dist >= horizontal)

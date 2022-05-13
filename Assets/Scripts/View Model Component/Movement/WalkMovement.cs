@@ -17,9 +17,7 @@ public class WalkMovement : Movement
 			return false;
 
 		// Skip if walls are blocking the way
-		Directions dir1 = from.GetDirection(to);
-		Directions dir2 = to.GetDirection(from);
-		if (from.walls.ContainsKey(dir1) || to.walls.ContainsKey(dir2))
+		if (Tile.DoesWallSeparateTiles(from, to))
 			return false;
 
 		return base.ExpandSearch(from, to);

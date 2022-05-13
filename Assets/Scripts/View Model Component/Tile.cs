@@ -56,7 +56,20 @@ public class Tile : MonoBehaviour
 			w.Load(this, w.direction);
         }
 	}
+
+	public static bool DoesWallSeparateTiles(Tile tile1, Tile tile2)
+    {
+		Directions dir1 = tile1.GetDirection(tile2);
+		Directions dir2 = tile2.GetDirection(tile1);
+		return tile1.walls.ContainsKey(dir1) || tile2.walls.ContainsKey(dir2);
+	}
 	#endregion
+
+	void OnDrawGizmos()
+	{
+		GUI.color = Color.black;
+		UnityEditor.Handles.Label(transform.position, string.Format("{0}, {1}", pos.x, pos.y));
+	}
 }
 
 [System.Serializable]

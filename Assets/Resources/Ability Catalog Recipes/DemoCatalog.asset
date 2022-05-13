@@ -28,6 +28,12 @@ MonoBehaviour:
     entries:
     - Prominence
     - Silence
+  - name: Monk Tech
+    entries:
+    - Earth Render
+  - name: Fighter Tech
+    entries:
+    - Air Blast
   - name: Trap
     entries:
     - Mine

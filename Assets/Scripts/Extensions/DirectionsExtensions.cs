@@ -30,6 +30,21 @@ public static class DirectionsExtensions
 		return Directions.West;
 	}
 
+	public static Directions GetOpposite(this Directions dir)
+	{
+		switch (dir)
+		{
+			case Directions.North:
+				return Directions.South;
+			case Directions.East:
+				return Directions.West;
+			case Directions.South:
+				return Directions.North;
+			default: // Directions.West:
+				return Directions.East;
+		};
+	}
+
 	public static Point GetNormal (this Directions dir)
 	{
 		switch (dir)
