@@ -22,6 +22,9 @@ public class MoveSequenceState : BattleState
 		Movement m = turn.actor.GetComponent<Movement>();
 		yield return StartCoroutine(m.Traverse(owner.currentTile, DidFindTrap));
 		turn.hasUnitMoved = true;
+
+		Time.timeScale = 1f;
+
 		owner.ChangeState<CommandSelectionState>();
 	}
 
@@ -50,6 +53,10 @@ public class MoveSequenceState : BattleState
 
 		// Perform trap ability
 		owner.ChangeState<PerformAbilityState>();
+	}
 
+	protected override void OnFire(object sender, InfoEventArgs<int> e)
+	{
+		Time.timeScale = 10f;
 	}
 }
