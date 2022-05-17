@@ -11,6 +11,8 @@ public abstract class Movement : MonoBehaviour
 	protected Unit unit;
 	protected Transform jumper;
 	protected Stats stats;
+
+	public float animationDuration = 0.5f;
 	#endregion
 
 	#region MonoBehaviour

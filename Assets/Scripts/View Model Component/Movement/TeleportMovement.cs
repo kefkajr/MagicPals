@@ -8,18 +8,18 @@ public class TeleportMovement : Movement
 	{
 		unit.Place(tile);
 
-		Tweener spin = jumper.RotateToLocal(new Vector3(0, 360, 0), 0.5f, EasingEquations.EaseInOutQuad);
+		Tweener spin = jumper.RotateToLocal(new Vector3(0, 360, 0), animationDuration, EasingEquations.EaseInOutQuad);
 		spin.loopCount = 1;
 		spin.loopType = EasingControl.LoopType.PingPong;
 
-		Tweener shrink = transform.ScaleTo(Vector3.zero, 0.5f, EasingEquations.EaseInBack);
+		Tweener shrink = transform.ScaleTo(Vector3.zero, animationDuration, EasingEquations.EaseInBack);
 
 		while (shrink != null)
 			yield return null;
 
 		transform.position = tile.center;
 
-		Tweener grow = transform.ScaleTo(Vector3.one, 0.5f, EasingEquations.EaseOutBack);
+		Tweener grow = transform.ScaleTo(Vector3.one, animationDuration, EasingEquations.EaseOutBack);
 		while (grow != null)
 			yield return null;
 

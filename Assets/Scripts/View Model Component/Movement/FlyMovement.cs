@@ -12,7 +12,7 @@ public class FlyMovement : Movement
 
 		// Fly high enough not to clip through any ground tiles
 		float y = Tile.stepHeight * 10;
-		float duration = (y - jumper.position.y) * 0.5f;
+		float duration = (y - jumper.position.y) * animationDuration;
 		Tweener tweener = jumper.MoveToLocal(new Vector3(0, y, 0), duration, EasingEquations.EaseInOutQuad);
 		while (tweener != null)
 			yield return null;
@@ -27,14 +27,14 @@ public class FlyMovement : Movement
 		yield return StartCoroutine(Turn(dir));
 
 		// Move to the correct position
-		duration = dist * 0.5f;
+		duration = dist * animationDuration;
 		tweener = transform.MoveTo(tile.center, duration, EasingEquations.EaseInOutQuad);
 		while (tweener != null)
 			yield return null;
 
 		// Land
-		duration = (y - tile.center.y) * 0.5f;
-		tweener = jumper.MoveToLocal(Vector3.zero, 0.5f, EasingEquations.EaseInOutQuad);
+		duration = (y - tile.center.y) * animationDuration;
+		tweener = jumper.MoveToLocal(Vector3.zero, duration, EasingEquations.EaseInOutQuad);
 		while (tweener != null)
 			yield return null;
 

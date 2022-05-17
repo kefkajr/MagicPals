@@ -66,14 +66,14 @@ public class WalkMovement : Movement
 	#region Private
 	IEnumerator Walk (Tile target)
 	{
-		Tweener tweener = transform.MoveTo(target.center, 0.5f, EasingEquations.Linear);
+		Tweener tweener = transform.MoveTo(target.center, animationDuration, EasingEquations.Linear);
 		while (tweener != null)
 			yield return null;
 	}
 
 	IEnumerator Jump (Tile to)
 	{
-		Tweener tweener = transform.MoveTo(to.center, 0.5f, EasingEquations.Linear);
+		Tweener tweener = transform.MoveTo(to.center, animationDuration, EasingEquations.Linear);
 
 		Tweener t2 = jumper.MoveToLocal(new Vector3(0, Tile.stepHeight * 2f, 0), tweener.duration / 2f, EasingEquations.EaseOutQuad);
 		t2.loopCount = 1;
