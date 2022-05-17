@@ -1,10 +1,10 @@
 ﻿<Properties StartupConfiguration="{422E8762-CC4A-4CE0-0179-1FC34FF9D511}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/View Model Component/Ability/Range/ConeAbilityRange.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Controller/Battle States/MoveTargetState.cs">
     <Files>
-      <File FileName="Assets/Scripts/View Model Component/Ability/Range/ConeAbilityRange.cs" Line="28" Column="36" />
-      <File FileName="Assets/Scripts/View Model Component/Ability/Range/ConstantAbilityRange.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/View Model Component/Ability/Range/MinimumAbilityRange.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/View Model Component/Board.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Controller/Battle States/MoveSequenceState.cs" Line="60" Column="24" />
+      <File FileName="Assets/Scripts/Controller/Battle States/MoveTargetState.cs" Line="31" Column="1" />
+      <File FileName="Assets/Scripts/Controller/Battle States/BattleState.cs" Line="58" Column="25" />
+      <File FileName="Assets/Scripts/Controller/InputController.cs" Line="18" Column="13" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -19,9 +19,13 @@
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="556e7330-7c10-402d-8897-c53ca7dd658d" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="0446a4c8-7a80-4122-b984-00655c7670c5" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/Common/Animation/EasingControl.cs" relfile="Assets/Scripts/Common/Animation/EasingControl.cs" line="110" column="1" />
+      <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/Common/Animation/EasingControl.cs" relfile="Assets/Scripts/Common/Animation/EasingControl.cs" line="123" column="1" />
+      <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/Common/Animation/EasingControl.cs" relfile="Assets/Scripts/Common/Animation/EasingControl.cs" line="118" column="1" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MultiItemStartupConfigurations />
 </Properties>
