@@ -6,6 +6,7 @@ public class SpecifyAbilityArea : AbilityArea
 {
 	public int horizontal;
 	public int vertical;
+	public bool doesPassThroughWalls;
 	Tile tile;
 
 	public override List<Tile> GetTilesInArea (Board board, Point pos)
@@ -16,6 +17,10 @@ public class SpecifyAbilityArea : AbilityArea
 
 	bool ExpandSearch (Tile from, Tile to)
 	{
+		// Skip if walls are blocking the way
+		if (!doesPassThroughWalls && Tile.DoesWallSeparateTiles(from, to))
+			return false;
+
 		return (from.distance + 1) <= horizontal && Mathf.Abs(to.height - tile.height) <= vertical;
 	}
 }

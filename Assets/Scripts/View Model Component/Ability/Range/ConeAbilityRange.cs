@@ -16,7 +16,7 @@ public class ConeAbilityRange : AbilityRange
 		int dir = (unit.dir == Directions.North || unit.dir == Directions.East) ? 1 : -1;
 		Tile fromTile = unit.tile;
 
-		Tile NewTile(int medial, int lateral, Directions direction, bool isAdditive)
+		Tile NewTile(int medial, int lateral, bool isAdditive)
 		{
 			Point point;
 			if (unit.dir == Directions.North || unit.dir == Directions.South)
@@ -53,7 +53,7 @@ public class ConeAbilityRange : AbilityRange
 			// Go one way from the center
 			for (int lateral = 1; lateral <= wing1; ++lateral)
 			{
-				Tile nextTile = NewTile(medial, lateral, unit.dir, true);
+				Tile nextTile = NewTile(medial, lateral, true);
 				if (ValidateTile(board, fromTile, nextTile))
 					validatedTiles.Add(nextTile);
 				else
@@ -67,7 +67,7 @@ public class ConeAbilityRange : AbilityRange
 			// Then the other way
 			for (int lateral = 1; lateral <= wing2; ++lateral)
 			{
-				Tile nextTile = NewTile(medial, lateral, unit.dir, false);
+				Tile nextTile = NewTile(medial, lateral, false);
 				if (ValidateTile(board, fromTile, nextTile))
 					validatedTiles.Add(nextTile);
 				else
