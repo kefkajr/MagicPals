@@ -43,10 +43,12 @@ public class InputController : MonoBehaviour
 {
 	public static event EventHandler<InfoEventArgs<Point>> moveEvent;
 	public static event EventHandler<InfoEventArgs<int>> fireEvent;
+	public static event EventHandler<InfoEventArgs<int>> turnCameraEvent;
 
 	Repeater _hor = new Repeater("Horizontal");
 	Repeater _ver = new Repeater("Vertical");
-	string[] _buttons = new string[] {"Fire1", "Fire2", "Fire3"};
+	string[] _buttons = new string[] {"Fire1", "Fire2", "Fire3" };
+	KeyCode[] _cameraTurners = new KeyCode[] { KeyCode.LeftBracket, KeyCode.RightBracket };
 
 	void Update () 
 	{
@@ -58,13 +60,21 @@ public class InputController : MonoBehaviour
 				moveEvent(this, new InfoEventArgs<Point>(new Point(x, y)));
 		}
 
-		for (int i = 0; i < 3; ++i)
+		for (int i = 0; i < _buttons.Length; ++i)
 		{
 			if (Input.GetButtonUp(_buttons[i]))
 			{
 				if (fireEvent != null)
 					fireEvent(this, new InfoEventArgs<int>(i));
 			}
+		}
+
+		if (turnCameraEvent != null)
+		{
+			if (Input.GetKeyUp(_cameraTurners[0]))
+				turnCameraEvent(this, new InfoEventArgs<int>(-1));
+			if (Input.GetKeyUp(_cameraTurners[1]))
+				turnCameraEvent(this, new InfoEventArgs<int>(1));
 		}
 	}
 }
