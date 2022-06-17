@@ -19,6 +19,7 @@ There are some possible next steps to take.
   - Create a Perception component that contains a viewing range (a Vector2 to represent the distance and height of a cone), hearing range (a float to represent the radius of a circle), an "is alert" flag, and a set for perceived Stealth components.
   - On every move a unit makes in the Traverse routine, use the unit's Perception to search for any other units within range. Run a comparison between the Perception and the Stealth to see if the target unit is noticed. If so, add that Stealth component to the Perception's set of perceived Stealth components. Print a line saying "PERCEIVER NAME spotted PERCEIVED NAME."
     - This "perception check" can start by just checking if one unit is in viewing range of the other. Then check if there is a wall between the two units (using "expand search" in the same way that walls can block a unit's movement). Eventually it may make sense to perform a raycast between the two objects.
+    - A similar check should probably be done to see when a unit is no longer perceives another unit. "PERCEIVER NAME no longer sees PERCEIVED NAME."
 
 #### 5/10
 ![Cone attack range restricted by walls](https://raw.githubusercontent.com/kefkajr/MagicPals/develop/Progress%20Pics/Screen%20Recording%202022-05-13%20at%2012.08.45%20PM.gif)
