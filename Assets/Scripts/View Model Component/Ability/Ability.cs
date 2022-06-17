@@ -43,7 +43,7 @@ public class Ability : MonoBehaviour
 		for (int i = 0; i < obj.childCount; ++i)
 		{
 			AbilityEffectTarget targeter = obj.GetChild(i).GetComponent<AbilityEffectTarget>();
-			if (targeter.IsTarget(tile))
+			if (targeter != null && targeter.IsTarget(tile))
 				return true;
 		}
 		return false;
