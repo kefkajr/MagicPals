@@ -30,9 +30,9 @@ public abstract class BaseAbilityMenuState : BattleState
 			Cancel();
 	}
 
-	protected override void OnMove (object sender, InfoEventArgs<Point> e)
+	protected override void OnMove(object sender, MoveEventData moveEventData)
 	{
-		if (e.info.x > 0 || e.info.y < 0)
+		if (moveEventData.point.x > 0 || moveEventData.point.y < 0)
 			abilityMenuPanelController.Next();
 		else
 			abilityMenuPanelController.Previous();

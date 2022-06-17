@@ -65,9 +65,9 @@ public class ActionSelectionState : BaseAbilityMenuState
 		owner.ChangeState<CategorySelectionState>();
 	}
 
-	protected override void OnMove(object sender, InfoEventArgs<Point> e)
+	protected override void OnMove(object sender, MoveEventData moveEventData)
 	{
-		base.OnMove(sender, e);
+		base.OnMove(sender, moveEventData);
 		int currentSelection = abilityMenuPanelController.selection;
 		Ability ability = catalog.GetAbility(category, currentSelection);
 		descriptionPanelController.Show(ability.describable);

@@ -45,7 +45,32 @@ public abstract class BattleState : State
 		base.Enter ();
 	}
 
-	protected virtual void OnMove (object sender, InfoEventArgs<Point> e)
+	void OnMove(object sender, InfoEventArgs<Point> e)
+	{
+		// Translate which direction up/down/left/right go dending on the current camera direction
+		Point point = e.info;
+		Point translatedPoint;
+		switch (cameraRig.currentDirection)
+		{
+			case Directions.North:
+				translatedPoint = point;
+				break;
+			case Directions.South:
+				translatedPoint = new Point(-point.x, -point.y);
+				break;
+			case Directions.West:
+				translatedPoint = new Point(-point.y, point.x);
+				break;
+			default: // East
+				translatedPoint = new Point(point.y, -point.x);
+				break;
+		}
+		MoveEventData moveEventData = new MoveEventData(point, translatedPoint);
+
+		OnMove(sender, moveEventData);
+	}
+
+	protected virtual void OnMove (object sender, MoveEventData d)
 	{
 		
 	}
@@ -97,5 +122,17 @@ public abstract class BattleState : State
 	protected virtual bool IsBattleOver ()
 	{
 		return owner.GetComponent<BaseVictoryCondition>().Victor != Alliances.None;
+	}
+
+	public struct MoveEventData
+    {
+		public Point point;
+		public Point pointTranslatedByCameraDirection;
+
+		public MoveEventData(Point point, Point pointTranslatedByCameraDirection)
+		{
+			this.point = point;
+			this.pointTranslatedByCameraDirection = pointTranslatedByCameraDirection;
+		}
 	}
 }

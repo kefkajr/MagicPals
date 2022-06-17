@@ -15,9 +15,9 @@ public class ExploreState : BattleState
 		statPanelController.HidePrimary();
 	}
 
-	protected override void OnMove (object sender, InfoEventArgs<Point> e)
+	protected override void OnMove(object sender, MoveEventData d)
 	{
-		SelectTile(e.info + pos);
+		SelectTile(d.pointTranslatedByCameraDirection + pos);
 		RefreshPrimaryStatPanel(pos);
 	}
 	

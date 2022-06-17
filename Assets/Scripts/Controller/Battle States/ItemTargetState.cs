@@ -27,15 +27,15 @@ public class ItemTargetState : BattleState
 		statPanelController.HideSecondary();
 	}
 
-	protected override void OnMove(object sender, InfoEventArgs<Point> e)
+	protected override void OnMove(object sender, MoveEventData d)
 	{
 		if (ar.directionOriented)
 		{
-			ChangeDirection(e.info);
+			ChangeDirection(d.pointTranslatedByCameraDirection);
 		}
 		else
 		{
-			SelectTile(e.info + pos);
+			SelectTile(d.pointTranslatedByCameraDirection + pos);
 			RefreshSecondaryStatPanel(pos);
 		}
 	}

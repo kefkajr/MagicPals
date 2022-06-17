@@ -22,9 +22,9 @@ public class EndFacingState : BattleState
 		base.Exit ();
 	}
 	
-	protected override void OnMove (object sender, InfoEventArgs<Point> e)
+	protected override void OnMove (object sender, MoveEventData d)
 	{
-		turn.actor.dir = e.info.GetDirection();
+		turn.actor.dir = d.pointTranslatedByCameraDirection.GetDirection();
 		turn.actor.Match();
 		owner.facingIndicator.SetDirection(turn.actor.dir);
 	}

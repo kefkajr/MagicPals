@@ -24,10 +24,10 @@ public class MoveTargetState : BattleState
 		tiles = null;
 		statPanelController.HidePrimary();
 	}
-	
-	protected override void OnMove (object sender, InfoEventArgs<Point> e)
+
+	protected override void OnMove(object sender, MoveEventData moveEventData)
 	{
-		SelectTile(e.info + pos);
+		SelectTile(moveEventData.pointTranslatedByCameraDirection + pos);
 		RefreshPrimaryStatPanel(pos);
 	}
 	

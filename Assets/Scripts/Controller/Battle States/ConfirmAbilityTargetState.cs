@@ -35,9 +35,9 @@ public class ConfirmAbilityTargetState : BattleState
 		hitSuccessIndicator.Hide();
 	}
 
-	protected override void OnMove (object sender, InfoEventArgs<Point> e)
+	protected override void OnMove (object sender, MoveEventData d)
 	{
-		if (e.info.y > 0 || e.info.x > 0)
+		if (d.point.y > 0 || d.point.x > 0)
 			SetTarget(index + 1);
 		else
 			SetTarget(index - 1);

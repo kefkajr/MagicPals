@@ -26,16 +26,16 @@ public class AbilityTargetState : BattleState
 		statPanelController.HidePrimary();
 		statPanelController.HideSecondary();
 	}
-	
-	protected override void OnMove (object sender, InfoEventArgs<Point> e)
+
+	protected override void OnMove(object sender, MoveEventData moveEventData)
 	{
 		if (ar.directionOriented)
 		{
-			ChangeDirection(e.info);
+			ChangeDirection(moveEventData.pointTranslatedByCameraDirection);
 		}
 		else
 		{
-			SelectTile(e.info + pos);
+			SelectTile(moveEventData.pointTranslatedByCameraDirection + pos);
 			RefreshSecondaryStatPanel(pos);
 		}
 	}
