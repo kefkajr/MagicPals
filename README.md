@@ -2,7 +2,11 @@
 This is where change summaries, work intentions, and related planning will be written.
 
 #### 6/17
+![Fast walk sequence](https://raw.githubusercontent.com/kefkajr/MagicPals/develop/Progress%20Pics/Screen%20Recording%202022-06-17%20at%205.40.17%20PM.gif)
+
 The walking animation can now be fast forwarded. This has the effect of sometimes permanently freezing a character mid-jump forever after, but for now it's funny. The "hop" animation will change eventually.
+
+![Fast walk sequence](https://raw.githubusercontent.com/kefkajr/MagicPals/develop/Progress%20Pics/Screen%20Recording%202022-06-17%20at%205.45.19%20PM.gif)
 
 The camera can also be rotated at 90 degree increments and tilted like in Final Fantasy Tactics. Not only that, but the arrow keys respond appropriately, meaning "Up" is different for each camera orientation.
 
