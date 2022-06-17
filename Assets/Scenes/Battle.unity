@@ -167,7 +167,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 3
   follow: {fileID: 697354563}
-  rotateSpeed: 3
+  rotateDuration: 0.25
+  currentDirection: 0
+  pitchTransform: {fileID: 674843573}
+  tiltDuration: 0.25
 --- !u!1001 &275820491
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -668,14 +671,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 674843572}
-  m_LocalRotation: {x: 0.30290225, y: 0, z: 0, w: 0.95302165}
+  m_LocalRotation: {x: 0.309017, y: 0, z: 0, w: 0.95105654}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1872653858}
   m_Father: {fileID: 723611245}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 36, y: 0, z: 0}
 --- !u!1001 &697354562
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -44,6 +44,7 @@ public class InputController : MonoBehaviour
 	public static event EventHandler<InfoEventArgs<Point>> moveEvent;
 	public static event EventHandler<InfoEventArgs<int>> fireEvent;
 	public static event EventHandler<InfoEventArgs<int>> turnCameraEvent;
+	public static event EventHandler<int> tiltCameraEvent;
 
 	Repeater _hor = new Repeater("Horizontal");
 	Repeater _ver = new Repeater("Vertical");
@@ -76,5 +77,13 @@ public class InputController : MonoBehaviour
 			if (Input.GetKeyUp(_cameraTurners[1]))
 				turnCameraEvent(this, new InfoEventArgs<int>(1));
 		}
+
+		if (tiltCameraEvent != null)
+        {
+			if (Input.GetKeyUp(KeyCode.Backslash))
+            {
+				tiltCameraEvent(this, 0);
+            }
+        }
 	}
 }

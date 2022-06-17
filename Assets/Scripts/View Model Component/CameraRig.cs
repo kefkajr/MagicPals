@@ -7,11 +7,16 @@ public class CameraRig : MonoBehaviour
 	public Transform follow;
 
 
-	public float rotateSpeed = 3f;
+	public float rotateDuration = 0.25f;
 	public Directions currentDirection = Directions.North;
 	TransformLocalEulerTweener rotateTweener;
-
 	bool isRotating = false;
+
+	public Transform pitchTransform;
+	public float tiltDuration = 0.25f;
+	TransformLocalEulerTweener tiltTweener;
+	bool isTilting = false;
+	bool isTilted = false;
 
 	void Awake ()
 	{
@@ -37,6 +42,7 @@ public class CameraRig : MonoBehaviour
 	protected void AddListeners()
 	{
 		InputController.turnCameraEvent += TurnCamera;
+		InputController.tiltCameraEvent += TiltCamera;
 	}
 
 	protected void RemoveListeners()
@@ -46,6 +52,8 @@ public class CameraRig : MonoBehaviour
 
 	protected void TurnCamera(object sender, InfoEventArgs<int> e)
 	{
+		if (isRotating) return;
+
 		int newDirectionValue = (int)currentDirection + e.info;
 
 		if (newDirectionValue < 0)
@@ -60,13 +68,11 @@ public class CameraRig : MonoBehaviour
 
 	protected virtual IEnumerator Turn()
 	{
-		if (isRotating) yield return null;
-
 		isRotating = true;
 
 		if (rotateTweener != null) rotateTweener.Stop();
 
-		TransformLocalEulerTweener t = (TransformLocalEulerTweener)transform.RotateToLocal(currentDirection.ToEuler(), 0.25f, EasingEquations.EaseInOutQuad);
+		TransformLocalEulerTweener t = (TransformLocalEulerTweener)transform.RotateToLocal(currentDirection.ToEuler(), rotateDuration, EasingEquations.EaseInOutQuad);
 
 		// When rotating between North and West, we must make an exception so it looks like the unit
 		// rotates the most efficient way (since 0 and 360 are treated the same)
@@ -81,6 +87,33 @@ public class CameraRig : MonoBehaviour
 			yield return null;
 
 		isRotating = false;
+	}
+
+	protected void TiltCamera(object sender, int i)
+	{
+		if (isTilting) return;
+
+		isTilted = !isTilted;
+
+		StartCoroutine(Tilt());
+	}
+
+	protected virtual IEnumerator Tilt()
+	{
+		isTilting = true;
+
+		if (tiltTweener != null) tiltTweener.Stop();
+
+		Vector3 euler = new Vector3(isTilted ? 90 : 36, 0, 0);
+
+		TransformLocalEulerTweener t = (TransformLocalEulerTweener)pitchTransform.RotateToLocal(euler, tiltDuration, EasingEquations.EaseInOutQuad);
+
+		tiltTweener = t;
+
+		while (t != null)
+			yield return null;
+
+		isTilting = false;
 	}
 
 }
