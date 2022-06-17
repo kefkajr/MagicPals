@@ -1,38 +1,32 @@
 ﻿<Properties StartupConfiguration="{422E8762-CC4A-4CE0-0179-1FC34FF9D511}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/View Model Component/CameraRig.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Controller/Battle States/BattleState.cs">
     <Files>
+      <File FileName="Assets/Scripts/View Model Component/CameraRig.cs" Line="11" Column="45" />
       <File FileName="Assets/Scripts/Controller/Battle States/MoveSequenceState.cs" Line="23" Column="39" />
-      <File FileName="Assets/Scripts/Controller/Battle States/MoveTargetState.cs" Line="31" Column="32" />
-      <File FileName="Assets/Scripts/Controller/InputController.cs" Line="68" Column="1" />
-      <File FileName="Assets/Scripts/View Model Component/CameraRig.cs" Line="86" Column="81" />
-      <File FileName="Assets/Scripts/View Model Component/Movement/Movement.cs" Line="57" Column="93" />
-      <File FileName="Assets/Scripts/Extensions/DirectionsExtensions.cs" Line="17" Column="24" />
-      <File FileName="Assets/Scripts/Common/Animation/TransformAnimationExtensions.cs" Line="49" Column="24" />
+      <File FileName="Assets/Scripts/Controller/Battle States/MoveTargetState.cs" />
+      <File FileName="Assets/Scripts/Controller/InputController.cs" Line="44" Column="66" />
+      <File FileName="Assets/Scripts/View Model Component/Movement/Movement.cs" />
+      <File FileName="Assets/Scripts/Extensions/DirectionsExtensions.cs" Line="22" Column="27" />
+      <File FileName="Assets/Scripts/Controller/Battle States/AbilityTargetState.cs" Line="30" Column="26" />
+      <File FileName="Assets/Scripts/Controller/Battle States/ActionSelectionState.cs" Line="68" Column="26" />
+      <File FileName="Assets/Scripts/Controller/Battle States/ConfirmAbilityTargetState.cs" Line="38" Column="26" />
+      <File FileName="Assets/Scripts/Controller/Battle States/EndFacingState.cs" Line="27" Column="28" />
+      <File FileName="Assets/Scripts/Controller/Battle States/ExploreState.cs" Line="4" Column="32" />
+      <File FileName="Assets/Scripts/Controller/Battle States/ItemPickUpState.cs" Line="5" Column="47" />
+      <File FileName="Assets/Scripts/Controller/Battle States/BaseAbilityMenuState.cs" Line="5" Column="48" />
+      <File FileName="Assets/Scripts/Controller/Battle States/BattleState.cs" Line="129" Column="42" />
     </Files>
-    <Pads>
-      <Pad Id="ProjectPad">
-        <State name="__root__">
-          <Node name="MagicPals" expanded="True" selected="True" />
-        </State>
-      </Pad>
-      <Pad Id="MonoDevelop.Debugger.WatchPad">
-        <State />
-      </Pad>
-    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="0446a4c8-7a80-4122-b984-00655c7670c5" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="9b1cb5eb-4742-456e-9cfc-24a5e1566326" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/Common/Animation/EasingControl.cs" relfile="Assets/Scripts/Common/Animation/EasingControl.cs" line="110" column="1" />
       <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/Common/Animation/EasingControl.cs" relfile="Assets/Scripts/Common/Animation/EasingControl.cs" line="123" column="1" />
       <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/Common/Animation/EasingControl.cs" relfile="Assets/Scripts/Common/Animation/EasingControl.cs" line="118" column="1" />
-      <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/View Model Component/CameraRig.cs" relfile="Assets/Scripts/View Model Component/CameraRig.cs" line="74" column="1" />
-      <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/View Model Component/CameraRig.cs" relfile="Assets/Scripts/View Model Component/CameraRig.cs" line="89" column="1" />
-      <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/View Model Component/CameraRig.cs" relfile="Assets/Scripts/View Model Component/CameraRig.cs" line="91" column="1" />
-      <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/View Model Component/CameraRig.cs" relfile="Assets/Scripts/View Model Component/CameraRig.cs" line="86" column="1" />
-      <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/View Model Component/CameraRig.cs" relfile="Assets/Scripts/View Model Component/CameraRig.cs" line="88" column="1" />
+      <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/Controller/Battle States/ConfirmAbilityTargetState.cs" relfile="Assets/Scripts/Controller/Battle States/ConfirmAbilityTargetState.cs" line="40" column="1" />
+      <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/Controller/Battle States/EndFacingState.cs" relfile="Assets/Scripts/Controller/Battle States/EndFacingState.cs" line="27" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MultiItemStartupConfigurations />

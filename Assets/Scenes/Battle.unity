@@ -167,6 +167,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 3
   follow: {fileID: 697354563}
+  rotateSpeed: 3
 --- !u!1001 &275820491
 PrefabInstance:
   m_ObjectHideFlags: 0
