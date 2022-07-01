@@ -34,6 +34,10 @@ public static class UnitFactory
 		AddAlliance(unitObject, recipe.alliance);
 		AddAttackPattern(unitObject, recipe.strategy);
 		AddInventory(unitObject);
+
+		string awarenessRecipeName = recipe.awarenessRecipe.name;
+		AwarenessRecipe awarenessRecipe = Resources.Load<AwarenessRecipe>("Awareness Recipes/" + recipe.awarenessRecipe.name);
+		AddAwareness(unitObject, awarenessRecipe);
 		return unitObject;
 	}
 	#endregion
@@ -177,6 +181,14 @@ public static class UnitFactory
 			GameObject instance = InstantiatePrefab("Attack Pattern/" + name);
 			instance.transform.SetParent(obj.transform);
 		}
+	}
+
+	static void AddAwareness(GameObject obj, AwarenessRecipe awarenessRecipe)
+	{
+		Stealth stealth = obj.AddComponent<Stealth>();
+		Perception perception = obj.AddComponent<Perception>();
+		perception.viewingRange = awarenessRecipe.viewingRange;
+		perception.hearingRange = awarenessRecipe.hearingRange;
 	}
 	#endregion
 }

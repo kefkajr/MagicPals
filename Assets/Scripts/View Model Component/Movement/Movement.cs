@@ -36,7 +36,7 @@ public abstract class Movement : MonoBehaviour
 		return retValue;
 	}
 
-	public abstract IEnumerator Traverse (Tile tile, Action<Tile> TrapHandler);
+	public abstract IEnumerator Traverse (Board board, Tile tile, Action<Tile> TrapHandler, Action<List<Stealth>> AwarenessHandler);
 	#endregion
 
 	#region Protected

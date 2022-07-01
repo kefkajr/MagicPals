@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 
 public class TeleportMovement : Movement 
 {
-	public override IEnumerator Traverse(Tile tile, Action<Tile> TrapHandler)
+	public override IEnumerator Traverse(Board board, Tile tile, Action<Tile> TrapHandler, Action<List<Stealth>> AwarenessHandler)
 	{
 		unit.Place(tile);
 

@@ -11,4 +11,5 @@ public class UnitRecipe : ScriptableObject
 	public string strategy;
 	public Locomotions locomotion;
 	public Alliances alliance;
+	public AwarenessRecipe awarenessRecipe;
 }

@@ -24,4 +24,5 @@ public class Unit : MonoBehaviour
 		transform.localPosition = tile.center;
 		transform.localEulerAngles = dir.ToEuler();
 	}
+
 }

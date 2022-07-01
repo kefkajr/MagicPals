@@ -20,7 +20,8 @@ public class MoveSequenceState : BattleState
 		}
 
 		Movement m = turn.actor.GetComponent<Movement>();
-		yield return StartCoroutine(m.Traverse(owner.currentTile, DidFindTrap));
+		yield return StartCoroutine(m.Traverse(board: board, tile: owner.currentTile, TrapHandler: DidFindTrap, AwarenessHandler: DidPerceiveNewStealths));
+
 		turn.hasUnitMoved = true;
 
 		Time.timeScale = 1f;
@@ -53,6 +54,14 @@ public class MoveSequenceState : BattleState
 
 		// Perform trap ability
 		owner.ChangeState<PerformAbilityState>();
+	}
+
+	void DidPerceiveNewStealths(List<Stealth> newlyPerceivedStealths)
+    {
+		foreach (Stealth stealth in newlyPerceivedStealths)
+        {
+			Debug.Log(turn.actor.name + " spotted " + stealth.unit.name);
+		}
 	}
 
 	protected override void OnFire(object sender, InfoEventArgs<int> e)
