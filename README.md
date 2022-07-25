@@ -1,6 +1,22 @@
 # MagicPals
 This is where change summaries, work intentions, and related planning will be written.
 
+#### 7/25
+![Field of vision](https://raw.githubusercontent.com/kefkajr/MagicPals/develop/Progress%20Pics/Screen%20Recording%202022-07-25%20at%204.46.19%20PM.gif)
+
+A unit's perception can now be manifested as a visibile scope! Several "sightlines" are drawn from the unit to the distance, overlapped to create a familiar cone. If any line hits a wall, it stops and nothing beyond that point is seen (unless it overlaps with another sightline).
+
+The movement sequence state reacts by simply printing "PERCEIVER NAME spotted PERCEIVED NAME."
+
+Here are possible directions to go next,
+
+- Create an Awareness class that includes a Stealth and an Awareness type enum (MayHaveSeen, MayHaveHeard, Seen, JustSaw). These might get converted to separated Awareness states later, with Enter and Exit phases
+- Change Perception.perceivedStealths to Perception.awarenesses.
+- Start making use of Perception.awarenesses so individual units can track each other. 
+- Introduce an enemy AI and see how it works with the latest changes (walls, ranges, traps, picking up items).
+  - Try to limit AI targets only to those whose Stealths they are aware of.
+- Introduce a noise radius property to Ability. One the action state, check for units in that radius and alert them.
+
 #### 6/17
 ![Fast walk sequence](https://raw.githubusercontent.com/kefkajr/MagicPals/develop/Progress%20Pics/Screen%20Recording%202022-06-17%20at%205.40.17%20PM.gif)
 

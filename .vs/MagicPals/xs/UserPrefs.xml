@@ -1,13 +1,14 @@
 ﻿<Properties StartupConfiguration="{422E8762-CC4A-4CE0-0179-1FC34FF9D511}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/View Model Component/AI/ComputerPlayer.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/View Model Component/Awareness/Stealth.cs">
     <Files>
       <File FileName="Assets/Scripts/Factory/AwarenessRecipe.cs" Line="9" Column="50" />
       <File FileName="Assets/Scripts/Controller/Battle States/MoveSequenceState.cs" Line="63" Column="1" />
       <File FileName="Assets/Scripts/View Model Component/Movement/Movement.cs" Line="34" Column="33" />
       <File FileName="Assets/Scripts/View Model Component/Tile.cs" Line="59" Column="1" />
-      <File FileName="Assets/Scripts/View Model Component/Awareness/Perception.cs" Line="92" Column="119" />
+      <File FileName="Assets/Scripts/View Model Component/Awareness/Perception.cs" Line="10" Column="19" />
       <File FileName="Assets/Scripts/Extensions/DirectionsExtensions.cs" Line="8" Column="1" />
       <File FileName="Assets/Scripts/View Model Component/AI/ComputerPlayer.cs" Line="231" Column="40" />
+      <File FileName="Assets/Scripts/View Model Component/Awareness/Stealth.cs" Line="4" Column="14" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
