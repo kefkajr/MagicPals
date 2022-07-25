@@ -42,90 +42,84 @@ public class Perception : MonoBehaviour
 	{
 		List<Tile> validatedTiles = new List<Tile>();
 
-		bool ValidateTile(Tile currentTile, Tile nextTile)
-		{
-			if (currentTile == null || nextTile == null)
-				return false;
+		bool IsValidTile(Tile fromTile, Tile toTile)
+        {
+            if (fromTile == null || toTile == null)
+                return false;
 
-			if (!validatedTiles.Contains(currentTile) && currentTile != unit.tile)
-				return false;
+            if (!validatedTiles.Contains(fromTile) && fromTile != unit.tile)
+                return false;
 
-			if (Tile.DoesWallSeparateTiles(currentTile, nextTile))
-				return false;
+            if (Tile.DoesWallSeparateTiles(fromTile, toTile))
+                return false;
 
-			return Mathf.Abs(nextTile.height - unit.tile.height) <= viewingRange.y;
-		}
+			// This is a separate wall check necessary for tile diagonal to each other
+			bool doTilesShareAnAxis = fromTile.pos.x == toTile.pos.x || fromTile.pos.y == toTile.pos.y;
 
-		Point pos = unit.tile.pos;
+			if (!doTilesShareAnAxis)
+			{
+				if (fromTile.walls.ContainsKey(unit.dir) || toTile.walls.ContainsKey(unit.dir.GetOpposite()))
+					return false;
+
+				Point adjacentPointTowardUnit = toTile.pos + unit.dir.GetOpposite().GetNormal();
+				Tile adjacentTileTowardUnit = board.GetTile(adjacentPointTowardUnit);
+				if (adjacentTileTowardUnit != null)
+				{
+					Directions directionTowardFromTile = adjacentTileTowardUnit.GetDirection(fromTile);
+					if (adjacentTileTowardUnit.walls.ContainsKey(unit.dir) ||
+						adjacentTileTowardUnit.walls.ContainsKey(directionTowardFromTile) ||
+						fromTile.walls.ContainsKey(directionTowardFromTile.GetOpposite()))
+						return false;
+				}
+			}
+
+			return Mathf.Abs(toTile.height - unit.tile.height) <= viewingRange.y;
+        }
+
 		int dir = (unit.dir == Directions.North || unit.dir == Directions.East) ? 1 : -1;
-		Tile fromTile = unit.tile;
 
-		Tile NewTile(int medial, int lateral, bool isAdditive)
-		{
-			Point point;
+		// Draw a line from the unit to each of the furthest tiles from their viewing range
+		for (int sightline = (int)-viewingRange.x; sightline < viewingRange.x; sightline ++)
+        {	
+
+			Point pos = unit.tile.pos;
+			Point end;
 			if (unit.dir == Directions.North || unit.dir == Directions.South)
-			{
-				if (isAdditive)
-					point = new Point(pos.x + lateral, pos.y + (medial * dir));
-				else
-					point = new Point(pos.x - lateral, pos.y + (medial * dir));
-			}
+                end = pos + new Point(sightline, (int)viewingRange.x * dir);
 			else
+				end = pos + new Point((int)viewingRange.x * dir, sightline);
+
+			// A line algorithm borrowed from Rosetta Code http://rosettacode.org/wiki/Bitmap/Bresenham%27s_line_algorithm#C.23
+			int dx = Mathf.Abs(end.x - pos.x);
+			int sx = pos.x < end.x ? 1 : -1;
+			int dy = Mathf.Abs(end.y - pos.y);
+			int sy = pos.y < end.y ? 1 : -1;
+			int err = (dx > dy ? dx : -dy) / 2;
+			int e2;
+			Tile fromTile = null;
+			for (; ; )
 			{
-				if (isAdditive)
-					point = new Point(pos.x + (medial * dir), pos.y + lateral);
-				else
-					point = new Point(pos.x + (medial * dir), pos.y - lateral);
+				Tile tile = board.GetTile(pos);
+				if (tile != null)
+                {
+					if (fromTile != null) {
+						if (IsValidTile(fromTile, tile)) {
+							tile.isBeingPerceived = true;
+							tile.gizmoAlpha = 1;
+							validatedTiles.Add(tile);
+						} else
+                        {
+							break;
+                        }
+					}
+					fromTile = tile;
+                }
+                if (pos.x == end.x && pos.y == end.y) break;
+				e2 = err;
+				if (e2 > -dx) { err -= dy; pos.x += sx; }
+				if (e2 < dy) { err += dx; pos.y += sy; }
 			}
-			return board.GetTile(point);
-		}
 
-		int wing1 = 0;
-		int wing2 = 0;
-		for (int medial = 0; medial <= viewingRange.x; ++medial)
-		{
-			Point primary;
-			if (unit.dir == Directions.North || unit.dir == Directions.South)
-				primary = new Point(pos.x, pos.y + (medial * dir));
-			else
-				primary = new Point(pos.x + (medial * dir), pos.y);
-			Tile primaryTile = board.GetTile(primary);
-			if (ValidateTile(fromTile, primaryTile) && medial > 0)
-			{
-				validatedTiles.Add(primaryTile);
-				primaryTile.isBeingPerceived = true;
-			}
-			fromTile = primaryTile;
-
-			// Go one way from the center
-			for (int lateral = 1; lateral <= wing1; ++lateral)
-			{
-				Tile nextTile = NewTile(medial, lateral, true);
-				if (ValidateTile(fromTile, nextTile))
-				{
-					validatedTiles.Add(nextTile);
-					nextTile.isBeingPerceived = true;
-				}
-
-				fromTile = nextTile;
-			}
-			++wing1;
-			fromTile = primaryTile;
-
-			// Then the other way
-			for (int lateral = 1; lateral <= wing2; ++lateral)
-			{
-				Tile nextTile = NewTile(medial, lateral, false);
-				if (ValidateTile(fromTile, nextTile))
-				{
-					validatedTiles.Add(nextTile);
-					nextTile.isBeingPerceived = true;
-				}
-
-				fromTile = nextTile;
-			}
-			++wing2;
-			fromTile = primaryTile;
 		}
 
 		return validatedTiles;

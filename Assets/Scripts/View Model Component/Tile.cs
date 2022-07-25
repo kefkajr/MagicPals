@@ -66,15 +66,20 @@ public class Tile : MonoBehaviour
 	#endregion
 
 	public bool isBeingPerceived;
+	public float gizmoAlpha;
 	
 	void OnDrawGizmos()
 	{
 		GUI.color = Color.black;
 		UnityEditor.Handles.Label(transform.position, string.Format("{0}, {1}", pos.x, pos.y));
+
 		if (isBeingPerceived) 
 		{
-			Gizmos.color = Color.red;
+			Color color = Color.red;
+			color.a = gizmoAlpha;
+			Gizmos.color = color;
 			Gizmos.DrawSphere(center, 0.2f);
+			gizmoAlpha -= 0.01f;
 		}
 	}
 }

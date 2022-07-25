@@ -46,7 +46,7 @@ public class ConeAbilityRange : AbilityRange
 			else
 				primary = new Point(pos.x + (medial * dir), pos.y);
 			Tile primaryTile = board.GetTile(primary);
-			if (ValidateTile(board, fromTile, primaryTile))
+			if (ValidateTile(fromTile, primaryTile))
 				validatedTiles.Add(primaryTile);
 			fromTile = primaryTile;
 
@@ -54,7 +54,7 @@ public class ConeAbilityRange : AbilityRange
 			for (int lateral = 1; lateral <= wing1; ++lateral)
 			{
 				Tile nextTile = NewTile(medial, lateral, true);
-				if (ValidateTile(board, fromTile, nextTile))
+				if (ValidateTile(fromTile, nextTile))
 					validatedTiles.Add(nextTile);
 				else
 					--wing1; // Decrease range of wing
@@ -68,7 +68,7 @@ public class ConeAbilityRange : AbilityRange
 			for (int lateral = 1; lateral <= wing2; ++lateral)
 			{
 				Tile nextTile = NewTile(medial, lateral, false);
-				if (ValidateTile(board, fromTile, nextTile))
+				if (ValidateTile(fromTile, nextTile))
 					validatedTiles.Add(nextTile);
 				else
 					--wing2; // Decrease range of wing
@@ -82,7 +82,7 @@ public class ConeAbilityRange : AbilityRange
 		return validatedTiles;
 	}
 	
-	bool ValidateTile (Board board, Tile fromTile, Tile toTile)
+	bool ValidateTile (Tile fromTile, Tile toTile)
 	{
 		if (fromTile == null || toTile == null)
 			return false;

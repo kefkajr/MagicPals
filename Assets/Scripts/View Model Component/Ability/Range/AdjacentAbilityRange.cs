@@ -4,7 +4,6 @@ using System.Collections.Generic;
 
 public class AdjacentAbilityRange : AbilityRange
 {
-
     public override List<Tile> GetTilesInRange(Board board)
     {
         List<Tile> tileList = board.Search(unit.tile, ExpandSearch);
