@@ -2,8 +2,8 @@
 This is where change summaries, work intentions, and related planning will be written.
 
 #### 7/29
-![Different types of awareness](https://raw.githubusercontent.com/kefkajr/MagicPals/develop/Progress%20Pics/2022.07.29_awareness-types.png)
-Red indicates a target is seen. Yellow indicates the target is at the edge of the visible range, and should be investigated. Blue indicates that the target has not been visible for a while and may be lost if not pursued.
+<img src="https://raw.githubusercontent.com/kefkajr/MagicPals/develop/Progress%20Pics/2022.07.29_awareness-types.png" width=500>
+*Red indicates a target is seen. Yellow indicates the target is at the edge of the visible range, and should be investigated. Blue indicates that the target has not been visible for a while and may be lost if not pursued.*
 
 Perception now contains a set of Awareness objects. An Awareness contains the perceived unit's Stealth, an AwarenessType (which currently includes LostTrack, MayHaveHeard, MayHaveSeen, and Seen) and a "level" that starts at some number - let's say 5.
 
