@@ -1,14 +1,11 @@
 ﻿<Properties StartupConfiguration="{422E8762-CC4A-4CE0-0179-1FC34FF9D511}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/View Model Component/Awareness/Stealth.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/View Model Component/Awareness/Perception.cs">
     <Files>
-      <File FileName="Assets/Scripts/Factory/AwarenessRecipe.cs" Line="9" Column="50" />
-      <File FileName="Assets/Scripts/Controller/Battle States/MoveSequenceState.cs" Line="63" Column="1" />
-      <File FileName="Assets/Scripts/View Model Component/Movement/Movement.cs" Line="34" Column="33" />
-      <File FileName="Assets/Scripts/View Model Component/Tile.cs" Line="59" Column="1" />
-      <File FileName="Assets/Scripts/View Model Component/Awareness/Perception.cs" Line="10" Column="19" />
-      <File FileName="Assets/Scripts/Extensions/DirectionsExtensions.cs" Line="8" Column="1" />
-      <File FileName="Assets/Scripts/View Model Component/AI/ComputerPlayer.cs" Line="231" Column="40" />
-      <File FileName="Assets/Scripts/View Model Component/Awareness/Stealth.cs" Line="4" Column="14" />
+      <File FileName="Assets/Scripts/Controller/Battle States/MoveSequenceState.cs" Line="61" Column="50" />
+      <File FileName="Assets/Scripts/View Model Component/Awareness/Perception.cs" Line="173" Column="1" />
+      <File FileName="Assets/Scripts/View Model Component/Awareness/Awareness.cs" Line="71" Column="1" />
+      <File FileName="Assets/Scripts/Controller/TurnOrderController.cs" Line="57" Column="1" />
+      <File FileName="Assets/Scripts/View Model Component/Tile.cs" Line="68" Column="2" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -21,9 +18,11 @@
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches>
+    <Watch file="../../../Assets/Scripts/View Model Component/Awareness/Perception.cs" line="16" column="18" endLine="16" endColumn="56" offsetX="-1" offsetY="-1" expression="newAwarenesses" liveUpdate="False" />
+  </MonoDevelop.Ide.DebuggingService.PinnedWatches>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="f2f52271-41c4-4099-9e25-c63b3070b4ad" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="6df28305-eca1-41ff-b193-cb43bc11995a" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/Common/Animation/EasingControl.cs" relfile="Assets/Scripts/Common/Animation/EasingControl.cs" line="110" column="1" />
@@ -38,8 +37,10 @@
       <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/Controller/Battle States/ConfirmAbilityTargetState.cs" relfile="Assets/Scripts/Controller/Battle States/ConfirmAbilityTargetState.cs" line="18" column="1" />
       <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/Controller/Battle States/ConfirmAbilityTargetState.cs" relfile="Assets/Scripts/Controller/Battle States/ConfirmAbilityTargetState.cs" line="23" column="1" />
       <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/Controller/Battle States/ConfirmAbilityTargetState.cs" relfile="Assets/Scripts/Controller/Battle States/ConfirmAbilityTargetState.cs" line="22" column="1" />
-      <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/View Model Component/Awareness/Perception.cs" relfile="Assets/Scripts/View Model Component/Awareness/Perception.cs" line="106" column="1" />
-      <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/View Model Component/Awareness/Perception.cs" relfile="Assets/Scripts/View Model Component/Awareness/Perception.cs" line="112" column="1" />
+      <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/View Model Component/Awareness/Perception.cs" relfile="Assets/Scripts/View Model Component/Awareness/Perception.cs" line="194" column="1" />
+      <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/View Model Component/Awareness/Perception.cs" relfile="Assets/Scripts/View Model Component/Awareness/Perception.cs" line="39" column="1" />
+      <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/View Model Component/Awareness/Perception.cs" relfile="Assets/Scripts/View Model Component/Awareness/Perception.cs" line="46" column="1" />
+      <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/View Model Component/Awareness/Perception.cs" relfile="Assets/Scripts/View Model Component/Awareness/Perception.cs" line="45" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MultiItemStartupConfigurations />

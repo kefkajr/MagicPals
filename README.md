@@ -1,6 +1,25 @@
 # MagicPals
 This is where change summaries, work intentions, and related planning will be written.
 
+#### 7/29
+![Different types of awareness](https://raw.githubusercontent.com/kefkajr/MagicPals/develop/Progress%20Pics/2022.07.29_awareness-types.png)
+Red indicates a target is seen. Yellow indicates the target is at the edge of the visible range, and should be investigated. Blue indicates that the target has not been visible for a while and may be lost if not pursued.
+
+Perception now contains a set of Awareness objects. An Awareness contains the perceived unit's Stealth, an AwarenessType (which currently includes LostTrack, MayHaveHeard, MayHaveSeen, and Seen) and a "level" that starts at some number - let's say 5.
+
+When one unit sees another, a new Awareness is created, either Seen if the target is firmly in the perceiver's scope or MayHaveSeen if the target lies at the edge of the scope (this "edge" will be tweaked with testing).
+
+When a unit turn ends, each Awareness level decays. If the AwarenessType is Seen and and its level decays to 0, the AwarenessType changes to LostTrack. This is to simulate the idea that the perceiving unit knows the perceived unit is somewhere, but does not know where.
+
+If the level decays to 0 while the AwarenessType is LostTrack (or the "unconfirmed" states of MayHaveHeard or MayHaveSeen), the Awareness is removed from the Perception and the perceived is considered to no longer have knowledge of its target.
+
+Currently, Awareness objects are only updated when a unit moves. Next, we should find away to make unit perception constant. It will be hard to tell the best way to do this, but it may be that any time a unit moves, every single unit should run a percpetion check. We can worry about efficiency later.
+
+After that,
+- Introduce a noise radius property to Ability. One the action state, check for units in that radius and alert them.
+- Introduce an enemy AI and see how it works with the latest changes (walls, ranges, traps, picking up items).
+  - Try to limit AI targets only to those whose Stealths they are aware of.
+
 #### 7/25
 ![Field of vision](https://raw.githubusercontent.com/kefkajr/MagicPals/develop/Progress%20Pics/Screen%20Recording%202022-07-25%20at%204.46.19%20PM.gif)
 

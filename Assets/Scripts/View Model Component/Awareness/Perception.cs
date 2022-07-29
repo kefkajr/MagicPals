@@ -2,52 +2,67 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 public class Perception : MonoBehaviour
 {
 	public Vector2 viewingRange = Vector2.zero; // cone, length and diameter
 	public float hearingRange = 0f; // radius of a circle
-	public List<Stealth> perceivedStealths = new List<Stealth>(); // stealth objects whose locations are being tracked
+	public HashSet<Awareness> awarenesses = new HashSet<Awareness>(); // list of awarenesses, known stealths and their types
 
 	public Unit unit { get { return GetComponentInParent<Unit>(); } }
 
-	public List<Stealth> Perceive(Tile tile, Board board)
+	public List<Awareness> Perceive(Board board)
 	{
-		List<Tile> tilesInRange = GetTilesInRange(board);
-		List<GameObject> tileOccupants = tilesInRange.Select(t => t.occupant).Where(o => o != null).ToList();
-		List <Unit> unitsInRange = tileOccupants.Select(o => o.GetComponent<Unit>()).Where(u => u != null).ToList();
-		List<Stealth> stealthsInRange = unitsInRange.Select(unit => unit.GetComponent<Stealth>()).ToList();
-		List<Stealth> newlyPerceivedStealths = new List<Stealth>();
-		foreach (Stealth stealth in stealthsInRange)
+		List<Awareness> newAwarenesses = new List<Awareness>();
+		HashSet<TileAwarenessTypePair> tilesInRange = GetTilesInRange(board);
+		List<AwarenessType> visibleAwarenessTypes = new List<AwarenessType> { AwarenessType.MayHaveSeen, AwarenessType.Seen };
+
+		foreach (AwarenessType type in visibleAwarenessTypes)
         {
-			if (!stealth.isInvisible)
+			List<Tile> tilesByType = tilesInRange.Where(t => t.awarenessType == type).Select(t => t.tile).ToList();
+			List<GameObject> tileOccupants = tilesByType.Select(t => t.occupant).Where(o => o != null).ToList();
+			List<Unit> unitsInRange = tileOccupants.Select(o => o.GetComponent<Unit>()).Where(u => u != null).ToList();
+			List<Stealth> stealthsInRange = unitsInRange.Select(unit => unit.GetComponent<Stealth>()).ToList();
+			foreach (Stealth stealth in stealthsInRange)
 			{
-				newlyPerceivedStealths.Add(stealth);
+				// If the unit is not invisible
+				if (!stealth.isInvisible)
+				{
+					// Construct an awareness based on the visible awareness type
+					Awareness potentialNewAwareness = new Awareness(this, stealth, type);
+					if (!awarenesses.Contains(potentialNewAwareness))
+                    {
+						// Add the brand new awareness both to the NEW awarenesses to be reported
+                        // AND to the awarenesses that should be tracked by this perception
+						newAwarenesses.Add(potentialNewAwareness);
+						awarenesses.Add(potentialNewAwareness);
+					} else
+                    {
+						// If there is an update to an awareness based on a change in the visible range,
+						// add it to the new awarenesses to be reported
+						Awareness knownAwareness = awarenesses.Where(a => a.stealth == stealth).First();
+						if (knownAwareness.Update(type))
+							newAwarenesses.Add(potentialNewAwareness);
+					}
+				}
 			}
-        }
-		newlyPerceivedStealths = newlyPerceivedStealths.Except(perceivedStealths).ToList();
+		}		
 
-		// Add newly perceived stealth components to the full list of perceived stealth components
-		foreach (Stealth stealth in newlyPerceivedStealths)
-        {
-			perceivedStealths.Add(stealth);
-        }
-
-		return newlyPerceivedStealths;
+		return newAwarenesses;
 	}
 
-	// Logic borrowed from the Cone ability range
-	// Pivotal difference: The cone starts on the unit's tile, not on the tile in front of the unit
-	public List<Tile> GetTilesInRange(Board board)
+	public HashSet<TileAwarenessTypePair> GetTilesInRange(Board board)
 	{
-		List<Tile> validatedTiles = new List<Tile>();
+		HashSet<TileAwarenessTypePair> validatedTiles = new HashSet<TileAwarenessTypePair>();
 
 		bool IsValidTile(Tile fromTile, Tile toTile)
         {
             if (fromTile == null || toTile == null)
                 return false;
 
-            if (!validatedTiles.Contains(fromTile) && fromTile != unit.tile)
+			List<Tile> knownTiles = validatedTiles.Select(t => t.tile).ToList();
+			if (!knownTiles.Contains(fromTile) && fromTile != unit.tile)
                 return false;
 
             if (Tile.DoesWallSeparateTiles(fromTile, toTile))
@@ -106,7 +121,11 @@ public class Perception : MonoBehaviour
 						if (IsValidTile(fromTile, tile)) {
 							tile.isBeingPerceived = true;
 							tile.gizmoAlpha = 1;
-							validatedTiles.Add(tile);
+							bool isTileAtEdgeOfVisibleRange = sightline == (int)-viewingRange.x ||
+								sightline == (int)viewingRange.x ||
+								pos == end;
+							tile.gizmoColor = isTileAtEdgeOfVisibleRange ? Color.yellow : Color.red;
+							validatedTiles.Add(new TileAwarenessTypePair(tile, isTileAtEdgeOfVisibleRange ? AwarenessType.MayHaveSeen : AwarenessType.Seen));
 						} else
                         {
 							break;
@@ -114,7 +133,7 @@ public class Perception : MonoBehaviour
 					}
 					fromTile = tile;
                 }
-                if (pos.x == end.x && pos.y == end.y) break;
+                if (pos == end) break;
 				e2 = err;
 				if (e2 > -dx) { err -= dy; pos.x += sx; }
 				if (e2 < dy) { err += dx; pos.y += sy; }
@@ -123,5 +142,84 @@ public class Perception : MonoBehaviour
 		}
 
 		return validatedTiles;
+	}
+
+	void OnEnable()
+	{
+		this.AddObserver(AwarenessLevelDecay, TurnOrderController.TurnCompletedNotification);
+	}
+
+	void OnDisable()
+	{
+		this.RemoveObserver(AwarenessLevelDecay, TurnOrderController.TurnCompletedNotification);
+	}
+
+	void AwarenessLevelDecay(object sender, object args)
+	{
+		HashSet<Awareness> expiredAwarenesses = new HashSet<Awareness>();
+		foreach (Awareness awareness in awarenesses)
+        {
+			awareness.Decay();
+			if (awareness.isExpired)
+			{
+				expiredAwarenesses.Add(awareness);
+				Debug.Log(string.Format("{0} does not know where {1} is", unit.name, awareness.stealth.unit.name));
+				awareness.perception = null; // Don't know if this is necessary, but it seems safe.
+			}
+        }
+		awarenesses.ExceptWith(expiredAwarenesses);
+	}
+
+	void OnDrawGizmos()
+	{
+		foreach (Awareness awareness in awarenesses)
+		{
+			Color color = awareness.type.GizmoColor();
+			color.a = 0.5f;
+			Gizmos.color = color;
+			Vector3 perceiverPosition = GameObject.Find(string.Format("Units/{0}/Jumper/Sphere/Sphere", unit.name)).transform.position + Vector3.up * 0.5f;
+			Vector3 perceivedPosition = GameObject.Find(string.Format("Units/{0}/Jumper/Sphere/Sphere 1", awareness.stealth.unit.name)).transform.position + Vector3.up * 0.5f;
+			for(float i = 0.1f; i < 1f; i += 0.1f)
+            {
+				Gizmos.DrawCube(Vector3.Lerp(perceiverPosition, perceivedPosition, i), new Vector3(0.1f, 0.1f, 0.1f));
+			}
+		}
+	}
+}
+
+public struct TileAwarenessTypePair : IEquatable<TileAwarenessTypePair>
+{
+	public Tile tile;
+	public AwarenessType awarenessType;
+
+	public TileAwarenessTypePair(Tile tile, AwarenessType awarenessType)
+    {
+		this.tile = tile;
+		this.awarenessType = awarenessType;
+    }
+
+	public override bool Equals(object obj)
+	{
+		if (obj is TileAwarenessTypePair)
+		{
+			TileAwarenessTypePair t = (TileAwarenessTypePair)obj;
+			return Equals(t);
+		}
+		return false;
+	}
+
+	public bool Equals(TileAwarenessTypePair t)
+	{
+		return tile == t.tile;
+	}
+
+	public override int GetHashCode()
+	{
+		return tile.pos.x ^ tile.pos.y;
+	}
+
+	public override string ToString()
+	{
+		return string.Format("({0},{1}): {2}", tile.pos.x, tile.pos.y, awarenessType.ToString());
 	}
 }

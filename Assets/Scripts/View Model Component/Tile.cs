@@ -67,7 +67,8 @@ public class Tile : MonoBehaviour
 
 	public bool isBeingPerceived;
 	public float gizmoAlpha;
-	
+	public Color gizmoColor = Color.red;
+
 	void OnDrawGizmos()
 	{
 		GUI.color = Color.black;
@@ -75,7 +76,7 @@ public class Tile : MonoBehaviour
 
 		if (isBeingPerceived) 
 		{
-			Color color = Color.red;
+			Color color = gizmoColor;
 			color.a = gizmoAlpha;
 			Gizmos.color = color;
 			Gizmos.DrawSphere(center, 0.2f);

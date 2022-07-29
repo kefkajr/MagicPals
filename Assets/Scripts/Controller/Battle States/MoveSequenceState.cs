@@ -56,11 +56,11 @@ public class MoveSequenceState : BattleState
 		owner.ChangeState<PerformAbilityState>();
 	}
 
-	void DidPerceiveNewStealths(List<Stealth> newlyPerceivedStealths)
-    {
-		foreach (Stealth stealth in newlyPerceivedStealths)
-        {
-			Debug.Log(turn.actor.name + " spotted " + stealth.unit.name);
+	void DidPerceiveNewStealths(List<Awareness> newAwarenesses)
+	{
+		foreach (Awareness awareness in newAwarenesses)
+		{
+			Debug.Log(awareness.ToString());
 		}
 	}
 
