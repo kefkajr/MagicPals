@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class EndFacingState : BattleState 
 {
@@ -27,6 +28,10 @@ public class EndFacingState : BattleState
 		turn.actor.dir = d.pointTranslatedByCameraDirection.GetDirection();
 		turn.actor.Match();
 		owner.facingIndicator.SetDirection(turn.actor.dir);
+
+		// Allow the unit to perceive in whatever direction they turn
+		Perception perception = turn.actor.GetComponent<Perception>();
+		perception.Perceive(board: board);
 	}
 	
 	protected override void OnFire (object sender, InfoEventArgs<int> e)

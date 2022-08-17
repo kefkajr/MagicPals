@@ -19,6 +19,10 @@ public class CommandSelectionState : BaseAbilityMenuState
 		statPanelController.ShowPrimary(turn.actor.gameObject);
 		if (driver.Current == Drivers.Computer)
 			StartCoroutine( ComputerTurn() );
+
+		// Allow the unit to perceive in whatever direction they start facing
+		Perception perception = turn.actor.GetComponent<Perception>();
+		perception.Perceive(board: board);
 	}
 
 	public override void Exit ()

@@ -43,7 +43,10 @@ public class Perception : MonoBehaviour
 						// add it to the new awarenesses to be reported
 						Awareness knownAwareness = awarenesses.Where(a => a.stealth == stealth).First();
 						if (knownAwareness.Update(type))
+						{
 							newAwarenesses.Add(potentialNewAwareness);
+							Debug.Log(potentialNewAwareness.ToString());
+						}
 					}
 				}
 			}

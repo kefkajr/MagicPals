@@ -23,7 +23,7 @@ public class WalkMovement : Movement
 		return base.ExpandSearch(from, to);
 	}
 	
-	public override IEnumerator Traverse (Board board, Tile tile, Action<Tile> TrapHandler, Action<List<Awareness>> AwarenessHandler)
+	public override IEnumerator Traverse (Board board, Tile tile, Action<Tile> TrapHandler, Func<bool, bool> AwarenessHandler)
 	{
 		// Build a list of way points from the unit's 
 		// starting tile to the destination tile
@@ -45,11 +45,10 @@ public class WalkMovement : Movement
 				yield return StartCoroutine(Turn(dir));
 
 			// Perceive after turn
-			Perception perception = unit.GetComponent<Perception>();
-			List<Awareness> newAwarenesses = perception.Perceive(board: board);
-			if (newAwarenesses.Count > 0) {
-				AwarenessHandler(newAwarenesses);
-			}
+			if (AwarenessHandler(false))
+            {
+				// TODO: Do something after an awareness was gained 
+            }
 
 			// Wal
 			if (from.height == to.height)
@@ -60,10 +59,10 @@ public class WalkMovement : Movement
 			unit.Place(to);
 
 			// Perceive after move
-			newAwarenesses = perception.Perceive(board: board);
-			if (newAwarenesses.Count > 0) {
-				AwarenessHandler(newAwarenesses);
-			}
+			if (AwarenessHandler(true))
+            {
+				// TODO: Do something after an awareness was gained 
+            }
 
 			if(to.trap != null)
             {

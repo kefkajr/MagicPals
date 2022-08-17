@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public class TeleportMovement : Movement 
 {
-	public override IEnumerator Traverse(Board board, Tile tile, Action<Tile> TrapHandler, Action<List<Awareness>> AwarenessHandler)
+	public override IEnumerator Traverse(Board board, Tile tile, Action<Tile> TrapHandler, Func<bool, bool> AwarenessHandler)
 	{
 		unit.Place(tile);
 

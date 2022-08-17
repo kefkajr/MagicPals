@@ -56,12 +56,23 @@ public class MoveSequenceState : BattleState
 		owner.ChangeState<PerformAbilityState>();
 	}
 
-	void DidPerceiveNewStealths(List<Awareness> newAwarenesses)
+	bool DidPerceiveNewStealths(bool shouldCheckAllUnits)
 	{
-		foreach (Awareness awareness in newAwarenesses)
+		List<Unit> units = shouldCheckAllUnits ? owner.units : new List<Unit>{ owner.turn.actor };
+		List<Awareness> newAwarenesses = new List<Awareness>();
+		foreach (Unit unit in units)
 		{
-			Debug.Log(awareness.ToString());
+			Perception perception = unit.GetComponent<Perception>();
+			List<Awareness> awarenesses = perception.Perceive(board: board);
+			newAwarenesses.AddRange(awarenesses);
 		}
+
+		if (newAwarenesses.Count > 0)
+		{
+			return true;
+		}
+
+		return false;
 	}
 
 	protected override void OnFire(object sender, InfoEventArgs<int> e)
