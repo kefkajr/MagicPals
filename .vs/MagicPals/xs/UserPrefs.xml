@@ -1,15 +1,17 @@
 ﻿<Properties StartupConfiguration="{422E8762-CC4A-4CE0-0179-1FC34FF9D511}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/View Model Component/Awareness/Perception.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Factory/UnitFactory.cs">
     <Files>
       <File FileName="Assets/Scripts/Controller/Battle States/MoveSequenceState.cs" Line="66" Column="68" />
       <File FileName="Assets/Scripts/View Model Component/Movement/WalkMovement.cs" />
-      <File FileName="Assets/Scripts/View Model Component/Awareness/Perception.cs" Line="18" Column="1" />
-      <File FileName="Assets/Scripts/View Model Component/Awareness/Awareness.cs" Line="80" Column="1" />
+      <File FileName="Assets/Scripts/View Model Component/Awareness/Perception.cs" Line="48" Column="1" />
+      <File FileName="Assets/Scripts/View Model Component/Awareness/Awareness.cs" Line="38" Column="1" />
       <File FileName="Assets/Scripts/Controller/TurnOrderController.cs" />
       <File FileName="Assets/Scripts/View Model Component/Tile.cs" />
-      <File FileName="Assets/Scripts/Controller/Battle States/EndFacingState.cs" />
+      <File FileName="Assets/Scripts/Controller/Battle States/EndFacingState.cs" Line="34" Column="1" />
       <File FileName="Assets/Scripts/Controller/Battle States/CommandSelectionState.cs" Line="25" Column="1" />
       <File FileName="Assets/Scripts/Controller/Battle States/BattleState.cs" Line="10" Column="1" />
+      <File FileName="Assets/Scripts/Factory/UnitFactory.cs" Line="36" Column="28" />
+      <File FileName="Assets/Scripts/Factory/AwarenessRecipe.cs" Line="11" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -49,6 +51,14 @@
       <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/View Model Component/Awareness/Awareness.cs" relfile="Assets/Scripts/View Model Component/Awareness/Awareness.cs" line="80" column="1" />
       <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/View Model Component/Awareness/Awareness.cs" relfile="Assets/Scripts/View Model Component/Awareness/Awareness.cs" line="28" column="1" />
       <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/View Model Component/Awareness/Perception.cs" relfile="Assets/Scripts/View Model Component/Awareness/Perception.cs" line="27" column="1" />
+      <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/View Model Component/Awareness/Perception.cs" relfile="Assets/Scripts/View Model Component/Awareness/Perception.cs" line="45" column="1" />
+      <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/View Model Component/Awareness/Perception.cs" relfile="Assets/Scripts/View Model Component/Awareness/Perception.cs" line="39" column="1" />
+      <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/View Model Component/Awareness/Awareness.cs" relfile="Assets/Scripts/View Model Component/Awareness/Awareness.cs" line="68" column="1" />
+      <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/View Model Component/Awareness/Awareness.cs" relfile="Assets/Scripts/View Model Component/Awareness/Awareness.cs" line="71" column="1" />
+      <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/View Model Component/Awareness/Awareness.cs" relfile="Assets/Scripts/View Model Component/Awareness/Awareness.cs" line="38" column="1" />
+      <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/View Model Component/Awareness/Awareness.cs" relfile="Assets/Scripts/View Model Component/Awareness/Awareness.cs" line="49" column="1" />
+      <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/View Model Component/Awareness/Awareness.cs" relfile="Assets/Scripts/View Model Component/Awareness/Awareness.cs" line="59" column="1" />
+      <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/View Model Component/Awareness/Perception.cs" relfile="Assets/Scripts/View Model Component/Awareness/Perception.cs" line="48" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MultiItemStartupConfigurations />
