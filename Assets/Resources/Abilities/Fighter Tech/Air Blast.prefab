@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 11420018}
   - component: {fileID: 11404882}
   - component: {fileID: 6300149620429991822}
+  - component: {fileID: 3926656879932149383}
   m_Layer: 0
   m_Name: Air Blast
   m_TagString: Untagged
@@ -100,6 +101,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   description: Deal damage in cone in front of user.
+--- !u!114 &3926656879932149383
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 143040}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eda6f537f0f974c3189b80b6c0c2b756, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radius: 3
 --- !u!1 &184378
 GameObject:
   m_ObjectHideFlags: 0

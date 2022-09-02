@@ -31,7 +31,7 @@ public class EndFacingState : BattleState
 
 		// Allow the unit to perceive in whatever direction they turn
 		Perception perception = turn.actor.GetComponent<Perception>();
-		perception.Perceive(board: board);
+		perception.Look(board: board);
 	}
 	
 	protected override void OnFire (object sender, InfoEventArgs<int> e)

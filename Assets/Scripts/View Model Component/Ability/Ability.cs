@@ -9,6 +9,7 @@ public class Ability : MonoBehaviour
 	public const string DidPerformNotification = "Ability.DidPerformNotification";
 
 	public Describable describable { get { return GetComponent<Describable>(); } }
+	public Noisy noisy { get { return GetComponent<Noisy>(); } }
 
 	public bool CanPerform ()
 	{

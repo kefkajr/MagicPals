@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Basic Awareness Recipe
   m_EditorClassIdentifier: 
   viewingRange: {x: 5, y: 20}
-  hearingRange: 4
+  hearingRange: 5

@@ -12,10 +12,10 @@ public class Perception : MonoBehaviour
 
 	public Unit unit { get { return GetComponentInParent<Unit>(); } }
 
-	public List<Awareness> Perceive(Board board)
+	public List<Awareness> Look(Board board)
 	{
 		List<Awareness> newAwarenesses = new List<Awareness>();
-		HashSet<TileAwarenessTypePair> tilesInRange = GetTilesInRange(board);
+		HashSet<TileAwarenessTypePair> tilesInRange = GetTilesInVisibleRange(board);
 		List<AwarenessType> visibleAwarenessTypes = new List<AwarenessType> { AwarenessType.MayHaveSeen, AwarenessType.Seen };
 
 		foreach (AwarenessType type in visibleAwarenessTypes)
@@ -37,6 +37,7 @@ public class Perception : MonoBehaviour
                         // AND to the awarenesses that should be tracked by this perception
 						newAwarenesses.Add(potentialNewAwareness);
 						awarenesses.Add(potentialNewAwareness);
+						Debug.Log(potentialNewAwareness.ToString());
 					} else
                     {
 						// If there is an update to an awareness based on a change in the visible range,
@@ -55,7 +56,7 @@ public class Perception : MonoBehaviour
 		return newAwarenesses;
 	}
 
-	public HashSet<TileAwarenessTypePair> GetTilesInRange(Board board)
+	public HashSet<TileAwarenessTypePair> GetTilesInVisibleRange(Board board)
 	{
 		HashSet<TileAwarenessTypePair> validatedTiles = new HashSet<TileAwarenessTypePair>();
 
@@ -71,7 +72,7 @@ public class Perception : MonoBehaviour
             if (Tile.DoesWallSeparateTiles(fromTile, toTile))
                 return false;
 
-			// This is a separate wall check necessary for tile diagonal to each other
+			// This is a separate wall check necessary for tiles diagonal to each other
 			bool doTilesShareAnAxis = fromTile.pos.x == toTile.pos.x || fromTile.pos.y == toTile.pos.y;
 
 			if (!doTilesShareAnAxis)
@@ -145,6 +146,44 @@ public class Perception : MonoBehaviour
 		}
 
 		return validatedTiles;
+	}
+
+	public List<Awareness> Listen(Board board, List<Tile> noisyTiles, Stealth noisyStealth)
+    {
+		List<Awareness> newAwarenesses = new List<Awareness>();
+		List<Tile> tilesInRange = board.Search(unit.tile, HearingExpandSearch);
+		List<Tile> intersection = noisyTiles.Intersect(tilesInRange).ToList();
+		if (intersection.Count > 0)
+        {
+			// Construct an awareness based on the heard awareness type
+			Awareness potentialNewAwareness = new Awareness(this, noisyStealth, AwarenessType.MayHaveHeard);
+			if (!awarenesses.Contains(potentialNewAwareness))
+			{
+				// Add the brand new awareness both to the NEW awarenesses to be reported
+				// AND to the awarenesses that should be tracked by this perception
+				newAwarenesses.Add(potentialNewAwareness);
+				awarenesses.Add(potentialNewAwareness);
+				Debug.Log(potentialNewAwareness.ToString());
+			}
+			else
+			{
+				// If there is an update to an awareness based on a change in the hearing range,
+				// add it to the new awarenesses to be reported
+				Awareness knownAwareness = awarenesses.Where(a => a.stealth == noisyStealth).First();
+				if (knownAwareness.Update(AwarenessType.MayHaveHeard))
+				{
+					newAwarenesses.Add(potentialNewAwareness);
+					Debug.Log(potentialNewAwareness.ToString());
+				}
+			}
+		}
+		return newAwarenesses;
+	}
+
+	bool HearingExpandSearch(Tile from, Tile to)
+	{
+		// Height isn't being handled right now for noise perception.
+		return (from.distance + 1) <= hearingRange;
 	}
 
 	void OnEnable()

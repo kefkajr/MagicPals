@@ -1,6 +1,12 @@
 # MagicPals
 This is where change summaries, work intentions, and related planning will be written.
 
+#### 9/2
+
+There is now Noisy component that is added to certain Abilities. When the Ability is used, noise is generated and all units can now Listen to it. If there is overlap between the noisy range and the hearing range, the unit who used the ability can now be heard.
+
+Perception now has a Look and Listen ability. They repeat some logic that related to creating new Awarenesses and updating existing Awarenesses. This should be followed up with a refactor in which both Look and Listen make use a Perceive method that contains the shared logic.
+
 #### 7/29
 <img src="https://raw.githubusercontent.com/kefkajr/MagicPals/develop/Progress%20Pics/2022.07.29_awareness-types.png" width=500>
 

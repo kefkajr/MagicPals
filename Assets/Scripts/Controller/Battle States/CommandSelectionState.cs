@@ -22,7 +22,7 @@ public class CommandSelectionState : BaseAbilityMenuState
 
 		// Allow the unit to perceive in whatever direction they start facing
 		Perception perception = turn.actor.GetComponent<Perception>();
-		perception.Perceive(board: board);
+		perception.Look(board: board);
 	}
 
 	public override void Exit ()

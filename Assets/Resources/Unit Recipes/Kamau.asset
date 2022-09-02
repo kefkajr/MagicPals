@@ -19,4 +19,4 @@ MonoBehaviour:
   strategy: 
   locomotion: 0
   alliance: 2
-  awarenessRecipe: {fileID: 11400000, guid: fc02c695f023448b8a13b06ce378615c, type: 2}
+  perceptionRecipe: {fileID: 11400000, guid: fc02c695f023448b8a13b06ce378615c, type: 2}

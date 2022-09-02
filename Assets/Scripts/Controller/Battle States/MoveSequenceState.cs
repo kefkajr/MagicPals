@@ -63,7 +63,7 @@ public class MoveSequenceState : BattleState
 		foreach (Unit unit in units)
 		{
 			Perception perception = unit.GetComponent<Perception>();
-			List<Awareness> awarenesses = perception.Perceive(board: board);
+			List<Awareness> awarenesses = perception.Look(board: board);
 			newAwarenesses.AddRange(awarenesses);
 		}
 

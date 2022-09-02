@@ -84,6 +84,7 @@ GameObject:
   - component: {fileID: 11430122}
   - component: {fileID: 11448652}
   - component: {fileID: 2826889127313550620}
+  - component: {fileID: -5664611988018065238}
   m_Layer: 0
   m_Name: Earth Render
   m_TagString: Untagged
@@ -170,3 +171,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   description: Deal damage in line in front of user.
+--- !u!114 &-5664611988018065238
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 118966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eda6f537f0f974c3189b80b6c0c2b756, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radius: 4
