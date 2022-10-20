@@ -1,6 +1,17 @@
 # MagicPals
 This is where change summaries, work intentions, and related planning will be written.
 
+#### 10/20
+
+The project is updates to a newer (but not very new) version of Unity Editor.
+
+Also, at the start of battle, all units Look so they perceive all other units in their viewing range. It may be worth figuring out how any units that share an alliance (good guys vs bad guys) maybe be able to automatically be aware of each other.
+
+Next up:
+- Introduce an enemy AI and see how it works with the latest changes (walls, ranges, traps, picking up items).
+  - Try to limit AI targets only to those whose Stealths they are aware of.
+
+
 #### 9/2
 
 There is now a Noisy component that is added to certain Abilities. When the Ability is used, noise is generated and all units can now Listen to it. If there is overlap between the noisy range and the hearing range, the unit who used the ability can now be heard.
@@ -23,7 +34,7 @@ If the level decays to 0 while the AwarenessType is LostTrack (or the "unconfirm
 Currently, Awareness objects are only updated when a unit moves. Next, we should find away to make unit perception constant. It will be hard to tell the best way to do this, but it may be that any time a unit moves, every single unit should run a percpetion check. We can worry about efficiency later.
 
 After that,
-- Introduce a noise radius property to Ability. One the action state, check for units in that radius and alert them.
+- Introduce a noise radius property to Ability. On the action state, check for units in that radius and alert them.
 - Introduce an enemy AI and see how it works with the latest changes (walls, ranges, traps, picking up items).
   - Try to limit AI targets only to those whose Stealths they are aware of.
 
