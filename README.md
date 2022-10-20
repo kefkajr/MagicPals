@@ -3,13 +3,17 @@ This is where change summaries, work intentions, and related planning will be wr
 
 #### 10/20
 
-The project is updates to a newer (but not very new) version of Unity Editor.
+The project has been updated to a newer (but not very new) version of Unity Editor.
 
 Also, at the start of battle, all units Look so they perceive all other units in their viewing range. It may be worth figuring out how any units that share an alliance (good guys vs bad guys) maybe be able to automatically be aware of each other.
 
 Next up:
 - Introduce an enemy AI and see how it works with the latest changes (walls, ranges, traps, picking up items).
   - Try to limit AI targets only to those whose Stealths they are aware of.
+- Formally visualize the following in the game, rather than only while debugging:
+  - Viewing Range (fainy color wash on tile at all times)
+  - Noisy Range (distinct color wash on tile while confirming ability)
+  - Known Awarenesses (floating lines above unit's heads at all times)
 
 
 #### 9/2
