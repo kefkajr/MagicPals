@@ -1,18 +1,27 @@
 ﻿<Properties StartupConfiguration="{422E8762-CC4A-4CE0-0179-1FC34FF9D511}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/View Model Component/Awareness/Awareness.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Factory/UnitFactory.cs">
     <Files>
       <File FileName="Assets/Scripts/Controller/Battle States/PerformAbilityState.cs" Line="48" Column="1" />
-      <File FileName="Assets/Scripts/View Model Component/Awareness/Perception.cs" Line="218" Column="37" />
+      <File FileName="Assets/Scripts/View Model Component/Awareness/Perception.cs" />
       <File FileName="Assets/Scripts/View Model Component/Awareness/Awareness.cs" Line="138" Column="22" />
+      <File FileName="Assets/Scripts/Factory/UnitFactory.cs" Line="190" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
-          <Node name="MagicPals" expanded="True" selected="True" />
+          <Node name="MagicPals" expanded="True">
+            <Node name="Assets" expanded="True" selected="True">
+              <Node name="Scripts" expanded="True">
+                <Node name="Factory" expanded="True" />
+              </Node>
+            </Node>
+          </Node>
         </State>
       </Pad>
-      <Pad Id="MonoDevelop.Debugger.WatchPad">
-        <State />
+      <Pad Id="MonoDevelop.UnitTesting.TestPad">
+        <State name="__root__">
+          <Node name="Unity" expanded="True" selected="True" />
+        </State>
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
@@ -20,7 +29,7 @@
     <Watch file="../../../Assets/Scripts/View Model Component/Awareness/Perception.cs" line="16" column="18" endLine="16" endColumn="56" offsetX="-1" offsetY="-1" expression="newAwarenesses" liveUpdate="False" />
   </MonoDevelop.Ide.DebuggingService.PinnedWatches>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="739cd761-67a4-47af-910d-b9d2770e0a9f" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="aaf0e5c3-88bd-4a09-b79f-84bc0e7d4a97" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/Common/Animation/EasingControl.cs" relfile="Assets/Scripts/Common/Animation/EasingControl.cs" line="110" column="1" />
