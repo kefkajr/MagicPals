@@ -35,9 +35,7 @@ public static class UnitFactory
 		AddAttackPattern(unitObject, recipe.strategy);
 		AddInventory(unitObject);
 
-		string perceptionRecipeName = recipe.perceptionRecipe.name;
-		PerceptionRecipe perceptionRecipe = Resources.Load<PerceptionRecipe>("Perception Recipes/" + perceptionRecipeName);
-		AddAwareness(unitObject, perceptionRecipe);
+		AddAwareness(unitObject, recipe.perceptionRecipe);
 		return unitObject;
 	}
 	#endregion
