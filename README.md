@@ -1,19 +1,37 @@
 # MagicPals
 This is where change summaries, work intentions, and related planning will be written.
 
+#### 10/21
+
+Tried to limit attack options by updating ComputerPlayer.FindNearestFoe. It seems to be more complicated than that.
+
+When a PlanOfAttack is created, an Ability is already chosen and then the AI tries to find the best way to use that ability. I think we need to answer these questions.
+- How does the AI decide what options are available to it?
+- How does the AI decide which option is best?
+- Does the AI prepare for the possibility that the Ability cannot be used if there's no appropriate target?
+  - It seems that if there is no best option, the Ability is cleared out and the AI tries to look for the nearest foe.
+  - What happens when the AI looks for the nearest foe? Does it find one?
+
 #### 10/20
 
 The project has been updated to a newer (but not very new) version of Unity Editor.
 
-Also, at the start of battle, all units Look so they perceive all other units in their viewing range. It may be worth figuring out how any units that share an alliance (good guys vs bad guys) maybe be able to automatically be aware of each other.
+Also, at the start of battle, all units Look so they perceive all other units in their viewing range.
 
 Next up:
 - Introduce an enemy AI and see how it works with the latest changes (walls, ranges, traps, picking up items).
   - Try to limit AI targets only to those whose Stealths they are aware of.
+    - The enemy should only consider a foe viable as a target if they have already been seen.
+    - The enemy should primarily move toward a tile that contains a point of interest (that is, where a unit may have been seen or heard). This might require a new pointOfInterest Perception property.
 - Formally visualize the following in the game, rather than only while debugging:
   - Viewing Range (fainy color wash on tile at all times)
   - Noisy Range (distinct color wash on tile while confirming ability)
   - Known Awarenesses (floating lines above unit's heads at all times)
+- Should also visualize HP changes and status effects, even just as text above the target's head.
+- Start including mouse input, if at least for moving the tile selection indicator.
+- It may be worth figuring out how any units that share an alliance (good guys vs bad guys) may be able to automatically be aware of each other.
+  - Maybe try adding a new AwarenessType called SameAlliance that cannot decay.
+  - At the start of the battle, units from each Alliance should be grouped, and then added to each other's perceived Awarenesses (but not their own Awareness)
 
 
 #### 9/2

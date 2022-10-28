@@ -13,7 +13,7 @@ public class EndFacingState : BattleState
 		SelectTile(turn.actor.tile.pos);
 		owner.facingIndicator.gameObject.SetActive(true);
 		owner.facingIndicator.SetDirection(turn.actor.dir);
-		if (driver.Current == Drivers.Computer)
+		if (driver.Current == DriverType.Computer)
 			StartCoroutine(ComputerControl());
 	}
 

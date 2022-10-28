@@ -186,6 +186,13 @@ public class Perception : MonoBehaviour
 		return (from.distance + 1) <= hearingRange;
 	}
 
+	public bool IsAwareOfUnit(Unit unit, AwarenessType type)
+    {
+		Stealth stealth = unit.GetComponent<Stealth>();
+		List<Awareness> awareness = awarenesses.Where(a => a.stealth == stealth && a.type == type).ToList();
+		return awareness.Count > 0;
+    }
+
 	void OnEnable()
 	{
 		this.AddObserver(AwarenessLevelDecay, TurnOrderController.TurnCompletedNotification);

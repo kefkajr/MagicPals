@@ -26,7 +26,7 @@ public abstract class BattleState : State
 
 	protected override void AddListeners ()
 	{
-		if (driver == null || driver.Current == Drivers.Human)
+		if (driver == null || driver.Current == DriverType.Human)
 		{
 			InputController.moveEvent += OnMove;
 			InputController.fireEvent += OnFire;

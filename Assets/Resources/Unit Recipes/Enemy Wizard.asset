@@ -16,7 +16,7 @@ MonoBehaviour:
   job: Wizard
   attack: Common/Attack
   abilityCatalog: Enemy Wizard
-  strategy: Mage Attack Pattern
-  locomotion: 2
+  attackPattern: Mage Attack Pattern
+  locomotion: 0
   alliance: 4
   perceptionRecipe: {fileID: 11400000, guid: fc02c695f023448b8a13b06ce378615c, type: 2}

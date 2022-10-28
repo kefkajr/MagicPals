@@ -32,7 +32,7 @@ public static class UnitFactory
 		AddAttack(unitObject, recipe.attack);
 		AddAbilityCatalog(unitObject, recipe.abilityCatalog);
 		AddAlliance(unitObject, recipe.alliance);
-		AddAttackPattern(unitObject, recipe.strategy);
+		AddAttackPattern(unitObject, recipe.attackPattern);
 		AddInventory(unitObject);
 
 		AddAwareness(unitObject, recipe.perceptionRecipe);
@@ -171,11 +171,11 @@ public static class UnitFactory
 		Driver driver = obj.AddComponent<Driver>();
 		if (string.IsNullOrEmpty(name))
 		{
-			driver.normal = Drivers.Human;
+			driver.normal = DriverType.Human;
 		}
 		else
 		{
-			driver.normal = Drivers.Computer;
+			driver.normal = DriverType.Computer;
 			GameObject instance = InstantiatePrefab("Attack Pattern/" + name);
 			instance.transform.SetParent(obj.transform);
 		}

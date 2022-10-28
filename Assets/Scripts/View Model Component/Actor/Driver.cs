@@ -3,14 +3,14 @@ using System.Collections;
 
 public class Driver : MonoBehaviour 
 {
-	public Drivers normal;
-	public Drivers special;
+	public DriverType normal;
+	public DriverType special;
 
-	public Drivers Current
+	public DriverType Current
 	{
 		get
 		{
-			return special != Drivers.None ? special : normal;
+			return special != DriverType.None ? special : normal;
 		}
 	}
 }

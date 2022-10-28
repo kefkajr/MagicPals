@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public enum Drivers
+public enum DriverType
 {
 	None,
 	Human,

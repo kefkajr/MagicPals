@@ -17,7 +17,7 @@ public class CommandSelectionState : BaseAbilityMenuState
 	{
 		base.Enter ();
 		statPanelController.ShowPrimary(turn.actor.gameObject);
-		if (driver.Current == Drivers.Computer)
+		if (driver.Current == DriverType.Computer)
 			StartCoroutine( ComputerTurn() );
 
 		// Allow the unit to perceive in whatever direction they start facing

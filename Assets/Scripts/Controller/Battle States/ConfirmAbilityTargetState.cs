@@ -18,11 +18,11 @@ public class ConfirmAbilityTargetState : BattleState
 		RefreshPrimaryStatPanel(turn.actor.tile.pos);
 		if (turn.targets.Count > 0)
 		{
-			if (driver.Current == Drivers.Human)
+			if (driver.Current == DriverType.Human)
 				hitSuccessIndicator.Show();
 			SetTarget(0);
 		}
-		if (driver.Current == Drivers.Computer)
+		if (driver.Current == DriverType.Computer)
 			StartCoroutine(ComputerDisplayAbilitySelection());
 	}
 

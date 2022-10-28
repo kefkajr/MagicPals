@@ -15,7 +15,7 @@ public class AbilityTargetState : BattleState
 		statPanelController.ShowPrimary(turn.actor.gameObject);
 		if (ar.directionOriented)
 			RefreshSecondaryStatPanel(pos);
-		if (driver.Current == Drivers.Computer)
+		if (driver.Current == DriverType.Computer)
 			StartCoroutine(ComputerHighlightTarget());
 	}
 	

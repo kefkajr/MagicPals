@@ -11,7 +11,7 @@ public abstract class BaseAbilityMenuState : BattleState
 	{
 		base.Enter ();
 		SelectTile(turn.actor.tile.pos);
-		if (driver.Current == Drivers.Human)
+		if (driver.Current == DriverType.Human)
 			LoadMenu();
 	}
 

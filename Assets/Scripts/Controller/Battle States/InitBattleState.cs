@@ -28,11 +28,9 @@ public class InitBattleState : BattleState
 		string[] recipes = new string[]
 		{
 			"Alaois",
-			"Hania",
-			"Kamau",
-			//"Enemy Rogue",
-			//"Enemy Warrior",
-			//"Enemy Wizard"
+			"Enemy Rogue",
+			"Enemy Warrior",
+			"Enemy Wizard"
 		};
 		
 		GameObject unitContainer = new GameObject("Units");
@@ -48,9 +46,16 @@ public class InitBattleState : BattleState
 			int random = UnityEngine.Random.Range(0, locations.Count);
 			Tile randomTile = locations[ random ];
 			locations.RemoveAt(random);
-			
+
 			Unit unit = instance.GetComponent<Unit>();
-			unit.Place( randomTile );
+			if (unit.name == "Alaois")
+			{
+				unit.Place(board.GetTile(new Point(4, 8)));
+			}
+			else
+			{
+				unit.Place(randomTile);
+			}
 			unit.dir = (Directions)UnityEngine.Random.Range(0, 4);
 			unit.Match();
 			

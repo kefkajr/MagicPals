@@ -13,7 +13,7 @@ public class MoveTargetState : BattleState
 		tiles = mover.GetTilesInRange(board);
 		board.SelectTiles(tiles);
 		RefreshPrimaryStatPanel(pos);
-		if (driver.Current == Drivers.Computer)
+		if (driver.Current == DriverType.Computer)
 			StartCoroutine(ComputerHighlightMoveTarget());
 	}
 	

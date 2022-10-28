@@ -20,7 +20,6 @@ public class Awareness: IEquatable<Awareness>
 		this.perception = perception;
         this.stealth = stealth;
         this.type = type;
-		
 	}
 
 	public bool Update(AwarenessType newType)

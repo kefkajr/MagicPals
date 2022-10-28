@@ -17,27 +17,36 @@ public class ComputerPlayer : MonoBehaviour
 		bc = GetComponent<BattleController>();
 	}
 	#endregion
-	
+
 	#region Public
+	// Create and fill out a plan of attack
 	public PlanOfAttack Evaluate ()
 	{
 		PlanOfAttack poa = new PlanOfAttack();
+
+		// Step 1: Decide what ability to use
 		AttackPattern pattern = actor.GetComponentInChildren<AttackPattern>();
 		if (pattern)
 			pattern.Pick(poa);
 		else
 			DefaultAttackPattern(poa);
-		
+
+		// Step 2: Determine where to move and aim to best use the ability
 		if (IsPositionIndependent(poa))
+			// It doesn't matter where you stand
 			PlanPositionIndependent(poa);
 		else if (IsDirectionIndependent(poa))
+			// It DOES matter where you stand, but it doesn't matter where you face
 			PlanDirectionIndependent(poa);
 		else
+			// It DOES matter where you stand and it DOES matter where you face
 			PlanDirectionDependent(poa);
 
 		if (poa.ability == null)
+			// Just position yourself better for the next turn
 			MoveTowardOpponent(poa);
-		
+
+		// Step 3: Return the completed plan
 		return poa;
 	}
 	#endregion
@@ -65,6 +74,7 @@ public class ComputerPlayer : MonoBehaviour
 	void PlanPositionIndependent (PlanOfAttack poa)
 	{
 		List<Tile> moveOptions = GetMoveOptions();
+		// TODO: Have the unit move somewhere logical, instead of moving randomly
 		Tile tile = moveOptions[Random.Range(0, moveOptions.Count)];
 		poa.moveLocation = poa.fireLocation = tile.pos;
 	}
@@ -236,7 +246,11 @@ public class ComputerPlayer : MonoBehaviour
 				{
 					Unit unit = other.GetComponent<Unit>();
 					Stats stats = unit.GetComponent<Stats>();
-					if (stats[StatTypes.HP] > 0)
+
+					Perception perception = actor.GetComponent<Perception>();
+
+					// If target is alive and the actor has seen them.
+					if (stats[StatTypes.HP] > 0 && perception.IsAwareOfUnit(unit, AwarenessType.Seen))
 					{
 						nearestFoe = unit;
 						return true;
