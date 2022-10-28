@@ -1,16 +1,42 @@
 # MagicPals
 This is where change summaries, work intentions, and related planning will be written.
 
+
+#### 10/28
+
+It seems computer controlled units have a set of orders they go through and then run through an algorithm to see how best (or if) it can be performed. If the AI unit can't find a foe to move toward, it just stays in place.
+
+We should make it so that, instead of staying in place, it moves to the end of its movement range in a random direction.
+
+- Try to limit AI targets only to those whose Stealths they are aware of.
+  - The enemy should only consider a foe viable as a target if they have already been seen.
+  - The enemy should primarily move toward a tile that contains a point of interest (that is, where a unit may have been seen or heard). This might require a new pointOfInterest Perception property.
+- It may be worth figuring out how any units that share an alliance (good guys vs bad guys) may be able to automatically be aware of each other.
+  - Maybe try adding a new AwarenessType called SameAlliance that cannot decay.
+  - At the start of the battle, units from each Alliance should be grouped, and then added to each other's perceived Awarenesses (but not their own Awareness)
+- Formally visualize the following in the game, rather than only while debugging:
+  - Viewing Range (faint color wash on tile at all times)
+  - Noisy Range (distinct color wash on tile while confirming ability)
+  - Known Awarenesses (floating lines above unit's heads at all times)
+- Should also visualize HP changes and status effects, even just as text above the target's head.
+- Start including mouse input, if at least for moving the tile selection indicator.
+
 #### 10/21
 
 Tried to limit attack options by updating ComputerPlayer.FindNearestFoe. It seems to be more complicated than that.
 
 When a PlanOfAttack is created, an Ability is already chosen and then the AI tries to find the best way to use that ability. I think we need to answer these questions.
 - How does the AI decide what options are available to it?
+  - It's based entirely on the AttackPattern attached. It just iterates through a list of AbilityPickers, and then attempts to find a particilar target for that specific ability.
 - How does the AI decide which option is best?
+  - For an ability that needs a particular direction
+    - An AttackOption for every tile the unit can move to is generated.
+    - The option is "rated" by the number of marks (units that can be hit) vs the number of matches (units that match the Target type required by the AbilityPicker).
+    - A score is given to each AttackOption based on those factors, as well as the placment of the unit using the ability.
 - Does the AI prepare for the possibility that the Ability cannot be used if there's no appropriate target?
   - It seems that if there is no best option, the Ability is cleared out and the AI tries to look for the nearest foe.
   - What happens when the AI looks for the nearest foe? Does it find one?
+    - No. If their plan of attack doesn't work out and there is no nearest foe, they stand in place and face in a random direction.
 
 #### 10/20
 
