@@ -28,10 +28,9 @@ When a PlanOfAttack is created, an Ability is already chosen and then the AI tri
 - How does the AI decide what options are available to it?
   - It's based entirely on the AttackPattern attached. It just iterates through a list of AbilityPickers, and then attempts to find a particilar target for that specific ability.
 - How does the AI decide which option is best?
-  - For an ability that needs a particular direction
-    - An AttackOption for every tile the unit can move to is generated.
-    - The option is "rated" by the number of marks (units that can be hit) vs the number of matches (units that match the Target type required by the AbilityPicker).
-    - A score is given to each AttackOption based on those factors, as well as the placment of the unit using the ability.
+  - An AttackOption for every tile the unit can move to is generated.
+  - The option is "rated" by the number of marks (units that can be hit) vs the number of matches (units that match the Target type required by the AbilityPicker).
+  - A score is given to each AttackOption based on those factors, as well as the placment of the unit using the ability.
 - Does the AI prepare for the possibility that the Ability cannot be used if there's no appropriate target?
   - It seems that if there is no best option, the Ability is cleared out and the AI tries to look for the nearest foe.
   - What happens when the AI looks for the nearest foe? Does it find one?
