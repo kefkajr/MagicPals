@@ -46,17 +46,6 @@ Also, at the start of battle, all units Look so they perceive all other units in
 Next up:
 - Introduce an enemy AI and see how it works with the latest changes (walls, ranges, traps, picking up items).
   - Try to limit AI targets only to those whose Stealths they are aware of.
-    - The enemy should only consider a foe viable as a target if they have already been seen.
-    - The enemy should primarily move toward a tile that contains a point of interest (that is, where a unit may have been seen or heard). This might require a new pointOfInterest Perception property.
-- Formally visualize the following in the game, rather than only while debugging:
-  - Viewing Range (fainy color wash on tile at all times)
-  - Noisy Range (distinct color wash on tile while confirming ability)
-  - Known Awarenesses (floating lines above unit's heads at all times)
-- Should also visualize HP changes and status effects, even just as text above the target's head.
-- Start including mouse input, if at least for moving the tile selection indicator.
-- It may be worth figuring out how any units that share an alliance (good guys vs bad guys) may be able to automatically be aware of each other.
-  - Maybe try adding a new AwarenessType called SameAlliance that cannot decay.
-  - At the start of the battle, units from each Alliance should be grouped, and then added to each other's perceived Awarenesses (but not their own Awareness)
 
 
 #### 9/2
