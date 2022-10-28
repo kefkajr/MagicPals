@@ -6,11 +6,10 @@ This is where change summaries, work intentions, and related planning will be wr
 
 It seems computer controlled units have a set of orders they go through and then run through an algorithm to see how best (or if) it can be performed. If the AI unit can't find a foe to move toward, it just stays in place.
 
-We should make it so that, instead of staying in place, it moves to the end of its movement range in a random direction.
+We should make it so that, instead of staying in place, they should use a method that moves it toward a tile that contains a point of interest (that is, where a unit may have been seen or heard). This might require a new pointOfInterest Perception property.
 
-- Try to limit AI targets only to those whose Stealths they are aware of.
-  - The enemy should only consider a foe viable as a target if they have already been seen.
-  - The enemy should primarily move toward a tile that contains a point of interest (that is, where a unit may have been seen or heard). This might require a new pointOfInterest Perception property.
+If there isn't a point of interest, it should fall back onto some "default" sentry behavior. For now, it can move to the end of its movement range in a random direction.
+
 - It may be worth figuring out how any units that share an alliance (good guys vs bad guys) may be able to automatically be aware of each other.
   - Maybe try adding a new AwarenessType called SameAlliance that cannot decay.
   - At the start of the battle, units from each Alliance should be grouped, and then added to each other's perceived Awarenesses (but not their own Awareness)
