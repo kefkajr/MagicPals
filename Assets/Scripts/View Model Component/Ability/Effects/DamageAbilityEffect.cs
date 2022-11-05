@@ -63,6 +63,7 @@ public class DamageAbilityEffect : BaseAbilityEffect
 		// Apply the damage to the target
 		Stats s = defender.GetComponent<Stats>();
 		s[StatTypes.HP] += value;
+		Debug.Log(string.Format("$0 $1 $2 HP", defender.name, value < 0 ? "lost" : "gained", value));
 		return value;
 	}
 	#endregion

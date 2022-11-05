@@ -189,9 +189,15 @@ public class Perception : MonoBehaviour
 	public bool IsAwareOfUnit(Unit unit, AwarenessType type)
     {
 		Stealth stealth = unit.GetComponent<Stealth>();
-		List<Awareness> awareness = awarenesses.Where(a => a.stealth == stealth && a.type == type).ToList();
-		return awareness.Count > 0;
+		List<Awareness> relevantAwarenesses = awarenesses.Where(a => a.stealth == stealth && a.type == type).ToList();
+		return relevantAwarenesses.Count > 0;
     }
+
+	public List<Awareness> TopAwarenesses ()
+    {
+		List<Awareness> relevantAwarenesses = awarenesses.OrderByDescending(a => (int)a.type).ToList();
+		return relevantAwarenesses;
+	}
 
 	void OnEnable()
 	{
