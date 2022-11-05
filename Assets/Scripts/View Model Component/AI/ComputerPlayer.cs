@@ -425,7 +425,7 @@ public class ComputerPlayer : MonoBehaviour
 	void FindTopAwarenessFoeOnBoard(bool shouldCheckSeenOnly)
 	{
 		nearestFoe = null;
-		List<Awareness> topAwarenesses = perception.TopAwareness().FindAll( delegate (Awareness a) {
+		List<Awareness> topAwarenesses = perception.TopAwarenesses().FindAll( delegate (Awareness a) {
 			Alliance otherAlliance = a.stealth.unit.GetComponentInChildren<Alliance>();
 			return alliance.IsMatch(otherAlliance, Targets.Foe);
 		});
