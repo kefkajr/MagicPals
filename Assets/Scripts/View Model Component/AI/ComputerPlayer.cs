@@ -7,6 +7,7 @@ public class ComputerPlayer : MonoBehaviour
 	BattleController bc;
 	Unit actor { get { return bc.turn.actor; }}
 	Alliance alliance { get { return actor.GetComponent<Alliance>(); }}
+	Perception perception { get { return actor.GetComponent<Perception>(); } }
 	Unit nearestFoe;
 	#endregion
 	
@@ -245,7 +246,8 @@ public class ComputerPlayer : MonoBehaviour
 		else if (poa.target != Targets.None)
 		{
 			Alliance other = tile.occupant.GetComponentInChildren<Alliance>();
-			if (other != null && alliance.IsMatch(other, poa.target))
+			Unit unit = other.GetComponent<Unit>();
+			if (other != null && perception.IsAwareOfUnit(unit, AwarenessType.Seen) && alliance.IsMatch(other, poa.target))
 				isMatch = true;
 		}
 
@@ -349,8 +351,6 @@ public class ComputerPlayer : MonoBehaviour
 				{
 					Unit unit = other.GetComponent<Unit>();
 					Stats stats = unit.GetComponent<Stats>();
-
-					Perception perception = actor.GetComponent<Perception>();
 
 					// If target is alive and the actor has seen them.
 					if (stats[StatTypes.HP] > 0 && perception.IsAwareOfUnit(unit, AwarenessType.Seen))
