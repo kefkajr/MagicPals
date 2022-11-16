@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class ComputerPlayer : MonoBehaviour 
 {
@@ -46,7 +47,7 @@ public class ComputerPlayer : MonoBehaviour
 
 		if (poa.ability == null)
 		{
-			Debug.Log(string.Format("{0} found it inappropriate to use that ability", actor.name));
+			Debug.Log(string.Format("{0} can't use an ability, so will try to investigate", actor.name));
 
 			// Just position yourself better for the next turn
 			Investigate(poa);
@@ -87,7 +88,7 @@ public class ComputerPlayer : MonoBehaviour
 	{
 		List<Tile> moveOptions = GetMoveOptions();
 		// TODO: Have the unit move somewhere logical, instead of moving randomly
-		Tile tile = moveOptions[Random.Range(0, moveOptions.Count)];
+		Tile tile = moveOptions[Random.Range(0, moveOptions.Count - 1)];
 		poa.moveLocation = poa.fireLocation = tile.pos;
 	}
 
@@ -404,7 +405,9 @@ public class ComputerPlayer : MonoBehaviour
 		FindTopAwarenessFoeOnBoard(shouldCheckSeenOnly: false);
 		if (nearestFoe != null)
 		{
-			Tile toCheck = nearestFoe.tile;
+			List<Tile> idealPath = bc.board.FindPath(actor.tile, nearestFoe.tile);
+			Debug.Log(string.Format("{0} is investigating {1}", actor.name, nearestFoe.name));
+			Tile toCheck = idealPath.Count > 0 ? idealPath.Last() : null;
 			while (toCheck != null)
 			{
 				if (moveOptions.Contains(toCheck))
@@ -413,6 +416,7 @@ public class ComputerPlayer : MonoBehaviour
 					poa.moveLocation = toCheck.pos;
 					return;
 				}
+				// Board search keeps previous tiles in memory
 				toCheck = toCheck.prev;
 			}
 		}
@@ -444,7 +448,6 @@ public class ComputerPlayer : MonoBehaviour
                     }
 
 					nearestFoe = targetUnit;
-					Debug.Log(string.Format("{0} is investigating {1}", actor.name, nearestFoe));
 					return true;
 				}
 			}

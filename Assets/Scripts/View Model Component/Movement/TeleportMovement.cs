@@ -24,8 +24,11 @@ public class TeleportMovement : Movement
 		while (grow != null)
 			yield return null;
 
-		// Run trap handler and end traversal
-		TrapHandler(tile);
-		yield break;
+		if (tile.trap != null)
+		{
+			// Run trap handler and end traversal
+			TrapHandler(tile);
+			yield break;
+		}
 	}
 }

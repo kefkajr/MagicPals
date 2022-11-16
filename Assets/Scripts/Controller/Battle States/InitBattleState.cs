@@ -29,8 +29,6 @@ public class InitBattleState : BattleState
 		{
 			"Alaois",
 			"Enemy Rogue",
-			"Enemy Warrior",
-			"Enemy Wizard"
 		};
 		
 		GameObject unitContainer = new GameObject("Units");
@@ -50,11 +48,11 @@ public class InitBattleState : BattleState
 			Unit unit = instance.GetComponent<Unit>();
 			if (unit.name == "Alaois")
 			{
-				unit.Place(board.GetTile(new Point(4, 8)));
+				unit.Place(board.GetTile(new Point(1, 8)));
 			}
-			else
+			else if (unit.name == "Enemy Rogue")
 			{
-				unit.Place(randomTile);
+				unit.Place(board.GetTile(new Point(1, 6)));
 			}
 			unit.dir = (Directions)UnityEngine.Random.Range(0, 4);
 			unit.Match();

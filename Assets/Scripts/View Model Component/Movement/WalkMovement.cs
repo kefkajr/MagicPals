@@ -50,7 +50,7 @@ public class WalkMovement : Movement
 				// TODO: Do something after an awareness was gained 
             }
 
-			// Wal
+			// Walk
 			if (from.height == to.height)
 				yield return StartCoroutine(Walk(to));
 			else

@@ -58,5 +58,6 @@ public class MoveTargetState : BattleState
 		}
 		yield return new WaitForSeconds(0.5f);
 		owner.ChangeState<MoveSequenceState>();
+		owner.board.DeSelectTiles(new List<Tile>(owner.board.tiles.Values)); // TODO remove this when done debugging pathfinding
 	}
 }

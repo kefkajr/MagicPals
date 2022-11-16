@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public class Board : MonoBehaviour 
 {
@@ -61,6 +62,11 @@ public class Board : MonoBehaviour
 	public List<Tile> Search (Tile start, Func<Tile, Tile, bool> addTile)
 	{
 		List<Tile> retValue = new List<Tile>();
+
+		// We prime our search by deciding which tile to start from.
+		// The tile is added to a queue of tiles for checking now.
+		// This first tile has a distance of 0,
+		// and no prev tile which indicates that it is the beginning of the path.
 		retValue.Add(start);
 
 		ClearSearch();
@@ -70,17 +76,22 @@ public class Board : MonoBehaviour
 		start.distance = 0;
 		checkNow.Enqueue(start);
 
+		// In a loop, we dequeue a tile from the queue of tiles to check this round.
 		while (checkNow.Count > 0)
 		{
 			Tile t = checkNow.Dequeue();
 			for (int i = 0; i < 4; ++i)
 			{
+				// Then we grab a reference to the tiles in each cardinal direction from the current tile
+				// and add them to a queue for checking in the future.
 				Tile next = GetTile(t.pos + dirs[i]);
 				if (next == null || next.distance <= t.distance + 1)
 					continue;
 
 				if (addTile(t, next))
 				{
+					// Any tiles which are added have their distance set to 1 greater than the current tile’s distance.
+                    // The current tile is also set as their prev tile reference.
 					next.distance = t.distance + 1;
 					next.prev = t;
 					checkNext.Enqueue(next);
@@ -88,11 +99,265 @@ public class Board : MonoBehaviour
 				}
 			}
 
+			// The current tile is marked as analyzed.
+            // There are no more tiles in the queue for checking now, so we will swap queues.
 			if (checkNow.Count == 0)
 				SwapReference(ref checkNow, ref checkNext);
 		}
 
 		return retValue;
+	}
+
+	public List<Tile> FindPath(Tile start, Tile end)
+    {
+		List<Tile> retValue = new List<Tile>();
+
+		List<Tile> openSet = new List<Tile>();
+		HashSet<Tile> closedSet = new HashSet<Tile>();
+		openSet.Add(start);
+
+		// LOOP
+		while (openSet.Count > 0)
+		{
+			Tile currentTile = openSet[0];
+			// current_cell = cell in OPEN_LIST with the lowest F_COST
+			for (int i = 1; i < openSet.Count; i++)
+			{
+				if (openSet[i].f < currentTile.f || openSet[i].f == currentTile.f && openSet[i].h < currentTile.h)
+				{
+					currentTile = openSet[i];
+				}
+			}
+			openSet.Remove(currentTile);
+			closedSet.Add(currentTile);
+
+			if (currentTile == end)
+			{
+				return RetracePath(start, end);
+			}
+
+			foreach (Tile neighbour in GetNeighbours(currentTile.pos.x, currentTile.pos.y, max.x, max.y))
+			{
+				if (Tile.DoesWallSeparateTiles(currentTile, neighbour) || closedSet.Contains(neighbour)) continue;
+
+				int newMovementCostToNeighbour = currentTile.g + GetDistance(currentTile, neighbour);
+				if (newMovementCostToNeighbour < neighbour.g || !openSet.Contains(neighbour))
+				{
+					neighbour.g = newMovementCostToNeighbour;
+					neighbour.h = GetDistance(neighbour, end);
+					neighbour.prev = currentTile;
+
+					if (!openSet.Contains(neighbour))
+						openSet.Add(neighbour);
+				}
+			}
+		}
+
+		return retValue;
+	}
+
+	int GetDistance(Tile tileA, Tile tileB)
+	{
+		int dstX = Mathf.Abs(tileA.pos.x - tileB.pos.x);
+		int dstY = Mathf.Abs(tileA.pos.y - tileB.pos.y);
+
+		if (dstX > dstY)
+			return 14 * dstY + 10 * (dstX - dstY);
+		return 14 * dstX + 10 * (dstY - dstX);
+	}
+
+	List<Tile> RetracePath(Tile startTile, Tile targetTile)
+	{
+		List<Tile> path = new List<Tile>();
+		Tile currentTile = targetTile;
+
+		while (currentTile != startTile)
+		{
+			path.Add(currentTile);
+			currentTile = currentTile.prev;
+			SelectTiles(path);
+		}
+
+		path.Reverse();
+		SelectTiles(path); // TODO remove this
+		return path;
+	}
+
+	public List<Tile> GetNeighbours(int x, int y, int width, int height)
+	{
+		List<Tile> myNeighbours = new List<Tile>();
+
+		if (x > 0 && x < width - 1)
+		{
+			if (y > 0 && y < height - 1)
+			{
+				if (tiles.ContainsKey(new Point(x + 1, y)))
+				{
+					Tile wt1 = tiles[new Point(x + 1, y)];
+					if (wt1 != null) myNeighbours.Add(wt1);
+				}
+
+				if (tiles.ContainsKey(new Point(x - 1, y)))
+				{
+					Tile wt2 = tiles[new Point(x - 1, y)];
+					if (wt2 != null) myNeighbours.Add(wt2);
+				}
+
+				if (tiles.ContainsKey(new Point(x, y + 1)))
+				{
+					Tile wt3 = tiles[new Point(x, y + 1)];
+					if (wt3 != null) myNeighbours.Add(wt3);
+				}
+
+				if (tiles.ContainsKey(new Point(x, y - 1)))
+				{
+					Tile wt4 = tiles[new Point(x, y - 1)];
+					if (wt4 != null) myNeighbours.Add(wt4);
+				}
+			}
+			else if (y == 0)
+			{
+				if (tiles.ContainsKey(new Point(x + 1, y)))
+				{
+					Tile wt1 = tiles[new Point(x + 1, y)];
+					if (wt1 != null) myNeighbours.Add(wt1);
+				}
+
+				if (tiles.ContainsKey(new Point(x - 1, y)))
+				{
+					Tile wt2 = tiles[new Point(x - 1, y)];
+					if (wt2 != null) myNeighbours.Add(wt2);
+				}
+
+				if (tiles.ContainsKey(new Point(x, y + 1)))
+				{
+					Tile wt3 = tiles[new Point(x, y + 1)];
+					if (wt3 != null) myNeighbours.Add(wt3);
+				}
+			}
+			else if (y == height - 1)
+			{
+				if (tiles.ContainsKey(new Point(x, y - 1)))
+				{
+					Tile wt4 = tiles[new Point(x, y - 1)];
+					if (wt4 != null) myNeighbours.Add(wt4);
+				}
+				if (tiles.ContainsKey(new Point(x + 1, y)))
+				{
+					Tile wt1 = tiles[new Point(x + 1, y)];
+					if (wt1 != null) myNeighbours.Add(wt1);
+				}
+
+				if (tiles.ContainsKey(new Point(x - 1, y)))
+				{
+					Tile wt2 = tiles[new Point(x - 1, y)];
+					if (wt2 != null) myNeighbours.Add(wt2);
+				}
+			}
+		}
+		else if (x == 0)
+		{
+			if (y > 0 && y < height - 1)
+			{
+				if (tiles.ContainsKey(new Point(x + 1, y)))
+				{
+					Tile wt1 = tiles[new Point(x + 1, y)];
+					if (wt1 != null) myNeighbours.Add(wt1);
+				}
+
+				if (tiles.ContainsKey(new Point(x, y - 1)))
+				{
+					Tile wt4 = tiles[new Point(x, y - 1)];
+					if (wt4 != null) myNeighbours.Add(wt4);
+				}
+
+				if (tiles.ContainsKey(new Point(x, y + 1)))
+				{
+					Tile wt3 = tiles[new Point(x, y + 1)];
+					if (wt3 != null) myNeighbours.Add(wt3);
+				}
+			}
+			else if (y == 0)
+			{
+				if (tiles.ContainsKey(new Point(x + 1, y)))
+				{
+					Tile wt1 = tiles[new Point(x + 1, y)];
+					if (wt1 != null) myNeighbours.Add(wt1);
+				}
+
+				if (tiles.ContainsKey(new Point(x, y + 1)))
+				{
+					Tile wt3 = tiles[new Point(x, y + 1)];
+					if (wt3 != null) myNeighbours.Add(wt3);
+				}
+			}
+			else if (y == height - 1)
+			{
+				if (tiles.ContainsKey(new Point(x + 1, y)))
+				{
+					Tile wt1 = tiles[new Point(x + 1, y)];
+					if (wt1 != null) myNeighbours.Add(wt1);
+				}
+
+				if (tiles.ContainsKey(new Point(x, y - 1)))
+				{
+					Tile wt4 = tiles[new Point(x, y - 1)];
+					if (wt4 != null) myNeighbours.Add(wt4);
+				}
+			}
+		}
+		else if (x == width - 1)
+		{
+			if (y > 0 && y < height - 1)
+			{
+				if (tiles.ContainsKey(new Point(x - 1, y)))
+				{
+					Tile wt2 = tiles[new Point(x - 1, y)];
+					if (wt2 != null) myNeighbours.Add(wt2);
+				}
+
+				if (tiles[new Point(x, y + 1)] != null)
+				{
+					Tile wt3 = tiles[new Point(x, y + 1)];
+					if (wt3 != null) myNeighbours.Add(wt3);
+				}
+
+				if (tiles.ContainsKey(new Point(x, y - 1)))
+				{
+					Tile wt4 = tiles[new Point(x, y - 1)];
+					if (wt4 != null) myNeighbours.Add(wt4);
+				}
+			}
+			else if (y == 0)
+			{
+				if (tiles.ContainsKey(new Point(x - 1, y)))
+				{
+					Tile wt2 = tiles[new Point(x - 1, y)];
+					if (wt2 != null) myNeighbours.Add(wt2);
+				}
+				if (tiles[new Point(x, y + 1)] != null)
+				{
+					Tile wt3 = tiles[new Point(x, y + 1)];
+					if (wt3 != null) myNeighbours.Add(wt3);
+				}
+			}
+			else if (y == height - 1)
+			{
+				if (tiles.ContainsKey(new Point(x - 1, y)))
+				{
+					Tile wt2 = tiles[new Point(x - 1, y)];
+					if (wt2 != null) myNeighbours.Add(wt2);
+				}
+
+				if (tiles.ContainsKey(new Point(x, y - 1)))
+				{
+					Tile wt4 = tiles[new Point(x, y - 1)];
+					if (wt4 != null) myNeighbours.Add(wt4);
+				}
+			}
+		}
+
+		return myNeighbours;
 	}
 
 	public void SelectTiles (List<Tile> tiles)

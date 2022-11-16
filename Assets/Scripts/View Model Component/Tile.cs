@@ -19,6 +19,11 @@ public class Tile : MonoBehaviour
 
 	[HideInInspector] public Tile prev;
 	[HideInInspector] public int distance;
+
+	[HideInInspector] public int g;
+	[HideInInspector] public int h;
+
+	[HideInInspector] public int f { get { return g + h; } }
 	#endregion
 
 	#region Public
@@ -82,6 +87,11 @@ public class Tile : MonoBehaviour
 			Gizmos.DrawSphere(center, 0.2f);
 			gizmoAlpha -= 0.01f;
 		}
+	}
+
+	public override string ToString()
+	{
+		return string.Format("Tile: {0}, {1}", pos.x, pos.y);
 	}
 }
 
