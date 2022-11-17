@@ -37,7 +37,7 @@ public class Perception : MonoBehaviour
                         // AND to the awarenesses that should be tracked by this perception
 						newAwarenesses.Add(potentialNewAwareness);
 						awarenesses.Add(potentialNewAwareness);
-						Debug.Log(potentialNewAwareness.ToString());
+						Console.Main.Log(potentialNewAwareness.ToString());
 					} else
                     {
 						// If there is an update to an awareness based on a change in the visible range,
@@ -46,7 +46,7 @@ public class Perception : MonoBehaviour
 						if (knownAwareness.Update(type))
 						{
 							newAwarenesses.Add(potentialNewAwareness);
-							Debug.Log(potentialNewAwareness.ToString());
+							Console.Main.Log(potentialNewAwareness.ToString());
 						}
 					}
 				}
@@ -163,7 +163,7 @@ public class Perception : MonoBehaviour
 				// AND to the awarenesses that should be tracked by this perception
 				newAwarenesses.Add(potentialNewAwareness);
 				awarenesses.Add(potentialNewAwareness);
-				Debug.Log(potentialNewAwareness.ToString());
+				Console.Main.Log(potentialNewAwareness.ToString());
 			}
 			else
 			{
@@ -173,7 +173,7 @@ public class Perception : MonoBehaviour
 				if (knownAwareness.Update(AwarenessType.MayHaveHeard))
 				{
 					newAwarenesses.Add(potentialNewAwareness);
-					Debug.Log(potentialNewAwareness.ToString());
+					Console.Main.Log(potentialNewAwareness.ToString());
 				}
 			}
 		}
@@ -218,7 +218,7 @@ public class Perception : MonoBehaviour
 			if (awareness.isExpired)
 			{
 				expiredAwarenesses.Add(awareness);
-				Debug.Log(string.Format("{0} does not know where {1} is", unit.name, awareness.stealth.unit.name));
+				Console.Main.Log(string.Format("{0} does not know where {1} is", unit.name, awareness.stealth.unit.name));
 				awareness.perception = null; // Don't know if this is necessary, but it seems safe.
 			}
         }

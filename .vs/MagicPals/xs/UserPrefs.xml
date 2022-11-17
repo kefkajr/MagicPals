@@ -1,14 +1,8 @@
 ﻿<Properties StartupConfiguration="{422E8762-CC4A-4CE0-0179-1FC34FF9D511}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Controller/Battle States/MoveSequenceState.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Controller/Console.cs">
     <Files>
-      <File FileName="Assets/Scripts/View Model Component/AI/ComputerPlayer.cs" Line="417" Column="1" />
-      <File FileName="Assets/Scripts/View Model Component/Board.cs" Line="178" Column="4" />
-      <File FileName="Assets/Scripts/Model/Point.cs" />
-      <File FileName="Assets/Scripts/View Model Component/Tile.cs" />
-      <File FileName="Assets/Scripts/Controller/Battle States/MoveTargetState.cs" Line="61" Column="123" />
-      <File FileName="Assets/Scripts/Controller/Battle States/BattleState.cs" Line="83" Column="25" />
-      <File FileName="Assets/Scripts/Controller/Battle States/InitBattleState.cs" Line="51" Column="12" />
-      <File FileName="Assets/Scripts/Controller/Battle States/MoveSequenceState.cs" Line="36" Column="1" />
+      <File FileName="Assets/Scripts/View Model Component/Ability/Effects/DamageAbilityEffect.cs" Line="68" Column="3" />
+      <File FileName="Assets/Scripts/Controller/Console.cs" Line="42" Column="40" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>

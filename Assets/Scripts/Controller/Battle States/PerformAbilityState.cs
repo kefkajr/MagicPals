@@ -33,7 +33,7 @@ public class PerformAbilityState : BattleState
 	
 	void ApplyAbility ()
 	{
-		Debug.Log(string.Format("{0} uses {1}", turn.actor.name, turn.ability.name));
+		Console.Main.Log(string.Format("{0} uses {1}", turn.actor.name, turn.ability.name));
 		turn.ability.Perform(turn.targets);
 	}
 

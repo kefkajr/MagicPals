@@ -80,7 +80,7 @@ public class Awareness: IEquatable<Awareness>
 		if (level <= 0 && type == AwarenessType.Seen)
 		{
 			Update(AwarenessType.LostTrack);
-			Debug.Log(ToString());
+			Console.Main.Log(ToString());
 		}
 	}
 

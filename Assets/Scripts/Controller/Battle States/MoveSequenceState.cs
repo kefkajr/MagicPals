@@ -34,7 +34,7 @@ public class MoveSequenceState : BattleState
 		// Set trap and ability
 		Trap trap = tile.trap;
 		turn.ability = trap.GetComponent<Ability>();
-		Debug.Log(turn.ability.name + " Trap triggered!");
+		Console.Main.Log(turn.ability.name + " Trap triggered!");
 
 		// Halt unit movement
 		turn.actor.Place(tile);

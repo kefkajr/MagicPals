@@ -32,7 +32,7 @@ public class ComputerPlayer : MonoBehaviour
 		else
 			DefaultAttackPattern(poa);
 
-		Debug.Log(string.Format("{0} wants to use {1}", actor.name, poa.ability.name));
+		Console.Main.Log(string.Format("{0} wants to use {1}", actor.name, poa.ability.name));
 
 		// Step 2: Determine where to move and aim to best use the ability
 		if (IsPositionIndependent(poa))
@@ -47,7 +47,7 @@ public class ComputerPlayer : MonoBehaviour
 
 		if (poa.ability == null)
 		{
-			Debug.Log(string.Format("{0} can't use an ability, so will try to investigate", actor.name));
+			Console.Main.Log(string.Format("{0} can't use an ability, so will try to investigate", actor.name));
 
 			// Just position yourself better for the next turn
 			Investigate(poa);
@@ -406,7 +406,7 @@ public class ComputerPlayer : MonoBehaviour
 		if (nearestFoe != null)
 		{
 			List<Tile> idealPath = bc.board.FindPath(actor.tile, nearestFoe.tile);
-			Debug.Log(string.Format("{0} is investigating {1}", actor.name, nearestFoe.name));
+			Console.Main.Log(string.Format("{0} is investigating {1}", actor.name, nearestFoe.name));
 			Tile toCheck = idealPath.Count > 0 ? idealPath.Last() : null;
 			while (toCheck != null)
 			{
