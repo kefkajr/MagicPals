@@ -2,7 +2,7 @@
 This is where change summaries, work intentions, and related planning will be written.
 
 #### 11/17
-<img src="https://raw.githubusercontent.com/kefkajr/MagicPals/develop/Progress%20Pics/2022.07.29_awareness-types.png" width=500>
+<img src="https://raw.githubusercontent.com/kefkajr/MagicPals/develop/Progress%20Pics/2022.11.16_ai-investigation.gif" width=500>
 
 ##### On hearing the player perform a noisy ability, the enemy goes around the wall to investigate.
 
