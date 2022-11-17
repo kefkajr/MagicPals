@@ -1,6 +1,29 @@
 # MagicPals
 This is where change summaries, work intentions, and related planning will be written.
 
+#### 11/17
+<img src="https://raw.githubusercontent.com/kefkajr/MagicPals/develop/Progress%20Pics/2022.07.29_awareness-types.png" width=500>
+
+##### On hearing the player perform a noisy ability, the enemy goes around the wall to investigate.
+
+Pathfinding for enemies has been introduced. The ComputerPlayer search the Unit's awarenesses for the top unit of interest, find the location of the unit, and asks the Board for a path to that will take it as close as possible to the unit in a single turn.
+
+This is big, and soon we can start playing with how to influence enemy awareness in ways that are fun and clever.
+
+Stealth AI Improvements
+- Right now the enemy will head straight for the unit that it's aware of. However, we don't want the enemy to investigate the unit that might exist, we want it to investigate the TILE on the board where the enemy was made aware of a potential target. This will give the player a chance to avoid detection, as well as the opportunity to lure the enemy in strategic ways
+  - This will involve changing the way ComputerPlayer.nearestFoe works. It may also involve updating how Awareness works: it should probably have a Point property called pointOfInterest that tracks where on the Board the enemy was made aware of the unit.
+
+General Improvements
+- Formally visualize the following in the game, rather than only while debugging:
+  - Viewing Range (faint color wash on tile at all times)
+  - Noisy Range (distinct color wash on tile while confirming ability)
+  - Known Awarenesses (floating lines above unit's heads at all times)
+- Should also visualize HP changes and status effects, even just as text above the target's head.
+- Start including mouse input, if at least for moving the tile selection indicator.
+- It may be worth figuring out how any units that share an alliance (good guys vs bad guys) may be able to automatically be aware of each other.
+  - Maybe try adding a new AwarenessType called SameAlliance that cannot decay.
+  - At the start of the battle, units from each Alliance should be grouped, and then added to each other's perceived Awarenesses (but not their own Awareness)
 
 #### 10/28
 
@@ -9,16 +32,6 @@ It seems computer controlled units have a set of orders they go through and then
 We should make it so that, instead of staying in place, they should use a method that moves it toward a tile that contains a point of interest (that is, where a unit may have been seen or heard). This might require a new pointOfInterest Perception property.
 
 If there isn't a point of interest, it should fall back onto some "default" sentry behavior. For now, it can move to the end of its movement range in a random direction.
-
-- It may be worth figuring out how any units that share an alliance (good guys vs bad guys) may be able to automatically be aware of each other.
-  - Maybe try adding a new AwarenessType called SameAlliance that cannot decay.
-  - At the start of the battle, units from each Alliance should be grouped, and then added to each other's perceived Awarenesses (but not their own Awareness)
-- Formally visualize the following in the game, rather than only while debugging:
-  - Viewing Range (faint color wash on tile at all times)
-  - Noisy Range (distinct color wash on tile while confirming ability)
-  - Known Awarenesses (floating lines above unit's heads at all times)
-- Should also visualize HP changes and status effects, even just as text above the target's head.
-- Start including mouse input, if at least for moving the tile selection indicator.
 
 #### 10/21
 
