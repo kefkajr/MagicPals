@@ -6,12 +6,12 @@ This is where change summaries, work intentions, and related planning will be wr
 
 ##### On hearing the player perform a noisy ability, the enemy goes around the wall to investigate.
 
-Pathfinding for enemies has been introduced. The ComputerPlayer search the Unit's awarenesses for the top unit of interest, find the location of the unit, and asks the Board for a path to that will take it as close as possible to the unit in a single turn.
+Pathfinding for enemies has been introduced. The ComputerPlayer searches the Unit's awarenesses for the top unit of interest, finds the location of the unit, and asks the Board for a path to that will take it as close as possible to the target in a single turn.
 
 This is big, and soon we can start playing with how to influence enemy awareness in ways that are fun and clever.
 
 Stealth AI Improvements
-- Right now the enemy will head straight for the unit that it's aware of. However, we don't want the enemy to investigate the unit that might exist, we want it to investigate the TILE on the board where the enemy was made aware of a potential target. This will give the player a chance to avoid detection, as well as the opportunity to lure the enemy in strategic ways
+- Right now the enemy will head straight for the unit that it's aware of. However, we don't want the enemy to investigate the unit that might exist, we want it to investigate the POINT on the board where the enemy was made aware of a potential target. This will give the player a chance to avoid detection, as well as the opportunity to lure the enemy in strategic ways
   - This will involve changing the way ComputerPlayer.nearestFoe works. It may also involve updating how Awareness works: it should probably have a Point property called pointOfInterest that tracks where on the Board the enemy was made aware of the unit.
 
 General Improvements
