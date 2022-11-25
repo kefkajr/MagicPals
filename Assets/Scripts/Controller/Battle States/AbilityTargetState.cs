@@ -45,7 +45,10 @@ public class AbilityTargetState : BattleState
 		if (e.info == 0)
 		{
 			if (ar.directionOriented || tiles.Contains(board.GetTile(pos)))
+			{
+				turn.abilityEpicenterTile = board.GetTile(pos);
 				owner.ChangeState<ConfirmAbilityTargetState>();
+			}
 		}
 		else
 		{

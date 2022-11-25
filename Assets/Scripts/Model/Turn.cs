@@ -9,6 +9,7 @@ public class Turn
 	public bool hasUnitActed;
 	public bool lockMove;
 	public Ability ability;
+	public Tile abilityEpicenterTile;
 	public List<Tile> targets;
 	public PlanOfAttack plan;
 	Tile startTile;

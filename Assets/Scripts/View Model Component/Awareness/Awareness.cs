@@ -9,17 +9,20 @@ public class Awareness: IEquatable<Awareness>
 
 	public Perception perception;
     public Stealth stealth;
-    public AwarenessType type;
+	public Point pointOfInterest;
+	public AwarenessType type;
+
 	public int level = StartingAwarenessLevel;
 
 	public Unit unit { get { return perception.GetComponentInParent<Unit>(); } }
 	public bool isExpired {  get { return type != AwarenessType.Seen && level <= 0; } }
 
-	public Awareness(Perception perception, Stealth stealth, AwarenessType type)
+	public Awareness(Perception perception, Stealth stealth, Point pointOfInterest, AwarenessType type)
     {
 		this.perception = perception;
         this.stealth = stealth;
-        this.type = type;
+		this.pointOfInterest = pointOfInterest;
+		this.type = type;
 	}
 
 	public bool Update(AwarenessType newType)
@@ -97,7 +100,7 @@ public class Awareness: IEquatable<Awareness>
 
 	public bool Equals(Awareness a)
 	{
-		return stealth == a.stealth;
+		return stealth == a.stealth; //TODO Is this really appropriate?
 	}
 
 	public override int GetHashCode()

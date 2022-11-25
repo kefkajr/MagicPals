@@ -156,7 +156,7 @@ public class Board : MonoBehaviour
 		return retValue;
 	}
 
-	int GetDistance(Tile tileA, Tile tileB)
+	public int GetDistance(Tile tileA, Tile tileB)
 	{
 		int dstX = Mathf.Abs(tileA.pos.x - tileB.pos.x);
 		int dstY = Mathf.Abs(tileA.pos.y - tileB.pos.y);

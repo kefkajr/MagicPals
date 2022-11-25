@@ -48,7 +48,7 @@ public class PerformAbilityState : BattleState
 			foreach (Unit unit in units)
 			{
 				Perception perception = unit.GetComponent<Perception>();
-				perception.Listen(board, noisyTiles, turn.actor.GetComponent<Stealth>());
+				perception.Listen(board, owner.turn.abilityEpicenterTile.pos, noisyTiles, turn.actor.GetComponent<Stealth>());
 			}
 		}
     }

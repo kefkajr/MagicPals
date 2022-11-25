@@ -30,7 +30,7 @@ public class Perception : MonoBehaviour
 				if (!stealth.isInvisible)
 				{
 					// Construct an awareness based on the visible awareness type
-					Awareness potentialNewAwareness = new Awareness(this, stealth, type);
+					Awareness potentialNewAwareness = new Awareness(this, stealth, stealth.unit.tile.pos, type);
 					if (!awarenesses.Contains(potentialNewAwareness))
                     {
 						// Add the brand new awareness both to the NEW awarenesses to be reported
@@ -148,7 +148,7 @@ public class Perception : MonoBehaviour
 		return validatedTiles;
 	}
 
-	public List<Awareness> Listen(Board board, List<Tile> noisyTiles, Stealth noisyStealth)
+	public List<Awareness> Listen(Board board, Point pointOfNoise, List<Tile> noisyTiles, Stealth noisyStealth)
     {
 		List<Awareness> newAwarenesses = new List<Awareness>();
 		List<Tile> tilesInRange = board.Search(unit.tile, HearingExpandSearch);
@@ -156,7 +156,7 @@ public class Perception : MonoBehaviour
 		if (intersection.Count > 0)
         {
 			// Construct an awareness based on the heard awareness type
-			Awareness potentialNewAwareness = new Awareness(this, noisyStealth, AwarenessType.MayHaveHeard);
+			Awareness potentialNewAwareness = new Awareness(this, noisyStealth, pointOfNoise, AwarenessType.MayHaveHeard);
 			if (!awarenesses.Contains(potentialNewAwareness))
 			{
 				// Add the brand new awareness both to the NEW awarenesses to be reported

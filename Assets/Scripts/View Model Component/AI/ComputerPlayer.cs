@@ -9,7 +9,8 @@ public class ComputerPlayer : MonoBehaviour
 	Unit actor { get { return bc.turn.actor; }}
 	Alliance alliance { get { return actor.GetComponent<Alliance>(); }}
 	Perception perception { get { return actor.GetComponent<Perception>(); } }
-	Unit nearestFoe;
+	Unit topPriorityFoe;
+	Tile topPriorityTileOfInterest;
 	#endregion
 	
 	#region MonoBehaviour
@@ -23,6 +24,8 @@ public class ComputerPlayer : MonoBehaviour
 	// Create and fill out a plan of attack
 	public PlanOfAttack Evaluate ()
 	{
+		SetTopPriorityFoeAndPointOfInterest();
+
 		PlanOfAttack poa = new PlanOfAttack();
 
 		// Step 1: Decide what ability to use
@@ -45,13 +48,18 @@ public class ComputerPlayer : MonoBehaviour
 			// It DOES matter where you stand and it DOES matter where you face
 			PlanDirectionDependent(poa);
 
-		if (poa.ability == null)
+		if (poa.ability == null && topPriorityTileOfInterest != null)
 		{
-			Console.Main.Log(string.Format("{0} can't use an ability, so will try to investigate", actor.name));
-
 			// Just position yourself better for the next turn
 			Investigate(poa);
+		} else
+        {
+			Console.Main.Log(string.Format("{0} has nothing to do", actor.name));
+			// TODO: Perform sentry duties instead
+			// Stay put
+			poa.moveLocation = actor.tile.pos;
 		}
+
 
 		// Step 3: Return the completed plan
 		return poa;
@@ -340,73 +348,15 @@ public class ComputerPlayer : MonoBehaviour
 		poa.moveLocation = choice.bestMoveTile.pos;
 	}
 
-	/* There are a few different times in a turn when I might want to know where the nearest foe is to a given unit.
-	 * For example, whenever the turn had no good targets to use the selected ability on
-	 * – it assumes that the reason is that it wasn’t close enough to the enemy,
-	 * so I figure out where the nearest foe is and attempt to move toward it.
-	 * I determine this by using the board’s search method and passing along an anonymous delegate.
-	 * If it finds a tile with a unit that is a Foe (according to the alliance component)
-	 * and also isn’t KO’d [AND ALSO HAS BEEN SEEN], then I have found a target worth moving toward. */
-	void FindNearestFoe ()
-	{
-		nearestFoe = null;
-		bc.board.Search(actor.tile, delegate(Tile arg1, Tile arg2) {
-			if (nearestFoe == null && arg2.occupant != null)
-			{
-				Alliance other = arg2.occupant.GetComponentInChildren<Alliance>();
-				if (other != null && alliance.IsMatch(other, Targets.Foe))
-				{
-					Unit unit = other.GetComponent<Unit>();
-					Stats stats = unit.GetComponent<Stats>();
-
-					// If target is alive and the actor has seen them.
-					if (stats[StatTypes.HP] > 0 && perception.IsAwareOfUnit(unit, AwarenessType.Seen))
-					{
-						nearestFoe = unit;
-						return true;
-					}
-				}
-			}
-			return nearestFoe == null;
-		});
-	}
-
-	// TODO: If the new "Investigate" method doesn't work out, this should be deprecated.
-	/* Whenever a board search has been run, there will be tracking data left over in the tiles.
-	 * I can iterate over the “path” in reverse until I find a tile which happens to be included in the movement range of the unit.
-	 * This will allow me to move as close as possible to the foe who is nearest. */
-	void MoveTowardOpponent (PlanOfAttack poa)
-	{
-		List<Tile> moveOptions = GetMoveOptions();
-		FindNearestFoe();
-		if (nearestFoe != null)
-		{
-			Tile toCheck = nearestFoe.tile;
-			while (toCheck != null)
-			{
-				if (moveOptions.Contains(toCheck))
-				{
-					poa.moveLocation = toCheck.pos;
-					return;
-				}
-				toCheck = toCheck.prev;
-			}
-		}
-
-		poa.moveLocation = actor.tile.pos;
-	}
-
-
 	// NEW Investigation Methods
 
 	void Investigate(PlanOfAttack poa)
 	{
 		List<Tile> moveOptions = GetMoveOptions();
-		FindTopAwarenessFoeOnBoard(shouldCheckSeenOnly: false);
-		if (nearestFoe != null)
+		if (topPriorityTileOfInterest != null)
 		{
-			List<Tile> idealPath = bc.board.FindPath(actor.tile, nearestFoe.tile);
-			Console.Main.Log(string.Format("{0} is investigating {1}", actor.name, nearestFoe.name));
+			List<Tile> idealPath = bc.board.FindPath(actor.tile, topPriorityTileOfInterest);
+			Console.Main.Log(string.Format("{0} is investigating {1}", actor.name, topPriorityTileOfInterest.ToString()));
 			Tile toCheck = idealPath.Count > 0 ? idealPath.Last() : null;
 			while (toCheck != null)
 			{
@@ -420,39 +370,53 @@ public class ComputerPlayer : MonoBehaviour
 				toCheck = toCheck.prev;
 			}
 		}
-
-		// Stay put
-		// TODO: Perform sentry duties instead
-		poa.moveLocation = actor.tile.pos;
 	}
 
-	void FindTopAwarenessFoeOnBoard(bool shouldCheckSeenOnly)
+	void SetTopPriorityFoeAndPointOfInterest()
 	{
-		nearestFoe = null;
+		topPriorityFoe = null;
+		topPriorityTileOfInterest = null;
+
 		List<Awareness> topAwarenesses = perception.TopAwarenesses().FindAll( delegate (Awareness a) {
 			Alliance otherAlliance = a.stealth.unit.GetComponentInChildren<Alliance>();
 			return alliance.IsMatch(otherAlliance, Targets.Foe);
 		});
 		if (topAwarenesses.Count == 0) return;
 
-		Unit targetUnit = topAwarenesses[0].stealth.GetComponent<Unit>();
-		bc.board.Search(actor.tile, delegate (Tile arg1, Tile arg2) {
-			if (nearestFoe == null && arg2.occupant != null)
-			{
-				Unit foundUnit = arg2.occupant.GetComponent<Unit>();
-				if (targetUnit == foundUnit)
+		foreach (Awareness a in topAwarenesses)
+        {
+			if (a.type == AwarenessType.Seen)
+            {
+				// Find the nearest potential foe
+				if (topPriorityFoe != null)
+                {
+					// This new foe is the top priority if they're closer.
+					int distanceToCurrentFoe = bc.board.GetDistance(actor.tile, a.stealth.unit.tile);
+					int distanceToPotentialFoe = bc.board.GetDistance(actor.tile, a.stealth.unit.tile);
+					topPriorityFoe = distanceToPotentialFoe < distanceToCurrentFoe ? a.stealth.unit : topPriorityFoe;
+				}
+				else
+                {
+					// This foe is the top priority.
+					topPriorityFoe = a.stealth.unit;
+                }
+            } else
+            {
+				// Find the nearest potential point of interest
+				if (topPriorityTileOfInterest != null)
 				{
-					if (shouldCheckSeenOnly && !perception.IsAwareOfUnit(foundUnit, AwarenessType.Seen))
-                    {
-						return false;
-                    }
-
-					nearestFoe = targetUnit;
-					return true;
+					// This new point of interest is the top priority if they're closer.
+					int distanceToCurrentPointOfInterest = bc.board.GetDistance(actor.tile, bc.board.GetTile(a.pointOfInterest));
+					int distanceToPotentialPointOfInterest = bc.board.GetDistance(actor.tile, bc.board.GetTile(a.pointOfInterest));
+					topPriorityFoe = distanceToPotentialPointOfInterest < distanceToCurrentPointOfInterest ? a.stealth.unit : topPriorityFoe;
+				}
+				else
+				{
+					// This point of interest is the top priority.
+					topPriorityTileOfInterest = bc.board.GetTile(a.pointOfInterest);
 				}
 			}
-			return nearestFoe == null;
-		});
+        }
 	}
 
 	/* After we have moved and used an ability, we need to determine an end facing direction.
@@ -462,15 +426,16 @@ public class ComputerPlayer : MonoBehaviour
 	 * This way the foe is less likely to be able to attack me from the back. */
 	public Directions DetermineEndFacingDirection ()
 	{
+		SetTopPriorityFoeAndPointOfInterest();
 		Directions dir = (Directions)UnityEngine.Random.Range(0, 4);
-		FindTopAwarenessFoeOnBoard(shouldCheckSeenOnly: false);
-		if (nearestFoe != null)
+		//TODO: Avoid showing back to foe, but try to face a point of interest
+		if (topPriorityFoe != null)
 		{
 			Directions start = actor.dir;
 			for (int i = 0; i < 4; ++i)
 			{
 				actor.dir = (Directions)i;
-				if (nearestFoe.GetFacing(actor) == Facings.Front)
+				if (topPriorityFoe.GetFacing(actor) == Facings.Front)
 				{
 					dir = actor.dir;
 					break;

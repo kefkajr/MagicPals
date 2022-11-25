@@ -91,7 +91,7 @@ public class Tile : MonoBehaviour
 
 	public override string ToString()
 	{
-		return string.Format("Tile: {0}, {1}", pos.x, pos.y);
+		return string.Format("Tile: {0}", pos.ToString());
 	}
 }
 
