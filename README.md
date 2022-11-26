@@ -1,18 +1,16 @@
 # MagicPals
 This is where change summaries, work intentions, and related planning will be written.
 
-#### 11/17
-<img src="https://raw.githubusercontent.com/kefkajr/MagicPals/develop/Progress%20Pics/2022.11.16_ai-investigation.gif" width=500>
+#### 11/26
 
-##### On hearing the player perform a noisy ability, the enemy goes around the wall to investigate.
+Awareness.pointOfInterest has been created. Enemy units will now investigate the Tile at which they were made aware of a unit. In the case of Looking, it's where the unit was standing. In the case of Listening, it's Tile upon which a Noisy Ability as performed.
 
-Pathfinding for enemies has been introduced. The ComputerPlayer searches the Unit's awarenesses for the top unit of interest, finds the location of the unit, and asks the Board for a path to that will take it as close as possible to the target in a single turn.
-
-This is big, and soon we can start playing with how to influence enemy awareness in ways that are fun and clever.
+PlanOfAttack's Point-based properties were replaced with Tiles, so they can be nullable and avoid the problem of a default Point with coordinates of (0, 0). It's the first step of cleaning up the general plan-making flow of ComputerPlayer. It works well enough now, but will likely get more strained as different methods set more new properties willy-nilly.
 
 Stealth AI Improvements
-- Right now the enemy will head straight for the unit that it's aware of. However, we don't want the enemy to investigate the unit that might exist, we want it to investigate the POINT on the board where the enemy was made aware of a potential target. This will give the player a chance to avoid detection, as well as the opportunity to lure the enemy in strategic ways
-  - This will involve changing the way ComputerPlayer.nearestFoe works. It may also involve updating how Awareness works: it should probably have a Point property called pointOfInterest that tracks where on the Board the enemy was made aware of the unit.
+- ComputerPlayer should rely more neatly on topPriorityFoe and topPriotityTileOfInterest when it comes to decide the different branches of making a plan of attack. It should be more logical and legible.
+- The enemy should start to See other units the same way the player can. Specifically, while changing the unit's facing and looking around, new Awarnesses should be created.
+- There should be a "you've been spotted!" handler that allows the spotted unit to take an impromptu turn at that moment. That also necessitates that we start making adjustments to the game's 1) turn economy and 2) character stats. Then we can start playing around with the enemy.
 
 General Improvements
 - Formally visualize the following in the game, rather than only while debugging:
@@ -24,6 +22,15 @@ General Improvements
 - It may be worth figuring out how any units that share an alliance (good guys vs bad guys) may be able to automatically be aware of each other.
   - Maybe try adding a new AwarenessType called SameAlliance that cannot decay.
   - At the start of the battle, units from each Alliance should be grouped, and then added to each other's perceived Awarenesses (but not their own Awareness)
+
+#### 11/17
+<img src="https://raw.githubusercontent.com/kefkajr/MagicPals/develop/Progress%20Pics/2022.11.16_ai-investigation.gif" width=500>
+
+##### On hearing the player perform a noisy ability, the enemy goes around the wall to investigate.
+
+Pathfinding for enemies has been introduced. The ComputerPlayer searches the Unit's awarenesses for the top unit of interest, finds the location of the unit, and asks the Board for a path to that will take it as close as possible to the target in a single turn.
+
+This is big, and soon we can start playing with how to influence enemy awareness in ways that are fun and clever.
 
 #### 10/28
 
