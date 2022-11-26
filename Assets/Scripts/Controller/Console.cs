@@ -48,14 +48,14 @@ public class Console : MonoBehaviour
             for (int i = 0; i < difference; i++)
             {
 
-                textGroup.transform.GetChild(0).transform.SetParent(null);
-                yield return new WaitForSeconds(0.01f);
+                Destroy(textGroup.transform.GetChild(i).gameObject);
             }
         }
 
         textGroup.SetActive(textGroup.transform.childCount > 0);
 
         StartCoroutine(PulseLogEntry(text));
+        yield return null;
     }
 
     IEnumerator PulseLogEntry(Text text)
