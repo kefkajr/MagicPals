@@ -48,18 +48,21 @@ public class ComputerPlayer : MonoBehaviour
 			// It DOES matter where you stand and it DOES matter where you face
 			PlanDirectionDependent(poa);
 
-		if (poa.ability == null && topPriorityTileOfInterest != null)
+		if (poa.ability == null)
 		{
-			// Just position yourself better for the next turn
-			Investigate(poa);
-		} else
-        {
-			Console.Main.Log(string.Format("{0} has nothing to do", actor.name));
-			// TODO: Perform sentry duties instead
-			// Stay put
-			poa.moveLocation = actor.tile.pos;
+			if (topPriorityTileOfInterest != null)
+			{
+				// Just position yourself better for the next turn
+				Investigate(poa);
+			}
+			else
+			{
+				Console.Main.Log(string.Format("{0} has nothing to do", actor.name));
+				// TODO: Perform sentry duties instead
+				// Stay put
+				poa.moveLocation = actor.tile;
+			}
 		}
-
 
 		// Step 3: Return the completed plan
 		return poa;
@@ -97,7 +100,7 @@ public class ComputerPlayer : MonoBehaviour
 		List<Tile> moveOptions = GetMoveOptions();
 		// TODO: Have the unit move somewhere logical, instead of moving randomly
 		Tile tile = moveOptions[Random.Range(0, moveOptions.Count - 1)];
-		poa.moveLocation = poa.fireLocation = tile.pos;
+		poa.moveLocation = poa.fireLocation = tile;
 	}
 
 	/* The next case is where the position matters, but the facing angle does not.
@@ -343,9 +346,9 @@ public class ComputerPlayer : MonoBehaviour
 		}
 		
 		AttackOption choice = finalPicks[ UnityEngine.Random.Range(0, finalPicks.Count)  ];
-		poa.fireLocation = choice.target.pos;
+		poa.fireLocation = choice.target;
 		poa.attackDirection = choice.direction;
-		poa.moveLocation = choice.bestMoveTile.pos;
+		poa.moveLocation = choice.bestMoveTile;
 	}
 
 	// NEW Investigation Methods
@@ -363,7 +366,7 @@ public class ComputerPlayer : MonoBehaviour
 				if (moveOptions.Contains(toCheck))
 				{
 					// Move toward top awareness / point of interest
-					poa.moveLocation = toCheck.pos;
+					poa.moveLocation = toCheck;
 					return;
 				}
 				// Board search keeps previous tiles in memory

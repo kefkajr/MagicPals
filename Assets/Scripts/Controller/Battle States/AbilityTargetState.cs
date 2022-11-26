@@ -88,12 +88,12 @@ public class AbilityTargetState : BattleState
 		else
 		{
 			Point cursorPos = pos;
-			while (cursorPos != turn.plan.fireLocation)
+			while (cursorPos != turn.plan.fireLocation.pos)
 			{
-				if (cursorPos.x < turn.plan.fireLocation.x) cursorPos.x++;
-				if (cursorPos.x > turn.plan.fireLocation.x) cursorPos.x--;
-				if (cursorPos.y < turn.plan.fireLocation.y) cursorPos.y++;
-				if (cursorPos.y > turn.plan.fireLocation.y) cursorPos.y--;
+				if (cursorPos.x < turn.plan.fireLocation.pos.x) cursorPos.x++;
+				if (cursorPos.x > turn.plan.fireLocation.pos.x) cursorPos.x--;
+				if (cursorPos.y < turn.plan.fireLocation.pos.y) cursorPos.y++;
+				if (cursorPos.y > turn.plan.fireLocation.pos.y) cursorPos.y--;
 				SelectTile(cursorPos);
 				yield return new WaitForSeconds(0.25f);
 			}

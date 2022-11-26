@@ -99,7 +99,9 @@ public class CommandSelectionState : BaseAbilityMenuState
 
 		yield return new WaitForSeconds (1f);
 
-		if (turn.hasUnitMoved == false && turn.plan.moveLocation != turn.actor.tile.pos)
+		bool unitShouldMove = turn.plan.moveLocation != turn.actor.tile && turn.plan.moveLocation != null;
+
+		if (turn.hasUnitMoved == false && unitShouldMove)
 			owner.ChangeState<MoveTargetState>();
 		else if (turn.hasUnitActed == false && turn.plan.ability != null)
 			owner.ChangeState<AbilityTargetState>();

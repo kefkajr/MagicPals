@@ -11,7 +11,7 @@ public class PlanOfAttack
 {
 	public Ability ability;
 	public Targets target;
-	public Point moveLocation;
-	public Point fireLocation;
+	public Tile moveLocation;
+	public Tile fireLocation;
 	public Directions attackDirection;
 }

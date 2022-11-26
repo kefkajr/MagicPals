@@ -46,13 +46,17 @@ public class MoveTargetState : BattleState
 
 	IEnumerator ComputerHighlightMoveTarget ()
 	{
+		// Skip to MoveSequenceState if the plan of attack has not move location
+		if (turn.plan.moveLocation == null)
+			turn.plan.moveLocation = turn.actor.tile;
+
 		Point cursorPos = pos;
-		while (cursorPos != turn.plan.moveLocation)
+		while (cursorPos != turn.plan.moveLocation.pos)
 		{
-			if (cursorPos.x < turn.plan.moveLocation.x) cursorPos.x++;
-			if (cursorPos.x > turn.plan.moveLocation.x) cursorPos.x--;
-			if (cursorPos.y < turn.plan.moveLocation.y) cursorPos.y++;
-			if (cursorPos.y > turn.plan.moveLocation.y) cursorPos.y--;
+			if (cursorPos.x < turn.plan.moveLocation.pos.x) cursorPos.x++;
+			if (cursorPos.x > turn.plan.moveLocation.pos.x) cursorPos.x--;
+			if (cursorPos.y < turn.plan.moveLocation.pos.y) cursorPos.y++;
+			if (cursorPos.y > turn.plan.moveLocation.pos.y) cursorPos.y--;
 			SelectTile(cursorPos);
 			yield return new WaitForSeconds(0.25f);
 		}
