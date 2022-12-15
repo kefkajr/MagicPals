@@ -29,9 +29,7 @@ public class EndFacingState : BattleState
 		turn.actor.Match();
 		owner.facingIndicator.SetDirection(turn.actor.dir);
 
-		// Allow the unit to perceive in whatever direction they turn
-		Perception perception = turn.actor.GetComponent<Perception>();
-		perception.Look(board: board);
+		LetActorLookInCurrentDirection();
 	}
 	
 	protected override void OnFire (object sender, InfoEventArgs<int> e)
@@ -55,7 +53,17 @@ public class EndFacingState : BattleState
 		turn.actor.dir = owner.cpu.DetermineEndFacingDirection();
 		turn.actor.Match();
 		owner.facingIndicator.SetDirection(turn.actor.dir);
+
+		LetActorLookInCurrentDirection();
+
 		yield return new WaitForSeconds(0.5f);
 		owner.ChangeState<SelectUnitState>();
+	}
+
+	void LetActorLookInCurrentDirection()
+    {
+		// Allow the unit to perceive in whatever direction they turn
+		Perception perception = turn.actor.GetComponent<Perception>();
+		perception.Look(board: board);
 	}
 }
