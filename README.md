@@ -1,16 +1,20 @@
 # MagicPals
 This is where change summaries, work intentions, and related planning will be written.
 
-#### 11/26
+#### 12/14
 
-Awareness.pointOfInterest has been created. Enemy units will now investigate the Tile at which they were made aware of a unit. In the case of Looking, it's where the unit was standing. In the case of Listening, it's Tile upon which a Noisy Ability as performed.
+The ComputerPlayer is now more legible, with branching behavior for fighting a known foe, searching for a potential foe, and sentry duty - although sentry duty is just a placeholder.
 
-PlanOfAttack's Point-based properties were replaced with Tiles, so they can be nullable and avoid the problem of a default Point with coordinates of (0, 0). It's the first step of cleaning up the general plan-making flow of ComputerPlayer. It works well enough now, but will likely get more strained as different methods set more new properties willy-nilly.
+The ComputerPlayer can also Look when they choose their facing direction at the end of their turn.
+
+I think if we're going to persist in improving and playing with stealth, it may make more sense to finally make an AwarenessManager. So many disparate parts of the game (or at least ComputerPlayer and all the various battle states) need to know which unit is aware of which unit.
+- Make an AwarenessManager. Give it an a property like awarenessMap. It should probably be a dictionary of Units with a dictionary of Units and awarenesses. ([Unit: [Unit: Awareness]]). All methods in the AwarenessManager should concern adding, remove, updating, and searching this map.
+- Perception and Stealth should simply contain criteria. Perception should be dumbed down, and its logic should be moved to the AwarenessManager.
+- Awareness should be dumbed down, as well. Things like awareness level decay should be controled by the AwarenessManager when the turn ends.
 
 Stealth AI Improvements
-- ComputerPlayer should rely more neatly on topPriorityFoe and topPriotityTileOfInterest when it comes to decide the different branches of making a plan of attack. It should be more logical and legible.
-- The enemy should start to See other units the same way the player can. Specifically, while changing the unit's facing and looking around, new Awarnesses should be created.
 - There should be a "you've been spotted!" handler that allows the spotted unit to take an impromptu turn at that moment. That also necessitates that we start making adjustments to the game's 1) turn economy and 2) character stats. Then we can start playing around with the enemy.
+  - This will involve manipulating what is currently called CTR (counter) in a Unit's Stats. Maybe if we visualize this somehow during the game (even via debugging) it would help find a fair rhythm for that impromptu turn.
 
 General Improvements
 - Formally visualize the following in the game, rather than only while debugging:
@@ -22,6 +26,12 @@ General Improvements
 - It may be worth figuring out how any units that share an alliance (good guys vs bad guys) may be able to automatically be aware of each other.
   - Maybe try adding a new AwarenessType called SameAlliance that cannot decay.
   - At the start of the battle, units from each Alliance should be grouped, and then added to each other's perceived Awarenesses (but not their own Awareness)
+
+#### 11/26
+
+Awareness.pointOfInterest has been created. Enemy units will now investigate the Tile at which they were made aware of a unit. In the case of Looking, it's where the unit was standing. In the case of Listening, it's Tile upon which a Noisy Ability as performed.
+
+PlanOfAttack's Point-based properties were replaced with Tiles, so they can be nullable and avoid the problem of a default Point with coordinates of (0, 0). It's the first step of cleaning up the general plan-making flow of ComputerPlayer. It works well enough now, but will likely get more strained as different methods set more new properties willy-nilly.
 
 #### 11/17
 <img src="https://raw.githubusercontent.com/kefkajr/MagicPals/develop/Progress%20Pics/2022.11.16_ai-investigation.gif" width=500>
