@@ -28,40 +28,39 @@ public class ComputerPlayer : MonoBehaviour
 
 		PlanOfAttack poa = new PlanOfAttack();
 
-		// Step 1: Decide what ability to use
-		AttackPattern pattern = actor.GetComponentInChildren<AttackPattern>();
-		if (pattern)
-			pattern.Pick(poa);
-		else
-			DefaultAttackPattern(poa);
-
-		Console.Main.Log(string.Format("{0} wants to use {1}", actor.name, poa.ability.name));
-
-		// Step 2: Determine where to move and aim to best use the ability
-		if (IsPositionIndependent(poa))
-			// It doesn't matter where you stand
-			PlanPositionIndependent(poa);
-		else if (IsDirectionIndependent(poa))
-			// It DOES matter where you stand, but it doesn't matter where you face
-			PlanDirectionIndependent(poa);
-		else
-			// It DOES matter where you stand and it DOES matter where you face
-			PlanDirectionDependent(poa);
-
-		if (poa.ability == null)
+		if (topPriorityFoe != null)
 		{
-			if (topPriorityTileOfInterest != null)
-			{
-				// Just position yourself better for the next turn
-				Investigate(poa);
-			}
+			// Step 1: Decide what ability to use
+			AttackPattern pattern = actor.GetComponentInChildren<AttackPattern>();
+			if (pattern)
+				pattern.Pick(poa);
 			else
-			{
-				Console.Main.Log(string.Format("{0} has nothing to do", actor.name));
-				// TODO: Perform sentry duties instead
-				// Stay put
-				poa.moveLocation = actor.tile;
-			}
+				DefaultAttackPattern(poa);
+
+			Console.Main.Log(string.Format("{0} wants to use {1}", actor.name, poa.ability.name));
+
+			// Step 2: Determine where to move and aim to best use the ability
+			if (IsPositionIndependent(poa))
+				// It doesn't matter where you stand
+				PlanPositionIndependent(poa);
+			else if (IsDirectionIndependent(poa))
+				// It DOES matter where you stand, but it doesn't matter where you face
+				PlanDirectionIndependent(poa);
+			else
+				// It DOES matter where you stand and it DOES matter where you face
+				PlanDirectionDependent(poa);
+		}
+		else if (topPriorityTileOfInterest != null)
+		{
+			// Just position yourself better for the next turn
+			Investigate(poa);
+		}
+		else
+		{
+			Console.Main.Log(string.Format("{0} has nothing to do", actor.name));
+			// TODO: Perform sentry duties instead
+			// Stay put
+			poa.moveLocation = actor.tile;
 		}
 
 		// Step 3: Return the completed plan
