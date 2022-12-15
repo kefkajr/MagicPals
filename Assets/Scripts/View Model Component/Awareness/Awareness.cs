@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using System;
+﻿using System;
 
 public class Awareness: IEquatable<Awareness>
 {
@@ -13,9 +10,6 @@ public class Awareness: IEquatable<Awareness>
 	public AwarenessType type;
 
 	public int level = StartingAwarenessLevel;
-
-	public Unit unit { get { return perception.GetComponentInParent<Unit>(); } }
-	public bool isExpired {  get { return type != AwarenessType.Seen && level <= 0; } }
 
 	public Awareness(Perception perception, Stealth stealth, Point pointOfInterest, AwarenessType type)
     {
@@ -60,9 +54,13 @@ public class Awareness: IEquatable<Awareness>
 				switch (newType)
 				{
 					case AwarenessType.LostTrack:
+					case AwarenessType.Unaware:
 						type = newType;
-						level = StartingAwarenessLevel;
 						return true;
+					case AwarenessType.MayHaveHeard:
+						pointOfInterest = newPointOfInterest;
+						level = StartingAwarenessLevel;
+						return false;
 					case AwarenessType.MayHaveSeen:
 					case AwarenessType.Seen:
 						pointOfInterest = newPointOfInterest;
@@ -74,10 +72,17 @@ public class Awareness: IEquatable<Awareness>
 			case AwarenessType.MayHaveSeen:
 				switch (newType)
 				{
+					case AwarenessType.Unaware:
+						type = newType;
+						return true;
 					case AwarenessType.LostTrack:
 						type = newType;
 						level = StartingAwarenessLevel;
 						return true;
+					case AwarenessType.MayHaveSeen:
+						pointOfInterest = newPointOfInterest;
+						level = StartingAwarenessLevel;
+						return false;
 					case AwarenessType.Seen:
 						pointOfInterest = newPointOfInterest;
 						type = newType;
@@ -104,13 +109,16 @@ public class Awareness: IEquatable<Awareness>
 
 	public void Decay()
     {
+		if (type == AwarenessType.Unaware)
+			return; // Cannot decay further than Unaware
+
 		level -= 1;
 		if (level <= 0)
 		{
 			if (type == AwarenessType.Seen)
 			{
 				Update(AwarenessType.LostTrack, this.pointOfInterest);
-			} else
+			} else if (type != AwarenessType.Unaware)
             {
 				Update(AwarenessType.Unaware, this.pointOfInterest);
 			}
@@ -141,7 +149,7 @@ public class Awareness: IEquatable<Awareness>
 
 	public override string ToString()
 	{
-		return string.Format("{0} > {1} > {2}", unit.name, type.ActionVerb(), stealth.unit.name);
+		return string.Format("{0} > {1} > {2}", perception.unit.name, type.ActionVerb(), stealth.unit.name);
 	}
     #endregion
 }

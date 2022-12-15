@@ -32,7 +32,6 @@ public class AwarenessController : MonoBehaviour
 		RemoveListeners();
 	}
 
-
 	public void InitializeAwarenessMap()
     {
 		// Allow all units to look at any other units

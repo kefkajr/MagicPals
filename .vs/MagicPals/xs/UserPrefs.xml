@@ -1,20 +1,14 @@
 ﻿<Properties StartupConfiguration="{422E8762-CC4A-4CE0-0179-1FC34FF9D511}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Library/PackageCache/com.unity.ide.visualstudio@2.0.16/Editor/Messaging/UdpSocket.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/AwarenessController.cs">
     <Files>
-      <File FileName="Assets/AwarenessController.cs" Line="210" Column="1" />
+      <File FileName="Assets/AwarenessController.cs" Line="198" Column="1" />
       <File FileName="Assets/Scripts/View Model Component/AI/ComputerPlayer.cs" Line="268" Column="1" />
       <File FileName="Assets/Scripts/Controller/Battle States/EndFacingState.cs" />
       <File FileName="Assets/Scripts/Controller/Battle States/SelectUnitState.cs" />
       <File FileName="Assets/Scripts/Controller/TurnOrderController.cs" />
       <File FileName="Assets/Scripts/Controller/Battle States/InitBattleState.cs" />
-      <File FileName="Assets/Scripts/View Model Component/Awareness/Perception.cs" />
-      <File FileName="Assets/Scripts/Controller/Battle States/PerformAbilityState.cs" />
+      <File FileName="Assets/Scripts/View Model Component/Awareness/Perception.cs" Line="2" Column="1" />
       <File FileName="Assets/Scripts/Controller/Battle States/MoveSequenceState.cs" Line="64" Column="4" />
-      <File FileName="Assets/Scripts/View Model Component/Awareness/AwarenessType.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Controller/Battle States/MoveTargetState.cs" Line="65" Column="1" />
-      <File FileName="Library/PackageCache/com.unity.ide.visualstudio@2.0.16/Editor/Messaging/UdpSocket.cs" Line="25" Column="1" />
-      <File FileName="Assets/Scripts/View Model Component/Ability/Effects/DamageAbilityEffect.cs" Line="66" Column="3" />
-      <File FileName="Assets/Scripts/View Model Component/Ability/Hit Rate/ATypeHitRate.cs" Line="22" Column="6" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>
