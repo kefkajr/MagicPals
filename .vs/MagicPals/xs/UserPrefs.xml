@@ -1,27 +1,22 @@
 ﻿<Properties StartupConfiguration="{422E8762-CC4A-4CE0-0179-1FC34FF9D511}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/View Model Component/AI/ComputerPlayer.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Controller/Battle States/SelectUnitState.cs">
     <Files>
-      <File FileName="Assets/Scripts/View Model Component/AI/ComputerPlayer.cs" Line="68" Column="1" />
-      <File FileName="Assets/Scripts/View Model Component/AI/AttackOption.cs" Line="73" Column="3" />
+      <File FileName="Assets/Scripts/View Model Component/AI/ComputerPlayer.cs" Line="427" Column="37" />
+      <File FileName="Assets/Scripts/View Model Component/AI/AttackOption.cs" />
       <File FileName="Assets/Scripts/View Model Component/AI/PlanOfAttack.cs" Line="14" Column="26" />
-      <File FileName="Assets/Scripts/Controller/Battle States/CommandSelectionState.cs" Line="102" Column="27" />
-      <File FileName="Assets/Scripts/Controller/Battle States/MoveTargetState.cs" Line="50" Column="9" />
-      <File FileName="Assets/Scripts/Controller/Battle States/MoveSequenceState.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Controller/Battle States/CommandSelectionState.cs" />
+      <File FileName="Assets/Scripts/Controller/Battle States/MoveTargetState.cs" />
+      <File FileName="Assets/Scripts/Controller/Battle States/MoveSequenceState.cs" />
       <File FileName="Assets/Scripts/Controller/Console.cs" Line="56" Column="1" />
+      <File FileName="Assets/Scripts/Controller/Battle States/EndFacingState.cs" Line="60" Column="27" />
+      <File FileName="Assets/Scripts/Controller/Battle States/SelectUnitState.cs" Line="4" Column="14" />
     </Files>
-    <Pads>
-      <Pad Id="ProjectPad">
-        <State name="__root__">
-          <Node name="MagicPals" expanded="True" selected="True" />
-        </State>
-      </Pad>
-    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>
     <Watch file="../../../Assets/Scripts/View Model Component/Awareness/Perception.cs" line="16" column="18" endLine="16" endColumn="56" offsetX="-1" offsetY="-1" expression="newAwarenesses" liveUpdate="False" />
   </MonoDevelop.Ide.DebuggingService.PinnedWatches>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="14445bfe-69a1-4a82-ac77-7dbc5d88b09b" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="0172e7fd-0279-4080-a848-026900bddc97" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/Common/Animation/EasingControl.cs" relfile="Assets/Scripts/Common/Animation/EasingControl.cs" line="110" column="1" />
@@ -29,10 +24,9 @@
       <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/Common/Animation/EasingControl.cs" relfile="Assets/Scripts/Common/Animation/EasingControl.cs" line="118" column="1" />
       <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/View Model Component/Awareness/Perception.cs" relfile="Assets/Scripts/View Model Component/Awareness/Perception.cs" line="276" column="1" />
       <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/View Model Component/AI/ComputerPlayer.cs" relfile="Assets/Scripts/View Model Component/AI/ComputerPlayer.cs" line="462" column="1" />
-      <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/View Model Component/AI/ComputerPlayer.cs" relfile="Assets/Scripts/View Model Component/AI/ComputerPlayer.cs" line="370" column="1" />
-      <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/View Model Component/AI/ComputerPlayer.cs" relfile="Assets/Scripts/View Model Component/AI/ComputerPlayer.cs" line="358" column="1" />
-      <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/View Model Component/AI/ComputerPlayer.cs" relfile="Assets/Scripts/View Model Component/AI/ComputerPlayer.cs" line="68" column="1" />
-      <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/View Model Component/AI/ComputerPlayer.cs" relfile="Assets/Scripts/View Model Component/AI/ComputerPlayer.cs" line="351" column="1" />
+      <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/View Model Component/AI/ComputerPlayer.cs" relfile="Assets/Scripts/View Model Component/AI/ComputerPlayer.cs" line="369" column="1" />
+      <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/View Model Component/AI/ComputerPlayer.cs" relfile="Assets/Scripts/View Model Component/AI/ComputerPlayer.cs" line="357" column="1" />
+      <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/View Model Component/AI/ComputerPlayer.cs" relfile="Assets/Scripts/View Model Component/AI/ComputerPlayer.cs" line="350" column="1" />
       <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/Controller/Battle States/MoveTargetState.cs" relfile="Assets/Scripts/Controller/Battle States/MoveTargetState.cs" line="65" column="1" />
       <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/Controller/Battle States/MoveTargetState.cs" relfile="Assets/Scripts/Controller/Battle States/MoveTargetState.cs" line="51" column="1" />
     </BreakpointStore>
