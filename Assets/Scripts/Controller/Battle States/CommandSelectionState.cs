@@ -21,8 +21,7 @@ public class CommandSelectionState : BaseAbilityMenuState
 			StartCoroutine( ComputerTurn() );
 
 		// Allow the unit to perceive in whatever direction they start facing
-		Perception perception = turn.actor.GetComponent<Perception>();
-		perception.Look(board: board);
+		owner.awarenessController.Look(turn.actor);
 	}
 
 	public override void Exit ()

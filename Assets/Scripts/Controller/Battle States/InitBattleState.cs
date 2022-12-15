@@ -17,6 +17,9 @@ public class InitBattleState : BattleState
 		SelectTile(p);
 		SpawnTestUnits();
 		AddVictoryCondition();
+
+		owner.awarenessController.InitializeAwarenessMap();
+
 		owner.round = owner.gameObject.AddComponent<TurnOrderController>().Round();
 		yield return null;
 		//owner.ChangeState<CutSceneState>();
@@ -61,14 +64,6 @@ public class InitBattleState : BattleState
 		}
 		
 		SelectTile(units[0].tile.pos);
-
-		// Allow all units to look at any other units
-		foreach (Unit unit in units)
-		{
-			Perception perception = unit.GetComponent<Perception>();
-			List <Awareness> awarenesses = perception.Look(board: board);
-		}
-
 	}
 
 	void AddVictoryCondition ()

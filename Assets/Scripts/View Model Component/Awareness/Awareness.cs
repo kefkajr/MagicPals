@@ -25,16 +25,32 @@ public class Awareness: IEquatable<Awareness>
 		this.type = type;
 	}
 
-	public bool Update(AwarenessType newType)
+	public bool Update(AwarenessType newType, Point newPointOfInterest)
     {
 		switch(type)
         {
-			case AwarenessType.LostTrack:
+			case AwarenessType.Unaware:
 				switch (newType)
 				{
 					case AwarenessType.MayHaveHeard:
 					case AwarenessType.MayHaveSeen:
 					case AwarenessType.Seen:
+						pointOfInterest = newPointOfInterest;
+						type = newType;
+						level = StartingAwarenessLevel;
+						return true;
+					default: return false;
+				}
+			case AwarenessType.LostTrack:
+				switch (newType)
+				{
+					case AwarenessType.Unaware:
+						type = newType;
+						return true;
+					case AwarenessType.MayHaveHeard:
+					case AwarenessType.MayHaveSeen:
+					case AwarenessType.Seen:
+						pointOfInterest = newPointOfInterest;
 						type = newType;
 						level = StartingAwarenessLevel;
 						return true;
@@ -44,8 +60,12 @@ public class Awareness: IEquatable<Awareness>
 				switch (newType)
 				{
 					case AwarenessType.LostTrack:
+						type = newType;
+						level = StartingAwarenessLevel;
+						return true;
 					case AwarenessType.MayHaveSeen:
 					case AwarenessType.Seen:
+						pointOfInterest = newPointOfInterest;
 						type = newType;
 						level = StartingAwarenessLevel;
 						return true;
@@ -55,7 +75,11 @@ public class Awareness: IEquatable<Awareness>
 				switch (newType)
 				{
 					case AwarenessType.LostTrack:
+						type = newType;
+						level = StartingAwarenessLevel;
+						return true;
 					case AwarenessType.Seen:
+						pointOfInterest = newPointOfInterest;
 						type = newType;
 						level = StartingAwarenessLevel;
 						return true;
@@ -69,6 +93,7 @@ public class Awareness: IEquatable<Awareness>
 						level = StartingAwarenessLevel;
 						return true;
 					case AwarenessType.Seen:
+						pointOfInterest = newPointOfInterest;
 						level = StartingAwarenessLevel;
 						return false;
 					default: return false;
@@ -80,9 +105,15 @@ public class Awareness: IEquatable<Awareness>
 	public void Decay()
     {
 		level -= 1;
-		if (level <= 0 && type == AwarenessType.Seen)
+		if (level <= 0)
 		{
-			Update(AwarenessType.LostTrack);
+			if (type == AwarenessType.Seen)
+			{
+				Update(AwarenessType.LostTrack, this.pointOfInterest);
+			} else
+            {
+				Update(AwarenessType.Unaware, this.pointOfInterest);
+			}
 			Console.Main.Log(ToString());
 		}
 	}
@@ -113,42 +144,4 @@ public class Awareness: IEquatable<Awareness>
 		return string.Format("{0} > {1} > {2}", unit.name, type.ActionVerb(), stealth.unit.name);
 	}
     #endregion
-}
-
-public enum AwarenessType
-{
-	LostTrack, MayHaveHeard, MayHaveSeen, Seen
-}
-
-public static class AwarenessTypeExtensions
-{
-	public static string ActionVerb(this AwarenessType type)
-	{
-		switch (type)
-		{
-			case AwarenessType.MayHaveHeard:
-				return "may have heard";
-			case AwarenessType.MayHaveSeen:
-				return "may have seen";
-			case AwarenessType.Seen:
-				return "definitely saw";
-			default: // LostTrack:
-				return "lost track of";
-		};
-	}
-
-	public static Color GizmoColor(this AwarenessType type)
-	{
-		switch (type)
-		{
-			case AwarenessType.MayHaveHeard:
-				return Color.cyan;
-			case AwarenessType.MayHaveSeen:
-				return Color.yellow;
-			case AwarenessType.Seen:
-				return Color.red;
-			default: // LostTrack:
-				return Color.white;
-		};
-	}
 }

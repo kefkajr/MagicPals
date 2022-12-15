@@ -1,34 +1,34 @@
 ﻿<Properties StartupConfiguration="{422E8762-CC4A-4CE0-0179-1FC34FF9D511}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Controller/Battle States/SelectUnitState.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Library/PackageCache/com.unity.ide.visualstudio@2.0.16/Editor/Messaging/UdpSocket.cs">
     <Files>
-      <File FileName="Assets/Scripts/View Model Component/AI/ComputerPlayer.cs" Line="427" Column="37" />
-      <File FileName="Assets/Scripts/View Model Component/AI/AttackOption.cs" />
-      <File FileName="Assets/Scripts/View Model Component/AI/PlanOfAttack.cs" Line="14" Column="26" />
-      <File FileName="Assets/Scripts/Controller/Battle States/CommandSelectionState.cs" />
-      <File FileName="Assets/Scripts/Controller/Battle States/MoveTargetState.cs" />
-      <File FileName="Assets/Scripts/Controller/Battle States/MoveSequenceState.cs" />
-      <File FileName="Assets/Scripts/Controller/Console.cs" Line="56" Column="1" />
-      <File FileName="Assets/Scripts/Controller/Battle States/EndFacingState.cs" Line="60" Column="27" />
-      <File FileName="Assets/Scripts/Controller/Battle States/SelectUnitState.cs" Line="4" Column="14" />
+      <File FileName="Assets/AwarenessController.cs" Line="210" Column="1" />
+      <File FileName="Assets/Scripts/View Model Component/AI/ComputerPlayer.cs" Line="268" Column="1" />
+      <File FileName="Assets/Scripts/Controller/Battle States/EndFacingState.cs" />
+      <File FileName="Assets/Scripts/Controller/Battle States/SelectUnitState.cs" />
+      <File FileName="Assets/Scripts/Controller/TurnOrderController.cs" />
+      <File FileName="Assets/Scripts/Controller/Battle States/InitBattleState.cs" />
+      <File FileName="Assets/Scripts/View Model Component/Awareness/Perception.cs" />
+      <File FileName="Assets/Scripts/Controller/Battle States/PerformAbilityState.cs" />
+      <File FileName="Assets/Scripts/Controller/Battle States/MoveSequenceState.cs" Line="64" Column="4" />
+      <File FileName="Assets/Scripts/View Model Component/Awareness/AwarenessType.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Controller/Battle States/MoveTargetState.cs" Line="65" Column="1" />
+      <File FileName="Library/PackageCache/com.unity.ide.visualstudio@2.0.16/Editor/Messaging/UdpSocket.cs" Line="25" Column="1" />
+      <File FileName="Assets/Scripts/View Model Component/Ability/Effects/DamageAbilityEffect.cs" Line="66" Column="3" />
+      <File FileName="Assets/Scripts/View Model Component/Ability/Hit Rate/ATypeHitRate.cs" Line="22" Column="6" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>
     <Watch file="../../../Assets/Scripts/View Model Component/Awareness/Perception.cs" line="16" column="18" endLine="16" endColumn="56" offsetX="-1" offsetY="-1" expression="newAwarenesses" liveUpdate="False" />
   </MonoDevelop.Ide.DebuggingService.PinnedWatches>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="0172e7fd-0279-4080-a848-026900bddc97" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="e0fa19e1-c2ae-4281-9dc9-727afda376be" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/Common/Animation/EasingControl.cs" relfile="Assets/Scripts/Common/Animation/EasingControl.cs" line="110" column="1" />
       <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/Common/Animation/EasingControl.cs" relfile="Assets/Scripts/Common/Animation/EasingControl.cs" line="123" column="1" />
       <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/Common/Animation/EasingControl.cs" relfile="Assets/Scripts/Common/Animation/EasingControl.cs" line="118" column="1" />
-      <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/View Model Component/Awareness/Perception.cs" relfile="Assets/Scripts/View Model Component/Awareness/Perception.cs" line="276" column="1" />
       <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/View Model Component/AI/ComputerPlayer.cs" relfile="Assets/Scripts/View Model Component/AI/ComputerPlayer.cs" line="462" column="1" />
-      <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/View Model Component/AI/ComputerPlayer.cs" relfile="Assets/Scripts/View Model Component/AI/ComputerPlayer.cs" line="369" column="1" />
-      <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/View Model Component/AI/ComputerPlayer.cs" relfile="Assets/Scripts/View Model Component/AI/ComputerPlayer.cs" line="357" column="1" />
-      <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/View Model Component/AI/ComputerPlayer.cs" relfile="Assets/Scripts/View Model Component/AI/ComputerPlayer.cs" line="350" column="1" />
-      <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/Controller/Battle States/MoveTargetState.cs" relfile="Assets/Scripts/Controller/Battle States/MoveTargetState.cs" line="65" column="1" />
-      <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/Controller/Battle States/MoveTargetState.cs" relfile="Assets/Scripts/Controller/Battle States/MoveTargetState.cs" line="51" column="1" />
+      <Catchpoint enabled="false" exceptionName="System.Exception" includeSubclasses="True" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MultiItemStartupConfigurations />

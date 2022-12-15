@@ -63,7 +63,6 @@ public class EndFacingState : BattleState
 	void LetActorLookInCurrentDirection()
     {
 		// Allow the unit to perceive in whatever direction they turn
-		Perception perception = turn.actor.GetComponent<Perception>();
-		perception.Look(board: board);
+		owner.awarenessController.Look(turn.actor);
 	}
 }

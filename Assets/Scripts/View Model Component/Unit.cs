@@ -6,6 +6,9 @@ public class Unit : MonoBehaviour
 	public Tile tile { get; protected set; }
 	public Directions dir;
 
+	public Perception perception { get { return GetComponent<Perception>(); } }
+	public Stealth stealth { get { return GetComponent<Stealth>(); } }
+
 	public void Place (Tile target)
 	{
 		// Make sure old tile location is not still pointing to this unit

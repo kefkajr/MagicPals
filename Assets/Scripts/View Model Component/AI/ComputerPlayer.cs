@@ -5,8 +5,9 @@ using System.Linq;
 public class ComputerPlayer : MonoBehaviour 
 {
 	#region Fields
-	BattleController bc;
-	Unit actor { get { return bc.turn.actor; }}
+	BattleController BC;
+	Unit actor { get { return BC.turn.actor; }}
+	AwarenessController AC { get { return BC.GetComponent<AwarenessController>(); } }
 	Alliance alliance { get { return actor.GetComponent<Alliance>(); }}
 	Perception perception { get { return actor.GetComponent<Perception>(); } }
 	Unit topPriorityFoe;
@@ -16,7 +17,7 @@ public class ComputerPlayer : MonoBehaviour
 	#region MonoBehaviour
 	void Awake ()
 	{
-		bc = GetComponent<BattleController>();
+		BC = GetComponent<BattleController>();
 	}
 	#endregion
 
@@ -141,7 +142,7 @@ public class ComputerPlayer : MonoBehaviour
 		{
 			Tile moveTile = moveOptions[i];
 			actor.Place( moveTile );
-			List<Tile> fireOptions = ar.GetTilesInRange(bc.board);
+			List<Tile> fireOptions = ar.GetTilesInRange(BC.board);
 			
 			for (int j = 0; j < fireOptions.Count; ++j)
 			{
@@ -208,7 +209,7 @@ public class ComputerPlayer : MonoBehaviour
 	
 	List<Tile> GetMoveOptions ()
 	{
-		return actor.GetComponent<Movement>().GetTilesInRange(bc.board);
+		return actor.GetComponent<Movement>().GetTilesInRange(BC.board);
 	}
 
 	/* As we were creating each Attack Option (a note on the effect area of using an ability),
@@ -236,7 +237,7 @@ public class ComputerPlayer : MonoBehaviour
 	void RateFireLocation (PlanOfAttack poa, AttackOption option)
 	{
 		AbilityArea area = poa.ability.GetComponent<AbilityArea>();
-		List<Tile> tiles = area.GetTilesInArea(bc.board, option.target.pos);
+		List<Tile> tiles = area.GetTilesInArea(BC.board, option.target.pos);
 		option.areaTargets = tiles;
 		option.isCasterMatch = IsAbilityTargetMatch(poa, actor.tile);
 
@@ -263,8 +264,8 @@ public class ComputerPlayer : MonoBehaviour
 		else if (poa.target != Targets.None)
 		{
 			Alliance other = tile.occupant.GetComponentInChildren<Alliance>();
-			Unit unit = other.GetComponent<Unit>();
-			if (other != null && perception.IsAwareOfUnit(unit, AwarenessType.Seen) && alliance.IsMatch(other, poa.target))
+			Unit targetUnit = other.GetComponent<Unit>();
+			if (other != null && AC.IsAwareOfUnit(actor, targetUnit, AwarenessType.Seen) && alliance.IsMatch(other, poa.target))
 				isMatch = true;
 		}
 
@@ -357,7 +358,7 @@ public class ComputerPlayer : MonoBehaviour
 		List<Tile> moveOptions = GetMoveOptions();
 		if (topPriorityTileOfInterest != null)
 		{
-			List<Tile> idealPath = bc.board.FindPath(actor.tile, topPriorityTileOfInterest);
+			List<Tile> idealPath = BC.board.FindPath(actor.tile, topPriorityTileOfInterest);
 			Console.Main.Log(string.Format("{0} is investigating {1}", actor.name, topPriorityTileOfInterest.ToString()));
 			Tile toCheck = idealPath.Count > 0 ? idealPath.Last() : null;
 			while (toCheck != null)
@@ -379,7 +380,7 @@ public class ComputerPlayer : MonoBehaviour
 		topPriorityFoe = null;
 		topPriorityTileOfInterest = null;
 
-		List<Awareness> topAwarenesses = perception.TopAwarenesses().FindAll( delegate (Awareness a) {
+		List<Awareness> topAwarenesses = AC.TopAwarenesses(actor).FindAll( delegate (Awareness a) {
 			Alliance otherAlliance = a.stealth.unit.GetComponentInChildren<Alliance>();
 			return alliance.IsMatch(otherAlliance, Targets.Foe);
 		});
@@ -393,8 +394,8 @@ public class ComputerPlayer : MonoBehaviour
 				if (topPriorityFoe != null)
                 {
 					// This new foe is the top priority if they're closer.
-					int distanceToCurrentFoe = bc.board.GetDistance(actor.tile, a.stealth.unit.tile);
-					int distanceToPotentialFoe = bc.board.GetDistance(actor.tile, a.stealth.unit.tile);
+					int distanceToCurrentFoe = BC.board.GetDistance(actor.tile, a.stealth.unit.tile);
+					int distanceToPotentialFoe = BC.board.GetDistance(actor.tile, a.stealth.unit.tile);
 					topPriorityFoe = distanceToPotentialFoe < distanceToCurrentFoe ? a.stealth.unit : topPriorityFoe;
 				}
 				else
@@ -408,14 +409,14 @@ public class ComputerPlayer : MonoBehaviour
 				if (topPriorityTileOfInterest != null)
 				{
 					// This new point of interest is the top priority if they're closer.
-					int distanceToCurrentPointOfInterest = bc.board.GetDistance(actor.tile, bc.board.GetTile(a.pointOfInterest));
-					int distanceToPotentialPointOfInterest = bc.board.GetDistance(actor.tile, bc.board.GetTile(a.pointOfInterest));
+					int distanceToCurrentPointOfInterest = BC.board.GetDistance(actor.tile, BC.board.GetTile(a.pointOfInterest));
+					int distanceToPotentialPointOfInterest = BC.board.GetDistance(actor.tile, BC.board.GetTile(a.pointOfInterest));
 					topPriorityFoe = distanceToPotentialPointOfInterest < distanceToCurrentPointOfInterest ? a.stealth.unit : topPriorityFoe;
 				}
 				else
 				{
 					// This point of interest is the top priority.
-					topPriorityTileOfInterest = bc.board.GetTile(a.pointOfInterest);
+					topPriorityTileOfInterest = BC.board.GetTile(a.pointOfInterest);
 				}
 			}
         }

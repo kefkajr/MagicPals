@@ -11,6 +11,7 @@ public class BattleController : StateMachine
 	public Transform tileSelectionIndicator;
 	public Point pos;
 	public Tile currentTile { get { return board.GetTile(pos); }}
+	public AwarenessController awarenessController;
 	public AbilityMenuPanelController abilityMenuPanelController;
 	public DescriptionPanelController descriptionPanelController;
 	public StatPanelController statPanelController;

@@ -47,8 +47,7 @@ public class PerformAbilityState : BattleState
 			units.Remove(owner.turn.actor);
 			foreach (Unit unit in units)
 			{
-				Perception perception = unit.GetComponent<Perception>();
-				perception.Listen(board, owner.turn.abilityEpicenterTile.pos, noisyTiles, turn.actor.GetComponent<Stealth>());
+				owner.awarenessController.Listen(unit, owner.turn.abilityEpicenterTile.pos, noisyTiles, turn.actor.stealth);
 			}
 		}
     }

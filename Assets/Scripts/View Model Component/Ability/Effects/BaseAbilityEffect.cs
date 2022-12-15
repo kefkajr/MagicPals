@@ -26,9 +26,14 @@ public abstract class BaseAbilityEffect : MonoBehaviour
 			return;
 
 		if (GetComponent<HitRate>().RollForHit(target))
+		{
 			this.PostNotification(HitNotification, OnApply(target));
+		}
 		else
+		{
 			this.PostNotification(MissedNotification);
+			Console.Main.Log("Missed");
+		}
 	}
 	#endregion
 
