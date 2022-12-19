@@ -1,6 +1,35 @@
 # MagicPals
 This is where change summaries, work intentions, and related planning will be written.
 
+#### 12/18
+<img src="https://raw.githubusercontent.com/kefkajr/MagicPals/develop/Progress%20Pics/2022.12.18_emergency-turn.gif" width=500>
+
+I've implemented an "emergency turn" feature. When a player character is spotted by the enemy, they can take a turn with their remaining actions – if you moved last turn but didn't act, you won't be able to move during the emergency turn, but you can act.
+
+It's certainly too soon for this feature, considering there's nothing very special to do during a turn. But it was a nice opportunity to figure out event handling, passing data and controlling flow between the MoveSequenceState, WalkMovement, and AwarenessController. It also helped to reinforce that I don't like passing around a bunch of disembodied functions when just passing a whole object will do.
+
+If we're going to be prototyping, we need to start having a game, with a win state and a fail state.
+- Create two player characters, Nessa and Cici.
+  - They should be very weak, like 5 HP and no means of attack.
+- Create two enemies.
+  - They should have two abilities.
+    - Firing a rifle in a straight line at a single target. It would be cool to make the rifle a piece of a equipment that grants the ability to fire it.
+    - Shouting to alert allies as to the location of a target. That is, A should be able to select a Seen foe and make B aware of that foe, giving them a "may have heard" Awareness of the foe that can allow them to investigate.
+  - Eventually, the guards should have a sentry routine that involves pacing back and forth.
+- There should be an exit. Reaching it with both character should result in a win. One enemy should be guarding it.
+- The map editor should include "spawn" and "exit" tiles.
+
+General Improvements
+- Formally visualize the following in the game, rather than only while debugging:
+  - Viewing Range (faint color wash on tile at all times)
+    - Have this appear 1) during a unit's turn and 2) when the unit it highlighted during the player's turn.
+  - Noisy Range (distinct color wash on tile while confirming ability)
+  - Known Awarenesses (floating lines above unit's heads at all times)
+    - Use a line renderer. Point to a Seen target, or else point to the "point of interest" of a target being investigated.
+- Should also visualize HP changes and status effects, even just as text above the target's head.
+- Start including mouse input, if at least for moving the tile selection indicator.
+
+
 #### 12/14
 
 The ComputerPlayer is now more legible, with branching behavior for fighting a known foe, searching for a potential foe, and sentry duty - although sentry duty is just a placeholder.

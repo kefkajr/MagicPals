@@ -220,7 +220,7 @@ public class AwarenessController : MonoBehaviour
 
 	public void InitiateEmergencyTurn(Unit unit)
     {
-		Console.Main.Log(string.Format("{0} was spotted! Receing 1000 CTR", unit.name));
+		Console.Main.Log(string.Format("{0} was spotted! Receivng 1000 CTR", unit.name));
 		Stats s = unit.GetComponent<Stats>();
 		s.SetValue(StatTypes.CTR, 1000, false);
 		battleController.ChangeState<SelectUnitState>();
