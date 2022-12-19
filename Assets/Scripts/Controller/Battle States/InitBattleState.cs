@@ -51,11 +51,13 @@ public class InitBattleState : BattleState
 			Unit unit = instance.GetComponent<Unit>();
 			if (unit.name == "Alaois")
 			{
-				unit.Place(board.GetTile(new Point(1, 8)));
+				unit.Place(board.GetTile(new Point(5, 8)));
+				unit.dir = Directions.South;
 			}
 			else if (unit.name == "Enemy Rogue")
 			{
-				unit.Place(board.GetTile(new Point(1, 6)));
+				unit.Place(board.GetTile(new Point(4, 7)));
+				unit.dir = Directions.East;
 			}
 			unit.dir = (Directions)UnityEngine.Random.Range(0, 4);
 			unit.Match();

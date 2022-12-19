@@ -218,6 +218,14 @@ public class AwarenessController : MonoBehaviour
 		return orderedAwarenesses;
 	}
 
+	public void InitiateEmergencyTurn(Unit unit)
+    {
+		Console.Main.Log(string.Format("{0} was spotted! Receing 1000 CTR", unit.name));
+		Stats s = unit.GetComponent<Stats>();
+		s.SetValue(StatTypes.CTR, 1000, false);
+		battleController.ChangeState<SelectUnitState>();
+	}
+
 	void OnEnable()
 	{
 		this.AddObserver(AwarenessLevelDecay, TurnOrderController.TurnCompletedNotification);

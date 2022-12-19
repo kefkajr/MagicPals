@@ -73,7 +73,8 @@ public class TurnOrderController : MonoBehaviour
 
 	int GetCounter (Unit target)
 	{
-		return target.GetComponent<Stats>()[StatTypes.CTR];
+		int counter = target.GetComponent<Stats>()[StatTypes.CTR];
+		return counter;
 	}
 	#endregion
 }

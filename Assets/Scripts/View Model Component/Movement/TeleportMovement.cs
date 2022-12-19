@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public class TeleportMovement : Movement 
 {
-	public override IEnumerator Traverse(Board board, Tile tile, Action<Tile> TrapHandler, Func<bool, bool> AwarenessHandler)
+	public override IEnumerator Traverse(Board board, Tile tile, MoveSequenceState moveSequenceState)
 	{
 		unit.Place(tile);
 
@@ -27,7 +27,7 @@ public class TeleportMovement : Movement
 		if (tile.trap != null)
 		{
 			// Run trap handler and end traversal
-			TrapHandler(tile);
+			moveSequenceState.TriggerTrap(tile);
 			yield break;
 		}
 	}

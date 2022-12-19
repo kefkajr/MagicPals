@@ -38,7 +38,7 @@ public abstract class Movement : MonoBehaviour
 
 	public Func<Tile, Tile, bool> ExpandSearchFunc { get { return ExpandSearch; } } // For passing to computer player, etc.
 
-	public abstract IEnumerator Traverse(Board board, Tile tile, Action<Tile> TrapHandler, Func<bool, bool> AwarenessHandler);
+	public abstract IEnumerator Traverse(Board board, Tile tile, MoveSequenceState moveSequenceState);
 	#endregion
 
 	#region Protected

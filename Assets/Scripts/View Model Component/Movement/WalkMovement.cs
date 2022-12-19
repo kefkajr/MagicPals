@@ -23,7 +23,7 @@ public class WalkMovement : Movement
 		return base.ExpandSearch(from, to);
 	}
 	
-	public override IEnumerator Traverse (Board board, Tile tile, Action<Tile> TrapHandler, Func<bool, bool> AwarenessHandler)
+	public override IEnumerator Traverse (Board board, Tile tile, MoveSequenceState moveSequenceState)
 	{
 		// Build a list of way points from the unit's 
 		// starting tile to the destination tile
@@ -44,11 +44,15 @@ public class WalkMovement : Movement
 			if (unit.dir != dir)
 				yield return StartCoroutine(Turn(dir));
 
-			// Perceive after turn
-			if (AwarenessHandler(false))
+			// Check if this unit spotted another unit
+			List<Awareness> spottedAwarenesses = moveSequenceState.Spot();
+			if (spottedAwarenesses.Count > 0)
             {
-				// TODO: Do something after an awareness was gained 
-            }
+				// Pause and then trigger emergency turn
+				yield return new WaitForSeconds(1);
+				moveSequenceState.TriggerEmergencyTurn(spottedAwarenesses[0].stealth.unit);
+				yield break;
+			}
 
 			// Walk
 			if (from.height == to.height)
@@ -58,16 +62,24 @@ public class WalkMovement : Movement
 
 			unit.Place(to);
 
-			// Perceive after move
-			if (AwarenessHandler(true))
+			// Check if this unit was spotted by another unit
+			if (moveSequenceState.DidGetSpottedByUnits())
             {
-				// TODO: Do something after an awareness was gained 
-            }
+				// TODO: Figure out a good oportunity to stop the player during their own turn.
+
+				if (false)
+				{
+					// Pause and then trigger emergency turn
+					yield return new WaitForSeconds(1);
+					moveSequenceState.TriggerEmergencyTurn(unit);
+					yield break;
+				}
+			}
 
 			if(to.trap != null)
             {
 				// Run trap handler and end traversal
-				TrapHandler(to);
+				moveSequenceState.TriggerTrap(to);
 				yield break;
             }
 		}

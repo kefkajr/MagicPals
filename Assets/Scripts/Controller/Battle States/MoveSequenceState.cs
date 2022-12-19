@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
+using System.Linq;
 
 public class MoveSequenceState : BattleState 
 {
@@ -15,12 +16,12 @@ public class MoveSequenceState : BattleState
 		// Check if a trap is triggered in the starting tile
 		if (turn.actor.tile.trap != null)
 		{
-			DidFindTrap(turn.actor.tile);
+			TriggerTrap(turn.actor.tile);
 			yield return null;
 		}
 
 		Movement m = turn.actor.GetComponent<Movement>();
-		yield return StartCoroutine(m.Traverse(board: board, tile: owner.currentTile, TrapHandler: DidFindTrap, AwarenessHandler: DidPerceiveNewStealths));
+		yield return StartCoroutine(m.Traverse(board: board, tile: owner.currentTile, moveSequenceState: this));
 
 		turn.hasUnitMoved = true;
 
@@ -29,7 +30,7 @@ public class MoveSequenceState : BattleState
 		owner.ChangeState<CommandSelectionState>();
 	}
 
-    void DidFindTrap(Tile tile)
+    public void TriggerTrap(Tile tile)
     {
 		// Set trap and ability
 		Trap trap = tile.trap;
@@ -56,22 +57,48 @@ public class MoveSequenceState : BattleState
 		owner.ChangeState<PerformAbilityState>();
 	}
 
-	bool DidPerceiveNewStealths(bool shouldCheckAllUnits)
+	public List<Awareness> Spot()
+    {
+		// If the driver is Human, we don't want to give units they look at an Emergency Turn
+		DriverType currentDriverType = owner.turn.actor.GetComponent<Driver>().Current;
+
+		if (currentDriverType == DriverType.Human)
+			return new List<Awareness>();
+
+		List<Awareness> awarenesses = owner.awarenessController.Look(owner.turn.actor).Where((a) => a.type == AwarenessType.Seen).ToList();
+		List<Awareness> playerAwarenesses = awarenesses.Where((a) => a.stealth.GetComponent<Driver>().Current == DriverType.Human).ToList();
+		// TODO: What about when multiple playable characters are spotted?
+		return playerAwarenesses;
+	}
+
+	public bool DidGetSpottedByUnits()
 	{
-		List<Unit> units = shouldCheckAllUnits ? owner.units : new List<Unit>{ owner.turn.actor };
-		List<Awareness> newAwarenesses = new List<Awareness>();
-		foreach (Unit unit in units)
+		// If the driver is Human, and they get spotted, then they should get an Emergency Turn
+		DriverType currentDriverType = owner.turn.actor.GetComponent<Driver>().Current;
+
+		if (currentDriverType != DriverType.Human)
+			return false;
+
+		List<Awareness> totalAwarenesses = new List<Awareness>();
+		List<Unit> computerUnits = owner.units.Where(u => u.GetComponent<Driver>().Current == DriverType.Computer).ToList();
+		foreach (Unit unit in computerUnits)
 		{
-			List<Awareness> awarenesses = owner.awarenessController.Look(unit);
-			newAwarenesses.AddRange(awarenesses);
+			List<Awareness> awarenesses = owner.awarenessController.Look(unit).Where((a) => a.type == AwarenessType.Seen).ToList();
+			totalAwarenesses.AddRange(awarenesses);
 		}
 
-		if (newAwarenesses.Count > 0)
+		List<Awareness> playerAwarenesses = totalAwarenesses.Where((a) => a.stealth.GetComponent<Driver>().Current == DriverType.Human).ToList();
+		if (playerAwarenesses.Count > 0)
 		{
 			return true;
 		}
 
 		return false;
+	}
+
+	public void TriggerEmergencyTurn(Unit unit)
+    {
+		owner.awarenessController.InitiateEmergencyTurn(unit);
 	}
 
 	protected override void OnFire(object sender, InfoEventArgs<int> e)
