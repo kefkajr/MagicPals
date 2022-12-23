@@ -30,7 +30,8 @@ public class InitBattleState : BattleState
 	{
 		string[] recipes = new string[]
 		{
-			"Alaois",
+			"Cece",
+			"Nessa",
 			"Enemy Rogue",
 		};
 		
@@ -49,17 +50,20 @@ public class InitBattleState : BattleState
 			locations.RemoveAt(random);
 
 			Unit unit = instance.GetComponent<Unit>();
-			if (unit.name == "Alaois")
+			if (unit.name == "Cece")
+			{
+				unit.Place(board.GetTile(new Point(6, 8)));
+				unit.dir = Directions.South;
+			} else if (unit.name == "Nessa")
 			{
 				unit.Place(board.GetTile(new Point(5, 8)));
 				unit.dir = Directions.South;
 			}
 			else if (unit.name == "Enemy Rogue")
 			{
-				unit.Place(board.GetTile(new Point(4, 7)));
-				unit.dir = Directions.East;
+				unit.Place(board.GetTile(new Point(4, 6)));
+				unit.dir = Directions.West;
 			}
-			unit.dir = (Directions)UnityEngine.Random.Range(0, 4);
 			unit.Match();
 			
 			units.Add(unit);

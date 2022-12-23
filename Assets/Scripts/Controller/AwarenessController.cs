@@ -39,10 +39,20 @@ public class AwarenessController : MonoBehaviour
 		{
 			foreach (Unit perceivedUnit in battleController.units)
 			{
-				if (perceivingUnit == perceivedUnit)
-					continue;
+				if (perceivingUnit != perceivedUnit)
+				{
 
-				awarenessMap.Add(perceivingUnit, new Dictionary<Unit, Awareness> { [perceivedUnit] = new Awareness(perceivingUnit.perception, perceivedUnit.stealth, perceivedUnit.tile.pos, AwarenessType.Unaware) });
+					var newAwareness = new Awareness(perceivingUnit.perception, perceivedUnit.stealth, perceivedUnit.tile.pos, AwarenessType.Unaware);
+
+					if (awarenessMap.ContainsKey(perceivingUnit))
+					{
+						awarenessMap[perceivingUnit].Add(perceivedUnit, newAwareness);
+					}
+					else
+					{
+						awarenessMap.Add(perceivingUnit, new Dictionary<Unit, Awareness> { [perceivedUnit] = newAwareness });
+					}
+				}
 			}
 
 			Look(perceivingUnit);
