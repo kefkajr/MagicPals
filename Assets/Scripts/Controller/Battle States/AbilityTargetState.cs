@@ -52,6 +52,8 @@ public class AbilityTargetState : BattleState
 		}
 		else
 		{
+			// If the ability is inside of an item, return to the item list.
+			// Otherwise, go to the category list.
 			Merchandise merchandise = turn.ability.GetComponentInParent<Merchandise>();
 			if (merchandise != null)
 				owner.ChangeState<ItemOptionState>();
@@ -99,6 +101,13 @@ public class AbilityTargetState : BattleState
 			}
 		}
 		yield return new WaitForSeconds(0.5f);
+
+		// Define ability epicenter
+		if (ar.directionOriented || tiles.Contains(board.GetTile(pos)))
+		{
+			turn.abilityEpicenterTile = board.GetTile(pos);
+		}
+
 		owner.ChangeState<ConfirmAbilityTargetState>();
 	}
 }

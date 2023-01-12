@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 822241152ccff4378b7db898f9908633, type: 3}
   m_Name: Nessa
   m_EditorClassIdentifier: 
-  model: 
-  job: 
-  attack: 
-  abilityCatalog: 
+  model: Hero
+  job: Rogue
+  attack: Common/Attack
+  abilityCatalog: Sentry
   attackPattern: 
   locomotion: 0
-  alliance: 0
-  perceptionRecipe: {fileID: 0}
+  alliance: 2
+  perceptionRecipe: {fileID: 11400000, guid: fc02c695f023448b8a13b06ce378615c, type: 2}

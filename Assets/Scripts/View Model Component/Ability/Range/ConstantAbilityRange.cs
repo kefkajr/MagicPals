@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 public class ConstantAbilityRange : AbilityRange 
 {
+	public bool isMissile;
+
 	public override List<Tile> GetTilesInRange (Board board)
 	{
 		return board.Search(unit.tile, ExpandSearch);

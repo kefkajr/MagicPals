@@ -51,6 +51,7 @@ public class ConfirmAbilityTargetState : BattleState
 			if (trap != null) {
 				owner.ChangeState<TrapSetState>();
             } else if (turn.targets.Count > 0) {
+				FindTrueTargets();
 				owner.ChangeState<PerformAbilityState>();
 			}
 		}
@@ -64,6 +65,22 @@ public class ConfirmAbilityTargetState : BattleState
 		for (int i = 0; i < tiles.Count; ++i)
 			if (turn.ability.IsTarget(tiles[i]))
 				turn.targets.Add(tiles[i]);
+	}
+
+	void FindTrueTargets ()
+    {
+		// Check to see if, on execution, a different target is hit by the missle.
+		ConstantAbilityRange range = turn.ability.GetComponentInChildren<ConstantAbilityRange>();
+		if (range != null && range.isMissile)
+        {
+			Unit targetImpedingMissle = TargetImpedingMissile(board, turn.actor.tile, pos);
+			if (targetImpedingMissle != null) {
+				board.DeSelectTiles(tiles); // Deselect old tiles
+				tiles = aa.GetTilesInArea(board, targetImpedingMissle.tile.pos);
+				FindTargets();
+			}
+		}
+		
 	}
 
 	void SetTarget (int target)
@@ -109,6 +126,46 @@ public class ConfirmAbilityTargetState : BattleState
 	{
 		owner.battleMessageController.Display(turn.ability.name);
 		yield return new WaitForSeconds (2f);
+		FindTrueTargets();
 		owner.ChangeState<PerformAbilityState>();
+	}
+
+
+	// TODO: This takes in a lot of repeated logic from the AwarenessController. Is there some way to share it?
+	Unit TargetImpedingMissile(Board board, Tile missileSource, Point end)
+	{
+		Point pos = missileSource.pos;
+
+		// A line algorithm borrowed from Rosetta Code http://rosettacode.org/wiki/Bitmap/Bresenham%27s_line_algorithm#C.23
+		int dx = Mathf.Abs(end.x - pos.x);
+		int sx = pos.x < end.x ? 1 : -1;
+		int dy = Mathf.Abs(end.y - pos.y);
+		int sy = pos.y < end.y ? 1 : -1;
+		int err = (dx > dy ? dx : -dy) / 2;
+		int e2;
+		Tile fromTile = null;
+		for (; ; )
+		{
+			Tile tile = board.GetTile(pos);
+			if (tile != null)
+			{
+				if (fromTile != null)
+				{
+					GameObject occupant = tile.occupant;
+					if (occupant != null)
+					{
+						Unit newTarget = occupant.GetComponent<Unit>();
+						if (newTarget != null)
+							return newTarget;
+					}
+				}
+				fromTile = tile;
+			}
+			e2 = err;
+			if (e2 > -dx) { err -= dy; pos.x += sx; }
+			if (e2 < dy) { err += dx; pos.y += sy; }
+			if (pos == end) break;
+		}
+		return null;
 	}
 }

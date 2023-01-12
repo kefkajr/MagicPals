@@ -16,7 +16,7 @@ MonoBehaviour:
   job: Rogue
   attack: Common/Attack
   abilityCatalog: Enemy Rogue
-  attackPattern: Brainless Attack Pattern
+  attackPattern: Enemy Rogue Attack Pattern
   locomotion: 0
   alliance: 4
   perceptionRecipe: {fileID: 11400000, guid: fc02c695f023448b8a13b06ce378615c, type: 2}

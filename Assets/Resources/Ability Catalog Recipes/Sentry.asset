@@ -10,13 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 186acc0177b8d47aaaf1ace02c325494, type: 3}
-  m_Name: Enemy Rogue
+  m_Name: Sentry
   m_EditorClassIdentifier: 
   categories:
-  - name: Sagacity Skill
+  - name: Sentry Skill
     entries:
-    - Blind
-    - Drain
-  - name: Fighter Tech
+    - Rifle Fire
+  - name: Monk Tech
     entries:
-    - Air Blast
+    - Earth Render
