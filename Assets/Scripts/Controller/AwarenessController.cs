@@ -78,6 +78,7 @@ public class AwarenessController : MonoBehaviour
 				// If the unit is not invisible
 				if (!stealth.isInvisible)
 				{
+					// Find existing awareness and update it with the perceived unit's existing location
 					Awareness awareness = awarenessMap[perception.unit][stealth.unit];
 					if (awareness.Update(type, stealth.unit.tile.pos))
                     {

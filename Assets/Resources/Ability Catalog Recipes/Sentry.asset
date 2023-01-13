@@ -16,6 +16,4 @@ MonoBehaviour:
   - name: Sentry Skill
     entries:
     - Rifle Fire
-  - name: Monk Tech
-    entries:
-    - Earth Render
+    - Shout

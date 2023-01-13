@@ -33,12 +33,15 @@ public class InitBattleState : BattleState
 			"Cece",
 			"Nessa",
 			"Sentry",
+			"Sentry"
 		};
 		
 		GameObject unitContainer = new GameObject("Units");
 		unitContainer.transform.SetParent(owner.transform);
 		
 		List<Tile> locations = new List<Tile>(board.tiles.Values);
+
+		bool didPlaceFirstSentry = false;
 		for (int i = 0; i < recipes.Length; ++i)
 		{
 			int level = UnityEngine.Random.Range(9, 12);
@@ -61,7 +64,15 @@ public class InitBattleState : BattleState
 			}
 			else if (unit.name == "Sentry")
 			{
-				unit.Place(board.GetTile(new Point(4, 6)));
+				if (didPlaceFirstSentry)
+				{
+					unit.Place(board.GetTile(new Point(4, 6)));
+				}
+				else
+				{
+					unit.Place(board.GetTile(new Point(6, 4)));
+					didPlaceFirstSentry = true;
+				}
 				unit.dir = Directions.West;
 			}
 			unit.Match();
