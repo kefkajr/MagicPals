@@ -136,6 +136,9 @@ public class Board : MonoBehaviour
 				return RetracePath(start, end);
 			}
 
+			I think this doesn't work if the map has peninsulas
+				// Try again but put Nessa behind a wall, instead
+
 			foreach (Tile neighbour in GetNeighbours(currentTile.pos.x, currentTile.pos.y, max.x, max.y))
 			{
 				if (Tile.DoesWallSeparateTiles(currentTile, neighbour) || closedSet.Contains(neighbour)) continue;

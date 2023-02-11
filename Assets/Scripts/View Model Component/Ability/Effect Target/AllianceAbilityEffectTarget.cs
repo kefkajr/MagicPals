@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class EnemyAbilityEffectTarget : AbilityEffectTarget 
+public class AllianceAbilityEffectTarget : AbilityEffectTarget 
 {
+	public Targets targetType;
 	Alliance alliance;
 
 	void Start ()
@@ -16,6 +17,6 @@ public class EnemyAbilityEffectTarget : AbilityEffectTarget
 			return false;
 
 		Alliance other = tile.occupant.GetComponentInChildren<Alliance>();
-		return alliance.IsMatch(other, Targets.Foe);
+		return alliance.IsMatch(other, targetType);
 	}
 }

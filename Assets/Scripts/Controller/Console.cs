@@ -31,6 +31,9 @@ public class Console : MonoBehaviour
 
     public void Log(string s)
     {
+        if (textGroup == null || textGroup.active == false)
+            return;
+
         StartCoroutine(DisplayInConsole(s));
     }
 

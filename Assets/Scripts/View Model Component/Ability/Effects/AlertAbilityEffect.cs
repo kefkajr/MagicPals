@@ -16,6 +16,9 @@ public class AlertAbilityEffect : BaseAbilityEffect
 		Unit alertingUnit = GetComponentInParent<Unit>();
 		Unit alertedUnit = target.occupant.GetComponent<Unit>();
 
+		if (alertingUnit == alertedUnit)
+			return 0;
+
 		AwarenessController ac = GameObject.Find("Battle Controller").GetComponent<AwarenessController>();
 		List<Awareness> awarenesses = ac.TopAwarenesses(alertingUnit);
 
@@ -25,16 +28,21 @@ public class AlertAbilityEffect : BaseAbilityEffect
             // but that doesn't mean they actually see them.
 			AwarenessType newType = awareness.type != AwarenessType.Seen ? awareness.type : AwarenessType.MayHaveSeen;
 
-			// We also don't want to overwrite the alerted unit's existing awareness,
-            // only upgrade it if the level is higher.
-			// That is, we don't want alerted units to "unsee" units they currently see.
-			AwarenessType oldType = ac.awarenessMap[alertedUnit][awareness.stealth.unit].type;
+			if (alertedUnit != awareness.stealth.unit)
+			{
 
-			if ((int)newType > (int)oldType)
-            {
-				// Give the alert united the same type of awareness of the target as the alerting unit (except for seeing)
-				ac.awarenessMap[alertedUnit][awareness.stealth.unit].Update(newType, awareness.pointOfInterest);
-				Console.Main.Log(string.Format("{0}", ac.awarenessMap[alertedUnit][awareness.stealth.unit]));
+				// We also don't want to overwrite the alerted unit's existing awareness,
+				// only upgrade it if the level is higher.
+				// That is, we don't want alerted units to "unsee" units they currently see.
+				AwarenessType oldType = ac.awarenessMap[alertedUnit][awareness.stealth.unit].type;
+
+				if ((int)newType > (int)oldType)
+				{
+					// Give the alert united the same type of awareness of the target as the alerting unit (except for seeing)
+					ac.awarenessMap[alertedUnit][awareness.stealth.unit].Update(newType, awareness.pointOfInterest);
+					Console.Main.Log(string.Format("{0}", ac.awarenessMap[alertedUnit][awareness.stealth.unit]));
+				}
+
 			}
 		}
 

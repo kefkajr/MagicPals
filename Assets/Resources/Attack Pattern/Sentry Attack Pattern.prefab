@@ -30,7 +30,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1824039968521223929}
-  - {fileID: 7001682205836356163}
+  - {fileID: 5224838881336189904}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -47,8 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pickers:
-  - {fileID: 1824039968515538889}
-  - {fileID: 1824039968515538889}
+  - {fileID: 4706408028579350891}
 --- !u!1 &1824039968521583089
 GameObject:
   m_ObjectHideFlags: 0
@@ -95,7 +94,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: 3
   ability: Rifle Fire
---- !u!1 &6815192940139571635
+--- !u!1 &6414343887463595709
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -103,8 +102,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 7001682205836356163}
-  - component: {fileID: 6344403788266547810}
+  - component: {fileID: 5224838881336189904}
+  - component: {fileID: 4706408028579350891}
   m_Layer: 0
   m_Name: Shout
   m_TagString: Untagged
@@ -112,13 +111,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &7001682205836356163
+--- !u!4 &5224838881336189904
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6815192940139571635}
+  m_GameObject: {fileID: 6414343887463595709}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -127,13 +126,13 @@ Transform:
   m_Father: {fileID: 1824039968521315839}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6344403788266547810
+--- !u!114 &4706408028579350891
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6815192940139571635}
+  m_GameObject: {fileID: 6414343887463595709}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4855ebb42b5ea4a1baf81ef896165965, type: 3}

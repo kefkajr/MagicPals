@@ -17,3 +17,6 @@ MonoBehaviour:
     entries:
     - Rifle Fire
     - Shout
+  - name: Phantasm Skill
+    entries:
+    - Prominence

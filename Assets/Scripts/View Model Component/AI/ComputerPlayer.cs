@@ -8,7 +8,7 @@ public class ComputerPlayer : MonoBehaviour
 	BattleController BC;
 	Unit actor { get { return BC.turn.actor; }}
 	AwarenessController AC { get { return BC.GetComponent<AwarenessController>(); } }
-	Alliance alliance { get { return actor.GetComponent<Alliance>(); }}
+	Alliance actorAlliance { get { return actor.GetComponent<Alliance>(); }}
 	Perception perception { get { return actor.GetComponent<Perception>(); } }
 	Unit topPriorityFoe;
 	Tile topPriorityTileOfInterest;
@@ -92,7 +92,7 @@ public class ComputerPlayer : MonoBehaviour
 	/* When it is determined that an ability is position independent,
 	 * then I simply move to a random tile within the unit’s move range, because position didn’t matter.
 	 * There is room to polish this up –
-	 * perhaps the unit would rather move toward or away from its foesduring this time.
+	 * perhaps the unit would rather move toward or away from its foes during this time.
 	 * If you want more specific behavior like that it shouldn’t be hard to add.
 	 * I’ll show an example of moving toward the nearest foe soon. */
 	void PlanPositionIndependent (PlanOfAttack poa)
@@ -263,10 +263,27 @@ public class ComputerPlayer : MonoBehaviour
 			isMatch = true;
 		else if (poa.target != Targets.None)
 		{
-			Alliance other = tile.occupant.GetComponentInChildren<Alliance>();
-			Unit targetUnit = other.GetComponent<Unit>();
-			if (other != null && AC.IsAwareOfUnit(actor, targetUnit, AwarenessType.Seen) && alliance.IsMatch(other, poa.target))
-				isMatch = true;
+			// TODO: Revisit this after implemeting GAMBITS or some other AI method
+
+			Alliance targetAlliance = tile.occupant.GetComponentInChildren<Alliance>();
+			Unit targetUnit = targetAlliance.GetComponent<Unit>();
+			if (targetAlliance != null)
+			{
+				if (actorAlliance.IsMatch(targetAlliance, poa.target))
+				{
+					if (poa.target == Targets.Ally)
+					{
+						// Allies are assumed to have automatic knowledge of each other's location
+						isMatch = true;
+					}
+					else
+					{
+						// If the target is a foe who has been seen by the actor, it's viable
+						isMatch = AC.IsAwareOfUnit(actor, targetUnit, AwarenessType.Seen);
+					}
+				}
+
+			}
 		}
 
 		return isMatch;
@@ -382,7 +399,7 @@ public class ComputerPlayer : MonoBehaviour
 
 		List<Awareness> topAwarenesses = AC.TopAwarenesses(actor).FindAll( delegate (Awareness a) {
 			Alliance otherAlliance = a.stealth.unit.GetComponentInChildren<Alliance>();
-			return alliance.IsMatch(otherAlliance, Targets.Foe);
+			return actorAlliance.IsMatch(otherAlliance, Targets.Foe);
 		});
 		if (topAwarenesses.Count == 0) return;
 
