@@ -1,24 +1,27 @@
 ﻿<Properties StartupConfiguration="{422E8762-CC4A-4CE0-0179-1FC34FF9D511}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/View Model Component/Board.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/PreProduction/BoardCreator.cs">
     <Files>
       <File FileName="Assets/Scripts/View Model Component/AI/ComputerPlayer.cs" Line="378" Column="1" />
       <File FileName="Assets/Scripts/Controller/Battle States/MoveSequenceState.cs" />
       <File FileName="Assets/Scripts/Controller/Battle States/InitBattleState.cs" Line="69" Column="23" />
-      <File FileName="Assets/Scripts/View Model Component/Ability/Effects/AlertAbilityEffect.cs" Line="43" Column="1" />
-      <File FileName="Assets/Scripts/View Model Component/Ability/Effect Target/AllianceAbilityEffectTarget.cs" Line="20" Column="1" />
-      <File FileName="Assets/Scripts/View Model Component/Ability/Ability.cs" Line="48" Column="1" />
-      <File FileName="Assets/Scripts/Controller/Battle States/PerformAbilityState.cs" Line="37" Column="1" />
-      <File FileName="Assets/Scripts/Controller/Battle States/ConfirmAbilityTargetState.cs" Line="80" Column="1" />
-      <File FileName="Assets/Scripts/View Model Component/AI/PlanOfAttack.cs" Line="13" Column="16" />
-      <File FileName="Assets/Scripts/View Model Component/AI/AttackOption.cs" Line="170" Column="18" />
-      <File FileName="Assets/Scripts/View Model Component/Board.cs" Line="140" Column="54" />
+      <File FileName="Assets/Scripts/View Model Component/Ability/Effects/AlertAbilityEffect.cs" />
+      <File FileName="Assets/Scripts/View Model Component/Ability/Effect Target/AllianceAbilityEffectTarget.cs" />
+      <File FileName="Assets/Scripts/View Model Component/Ability/Ability.cs" />
+      <File FileName="Assets/Scripts/Controller/Battle States/PerformAbilityState.cs" />
+      <File FileName="Assets/Scripts/Controller/Battle States/ConfirmAbilityTargetState.cs" />
+      <File FileName="Assets/Scripts/View Model Component/AI/PlanOfAttack.cs" />
+      <File FileName="Assets/Scripts/View Model Component/AI/AttackOption.cs" />
+      <File FileName="Assets/Scripts/View Model Component/Board.cs" Line="137" Column="5" />
+      <File FileName="Assets/Scripts/PreProduction/BoardCreator.cs" Line="132" Column="21" />
+      <File FileName="Assets/Editor/BoardCreatorInspector.cs" Line="70" Column="1" />
+      <File FileName="Assets/Scripts/View Model Component/Tile.cs" Line="111" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>
     <Watch file="../../../Assets/Scripts/View Model Component/Awareness/Perception.cs" line="16" column="18" endLine="16" endColumn="56" offsetX="-1" offsetY="-1" expression="newAwarenesses" liveUpdate="False" />
   </MonoDevelop.Ide.DebuggingService.PinnedWatches>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="16a12383-50aa-4079-8e98-c21f14323786" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="7b505a90-e368-419b-84c4-6b52b7368393" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/Common/Animation/EasingControl.cs" relfile="Assets/Scripts/Common/Animation/EasingControl.cs" line="110" column="1" />
@@ -39,9 +42,13 @@
       <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/View Model Component/AI/ComputerPlayer.cs" relfile="Assets/Scripts/View Model Component/AI/ComputerPlayer.cs" line="381" column="1" />
       <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/View Model Component/AI/ComputerPlayer.cs" relfile="Assets/Scripts/View Model Component/AI/ComputerPlayer.cs" line="378" column="1" />
       <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/View Model Component/Board.cs" relfile="Assets/Scripts/View Model Component/Board.cs" line="136" column="1" />
-      <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/View Model Component/Board.cs" relfile="Assets/Scripts/View Model Component/Board.cs" line="159" column="1" />
+      <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/View Model Component/Board.cs" relfile="Assets/Scripts/View Model Component/Board.cs" line="156" column="1" />
       <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/View Model Component/Board.cs" relfile="Assets/Scripts/View Model Component/Board.cs" line="132" column="1" />
-      <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/View Model Component/Board.cs" relfile="Assets/Scripts/View Model Component/Board.cs" line="154" column="1" />
+      <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/View Model Component/Board.cs" relfile="Assets/Scripts/View Model Component/Board.cs" line="151" column="1" />
+      <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/PreProduction/BoardCreator.cs" relfile="Assets/Scripts/PreProduction/BoardCreator.cs" line="129" column="1" />
+      <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/PreProduction/BoardCreator.cs" relfile="Assets/Scripts/PreProduction/BoardCreator.cs" line="126" column="1" />
+      <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/View Model Component/Tile.cs" relfile="Assets/Scripts/View Model Component/Tile.cs" line="111" column="1" />
+      <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/PreProduction/BoardCreator.cs" relfile="Assets/Scripts/PreProduction/BoardCreator.cs" line="137" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MultiItemStartupConfigurations />

@@ -14,7 +14,7 @@ public class BoardCreator : MonoBehaviour
 	[SerializeField] public int depth = 10;
 	[SerializeField] public int height = 8;
 	[SerializeField] public Point pos;
-	[SerializeField] public LevelData levelData;
+	[SerializeField] public string levelName;
 	Dictionary<Point, Tile> tiles = new Dictionary<Point, Tile>();
 
 	Transform marker
@@ -33,6 +33,14 @@ public class BoardCreator : MonoBehaviour
 	#endregion
 
 	#region Public
+	public void MoveMarker(Directions direction)
+	{
+		int xChange = direction == Directions.West ? -1 : direction == Directions.East ? 1 : 0;
+		int yChange = direction == Directions.South ? -1 : direction == Directions.North ? 1 : 0;
+		pos.x += xChange;
+		pos.y += yChange;
+	}
+
 	public void Grow ()
 	{
 		GrowSingle(pos);
@@ -45,13 +53,13 @@ public class BoardCreator : MonoBehaviour
 
 	public void GrowArea ()
 	{
-		Rect r = RandomRect();
+		Rect r = new Rect(pos.x, pos.y, 5, 5);
 		GrowRect(r);
 	}
 	
 	public void ShrinkArea ()
 	{
-		Rect r = RandomRect();
+		Rect r = new Rect(pos.x, pos.y, 5, 5);
 		ShrinkRect(r);
 	}
 
@@ -68,7 +76,13 @@ public class BoardCreator : MonoBehaviour
 		tiles.Clear();
 	}
 
-	[SerializeField] public Directions currentWallDirection = Directions.North;
+	Directions currentWallDirection = Directions.North;
+
+	public void ChangeWallDirection(Directions direction)
+    {
+		currentWallDirection = direction;
+
+	}
 
 	public void GrowWall()
 	{
@@ -111,12 +125,13 @@ public class BoardCreator : MonoBehaviour
 		foreach (Tile t in tiles.Values)
 			board.tiles.Add( new TileData(t) );
 		
-		string fileName = string.Format("Assets/Resources/Levels/{1}.asset", filePath, levelData != null ? levelData.name : "New Level");
+		string fileName = string.Format("Assets/Resources/Levels/{1}.asset", filePath, (levelName != "" || levelName != null)  ? levelName : "New Level");
 		AssetDatabase.CreateAsset(board, fileName);
 	}
 
 	public void Load ()
 	{
+		LevelData levelData = AssetDatabase.LoadAssetAtPath<LevelData>(string.Format("Assets/Resources/Levels/{0}.asset", levelName));
 		Clear();
 		if (levelData == null)
 			return;
