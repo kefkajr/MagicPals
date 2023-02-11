@@ -40,7 +40,7 @@ public class LineAbilityRange : AbilityRange
 
 			Tile startTile = board.GetTile(startPos);
 			Tile currentTile = board.GetTile(currentPos);
-			if (currentTile == null || Tile.DoesWallSeparateTiles(startTile, currentTile))
+			if (currentTile == null || board.DoesWallSeparateTiles(startTile, currentTile))
 				break;
 
 			if (currentTile != null && Mathf.Abs(currentTile.height - unit.tile.height) <= vertical)

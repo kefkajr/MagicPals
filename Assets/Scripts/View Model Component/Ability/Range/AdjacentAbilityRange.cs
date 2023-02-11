@@ -6,17 +6,19 @@ public class AdjacentAbilityRange : AbilityRange
 {
     public override List<Tile> GetTilesInRange(Board board)
     {
-        List<Tile> tileList = board.Search(unit.tile, ExpandSearch);
+        List<Tile> tileList = board.Search(unit.tile, delegate (Tile from, Tile to) {
+            return ExpandSearch(board, from, to);
+		});
 
         tileList.Remove(unit.tile);
 
         return tileList;
     }
 
-    bool ExpandSearch(Tile from, Tile to)
+    bool ExpandSearch(Board board, Tile from, Tile to)
     {
         // Skip if walls are blocking the way
-        if (Tile.DoesWallSeparateTiles(from, to))
+        if (board.DoesWallSeparateTiles(from, to))
             return false;
 
         return (from.distance + 1) <= horizontal && Mathf.Abs(to.height - unit.tile.height) <= vertical;

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 public class WalkMovement : Movement 
 {
 	#region Protected
-	protected override bool ExpandSearch (Tile from, Tile to)
+	protected override bool ExpandSearch (Board board, Tile from, Tile to)
 	{
 		// Skip if the distance in height between the two tiles is more than the unit can jump
 		if ((Mathf.Abs(from.height - to.height) > jumpHeight))
@@ -17,10 +17,10 @@ public class WalkMovement : Movement
 			return false;
 
 		// Skip if walls are blocking the way
-		if (Tile.DoesWallSeparateTiles(from, to))
+		if (board.DoesWallSeparateTiles(from, to))
 			return false;
 
-		return base.ExpandSearch(from, to);
+		return base.ExpandSearch(board, from, to);
 	}
 	
 	public override IEnumerator Traverse (Board board, Tile tile, MoveSequenceState moveSequenceState)

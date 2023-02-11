@@ -31,18 +31,18 @@ public abstract class Movement : MonoBehaviour
 	#region Public
 	public virtual List<Tile> GetTilesInRange (Board board)
 	{
-		List<Tile> retValue = board.Search( unit.tile, ExpandSearch );
+		List<Tile> retValue = board.Search( unit.tile, delegate (Tile from, Tile to) {
+			return ExpandSearch(board, from, to);
+		});
 		Filter(retValue);
 		return retValue;
 	}
-
-	public Func<Tile, Tile, bool> ExpandSearchFunc { get { return ExpandSearch; } } // For passing to computer player, etc.
 
 	public abstract IEnumerator Traverse(Board board, Tile tile, MoveSequenceState moveSequenceState);
 	#endregion
 
 	#region Protected
-	protected virtual bool ExpandSearch (Tile from, Tile to)
+	protected virtual bool ExpandSearch (Board board, Tile from, Tile to)
 	{
 		return (from.distance + 1) <= range;
 	}

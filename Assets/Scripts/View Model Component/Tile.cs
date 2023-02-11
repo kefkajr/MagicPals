@@ -62,12 +62,6 @@ public class Tile : MonoBehaviour
         }
 	}
 
-	public static bool DoesWallSeparateTiles(Tile tile1, Tile tile2)
-    {
-		Directions dir1 = tile1.GetDirection(tile2);
-		Directions dir2 = tile2.GetDirection(tile1);
-		return tile1.walls.ContainsKey(dir1) || tile2.walls.ContainsKey(dir2);
-	}
 	#endregion
 
 	public bool isBeingPerceived;

@@ -107,7 +107,7 @@ public class AwarenessController : MonoBehaviour
 			if (!knownTiles.Contains(fromTile) && fromTile != unit.tile)
 				return false;
 
-			if (Tile.DoesWallSeparateTiles(fromTile, toTile))
+			if (board.DoesWallSeparateTiles(fromTile, toTile))
 				return false;
 
 			// This is a separate wall check necessary for tiles diagonal to each other

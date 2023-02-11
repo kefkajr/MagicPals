@@ -1,20 +1,17 @@
 ﻿<Properties StartupConfiguration="{422E8762-CC4A-4CE0-0179-1FC34FF9D511}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/PreProduction/BoardCreator.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/View Model Component/Board.cs">
     <Files>
-      <File FileName="Assets/Scripts/View Model Component/AI/ComputerPlayer.cs" Line="378" Column="1" />
-      <File FileName="Assets/Scripts/Controller/Battle States/MoveSequenceState.cs" />
+      <File FileName="Assets/Scripts/View Model Component/AI/ComputerPlayer.cs" Line="379" Column="1" />
+      <File FileName="Assets/Scripts/Controller/Battle States/MoveSequenceState.cs" Line="86" Column="62" />
       <File FileName="Assets/Scripts/Controller/Battle States/InitBattleState.cs" Line="69" Column="23" />
-      <File FileName="Assets/Scripts/View Model Component/Ability/Effects/AlertAbilityEffect.cs" />
+      <File FileName="Assets/Scripts/View Model Component/Ability/Effects/AlertAbilityEffect.cs" Line="43" Column="1" />
       <File FileName="Assets/Scripts/View Model Component/Ability/Effect Target/AllianceAbilityEffectTarget.cs" />
-      <File FileName="Assets/Scripts/View Model Component/Ability/Ability.cs" />
       <File FileName="Assets/Scripts/Controller/Battle States/PerformAbilityState.cs" />
       <File FileName="Assets/Scripts/Controller/Battle States/ConfirmAbilityTargetState.cs" />
       <File FileName="Assets/Scripts/View Model Component/AI/PlanOfAttack.cs" />
       <File FileName="Assets/Scripts/View Model Component/AI/AttackOption.cs" />
-      <File FileName="Assets/Scripts/View Model Component/Board.cs" Line="137" Column="5" />
-      <File FileName="Assets/Scripts/PreProduction/BoardCreator.cs" Line="132" Column="21" />
-      <File FileName="Assets/Editor/BoardCreatorInspector.cs" Line="70" Column="1" />
-      <File FileName="Assets/Scripts/View Model Component/Tile.cs" Line="111" Column="1" />
+      <File FileName="Assets/Scripts/View Model Component/Board.cs" Line="372" Column="10" />
+      <File FileName="Assets/Scripts/Controller/AwarenessController.cs" Line="110" Column="13" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>
@@ -38,17 +35,20 @@
       <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/View Model Component/AI/ComputerPlayer.cs" relfile="Assets/Scripts/View Model Component/AI/ComputerPlayer.cs" line="103" column="1" />
       <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/View Model Component/Ability/Effects/AlertAbilityEffect.cs" relfile="Assets/Scripts/View Model Component/Ability/Effects/AlertAbilityEffect.cs" line="43" column="1" />
       <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/View Model Component/Ability/Effects/AlertAbilityEffect.cs" relfile="Assets/Scripts/View Model Component/Ability/Effects/AlertAbilityEffect.cs" line="39" column="1" />
-      <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/View Model Component/AI/ComputerPlayer.cs" relfile="Assets/Scripts/View Model Component/AI/ComputerPlayer.cs" line="379" column="1" />
-      <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/View Model Component/AI/ComputerPlayer.cs" relfile="Assets/Scripts/View Model Component/AI/ComputerPlayer.cs" line="381" column="1" />
-      <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/View Model Component/AI/ComputerPlayer.cs" relfile="Assets/Scripts/View Model Component/AI/ComputerPlayer.cs" line="378" column="1" />
-      <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/View Model Component/Board.cs" relfile="Assets/Scripts/View Model Component/Board.cs" line="136" column="1" />
-      <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/View Model Component/Board.cs" relfile="Assets/Scripts/View Model Component/Board.cs" line="156" column="1" />
-      <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/View Model Component/Board.cs" relfile="Assets/Scripts/View Model Component/Board.cs" line="132" column="1" />
-      <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/View Model Component/Board.cs" relfile="Assets/Scripts/View Model Component/Board.cs" line="151" column="1" />
       <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/PreProduction/BoardCreator.cs" relfile="Assets/Scripts/PreProduction/BoardCreator.cs" line="129" column="1" />
       <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/PreProduction/BoardCreator.cs" relfile="Assets/Scripts/PreProduction/BoardCreator.cs" line="126" column="1" />
-      <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/View Model Component/Tile.cs" relfile="Assets/Scripts/View Model Component/Tile.cs" line="111" column="1" />
+      <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/View Model Component/Tile.cs" relfile="Assets/Scripts/View Model Component/Tile.cs" line="105" column="1" />
       <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/PreProduction/BoardCreator.cs" relfile="Assets/Scripts/PreProduction/BoardCreator.cs" line="137" column="1" />
+      <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/PreProduction/BoardCreator.cs" relfile="Assets/Scripts/PreProduction/BoardCreator.cs" line="135" column="1" />
+      <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/View Model Component/Awareness/Awareness.cs" relfile="Assets/Scripts/View Model Component/Awareness/Awareness.cs" line="32" column="1" />
+      <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/View Model Component/Awareness/Awareness.cs" relfile="Assets/Scripts/View Model Component/Awareness/Awareness.cs" line="47" column="1" />
+      <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/View Model Component/Awareness/Awareness.cs" relfile="Assets/Scripts/View Model Component/Awareness/Awareness.cs" line="61" column="1" />
+      <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/View Model Component/Awareness/Awareness.cs" relfile="Assets/Scripts/View Model Component/Awareness/Awareness.cs" line="66" column="1" />
+      <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/View Model Component/Awareness/Awareness.cs" relfile="Assets/Scripts/View Model Component/Awareness/Awareness.cs" line="83" column="1" />
+      <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/View Model Component/Awareness/Awareness.cs" relfile="Assets/Scripts/View Model Component/Awareness/Awareness.cs" line="87" column="1" />
+      <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/View Model Component/Awareness/Awareness.cs" relfile="Assets/Scripts/View Model Component/Awareness/Awareness.cs" line="101" column="1" />
+      <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/Controller/AwarenessController.cs" relfile="Assets/Scripts/Controller/AwarenessController.cs" line="67" column="1" />
+      <Breakpoint file="/Users/terrytorres/MagicPals/Assets/Scripts/Controller/AwarenessController.cs" relfile="Assets/Scripts/Controller/AwarenessController.cs" line="121" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MultiItemStartupConfigurations />

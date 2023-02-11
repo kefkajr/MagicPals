@@ -12,13 +12,15 @@ public class SpecifyAbilityArea : AbilityArea
 	public override List<Tile> GetTilesInArea (Board board, Point pos)
 	{
 		tile = board.GetTile(pos);
-		return board.Search(tile, ExpandSearch);
+		return board.Search(tile, delegate (Tile from, Tile to) {
+			return ExpandSearch(board, from, to);
+		});
 	}
 
-	bool ExpandSearch (Tile from, Tile to)
+	bool ExpandSearch (Board board, Tile from, Tile to)
 	{
 		// Skip if walls are blocking the way
-		if (!doesPassThroughWalls && Tile.DoesWallSeparateTiles(from, to))
+		if (!doesPassThroughWalls && board.DoesWallSeparateTiles(from, to))
 			return false;
 
 		return (from.distance + 1) <= horizontal && Mathf.Abs(to.height - tile.height) <= vertical;

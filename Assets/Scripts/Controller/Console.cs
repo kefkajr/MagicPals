@@ -24,14 +24,9 @@ public class Console : MonoBehaviour
         }
     }
 
-    private void Start()
-    {
-        textGroup.SetActive(textGroup.transform.childCount > 0);
-    }
-
     public void Log(string s)
     {
-        if (textGroup == null || textGroup.active == false)
+        if (textGroup == null || !textGroup.activeInHierarchy)
             return;
 
         StartCoroutine(DisplayInConsole(s));

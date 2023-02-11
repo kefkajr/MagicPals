@@ -138,7 +138,7 @@ public class Board : MonoBehaviour
 
 			foreach (Tile neighbour in GetNeighbours(currentTile.pos.x, currentTile.pos.y, max.x, max.y))
 			{
-				if (Tile.DoesWallSeparateTiles(currentTile, neighbour) || closedSet.Contains(neighbour)) continue;
+				if (DoesWallSeparateTiles(currentTile, neighbour) || closedSet.Contains(neighbour)) continue;
 
 				int newMovementCostToNeighbour = currentTile.g + GetDistance(currentTile, neighbour);
 				if (newMovementCostToNeighbour < neighbour.g || !openSet.Contains(neighbour))
@@ -358,6 +358,23 @@ public class Board : MonoBehaviour
 		}
 
 		return myNeighbours;
+	}
+
+	public bool DoesWallSeparateTiles(Tile tile1, Tile tile2)
+	{
+		Directions dir1 = tile1.GetDirection(tile2);
+		Directions dir2 = tile2.GetDirection(tile1);
+        bool areWallsOnCornerTile = false;
+        bool doTilesShareAnAxis = tile1.pos.x == tile2.pos.x || tile1.pos.y == tile2.pos.y;
+        if (!doTilesShareAnAxis)
+        {
+			Tile tile3 = GetTile(new Point(tile1.pos.x, tile2.pos.y));
+			Tile tile4 = GetTile(new Point(tile2.pos.x, tile1.pos.y));
+			Directions dir3 = tile3.GetDirection(tile1);
+			Directions dir4 = tile4.GetDirection(tile1);
+			areWallsOnCornerTile = tile3.walls.ContainsKey(dir3) || tile4.walls.ContainsKey(dir4);
+		}
+        return tile1.walls.ContainsKey(dir1) || tile2.walls.ContainsKey(dir2) || areWallsOnCornerTile;
 	}
 
 	public void SelectTiles (List<Tile> tiles)
