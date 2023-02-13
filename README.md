@@ -1,6 +1,38 @@
 # MagicPals
 This is where change summaries, work intentions, and related planning will be written.
 
+#### 2/13/23
+<img src="https://raw.githubusercontent.com/kefkajr/MagicPals/develop/Progress%20Pics/2023.02.13_shout.png" width=500>
+
+The Shout ability has been created. One unit can make any ally aware of any other units.
+
+Specifically, if the Shouting unit has SEEN a foe, any allies in range of the Shout has their awareness of that foe updated to MAY HAVE SEEN. This results in their investigating the relevant point of interest related to that foe.
+
+A nice bonus that comes as a result of our existing awareness system: all units will perceive others units through their visible range on every step taken during a movement sequence. On each step, the perceiving unit's awareness is updated with a new point of interest (that is, the perceived unit's position during that step). This means that, as Cece moves behind a wall to point {6, 8}, Biggs is only aware that she was last seen at point {6, 6}, before she was hidden behind the wall. Thus, when Biggs Shouts at Wedge, Wedge does not know that Cece is currently at {6, 8}, only that Biggs may have seen Cece at {6, 6}. Thus, he is heading for {6, 6} to investigate.
+
+Moving toward a prototype:
+- Improve how the AI uses the Shout ablity
+  - *Prioritization.* Right now the "Ability Picker" system provides a simple method of letting the AI perform abilities. It will either go down a sequential list of abilities to perform, or it will pick randomly from a list. It's time to implement something more like the FF12 Gambit system. The AI should be able to check if a set of criteria is satisfied before deciding on a particular ability. Fortunately we have a "Target Type" system that could work well with gambit-style criteria, in that we can identify if a necessary target such as an "ally" or "foe" is present.
+    - Specifically, an AI unit should only use Shout if there is any ally in walking distance that is unaware of any foes. There may be other criteria we could consider, but that's a good place to start.
+    - Rather then making something brand new, let's update the existing Ability Picker classes to include something like Picker Criteria.
+  - *Targeting.* While the AI is confirming their choice of the Shout ability, the target cursor wanders off into a random direction before the ability is applied. To better indicate the epicenter of the Shout, the cursor should actually stay on the Shouting unit. 
+  - *Movement.* The AI also walks to a random position to Shout. It's likely because their plan of attack indicates that it doesn't matter specifically where they stand, so long as they hit a target (their allies), so it's not completely random. This is probably fine for now, but it's weird. This could be a great opportunity to exercise a "personality" system. That is: a cautious personality would prioritize moving the shortest distance to alert at least 1 ally over maintaining a visual on the foe. A brash personality would prioritize seeing the foe over alerting the most allies. A tattletale personality would run full tilt away from the foe to alert as many other allies as possible.
+- There should be an exit. Reaching it with both character should result in a win. One enemy should be guarding it.
+- The map editor should include "spawn" and "exit" tiles.
+- Test the Riflefire ability.
+- Simplify unit stats. Make it so everone has, like, 5 HP, and getting struck by riflefire removes a specific number of HP.
+
+General Improvements
+- Formally visualize the following in the game, rather than only while debugging:
+  - Viewing Range (faint color wash on tile at all times)
+    - Have this appear 1) during a unit's turn and 2) when the unit it highlighted during the player's turn.
+  - Noisy Range (distinct color wash on tile while confirming ability)
+  - Known Awarenesses (floating lines above unit's heads at all times)
+    - Use a line renderer. Point to a Seen target, or else point to the "point of interest" of a target being investigated.
+- Should also visualize HP changes and status effects, even just as text above the target's head.
+- Start including mouse input, if at least for moving the tile selection indicator.
+
+
 #### 12/18
 <img src="https://raw.githubusercontent.com/kefkajr/MagicPals/develop/Progress%20Pics/2022.12.18_emergency-turn.gif" width=500>
 
@@ -18,16 +50,6 @@ If we're going to be prototyping, we need to start having a game, with a win sta
   - Eventually, the guards should have a sentry routine that involves pacing back and forth.
 - There should be an exit. Reaching it with both character should result in a win. One enemy should be guarding it.
 - The map editor should include "spawn" and "exit" tiles.
-
-General Improvements
-- Formally visualize the following in the game, rather than only while debugging:
-  - Viewing Range (faint color wash on tile at all times)
-    - Have this appear 1) during a unit's turn and 2) when the unit it highlighted during the player's turn.
-  - Noisy Range (distinct color wash on tile while confirming ability)
-  - Known Awarenesses (floating lines above unit's heads at all times)
-    - Use a line renderer. Point to a Seen target, or else point to the "point of interest" of a target being investigated.
-- Should also visualize HP changes and status effects, even just as text above the target's head.
-- Start including mouse input, if at least for moving the tile selection indicator.
 
 
 #### 12/14
