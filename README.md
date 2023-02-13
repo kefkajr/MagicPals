@@ -2,7 +2,7 @@
 This is where change summaries, work intentions, and related planning will be written.
 
 #### 2/13/23
-<img src="https://raw.githubusercontent.com/kefkajr/MagicPals/develop/Progress%20Pics/2023.02.13_shout.png" width=500>
+<img src="https://raw.githubusercontent.com/kefkajr/MagicPals/setup-prototype-encounter/Progress%20Pics/2023.02.13_shout.png" width=500>
 
 The Shout ability has been created. One unit can make any ally aware of any other units.
 
