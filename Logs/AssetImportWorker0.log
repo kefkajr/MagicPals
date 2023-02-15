@@ -279,3 +279,191 @@ Received Import Request.
   path: Assets/Prefabs/Hit Success Indicator.prefab
   artifactKey: Guid(487ac6b17d63f40d8b459c44967cae5b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
 Start importing Assets/Prefabs/Hit Success Indicator.prefab using Guid(487ac6b17d63f40d8b459c44967cae5b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '910f2b71a74eec2ee2699458a7e735f4') in 0.001992 seconds 
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.000796 seconds.
+Begin MonoManager ReloadAssembly
+Thread 0x298b4f000 may have been prematurely finalized
+Native extension for OSXStandalone target not found
+Native extension for WebGL target not found
+Refreshing native plugins compatible for Editor in 0.44 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  0.639 seconds
+Domain Reload Profiling:
+	ReloadAssembly (640ms)
+		BeginReloadAssembly (131ms)
+			ExecutionOrderSort (0ms)
+			DisableScriptedObjects (5ms)
+			BackupInstance (0ms)
+			ReleaseScriptingObjects (0ms)
+			CreateAndSetChildDomain (74ms)
+		EndReloadAssembly (444ms)
+			LoadAssemblies (39ms)
+			RebuildTransferFunctionScriptingTraits (0ms)
+			SetupTypeCache (139ms)
+			ReleaseScriptCaches (1ms)
+			RebuildScriptCaches (24ms)
+			SetupLoadedEditorAssemblies (222ms)
+				LogAssemblyErrors (0ms)
+				InitializePlatformSupportModulesInManaged (6ms)
+				SetLoadedEditorAssemblies (0ms)
+				RefreshPlugins (0ms)
+				BeforeProcessingInitializeOnLoad (27ms)
+				ProcessInitializeOnLoadAttributes (120ms)
+				ProcessInitializeOnLoadMethodAttributes (68ms)
+				AfterProcessingInitializeOnLoad (1ms)
+				EditorAssembliesLoaded (0ms)
+			ExecutionOrderSort2 (0ms)
+			AwakeInstancesAfterBackupRestoration (3ms)
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 1.31 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 2508 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 49 unused Assets / (23.0 KB). Loaded Objects now: 2968.
+Memory consumption went from 94.0 MB to 94.0 MB.
+Total: 4.742667 ms (FindLiveObjects: 0.088041 ms CreateObjectMapping: 0.030209 ms MarkObjects: 4.596667 ms  DeleteObjects: 0.026792 ms)
+
+AssetImportParameters requested are different than current active one (requested -> active):
+  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
+  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
+  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
+  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
+  custom:framework-osx-AVFoundation: e770b220cccbd017edd2c1fefb359320 -> 
+  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
+  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
+  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+========================================================================
+Received Import Request.
+  Time since last request: 3369.033268 seconds.
+  path: Assets/Resources/Ability Catalog Recipes/Enemy Rogue.asset
+  artifactKey: Guid(6fd5421bb4a664e6ab83af3965f3ac63) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Ability Catalog Recipes/Enemy Rogue.asset using Guid(6fd5421bb4a664e6ab83af3965f3ac63) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '9af3670889465a96c8d2844afc23c666') in 0.033811 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000059 seconds.
+  path: Assets/Resources/Attack Pattern/Rogue Attack Pattern.prefab
+  artifactKey: Guid(5f577226dedbe4988a4896a0f588363b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Attack Pattern/Rogue Attack Pattern.prefab using Guid(5f577226dedbe4988a4896a0f588363b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '8fffaa3d2968c39d211fe960f6e9b902') in 0.009559 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 63.207102 seconds.
+  path: Assets/Materials/Ally.mat
+  artifactKey: Guid(6cfd78a61f57e4b198eb74409bcca72a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Materials/Ally.mat using Guid(6cfd78a61f57e4b198eb74409bcca72a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'd72a6564476c10f69d339f259680ae53') in 0.075224 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000057 seconds.
+  path: Assets/Materials/Enemy.mat
+  artifactKey: Guid(e43bb82b685554a9eb44125a03e7a5c6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Materials/Enemy.mat using Guid(e43bb82b685554a9eb44125a03e7a5c6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '88ca3346ff79718ddac767df2687e868') in 0.004790 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000058 seconds.
+  path: Assets/Materials/Eyes.mat
+  artifactKey: Guid(719b951a2aa8340e5bf304b7841945e4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Materials/Eyes.mat using Guid(719b951a2aa8340e5bf304b7841945e4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'd3499836aaeece5d96f56134a965f926') in 0.004538 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000037 seconds.
+  path: Assets/Materials/Stone.mat
+  artifactKey: Guid(9a9697dac964048bab640cabc1cd5bc8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Materials/Stone.mat using Guid(9a9697dac964048bab640cabc1cd5bc8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'fddb8780b9ed69f0da3832deecd06fc6') in 0.122934 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 16.199120 seconds.
+  path: Assets/Resources/Unit Recipes/Alaois.asset
+  artifactKey: Guid(3218f6787e5dc4c5db80e48498cb193c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Unit Recipes/Alaois.asset using Guid(3218f6787e5dc4c5db80e48498cb193c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '9ec7206579e047bf6e841be220c8a480') in 0.002716 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000056 seconds.
+  path: Assets/Resources/Unit Recipes/Hania.asset
+  artifactKey: Guid(f0bd0598e4740409c82cede7def9de96) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Unit Recipes/Hania.asset using Guid(f0bd0598e4740409c82cede7def9de96) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '8b3b3ca52dbb378453ca62de74d38f41') in 0.002178 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000042 seconds.
+  path: Assets/Resources/Unit Recipes/Kamau.asset
+  artifactKey: Guid(824b71227f5af4f7ebb73d5ec8d9d762) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Unit Recipes/Kamau.asset using Guid(824b71227f5af4f7ebb73d5ec8d9d762) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '6ec83ba7feda633ead591616c779de1b') in 0.001460 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000045 seconds.
+  path: Assets/Resources/Unit Recipes/Sentry.asset
+  artifactKey: Guid(9c743492d01324a4aa4682033ce8457d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Unit Recipes/Sentry.asset using Guid(9c743492d01324a4aa4682033ce8457d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '70b7c7fdff99c5e4b138e36cd09961d6') in 0.000987 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 33.272102 seconds.
+  path: Assets/Resources/Ability Catalog Recipes/Enemy Warrior.asset
+  artifactKey: Guid(5320baf593dfa44438eeadc33a1c7935) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Ability Catalog Recipes/Enemy Warrior.asset using Guid(5320baf593dfa44438eeadc33a1c7935) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '15cb814a159edce778603751176e8fa0') in 0.002465 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 9.373530 seconds.
+  path: Assets/Resources/Ability Catalog Recipes/DemoCatalog.asset
+  artifactKey: Guid(6fde738118f9642459053640ff76160c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Ability Catalog Recipes/DemoCatalog.asset using Guid(6fde738118f9642459053640ff76160c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '97fab4d237f0e413e06e10cb00889fa2') in 0.003294 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000067 seconds.
+  path: Assets/Resources/Ability Catalog Recipes/Sentry.asset
+  artifactKey: Guid(718c6ed05d3fe4bf28f75c24d7534c62) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Ability Catalog Recipes/Sentry.asset using Guid(718c6ed05d3fe4bf28f75c24d7534c62) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '2ec24a2a367880458fbf7d80908c16f5') in 0.002000 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 2.514287 seconds.
+  path: Assets/Resources/Attack Pattern/Mage Attack Pattern.prefab
+  artifactKey: Guid(ad7a3c9f7ada44e489ec097450c8320d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Attack Pattern/Mage Attack Pattern.prefab using Guid(ad7a3c9f7ada44e489ec097450c8320d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '9c30ce4354591673b999154b49d29a2c') in 0.003667 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.443318 seconds.
+  path: Assets/Resources/Conversations/IntroScene.asset
+  artifactKey: Guid(2a3a946e3e5de4876a25b48395235471) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Conversations/IntroScene.asset using Guid(2a3a946e3e5de4876a25b48395235471) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'e04edc159873c37265cc746cc6eadec9') in 0.005754 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.335049 seconds.
+  path: Assets/Resources/Levels/Level_0.asset
+  artifactKey: Guid(0bbf75f699440421ab3a6e5273194d87) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Levels/Level_0.asset using Guid(0bbf75f699440421ab3a6e5273194d87) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '9f2da650685cd0222434360c07b96e6b') in 0.004725 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000064 seconds.
+  path: Assets/Resources/Levels/Test.asset
+  artifactKey: Guid(767803d7a43694855960dff8fa9eed59) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Levels/Test.asset using Guid(767803d7a43694855960dff8fa9eed59) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '101b102136f0b112b6fac0c2c6a4665e') in 0.002120 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.466834 seconds.
+  path: Assets/Resources/Merchandise/Bomb.prefab
+  artifactKey: Guid(55c00588e14974b1abfb6f646be80b3b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Merchandise/Bomb.prefab using Guid(55c00588e14974b1abfb6f646be80b3b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a8986ddf623a3e66e8cf7973ad847674') in 0.005289 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000052 seconds.
+  path: Assets/Resources/Merchandise/Winged Helmet.prefab
+  artifactKey: Guid(643d6bc66cb44474eb173953aaeb1415) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Merchandise/Winged Helmet.prefab using Guid(643d6bc66cb44474eb173953aaeb1415) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '0c8e9063fa7854f254a3ebffe1d52712') in 0.003522 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000061 seconds.
+  path: Assets/Resources/Merchandise/Sword.prefab
+  artifactKey: Guid(bb81f10e1729740bdb2245d61b05a0cb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Merchandise/Sword.prefab using Guid(bb81f10e1729740bdb2245d61b05a0cb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f18c3c0f953c3e7c34ece3ea35b0e626') in 0.001927 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.515919 seconds.
+  path: Assets/Resources/Perception Recipes/Basic Perception Recipe.asset
+  artifactKey: Guid(fc02c695f023448b8a13b06ce378615c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Perception Recipes/Basic Perception Recipe.asset using Guid(fc02c695f023448b8a13b06ce378615c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'd6083564f07f625b0323a502ac2dfabd') in 0.002418 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 5.560393 seconds.
+  path: Assets/Resources/Unit Recipes
+  artifactKey: Guid(4db2fc52fdb2f49eaadd371a613338a3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Unit Recipes using Guid(4db2fc52fdb2f49eaadd371a613338a3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b3b089a62cd1bfab1d25e19fbc53434c') in 0.000695 seconds 
