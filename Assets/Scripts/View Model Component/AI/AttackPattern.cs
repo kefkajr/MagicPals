@@ -26,7 +26,7 @@ public class AttackPattern : MonoBehaviour
 	public List<BaseAbilityPicker> pickers;
 	int index;
 	
-	public void Pick (PlanOfAttack plan)
+	public void Pick (Board board, PlanOfAttack plan)
 	{
 		pickers[index].Pick(plan);
 		index++;

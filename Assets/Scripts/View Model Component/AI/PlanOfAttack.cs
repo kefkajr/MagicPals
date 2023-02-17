@@ -10,7 +10,7 @@ using System.Collections;
 public class PlanOfAttack 
 {
 	public Ability ability;
-	public Targets target;
+	public TargetType target;
 	public Tile moveLocation;
 	public Tile fireLocation;
 	public Directions attackDirection;

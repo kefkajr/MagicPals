@@ -7,18 +7,18 @@ public class Alliance : MonoBehaviour
 	public Alliances type;
 	public bool confused;
 
-	public bool IsMatch (Alliance other, Targets targets)
+	public bool IsMatch (Alliance other, TargetType targets)
 	{
 		bool isMatch = false;
 		switch (targets)
 		{
-		case Targets.Self:
+		case TargetType.Self:
 			isMatch = other == this;
 			break;
-		case Targets.Ally:
+		case TargetType.Ally:
 			isMatch = type == other.type;
 			break;
-		case Targets.Foe:
+		case TargetType.Foe:
 			isMatch = (type != other.type) && other.type != Alliances.Neutral;
 			break;
 		}

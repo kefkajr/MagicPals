@@ -34,7 +34,7 @@ public class ComputerPlayer : MonoBehaviour
 			// Step 1: Decide what ability to use
 			AttackPattern pattern = actor.GetComponentInChildren<AttackPattern>();
 			if (pattern)
-				pattern.Pick(poa);
+				pattern.Pick(BC.board, poa);
 			else
 				DefaultAttackPattern(poa);
 
@@ -74,7 +74,7 @@ public class ComputerPlayer : MonoBehaviour
 	{
 		// Just get the first "Attack" ability
 		poa.ability = actor.GetComponentInChildren<Ability>();
-		poa.target = Targets.Foe;
+		poa.target = TargetType.Foe;
 	}
 
 	bool IsPositionIndependent (PlanOfAttack poa)
@@ -259,9 +259,9 @@ public class ComputerPlayer : MonoBehaviour
 	bool IsAbilityTargetMatch(PlanOfAttack poa, Tile tile)
 	{
 		bool isMatch = false;
-		if (poa.target == Targets.Tile)
+		if (poa.target == TargetType.Tile)
 			isMatch = true;
-		else if (poa.target != Targets.None)
+		else if (poa.target != TargetType.None)
 		{
 			// TODO: Revisit this after implemeting GAMBITS or some other AI method
 
@@ -271,7 +271,7 @@ public class ComputerPlayer : MonoBehaviour
 			{
 				if (actorAlliance.IsMatch(targetAlliance, poa.target))
 				{
-					if (poa.target == Targets.Ally)
+					if (poa.target == TargetType.Ally)
 					{
 						// Allies are assumed to have automatic knowledge of each other's location
 						isMatch = true;
@@ -399,7 +399,7 @@ public class ComputerPlayer : MonoBehaviour
 
 		List<Awareness> topAwarenesses = AC.TopAwarenesses(actor).FindAll( delegate (Awareness a) {
 			Alliance otherAlliance = a.stealth.unit.GetComponentInChildren<Alliance>();
-			return actorAlliance.IsMatch(otherAlliance, Targets.Foe);
+			return actorAlliance.IsMatch(otherAlliance, TargetType.Foe);
 		});
 		if (topAwarenesses.Count == 0) return;
 

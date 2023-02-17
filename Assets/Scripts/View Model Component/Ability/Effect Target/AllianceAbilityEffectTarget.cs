@@ -3,7 +3,7 @@ using System.Collections;
 
 public class AllianceAbilityEffectTarget : AbilityEffectTarget 
 {
-	public Targets targetType;
+	public TargetType targetType;
 	Alliance alliance;
 
 	void Start ()

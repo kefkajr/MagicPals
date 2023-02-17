@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public enum Targets
+public enum TargetType
 {
 	None,
 	Self,
