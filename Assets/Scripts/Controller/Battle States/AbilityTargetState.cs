@@ -64,7 +64,7 @@ public class AbilityTargetState : BattleState
 	
 	void ChangeDirection (Point p)
 	{
-		Directions dir = p.GetDirection();
+		Direction dir = p.GetDirection();
 		if (turn.actor.dir != dir)
 		{
 			board.DeSelectTiles(tiles);

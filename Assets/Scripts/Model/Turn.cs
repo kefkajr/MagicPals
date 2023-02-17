@@ -13,7 +13,7 @@ public class Turn
 	public List<Tile> targets;
 	public PlanOfAttack plan;
 	Tile startTile;
-	Directions startDir;
+	Direction startDir;
 
 	public void Change (Unit current)
 	{

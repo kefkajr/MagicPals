@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class EndFacingState : BattleState 
 {
-	Directions startDir;
+	Direction startDir;
 
 	public override void Enter ()
 	{

@@ -11,12 +11,12 @@ public class Wall : MonoBehaviour
     public const float stepHeight = 0.25f;
 
     public Tile tile;
-    public Directions direction;
+    public Direction direction;
     public int thickness = 1;
     public int height = 1;
     public Origin origin = Origin.onBorder;
 
-    public void Load(Tile tile, Directions direction)
+    public void Load(Tile tile, Direction direction)
     {
         this.tile = tile;
         this.direction = direction;
@@ -84,19 +84,19 @@ public class Wall : MonoBehaviour
         float scaleZ;
         switch (direction)
         {
-            case Directions.North:
+            case Direction.North:
                 scaleX = 1;
                 scaleZ = thickness * stepThickness;
                 posX = tile.pos.x;
                 posZ = tile.pos.y + 0.5f + OriginOffSetFromScale(scaleZ);
                 break;
-            case Directions.East:
+            case Direction.East:
                 scaleX = thickness * stepThickness;
                 scaleZ = 1;
                 posX = tile.pos.x + 0.5f + OriginOffSetFromScale(scaleX);
                 posZ = tile.pos.y;
                 break;
-            case Directions.South:
+            case Direction.South:
                 scaleX = 1;
                 scaleZ = thickness * stepThickness;
                 posX = tile.pos.x;
@@ -132,7 +132,7 @@ public class Wall : MonoBehaviour
 [System.Serializable]
 public class WallData
 {
-    public Directions direction;
+    public Direction direction;
     public Wall.Origin origin;
     public int thickness;
     public int height;

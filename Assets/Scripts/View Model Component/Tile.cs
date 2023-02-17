@@ -12,7 +12,7 @@ public class Tile : MonoBehaviour
 	public Point pos;
 	public int height;
 	public Vector3 center { get { return new Vector3(pos.x, height * stepHeight, pos.y); }}
-	public Dictionary<Directions, Wall> walls = new Dictionary<Directions, Wall>();
+	public Dictionary<Direction, Wall> walls = new Dictionary<Direction, Wall>();
 	public GameObject occupant;
 	public Trap trap;
 	public List<Merchandise> items;

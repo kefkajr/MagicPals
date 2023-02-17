@@ -7,7 +7,7 @@ public class FacingIndicator : MonoBehaviour
 	[SerializeField] public Material normal;
 	[SerializeField] public Material selected;
 	
-	public void SetDirection (Directions dir)
+	public void SetDirection (Direction dir)
 	{
 		int index = (int)dir;
 		for (int i = 0; i < 4; ++i)

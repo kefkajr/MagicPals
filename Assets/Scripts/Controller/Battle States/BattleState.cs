@@ -52,13 +52,13 @@ public abstract class BattleState : State
 		Point translatedPoint;
 		switch (cameraRig.currentDirection)
 		{
-			case Directions.North:
+			case Direction.North:
 				translatedPoint = point;
 				break;
-			case Directions.South:
+			case Direction.South:
 				translatedPoint = new Point(-point.x, -point.y);
 				break;
-			case Directions.West:
+			case Direction.West:
 				translatedPoint = new Point(-point.y, point.x);
 				break;
 			default: // East

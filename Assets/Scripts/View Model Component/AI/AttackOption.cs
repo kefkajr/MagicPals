@@ -34,7 +34,7 @@ public class AttackOption
 	 * or the tile we would want to move to in order to fire,
 	 * and direction may or may not apply. */
 	public Tile target;
-	public Directions direction;
+	public Direction direction;
 
 	/* The area targets are the list of tiles which fall within an ability’s area of effect,
 	 * regardless of if they currently have a target or not.
@@ -139,7 +139,7 @@ public class AttackOption
 		{
 			bestAngleBasedScore = int.MinValue;
 			Tile startTile = caster.tile;
-			Directions startDirection = caster.dir;
+			Direction startDirection = caster.dir;
 			caster.dir = direction;
 
 			List<Tile> bestOptions = new List<Tile>();

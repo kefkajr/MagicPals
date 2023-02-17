@@ -14,13 +14,13 @@ public class LineAbilityRange : AbilityRange
 		
 		switch (unit.dir)
 		{
-		case Directions.North:
+		case Direction.North:
 			endPos = new Point(startPos.x, board.max.y);
 			break;
-		case Directions.East:
+		case Direction.East:
 			endPos = new Point(board.max.x, startPos.y);
 			break;
-		case Directions.South:
+		case Direction.South:
 			endPos = new Point(startPos.x, board.min.y);
 			break;
 		default: // West

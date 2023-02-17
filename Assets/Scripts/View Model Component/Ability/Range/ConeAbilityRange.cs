@@ -13,13 +13,13 @@ public class ConeAbilityRange : AbilityRange
 	{
 		validatedTiles = new List<Tile>();
 		Point pos = unit.tile.pos;
-		int dir = (unit.dir == Directions.North || unit.dir == Directions.East) ? 1 : -1;
+		int dir = (unit.dir == Direction.North || unit.dir == Direction.East) ? 1 : -1;
 		Tile fromTile = unit.tile;
 
 		Tile NewTile(int medial, int lateral, bool isAdditive)
 		{
 			Point point;
-			if (unit.dir == Directions.North || unit.dir == Directions.South)
+			if (unit.dir == Direction.North || unit.dir == Direction.South)
 			{
 				if (isAdditive)
 					point = new Point(pos.x + lateral, pos.y + (medial * dir));
@@ -41,7 +41,7 @@ public class ConeAbilityRange : AbilityRange
 		for (int medial = 1; medial <= horizontal; ++medial)
 		{
 			Point primary;
-			if (unit.dir == Directions.North || unit.dir == Directions.South)
+			if (unit.dir == Direction.North || unit.dir == Direction.South)
 				primary = new Point(pos.x, pos.y + (medial * dir));
 			else
 				primary = new Point(pos.x + (medial * dir), pos.y);

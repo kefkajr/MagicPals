@@ -19,12 +19,12 @@ public class FlyMovement : Movement
 			yield return null;
 
 		// Turn to face the general direction
-		Directions dir;
+		Direction dir;
 		Vector3 toTile = (tile.center - transform.position);
 		if (Mathf.Abs(toTile.x) > Mathf.Abs(toTile.z))
-			dir = toTile.x > 0 ? Directions.East : Directions.West;
+			dir = toTile.x > 0 ? Direction.East : Direction.West;
 		else
-			dir = toTile.z > 0 ? Directions.North : Directions.South;
+			dir = toTile.z > 0 ? Direction.North : Direction.South;
 		yield return StartCoroutine(Turn(dir));
 
 		// Move to the correct position

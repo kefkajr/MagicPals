@@ -19,15 +19,15 @@ public class BoardCreatorInspector : Editor
 
 		GUILayout.Label("Marker Position");
 		if (GUILayout.Button("North"))
-			current.MoveMarker(Directions.North);
+			current.MoveMarker(Direction.North);
 		GUILayout.BeginHorizontal();
 		if (GUILayout.Button("West"))
-			current.MoveMarker(Directions.West);
+			current.MoveMarker(Direction.West);
 		if (GUILayout.Button("East"))
-			current.MoveMarker(Directions.East);
+			current.MoveMarker(Direction.East);
 		GUILayout.EndHorizontal();
 		if (GUILayout.Button("South"))
-			current.MoveMarker(Directions.South);
+			current.MoveMarker(Direction.South);
 
 		GUILayout.Label("Tile");
 		if (GUILayout.Button("Grow"))
@@ -41,15 +41,15 @@ public class BoardCreatorInspector : Editor
 
 		GUILayout.Label("Wall Direction");
 		if (GUILayout.Button("North"))
-			current.ChangeWallDirection(Directions.North);
+			current.ChangeWallDirection(Direction.North);
 		GUILayout.BeginHorizontal();
 		if (GUILayout.Button("West"))
-			current.ChangeWallDirection(Directions.West);
+			current.ChangeWallDirection(Direction.West);
 		if (GUILayout.Button("East"))
-			current.ChangeWallDirection(Directions.East);
+			current.ChangeWallDirection(Direction.East);
 		GUILayout.EndHorizontal();
 		if (GUILayout.Button("South"))
-			current.ChangeWallDirection(Directions.South);
+			current.ChangeWallDirection(Direction.South);
 
 		GUILayout.Label("Wall");
 		if (GUILayout.Button("Grow Wall"))

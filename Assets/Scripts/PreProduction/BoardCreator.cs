@@ -33,10 +33,10 @@ public class BoardCreator : MonoBehaviour
 	#endregion
 
 	#region Public
-	public void MoveMarker(Directions direction)
+	public void MoveMarker(Direction direction)
 	{
-		int xChange = direction == Directions.West ? -1 : direction == Directions.East ? 1 : 0;
-		int yChange = direction == Directions.South ? -1 : direction == Directions.North ? 1 : 0;
+		int xChange = direction == Direction.West ? -1 : direction == Direction.East ? 1 : 0;
+		int yChange = direction == Direction.South ? -1 : direction == Direction.North ? 1 : 0;
 		pos.x += xChange;
 		pos.y += yChange;
 	}
@@ -76,9 +76,9 @@ public class BoardCreator : MonoBehaviour
 		tiles.Clear();
 	}
 
-	Directions currentWallDirection = Directions.North;
+	Direction currentWallDirection = Direction.North;
 
-	public void ChangeWallDirection(Directions direction)
+	public void ChangeWallDirection(Direction direction)
     {
 		currentWallDirection = direction;
 
@@ -229,7 +229,7 @@ public class BoardCreator : MonoBehaviour
 		}
 	}
 
-	void GrowWall(Point p, Directions d)
+	void GrowWall(Point p, Direction d)
 	{
 		Tile t = GetOrCreateTile(p);
 		if (t.height < 1)
@@ -242,7 +242,7 @@ public class BoardCreator : MonoBehaviour
 		}
 	}
 
-	void ShrinkWall(Point p, Directions d)
+	void ShrinkWall(Point p, Direction d)
 	{
 		Tile t = GetOrCreateTile(p);
 		Wall w = GetOrCreateWall(t, d);
@@ -256,7 +256,7 @@ public class BoardCreator : MonoBehaviour
 		}
 	}
 
-	void ThickenWall(Point p, Directions d)
+	void ThickenWall(Point p, Direction d)
 	{
 		Tile t = GetOrCreateTile(p);
 		if (t.height < 1)
@@ -265,7 +265,7 @@ public class BoardCreator : MonoBehaviour
 		w.Thicken();
 	}
 
-	void ThinWall(Point p, Directions d)
+	void ThinWall(Point p, Direction d)
 	{
 		Tile t = GetOrCreateTile(p);
 		Wall w = GetOrCreateWall(t, d);
@@ -279,7 +279,7 @@ public class BoardCreator : MonoBehaviour
 		}
 	}
 
-	void MoveWall(Point p, Directions d, int originChange)
+	void MoveWall(Point p, Direction d, int originChange)
 	{
 		Tile t = GetOrCreateTile(p);
 		if (t.height < 1)
@@ -295,7 +295,7 @@ public class BoardCreator : MonoBehaviour
 		return instance.GetComponent<Wall>();
 	}
 
-	Wall GetOrCreateWall(Tile t, Directions d)
+	Wall GetOrCreateWall(Tile t, Direction d)
 	{
 		if (t.walls.ContainsKey(d))
 			return t.walls[d];

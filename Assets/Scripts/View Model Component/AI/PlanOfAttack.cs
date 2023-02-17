@@ -13,5 +13,5 @@ public class PlanOfAttack
 	public TargetType targetType;
 	public Tile moveLocation;
 	public Tile fireLocation;
-	public Directions attackDirection;
+	public Direction attackDirection;
 }

@@ -54,7 +54,7 @@ public abstract class Movement : MonoBehaviour
 				tiles.RemoveAt(i);
 	}
 
-	protected virtual IEnumerator Turn (Directions dir)
+	protected virtual IEnumerator Turn (Direction dir)
 	{
 		TransformLocalEulerTweener t = (TransformLocalEulerTweener)transform.RotateToLocal(dir.ToEuler(), 0.25f, EasingEquations.EaseInOutQuad);
 		

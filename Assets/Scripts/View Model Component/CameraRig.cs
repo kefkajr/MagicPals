@@ -8,7 +8,7 @@ public class CameraRig : MonoBehaviour
 
 
 	public float rotateDuration = 0.25f;
-	public Directions currentDirection = Directions.North;
+	public Direction currentDirection = Direction.North;
 	TransformLocalEulerTweener rotateTweener;
 	bool isRotating = false;
 
@@ -61,7 +61,7 @@ public class CameraRig : MonoBehaviour
 		if (newDirectionValue > 3)
 			newDirectionValue = 0;
 
-		currentDirection = (Directions)newDirectionValue;
+		currentDirection = (Direction)newDirectionValue;
 
 		StartCoroutine(Turn());
 	}

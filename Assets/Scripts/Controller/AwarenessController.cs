@@ -122,7 +122,7 @@ public class AwarenessController : MonoBehaviour
 				Tile adjacentTileTowardUnit = board.GetTile(adjacentPointTowardUnit);
 				if (adjacentTileTowardUnit != null)
 				{
-					Directions directionTowardFromTile = adjacentTileTowardUnit.GetDirection(fromTile);
+					Direction directionTowardFromTile = adjacentTileTowardUnit.GetDirection(fromTile);
 					if (adjacentTileTowardUnit.walls.ContainsKey(unit.dir) ||
 						adjacentTileTowardUnit.walls.ContainsKey(directionTowardFromTile) ||
 						fromTile.walls.ContainsKey(directionTowardFromTile.GetOpposite()))
@@ -133,7 +133,7 @@ public class AwarenessController : MonoBehaviour
 			return Mathf.Abs(toTile.height - unit.tile.height) <= viewingRange.y;
 		}
 
-		int dir = (unit.dir == Directions.North || unit.dir == Directions.East) ? 1 : -1;
+		int dir = (unit.dir == Direction.North || unit.dir == Direction.East) ? 1 : -1;
 
 		// Draw a line from the unit to each of the furthest tiles from their viewing range
 		for (int sightline = (int)-viewingRange.x; sightline < viewingRange.x; sightline++)
@@ -141,7 +141,7 @@ public class AwarenessController : MonoBehaviour
 
 			Point pos = unit.tile.pos;
 			Point end;
-			if (unit.dir == Directions.North || unit.dir == Directions.South)
+			if (unit.dir == Direction.North || unit.dir == Direction.South)
 				end = pos + new Point(sightline, (int)viewingRange.x * dir);
 			else
 				end = pos + new Point((int)viewingRange.x * dir, sightline);

@@ -4,7 +4,7 @@ using System.Collections;
 public class Unit : MonoBehaviour 
 {
 	public Tile tile { get; protected set; }
-	public Directions dir;
+	public Direction dir;
 
 	public Perception perception { get { return GetComponent<Perception>(); } }
 	public Stealth stealth { get { return GetComponent<Stealth>(); } }

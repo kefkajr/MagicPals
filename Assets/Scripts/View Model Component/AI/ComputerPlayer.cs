@@ -181,7 +181,7 @@ public class ComputerPlayer : MonoBehaviour
 	void PlanDirectionDependent (PlanOfAttack poa)
 	{
 		Tile startTile = actor.tile;
-		Directions startDirection = actor.dir;
+		Direction startDirection = actor.dir;
 		List<AttackOption> attackOptions = new List<AttackOption>();
 		List<Tile> moveOptions = GetMoveOptions();
 		
@@ -192,7 +192,7 @@ public class ComputerPlayer : MonoBehaviour
 			
 			for (int ii = 0; ii < 4; ++ii)
 			{
-				actor.dir = (Directions)ii;
+				actor.dir = (Direction)ii;
 				AttackOption attackOption = new AttackOption();
 				attackOption.target = moveTile;
 				attackOption.direction = actor.dir;
@@ -444,17 +444,17 @@ public class ComputerPlayer : MonoBehaviour
 	 * because the foe who was nearest before you moved is not necessarily the foe who is nearest after you have moved.
 	 * Next I loop through each of the directions until I find a direction which has me face the foe from the front.
 	 * This way the foe is less likely to be able to attack me from the back. */
-	public Directions DetermineEndFacingDirection ()
+	public Direction DetermineEndFacingDirection ()
 	{
 		SetTopPriorityFoeAndPointOfInterest();
-		Directions dir = (Directions)UnityEngine.Random.Range(0, 4);
+		Direction dir = (Direction)UnityEngine.Random.Range(0, 4);
 		//TODO: Avoid showing back to foe, but try to face a point of interest
 		if (topPriorityFoe != null)
 		{
-			Directions start = actor.dir;
+			Direction start = actor.dir;
 			for (int i = 0; i < 4; ++i)
 			{
-				actor.dir = (Directions)i;
+				actor.dir = (Direction)i;
 				if (topPriorityFoe.GetFacing(actor) == Facings.Front)
 				{
 					dir = actor.dir;

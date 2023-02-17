@@ -56,11 +56,11 @@ public class InitBattleState : BattleState
 			if (unit.name == "Cece")
 			{
 				unit.Place(board.GetTile(new Point(6, 8)));
-				unit.dir = Directions.South;
+				unit.dir = Direction.South;
 			} else if (unit.name == "Nessa")
 			{
 				unit.Place(board.GetTile(new Point(2, 3)));
-				unit.dir = Directions.South;
+				unit.dir = Direction.South;
 			}
 			else if (unit.name == "Sentry")
 			{
@@ -75,7 +75,7 @@ public class InitBattleState : BattleState
 					unit.name = "Biggs";
 					didPlaceFirstSentry = true;
 				}
-				unit.dir = Directions.West;
+				unit.dir = Direction.West;
 			}
 			unit.Match();
 			
