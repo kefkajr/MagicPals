@@ -212,13 +212,13 @@ public class AwarenessController : MonoBehaviour
 		return updatedAwarenesses;
 	}
 
-	public bool IsAwareOfUnit(Unit perceivingUnit, Unit perceivedUnit, AwarenessType type)
+	public bool IsAwareOfUnit(Unit perceivingUnit, Unit perceivedUnit, AwarenessType[] types)
 	{
 		if (perceivingUnit == perceivedUnit)
 			return false;
 
 		Awareness relevantAwareness = awarenessMap[perceivingUnit][perceivedUnit];
-		return relevantAwareness.type == type;
+		return types.Contains(relevantAwareness.type);
 	}
 
 	public List<Awareness> TopAwarenesses(Unit perceivingUnit)

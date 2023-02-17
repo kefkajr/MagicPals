@@ -24,13 +24,14 @@ and allow a factory to automatically generate them like we do with ability catal
 public class AttackPattern : MonoBehaviour 
 {
 	public List<BaseAbilityPicker> pickers;
-	int index;
 	
-	public void Pick (Board board, PlanOfAttack plan)
+	public void Pick (BattleController bc, PlanOfAttack plan)
 	{
-		pickers[index].Pick(plan);
-		index++;
-		if (index >= pickers.Count)
-			index = 0;
+		foreach (BaseAbilityPicker picker in pickers) {
+			if (picker.IsViable(bc)) {
+				picker.Pick(plan);
+				break;
+			}
+		}
 	}
 }

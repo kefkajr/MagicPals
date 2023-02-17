@@ -13,9 +13,9 @@ public class RandomAbilityPicker : BaseAbilityPicker
 {
 	public List<BaseAbilityPicker> pickers;
 
-	public override void IsViable(Board board)
+	public override bool IsViable(BattleController bc)
     {
-        
+        return false;
     }
 
 	public override void Pick (PlanOfAttack plan)

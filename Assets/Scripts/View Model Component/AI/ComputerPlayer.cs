@@ -34,7 +34,7 @@ public class ComputerPlayer : MonoBehaviour
 			// Step 1: Decide what ability to use
 			AttackPattern pattern = actor.GetComponentInChildren<AttackPattern>();
 			if (pattern)
-				pattern.Pick(BC.board, poa);
+				pattern.Pick(BC, poa);
 			else
 				DefaultAttackPattern(poa);
 
@@ -271,7 +271,11 @@ public class ComputerPlayer : MonoBehaviour
 			{
 				if (actorAlliance.IsMatch(targetAlliance, poa.targetType))
 				{
-					if (poa.targetType == TargetType.Ally)
+					if (actorAlliance == targetAlliance &&
+					  (poa.targetType == TargetType.Self || poa.targetType == TargetType.AllyOrSelf)) {
+						isMatch = true;
+					}
+					else if (poa.targetType == TargetType.Ally)
 					{
 						// Allies are assumed to have automatic knowledge of each other's location
 						isMatch = true;
@@ -279,7 +283,7 @@ public class ComputerPlayer : MonoBehaviour
 					else
 					{
 						// If the target is a foe who has been seen by the actor, it's viable
-						isMatch = AC.IsAwareOfUnit(actor, targetUnit, AwarenessType.Seen);
+						isMatch = AC.IsAwareOfUnit(actor, targetUnit, new AwarenessType[] {AwarenessType.Seen});
 					}
 				}
 

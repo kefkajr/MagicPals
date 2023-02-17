@@ -2,7 +2,7 @@
 
 public class Awareness: IEquatable<Awareness>
 {
-	static int StartingAwarenessLevel = 10; // TODO: This should change with testing
+	static int StartingAwarenessLevel = 20; // TODO: This should change with testing
 
 	public Perception perception;
     public Stealth stealth;

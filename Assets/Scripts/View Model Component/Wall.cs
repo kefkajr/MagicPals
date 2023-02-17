@@ -102,7 +102,7 @@ public class Wall : MonoBehaviour
                 posX = tile.pos.x;
                 posZ = tile.pos.y - 0.5f - OriginOffSetFromScale(scaleZ);
                 break;
-            default: // Directions.West:
+            default: // Direction.West:
                 scaleX = thickness * stepThickness;
                 scaleZ = 1;
                 posX = tile.pos.x - 0.5f - OriginOffSetFromScale(scaleX);

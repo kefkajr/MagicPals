@@ -6,6 +6,7 @@ public enum TargetType
 	None,
 	Self,
 	Ally,
+	AllyOrSelf,
 	Foe,
 	Tile
 }

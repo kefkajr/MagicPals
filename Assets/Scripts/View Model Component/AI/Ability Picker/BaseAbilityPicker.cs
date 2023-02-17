@@ -24,7 +24,7 @@ public abstract class BaseAbilityPicker : MonoBehaviour
 	#endregion
 
 	#region Public
-	public abstract void IsViable (Board board);
+	public abstract bool IsViable (BattleController bc);
 	public abstract void Pick (PlanOfAttack plan);
 	#endregion
 

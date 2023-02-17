@@ -48,6 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pickers:
   - {fileID: 4706408028579350891}
+  - {fileID: 1824039968515538889}
 --- !u!1 &1824039968521583089
 GameObject:
   m_ObjectHideFlags: 0
@@ -92,7 +93,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4855ebb42b5ea4a1baf81ef896165965, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: 3
+  targetType: 4
+  abilityPickerCriteria: 0
   ability: Rifle Fire
 --- !u!1 &6414343887463595709
 GameObject:
@@ -138,5 +140,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4855ebb42b5ea4a1baf81ef896165965, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: 2
+  targetType: 2
+  abilityPickerCriteria: 1
   ability: Shout
