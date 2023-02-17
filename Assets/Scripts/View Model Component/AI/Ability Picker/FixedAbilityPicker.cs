@@ -14,7 +14,7 @@ using System.Collections;
  * (which would be Attack). */
 public class FixedAbilityPicker : BaseAbilityPicker
 {
-	public TargetType target;
+	public TargetType targetType;
 	public string ability;
 
     public override void IsViable(Board board)
@@ -24,13 +24,13 @@ public class FixedAbilityPicker : BaseAbilityPicker
 
     public override void Pick (PlanOfAttack plan)
 	{
-		plan.target = target;
+		plan.targetType = targetType;
 		plan.ability = Find(ability);
 
 		if (plan.ability == null)
 		{
 			plan.ability = Default();
-			plan.target = TargetType.Foe;
+			plan.targetType = TargetType.Foe;
 		}
 	}
 }

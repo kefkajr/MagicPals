@@ -74,7 +74,7 @@ public class ComputerPlayer : MonoBehaviour
 	{
 		// Just get the first "Attack" ability
 		poa.ability = actor.GetComponentInChildren<Ability>();
-		poa.target = TargetType.Foe;
+		poa.targetType = TargetType.Foe;
 	}
 
 	bool IsPositionIndependent (PlanOfAttack poa)
@@ -259,9 +259,9 @@ public class ComputerPlayer : MonoBehaviour
 	bool IsAbilityTargetMatch(PlanOfAttack poa, Tile tile)
 	{
 		bool isMatch = false;
-		if (poa.target == TargetType.Tile)
+		if (poa.targetType == TargetType.Tile)
 			isMatch = true;
-		else if (poa.target != TargetType.None)
+		else if (poa.targetType != TargetType.None)
 		{
 			// TODO: Revisit this after implemeting GAMBITS or some other AI method
 
@@ -269,9 +269,9 @@ public class ComputerPlayer : MonoBehaviour
 			Unit targetUnit = targetAlliance.GetComponent<Unit>();
 			if (targetAlliance != null)
 			{
-				if (actorAlliance.IsMatch(targetAlliance, poa.target))
+				if (actorAlliance.IsMatch(targetAlliance, poa.targetType))
 				{
-					if (poa.target == TargetType.Ally)
+					if (poa.targetType == TargetType.Ally)
 					{
 						// Allies are assumed to have automatic knowledge of each other's location
 						isMatch = true;
