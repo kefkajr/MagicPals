@@ -14,7 +14,7 @@ public class AttackOption
 	 * and is only used for convenience and readability.
 	 * If other classes needed to know about it or use it,
 	 * then I would probably stick it in its own file. */
-	class Mark
+	public class Mark
 	{
 		public Tile tile;
 		public bool isMatch;
@@ -58,7 +58,7 @@ public class AttackOption
 
 	// The list of marks grows based on the number of legal targets which are
     // within the area of effect for an ability given the target tile and facing direction.
-	List<Mark> marks = new List<Mark>();
+	public List<Mark> marks = new List<Mark>();
 
 	// The list of move targets indicates which locations the unit can move to in order to cast at the indicated target location.
     // Direction oriented abilties will only ever have one move target in this list.

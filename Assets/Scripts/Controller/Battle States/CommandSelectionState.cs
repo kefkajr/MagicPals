@@ -92,7 +92,7 @@ public class CommandSelectionState : BaseAbilityMenuState
 	{
 		if (turn.plan == null)
 		{
-			turn.plan = owner.cpu.Evaluate();
+			yield return owner.cpu.Evaluate(turn);
 			turn.ability = turn.plan.ability;
 		}
 

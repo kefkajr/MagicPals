@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using System.Collections;
 
 public class ComputerPlayer : MonoBehaviour 
 {
@@ -18,12 +19,19 @@ public class ComputerPlayer : MonoBehaviour
 	void Awake ()
 	{
 		BC = GetComponent<BattleController>();
+		InputController.fireEvent += OnFire;
+	}
+
+	bool isPaused = false;
+	void OnFire (object sender, InfoEventArgs<int> e)
+	{
+		isPaused = false;
 	}
 	#endregion
 
 	#region Public
 	// Create and fill out a plan of attack
-	public PlanOfAttack Evaluate ()
+	public IEnumerator Evaluate (Turn turn)
 	{
 		SetTopPriorityFoeAndPointOfInterest();
 
@@ -36,17 +44,17 @@ public class ComputerPlayer : MonoBehaviour
 			if (pattern)
 				pattern.Pick(BC, poa);
 			else
-				DefaultAttackPattern(poa);
+				yield return DefaultAttackPattern(poa);
 
 			Console.Main.Log(string.Format("{0} wants to use {1}", actor.name, poa.ability.name));
 
 			// Step 2: Determine where to move and aim to best use the ability
 			if (IsPositionIndependent(poa))
 				// It doesn't matter where you stand
-				PlanPositionIndependent(poa);
+				yield return PlanPositionIndependent(poa);
 			else if (IsDirectionIndependent(poa))
 				// It DOES matter where you stand, but it doesn't matter where you face
-				PlanDirectionIndependent(poa);
+				yield return PlanDirectionIndependent(poa);
 			else
 				// It DOES matter where you stand and it DOES matter where you face
 				PlanDirectionDependent(poa);
@@ -54,7 +62,7 @@ public class ComputerPlayer : MonoBehaviour
 		else if (topPriorityTileOfInterest != null)
 		{
 			// Just position yourself better for the next turn
-			Investigate(poa);
+			yield return Investigate(poa);
 		}
 		else
 		{
@@ -65,16 +73,17 @@ public class ComputerPlayer : MonoBehaviour
 		}
 
 		// Step 3: Return the completed plan
-		return poa;
+		turn.plan = poa;
 	}
 	#endregion
 	
 	#region Private
-	void DefaultAttackPattern (PlanOfAttack poa)
+	IEnumerator DefaultAttackPattern (PlanOfAttack poa)
 	{
 		// Just get the first "Attack" ability
 		poa.ability = actor.GetComponentInChildren<Ability>();
 		poa.targetType = TargetType.Foe;
+		yield return null;
 	}
 
 	bool IsPositionIndependent (PlanOfAttack poa)
@@ -95,12 +104,13 @@ public class ComputerPlayer : MonoBehaviour
 	 * perhaps the unit would rather move toward or away from its foes during this time.
 	 * If you want more specific behavior like that it shouldn’t be hard to add.
 	 * I’ll show an example of moving toward the nearest foe soon. */
-	void PlanPositionIndependent (PlanOfAttack poa)
+	IEnumerator PlanPositionIndependent (PlanOfAttack poa)
 	{
 		List<Tile> moveOptions = GetMoveOptions();
 		// TODO: Have the unit move somewhere logical, instead of moving randomly
 		Tile tile = moveOptions[Random.Range(0, moveOptions.Count - 1)];
 		poa.moveLocation = poa.fireLocation = tile;
+		yield return null;
 	}
 
 	/* The next case is where the position matters, but the facing angle does not.
@@ -131,7 +141,7 @@ public class ComputerPlayer : MonoBehaviour
 	 * 
 	 * Finally, I pass the list of options we have built up to this point to a method
 	 * which can pick the best overall option for our turn. */
-	void PlanDirectionIndependent (PlanOfAttack poa)
+	IEnumerator PlanDirectionIndependent (PlanOfAttack poa)
 	{
 		Tile startTile = actor.tile;
 		Dictionary<Tile, AttackOption> attackOptionsByTile = new Dictionary<Tile, AttackOption>();
@@ -158,16 +168,33 @@ public class ComputerPlayer : MonoBehaviour
 					attackOptionsByTile[fireTile] = attackOption;
 					attackOption.target = fireTile;
 					attackOption.direction = actor.dir;
-					RateFireLocation(poa, attackOption);
+					yield return RateFireLocation(poa, attackOption);
 				}
 
 				attackOption.AddMoveTarget(moveTile);
+
+				// isPaused = true;
+				// int score = attackOption.GetScore(actor, poa.ability);
+				// Console.Main.Log(string.Format("Option {0} - Score: {1}",
+				// 	j, score));
+				
+				// BC.board.SelectTiles(new List<Tile>{moveTile}, Color.green);
+				// BC.board.SelectTiles(attackOption.areaTargets, Color.cyan);
+				// BC.board.SelectTiles(attackOption.marks.Select(mark => mark.tile).ToList(), Color.magenta);
+				// BC.board.SelectTiles(attackOption.marks.Where(mark => mark.isMatch).Select(mark => mark.tile).ToList(), Color.red);
+				// BC.board.SelectTiles(new List<Tile>{attackOption.target}, Color.blue);
+
+				// while(isPaused)  {
+				// 	yield return null;
+				// }
+				// BC.board.DeSelectAllTiles();
+				
 			}
 		}
 		
 		actor.Place(startTile);
 		List<AttackOption> attackOptions = new List<AttackOption>(attackOptionsByTile.Values);
-		PickBestOption(poa, attackOptions);
+		yield return PickBestOption(poa, attackOptions);
 	}
 
 	/* This last case depends both on a unit’s position on the board
@@ -234,7 +261,7 @@ public class ComputerPlayer : MonoBehaviour
 	 * Note that I intentially skip the tile on which the caster is currently standing,
 	 * because that may not be the unit’s location when it moves before firing.
 	 * We will need to adjust scores based on the caster’s location at a later point. */
-	void RateFireLocation (PlanOfAttack poa, AttackOption option)
+	IEnumerator RateFireLocation (PlanOfAttack poa, AttackOption option)
 	{
 		AbilityArea area = poa.ability.GetComponent<AbilityArea>();
 		List<Tile> tiles = area.GetTilesInArea(BC.board, option.target.pos);
@@ -250,6 +277,7 @@ public class ComputerPlayer : MonoBehaviour
 			bool isMatch = IsAbilityTargetMatch(poa, tile);
 			option.AddMark(tile, isMatch);
 		}
+		yield return null;
 	}
 
 	/* This method shows how to determine which marks are a match or not.
@@ -322,14 +350,31 @@ public class ComputerPlayer : MonoBehaviour
 	 * By the end of this second “pass” I should have one or more options which were added to the final picks.
 	 * Because they all share the same score,
 	 * I pick any of them at random and assign the relevant details to our plan of attack. */
-	void PickBestOption (PlanOfAttack poa, List<AttackOption> options)
+	IEnumerator PickBestOption (PlanOfAttack poa, List<AttackOption> options)
 	{
+
 		int bestScore = 1;
 		List<AttackOption> bestOptions = new List<AttackOption>();
 		for (int i = 0; i < options.Count; ++i)
 		{
+			isPaused = true;
+
 			AttackOption option = options[i];
 			int score = option.GetScore(actor, poa.ability);
+			Console.Main.Log(string.Format("Option {0} - Best Move: {1}, Target: {2}, Score: {3}", i, option.bestMoveTile.ToString(), option.target.ToString(), score));
+
+			BC.board.SelectTiles(new List<Tile>{option.bestMoveTile}, Color.green);
+				BC.board.SelectTiles(option.areaTargets, Color.cyan);
+				BC.board.SelectTiles(option.marks.Select(mark => mark.tile).ToList(), Color.magenta);
+				BC.board.SelectTiles(option.marks.Where(mark => mark.isMatch).Select(mark => mark.tile).ToList(), Color.red);
+				BC.board.SelectTiles(new List<Tile>{option.target}, Color.blue);
+
+			while(isPaused)  {
+				yield return null;
+			}
+
+			BC.board.DeSelectAllTiles();
+			
 			if (score > bestScore)
 			{
 				bestScore = score;
@@ -345,7 +390,7 @@ public class ComputerPlayer : MonoBehaviour
 		if (bestOptions.Count == 0)
 		{
 			poa.ability = null; // Clear ability as a sign not to perform it
-			return;
+			yield return null;
 		}
 
 		List<AttackOption> finalPicks = new List<AttackOption>();
@@ -370,11 +415,12 @@ public class ComputerPlayer : MonoBehaviour
 		poa.fireLocation = choice.target;
 		poa.attackDirection = choice.direction;
 		poa.moveLocation = choice.bestMoveTile;
+		yield return null;
 	}
 
 	// NEW Investigation Methods
 
-	void Investigate(PlanOfAttack poa)
+	IEnumerator Investigate(PlanOfAttack poa)
 	{
 		List<Tile> moveOptions = GetMoveOptions();
 		if (topPriorityTileOfInterest != null)
@@ -388,12 +434,13 @@ public class ComputerPlayer : MonoBehaviour
 				{
 					// Move toward top awareness / point of interest
 					poa.moveLocation = toCheck;
-					return;
+					yield return null;
 				}
 				// Board search keeps previous tiles in memory
 				toCheck = toCheck.prev;
 			}
 		}
+		yield return null;
 	}
 
 	void SetTopPriorityFoeAndPointOfInterest()
