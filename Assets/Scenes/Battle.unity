@@ -1160,6 +1160,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae9e4606469564c50be9a898aa0197ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  doesEveryoneSeeEveryone: 1
 --- !u!1 &1786019209
 GameObject:
   m_ObjectHideFlags: 0
