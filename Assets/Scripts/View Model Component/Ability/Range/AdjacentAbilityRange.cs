@@ -18,7 +18,7 @@ public class AdjacentAbilityRange : AbilityRange
     bool ExpandSearch(Board board, Tile from, Tile to)
     {
         // Skip if walls are blocking the way
-        if (board.DoesWallSeparateTiles(from, to))
+        if (board.WallSeparatingTiles(from, to) != null)
             return false;
 
         return (from.distance + 1) <= horizontal && Mathf.Abs(to.height - unit.tile.height) <= vertical;

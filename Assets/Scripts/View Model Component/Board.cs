@@ -138,7 +138,7 @@ public class Board : MonoBehaviour
 
 			foreach (Tile neighbour in GetNeighbours(currentTile.pos.x, currentTile.pos.y, max.x, max.y))
 			{
-				if (DoesWallSeparateTiles(currentTile, neighbour) || closedSet.Contains(neighbour)) continue;
+				if (WallSeparatingTiles(currentTile, neighbour) != null || closedSet.Contains(neighbour)) continue;
 
 				int newMovementCostToNeighbour = currentTile.g + GetDistance(currentTile, neighbour);
 				if (newMovementCostToNeighbour < neighbour.g || !openSet.Contains(neighbour))
@@ -360,11 +360,17 @@ public class Board : MonoBehaviour
 		return myNeighbours;
 	}
 
-	public bool DoesWallSeparateTiles(Tile tile1, Tile tile2)
+	public Wall WallSeparatingTiles(Tile tile1, Tile tile2)
 	{
+		List<Wall> potentialWalls = new List<Wall>();
 		Direction dir1 = tile1.GetDirection(tile2);
 		Direction dir2 = tile2.GetDirection(tile1);
-        bool areWallsOnCornerTile = false;
+
+		if (tile1.walls.ContainsKey(dir1))
+			potentialWalls.Add(tile1.walls[dir1]);
+		if (tile2.walls.ContainsKey(dir2))
+			potentialWalls.Add(tile2.walls[dir2]);
+
         bool doTilesShareAnAxis = tile1.pos.x == tile2.pos.x || tile1.pos.y == tile2.pos.y;
         if (!doTilesShareAnAxis)
         {
@@ -372,9 +378,83 @@ public class Board : MonoBehaviour
 			Tile tile4 = GetTile(new Point(tile2.pos.x, tile1.pos.y));
 			Direction dir3 = tile3.GetDirection(tile1);
 			Direction dir4 = tile4.GetDirection(tile1);
-			areWallsOnCornerTile = tile3.walls.ContainsKey(dir3) || tile4.walls.ContainsKey(dir4);
+			if (tile3.walls.ContainsKey(dir3))
+				potentialWalls.Add(tile3.walls[dir3]);
+			if (tile4.walls.ContainsKey(dir4))
+				potentialWalls.Add(tile4.walls[dir4]);;
 		}
-        return tile1.walls.ContainsKey(dir1) || tile2.walls.ContainsKey(dir2) || areWallsOnCornerTile;
+        return potentialWalls.Count > 0 ? potentialWalls.First() : null;
+	}
+
+	// TODO: This takes in a lot of repeated logic from the AwarenessController. Is there some way to share it?
+	public Unit TargetImpedingMissile(Tile missileSource, Point end)
+	{
+		Point pos = missileSource.pos;
+
+		// A line algorithm borrowed from Rosetta Code http://rosettacode.org/wiki/Bitmap/Bresenham%27s_line_algorithm#C.23
+		int dx = Mathf.Abs(end.x - pos.x);
+		int sx = pos.x < end.x ? 1 : -1;
+		int dy = Mathf.Abs(end.y - pos.y);
+		int sy = pos.y < end.y ? 1 : -1;
+		int err = (dx > dy ? dx : -dy) / 2;
+		int e2;
+		Tile fromTile = null;
+		for (; ; )
+		{
+			Tile tile = GetTile(pos);
+			if (tile != null)
+			{
+				if (fromTile != null)
+				{
+					GameObject occupant = tile.occupant;
+					if (occupant != null)
+					{
+						Unit newTarget = occupant.GetComponent<Unit>();
+						if (newTarget != null)
+							return newTarget;
+					}
+				}
+				fromTile = tile;
+			}
+			e2 = err;
+			if (e2 > -dx) { err -= dy; pos.x += sx; }
+			if (e2 < dy) { err += dx; pos.y += sy; }
+			if (pos == end) break;
+		}
+		return null;
+	}
+
+	public Wall WallImpedingMissile(Tile missileSource, Point end) {
+		Point pos = missileSource.pos;
+
+		// A line algorithm borrowed from Rosetta Code http://rosettacode.org/wiki/Bitmap/Bresenham%27s_line_algorithm#C.23
+		int dx = Mathf.Abs(end.x - pos.x);
+		int sx = pos.x < end.x ? 1 : -1;
+		int dy = Mathf.Abs(end.y - pos.y);
+		int sy = pos.y < end.y ? 1 : -1;
+		int err = (dx > dy ? dx : -dy) / 2;
+		int e2;
+		Tile fromTile = null;
+		for (; ; )
+		{
+			Tile tile = GetTile(pos);
+			if (tile != null)
+			{
+				if (fromTile != null)
+				{
+					Wall wall = WallSeparatingTiles(fromTile, tile);
+					if (WallSeparatingTiles(fromTile, tile) != null) {
+						return wall;
+					}
+				}
+				fromTile = tile;
+			}
+			e2 = err;
+			if (e2 > -dx) { err -= dy; pos.x += sx; }
+			if (e2 < dy) { err += dx; pos.y += sy; }
+			if (pos == end) break;
+		}
+		return null;
 	}
 
 	public void SelectTiles (List<Tile> tiles)

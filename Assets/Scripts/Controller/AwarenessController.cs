@@ -10,6 +10,7 @@ public class AwarenessController : MonoBehaviour
 	protected Board board { get { return battleController.board; } }
 
     public Dictionary<Unit, Dictionary<Unit, Awareness>> awarenessMap = new Dictionary<Unit, Dictionary<Unit, Awareness>>();
+	public bool doesEveryoneSeeEveryone = false;
 
     protected virtual void Awake()
     {
@@ -42,7 +43,11 @@ public class AwarenessController : MonoBehaviour
 				if (perceivingUnit != perceivedUnit)
 				{
 
-					var newAwareness = new Awareness(perceivingUnit.perception, perceivedUnit.stealth, perceivedUnit.tile.pos, AwarenessType.Unaware);
+					var newAwareness = new Awareness(
+						perceivingUnit.perception,
+						perceivedUnit.stealth,
+						perceivedUnit.tile.pos,
+						doesEveryoneSeeEveryone ? AwarenessType.Seen : AwarenessType.Unaware);
 
 					if (awarenessMap.ContainsKey(perceivingUnit))
 					{
@@ -107,7 +112,7 @@ public class AwarenessController : MonoBehaviour
 			if (!knownTiles.Contains(fromTile) && fromTile != unit.tile)
 				return false;
 
-			if (board.DoesWallSeparateTiles(fromTile, toTile))
+			if (board.WallSeparatingTiles(fromTile, toTile) != null)
 				return false;
 
 			// This is a separate wall check necessary for tiles diagonal to each other

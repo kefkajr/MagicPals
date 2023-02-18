@@ -20,7 +20,7 @@ public class SpecifyAbilityArea : AbilityArea
 	bool ExpandSearch (Board board, Tile from, Tile to)
 	{
 		// Skip if walls are blocking the way
-		if (!doesPassThroughWalls && board.DoesWallSeparateTiles(from, to))
+		if (!doesPassThroughWalls && board.WallSeparatingTiles(from, to) != null)
 			return false;
 
 		return (from.distance + 1) <= horizontal && Mathf.Abs(to.height - tile.height) <= vertical;

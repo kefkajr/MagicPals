@@ -17,7 +17,7 @@ public class WalkMovement : Movement
 			return false;
 
 		// Skip if walls are blocking the way
-		if (board.DoesWallSeparateTiles(from, to))
+		if (board.WallSeparatingTiles(from, to) != null)
 			return false;
 
 		return base.ExpandSearch(board, from, to);

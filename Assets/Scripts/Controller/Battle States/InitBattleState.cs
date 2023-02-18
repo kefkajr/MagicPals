@@ -55,11 +55,11 @@ public class InitBattleState : BattleState
 			Unit unit = instance.GetComponent<Unit>();
 			if (unit.name == "Cece")
 			{
-				unit.Place(board.GetTile(new Point(6, 8)));
+				unit.Place(board.GetTile(new Point(5, 4)));
 				unit.dir = Direction.South;
 			} else if (unit.name == "Nessa")
 			{
-				unit.Place(board.GetTile(new Point(2, 3)));
+				unit.Place(board.GetTile(new Point(5, 5)));
 				unit.dir = Direction.South;
 			}
 			else if (unit.name == "Sentry")

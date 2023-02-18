@@ -90,7 +90,7 @@ public class ConeAbilityRange : AbilityRange
 		if (!validatedTiles.Contains(fromTile) && fromTile != unit.tile)
 			return false;
 
-		if (board.DoesWallSeparateTiles(fromTile, toTile))
+		if (board.WallSeparatingTiles(fromTile, toTile) != null)
 			return false;
 
 		return Mathf.Abs(toTile.height - unit.tile.height) <= vertical;
