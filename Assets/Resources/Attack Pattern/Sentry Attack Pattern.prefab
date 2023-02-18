@@ -47,8 +47,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pickers:
-  - {fileID: 1824039968515538889}
   - {fileID: 4706408028579350891}
+  - {fileID: 1824039968515538889}
 --- !u!1 &1824039968521583089
 GameObject:
   m_ObjectHideFlags: 0

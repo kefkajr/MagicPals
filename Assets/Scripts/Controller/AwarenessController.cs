@@ -10,12 +10,13 @@ public class AwarenessController : MonoBehaviour
 	protected Board board { get { return battleController.board; } }
 
     public Dictionary<Unit, Dictionary<Unit, Awareness>> awarenessMap = new Dictionary<Unit, Dictionary<Unit, Awareness>>();
-	public bool doesEveryoneSeeEveryone = false;
+	bool doesEveryoneSeeEveryone;
 
     protected virtual void Awake()
     {
         battleController = GetComponent<BattleController>();
         AddListeners();
+		doesEveryoneSeeEveryone = GameConfig.Main.MakeAllUnitsSeeEachOther;
     }
 
 	protected void AddListeners()

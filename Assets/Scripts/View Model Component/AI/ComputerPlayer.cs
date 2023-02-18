@@ -173,7 +173,7 @@ public class ComputerPlayer : MonoBehaviour
 
 				attackOption.AddMoveTarget(moveTile);
 
-				// isPaused = true;
+				// isPaused = GameConfig.Main.DebugComputerPlayer;
 				// int score = attackOption.GetScore(actor, poa.ability);
 				// Console.Main.Log(string.Format("Option {0} - Score: {1}",
 				// 	j, score));
@@ -357,7 +357,7 @@ public class ComputerPlayer : MonoBehaviour
 		List<AttackOption> bestOptions = new List<AttackOption>();
 		for (int i = 0; i < options.Count; ++i)
 		{
-			isPaused = true;
+			isPaused = GameConfig.Main.DebugComputerPlayer;
 
 			AttackOption option = options[i];
 			int score = option.GetScore(actor, poa.ability);
