@@ -32,8 +32,8 @@ public class InitBattleState : BattleState
 		{
 			"Cece",
 			"Nessa",
-			"Sentry",
-			"Sentry"
+			// "Sentry",
+			// "Sentry"
 		};
 		
 		GameObject unitContainer = new GameObject("Units");
@@ -59,7 +59,7 @@ public class InitBattleState : BattleState
 				unit.dir = Direction.South;
 			} else if (unit.name == "Nessa")
 			{
-				unit.Place(board.GetTile(new Point(5, 5)));
+				unit.Place(board.GetTile(new Point(4, 6)));
 				unit.dir = Direction.South;
 			}
 			else if (unit.name == "Sentry")

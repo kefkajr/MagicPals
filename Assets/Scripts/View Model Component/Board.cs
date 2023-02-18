@@ -362,6 +362,9 @@ public class Board : MonoBehaviour
 
 	public Wall WallSeparatingTiles(Tile tile1, Tile tile2)
 	{
+		if (tile2.pos.x == 4 && tile2.pos.y == 7) {
+			print("pause fucking here");
+		}
 		List<Wall> potentialWalls = new List<Wall>();
 		Direction dir1 = tile1.GetDirection(tile2);
 		Direction dir2 = tile2.GetDirection(tile1);
@@ -374,6 +377,7 @@ public class Board : MonoBehaviour
         bool doTilesShareAnAxis = tile1.pos.x == tile2.pos.x || tile1.pos.y == tile2.pos.y;
         if (!doTilesShareAnAxis)
         {
+			// Extra wall checks to cover spaces between a cluster of 4 walls
 			Tile tile3 = GetTile(new Point(tile1.pos.x, tile2.pos.y));
 			Tile tile4 = GetTile(new Point(tile2.pos.x, tile1.pos.y));
 			Direction dir3 = tile3.GetDirection(tile1);
@@ -381,7 +385,21 @@ public class Board : MonoBehaviour
 			if (tile3.walls.ContainsKey(dir3))
 				potentialWalls.Add(tile3.walls[dir3]);
 			if (tile4.walls.ContainsKey(dir4))
-				potentialWalls.Add(tile4.walls[dir4]);;
+				potentialWalls.Add(tile4.walls[dir4]);
+
+			// TODO: Check if these are accurate later, and overhaul the GetDirection method to return a list of Directions
+			Direction opp1 = dir1.GetOpposite();
+			Direction opp2 = dir2.GetOpposite();
+			Direction opp3 = dir3.GetOpposite();
+			Direction opp4 = dir4.GetOpposite();
+			if (tile2.walls.ContainsKey(opp1))
+				potentialWalls.Add(tile2.walls[opp1]);
+			if (tile1.walls.ContainsKey(opp2))
+				potentialWalls.Add(tile1.walls[opp2]);
+			if (tile4.walls.ContainsKey(opp3))
+				potentialWalls.Add(tile4.walls[opp3]);
+			if (tile3.walls.ContainsKey(opp4))
+				potentialWalls.Add(tile3.walls[opp4]);
 		}
         return potentialWalls.Count > 0 ? potentialWalls.First() : null;
 	}

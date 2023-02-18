@@ -4,15 +4,22 @@ using System.Collections.Generic;
 
 public class ConstantAbilityRange : AbilityRange 
 {
-	public bool isMissile;
+	public bool doesPassThroughWalls;
 
 	public override List<Tile> GetTilesInRange (Board board)
 	{
-		return board.Search(unit.tile, ExpandSearch);
+		List<Tile> tiles = board.Search(unit.tile, delegate (Tile from, Tile to) {
+			return ExpandSearch(board, from, to);
+		});
+		return tiles;
 	}
 	
-	bool ExpandSearch (Tile from, Tile to)
+	bool ExpandSearch (Board board, Tile from, Tile to)
 	{
+		// Skip if walls are blocking the way
+		if (!doesPassThroughWalls && board.WallSeparatingTiles(unit.tile, to) != null)
+			return false;
+
 		return (from.distance + 1) <= horizontal && Mathf.Abs(to.height - unit.tile.height) <= vertical;
 	}
 }
