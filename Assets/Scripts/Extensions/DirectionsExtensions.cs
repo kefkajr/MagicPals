@@ -1,17 +1,22 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 public static class DirectionsExtensions
 {
-	public static Direction GetDirection (this Tile t1, Tile t2)
+	public static List<Direction> GetDirections (this Tile t1, Tile t2)
 	{
+		List<Direction> directions = new List<Direction>();
+
 		if (t1.pos.y < t2.pos.y)
-			return Direction.North;
+			directions.Add(Direction.North);
 		if (t1.pos.x < t2.pos.x)
-			return Direction.East;
+			directions.Add(Direction.East);
 		if (t1.pos.y > t2.pos.y)
-			return Direction.South;
-		return Direction.West;
+			directions.Add(Direction.South);
+		if (t1.pos.x > t2.pos.x)
+			directions.Add(Direction.West);
+		
+		return directions;
 	}
 
 	public static Vector3 ToEuler (this Direction d)

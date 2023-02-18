@@ -16,8 +16,7 @@ public class ConstantAbilityRange : AbilityRange
 	
 	bool ExpandSearch (Board board, Tile from, Tile to)
 	{
-		// Skip if walls are blocking the way
-		if (!doesPassThroughWalls && board.WallSeparatingTiles(unit.tile, to) != null)
+		if (!doesPassThroughWalls && board.WallImpedingMissile(unit.tile, to.pos) != null)
 			return false;
 
 		return (from.distance + 1) <= horizontal && Mathf.Abs(to.height - unit.tile.height) <= vertical;

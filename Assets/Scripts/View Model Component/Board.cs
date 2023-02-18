@@ -362,50 +362,50 @@ public class Board : MonoBehaviour
 
 	public Wall WallSeparatingTiles(Tile tile1, Tile tile2)
 	{
-		if (tile2.pos.x == 4 && tile2.pos.y == 7) {
-			print("pause fucking here");
-		}
 		List<Wall> potentialWalls = new List<Wall>();
-		Direction dir1 = tile1.GetDirection(tile2);
-		Direction dir2 = tile2.GetDirection(tile1);
+		List<Direction> directions1 = tile1.GetDirections(tile2);
+		List<Direction> directions2 = tile2.GetDirections(tile1);
 
-		if (tile1.walls.ContainsKey(dir1))
-			potentialWalls.Add(tile1.walls[dir1]);
-		if (tile2.walls.ContainsKey(dir2))
-			potentialWalls.Add(tile2.walls[dir2]);
+		foreach(Direction dir in directions1) {
+			if (tile1.walls.ContainsKey(dir))
+				potentialWalls.Add(tile1.walls[dir]);
+		}
+
+		foreach(Direction dir in directions2) {
+			if (tile2.walls.ContainsKey(dir))
+				potentialWalls.Add(tile2.walls[dir]);
+		}
 
         bool doTilesShareAnAxis = tile1.pos.x == tile2.pos.x || tile1.pos.y == tile2.pos.y;
         if (!doTilesShareAnAxis)
         {
-			// Extra wall checks to cover spaces between a cluster of 4 walls
-			Tile tile3 = GetTile(new Point(tile1.pos.x, tile2.pos.y));
-			Tile tile4 = GetTile(new Point(tile2.pos.x, tile1.pos.y));
-			Direction dir3 = tile3.GetDirection(tile1);
-			Direction dir4 = tile4.GetDirection(tile1);
-			if (tile3.walls.ContainsKey(dir3))
-				potentialWalls.Add(tile3.walls[dir3]);
-			if (tile4.walls.ContainsKey(dir4))
-				potentialWalls.Add(tile4.walls[dir4]);
-
-			// TODO: Check if these are accurate later, and overhaul the GetDirection method to return a list of Directions
-			Direction opp1 = dir1.GetOpposite();
-			Direction opp2 = dir2.GetOpposite();
-			Direction opp3 = dir3.GetOpposite();
-			Direction opp4 = dir4.GetOpposite();
-			if (tile2.walls.ContainsKey(opp1))
-				potentialWalls.Add(tile2.walls[opp1]);
-			if (tile1.walls.ContainsKey(opp2))
-				potentialWalls.Add(tile1.walls[opp2]);
-			if (tile4.walls.ContainsKey(opp3))
-				potentialWalls.Add(tile4.walls[opp3]);
-			if (tile3.walls.ContainsKey(opp4))
-				potentialWalls.Add(tile3.walls[opp4]);
+			// Extra wall checks
+			foreach(Direction dir in directions1) {
+				Point pointAdjacent = tile1.pos + dir.GetNormal();
+				Tile tileAdjacent = GetTile(pointAdjacent);
+				if (tileAdjacent != null) {
+					Direction dirOpp = dir.GetOpposite();
+					if (tileAdjacent.walls.ContainsKey(dirOpp)) {
+						potentialWalls.Add(tileAdjacent.walls[dirOpp]);
+					}
+				}
+			}
+			foreach(Direction dir in directions2) {
+				Point pointAdjacent = tile2.pos + dir.GetNormal();
+				Tile tileAdjacent = GetTile(pointAdjacent);
+				if (tileAdjacent != null) {
+					Direction dirOpp = dir.GetOpposite();
+					if (tileAdjacent.walls.ContainsKey(dirOpp)) {
+						potentialWalls.Add(tileAdjacent.walls[dirOpp]);
+					}
+				}
+			}
 		}
         return potentialWalls.Count > 0 ? potentialWalls.First() : null;
 	}
 
 	// TODO: This takes in a lot of repeated logic from the AwarenessController. Is there some way to share it?
-	public Unit TargetImpedingMissile(Tile missileSource, Point end)
+	public Unit UnitImpedingMissile(Tile missileSource, Point end)
 	{
 		Point pos = missileSource.pos;
 
@@ -467,10 +467,10 @@ public class Board : MonoBehaviour
 				}
 				fromTile = tile;
 			}
+			if (pos == end) break; // <<< Different from above method. Should that change, too?
 			e2 = err;
 			if (e2 > -dx) { err -= dy; pos.x += sx; }
 			if (e2 < dy) { err += dx; pos.y += sy; }
-			if (pos == end) break;
 		}
 		return null;
 	}

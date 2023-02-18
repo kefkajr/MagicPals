@@ -73,7 +73,7 @@ public class ConfirmAbilityTargetState : BattleState
 		ConstantAbilityRange range = turn.ability.GetComponentInChildren<ConstantAbilityRange>();
 		if (range != null && !range.doesPassThroughWalls)
         {
-			Unit targetImpedingMissle = board.TargetImpedingMissile(turn.actor.tile, pos);
+			Unit targetImpedingMissle = board.UnitImpedingMissile(turn.actor.tile, pos);
 			if (targetImpedingMissle != null) {
 				board.DeSelectTiles(tiles); // Deselect old tiles
 				tiles = aa.GetTilesInArea(board, targetImpedingMissle.tile.pos);

@@ -115,26 +115,6 @@ public class AwarenessController : MonoBehaviour
 			if (board.WallSeparatingTiles(fromTile, toTile) != null)
 				return false;
 
-			// This is a separate wall check necessary for tiles diagonal to each other
-			bool doTilesShareAnAxis = fromTile.pos.x == toTile.pos.x || fromTile.pos.y == toTile.pos.y;
-
-			if (!doTilesShareAnAxis)
-			{
-				if (fromTile.walls.ContainsKey(unit.dir) || toTile.walls.ContainsKey(unit.dir.GetOpposite()))
-					return false;
-
-				Point adjacentPointTowardUnit = toTile.pos + unit.dir.GetOpposite().GetNormal();
-				Tile adjacentTileTowardUnit = board.GetTile(adjacentPointTowardUnit);
-				if (adjacentTileTowardUnit != null)
-				{
-					Direction directionTowardFromTile = adjacentTileTowardUnit.GetDirection(fromTile);
-					if (adjacentTileTowardUnit.walls.ContainsKey(unit.dir) ||
-						adjacentTileTowardUnit.walls.ContainsKey(directionTowardFromTile) ||
-						fromTile.walls.ContainsKey(directionTowardFromTile.GetOpposite()))
-						return false;
-				}
-			}
-
 			return Mathf.Abs(toTile.height - unit.tile.height) <= viewingRange.y;
 		}
 
