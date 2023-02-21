@@ -57,7 +57,7 @@ public class ComputerPlayer : MonoBehaviour
 				yield return PlanDirectionIndependent(poa);
 			else
 				// It DOES matter where you stand and it DOES matter where you face
-				PlanDirectionDependent(poa);
+				yield return PlanDirectionDependent(poa);
 		}
 		else if (topPriorityTileOfInterest != null)
 		{
@@ -205,7 +205,7 @@ public class ComputerPlayer : MonoBehaviour
 	 * Every single entry generated will have a unique area of effect –
 	 * there is no overlap or need for the dictionary as I had last time.
 	 * We can simply track each entry in a list directly. */
-	void PlanDirectionDependent (PlanOfAttack poa)
+	IEnumerator PlanDirectionDependent (PlanOfAttack poa)
 	{
 		Tile startTile = actor.tile;
 		Direction startDirection = actor.dir;
@@ -223,7 +223,7 @@ public class ComputerPlayer : MonoBehaviour
 				AttackOption attackOption = new AttackOption();
 				attackOption.target = moveTile;
 				attackOption.direction = actor.dir;
-				RateFireLocation(poa, attackOption);
+				yield return RateFireLocation(poa, attackOption);
 				attackOption.AddMoveTarget(moveTile);
 				attackOptions.Add(attackOption);
 			}
@@ -231,7 +231,7 @@ public class ComputerPlayer : MonoBehaviour
 		
 		actor.Place(startTile);
 		actor.dir = startDirection;
-		PickBestOption(poa, attackOptions);
+		yield return PickBestOption(poa, attackOptions);
 	}
 	
 	List<Tile> GetMoveOptions ()
@@ -364,10 +364,10 @@ public class ComputerPlayer : MonoBehaviour
 			Console.Main.Log(string.Format("Option {0} - Best Move: {1}, Target: {2}, Score: {3}", i, option.bestMoveTile.ToString(), option.target.ToString(), score));
 
 			BC.board.SelectTiles(new List<Tile>{option.bestMoveTile}, Color.green);
-				BC.board.SelectTiles(option.areaTargets, Color.cyan);
-				BC.board.SelectTiles(option.marks.Select(mark => mark.tile).ToList(), Color.magenta);
-				BC.board.SelectTiles(option.marks.Where(mark => mark.isMatch).Select(mark => mark.tile).ToList(), Color.red);
-				BC.board.SelectTiles(new List<Tile>{option.target}, Color.blue);
+			BC.board.SelectTiles(option.areaTargets, Color.cyan);
+			BC.board.SelectTiles(option.marks.Select(mark => mark.tile).ToList(), Color.magenta);
+			BC.board.SelectTiles(option.marks.Where(mark => mark.isMatch).Select(mark => mark.tile).ToList(), Color.red);
+			BC.board.SelectTiles(new List<Tile>{option.target}, Color.blue);
 
 			while(isPaused)  {
 				yield return null;
@@ -411,7 +411,11 @@ public class ComputerPlayer : MonoBehaviour
 			}
 		}
 		
-		AttackOption choice = finalPicks[ UnityEngine.Random.Range(0, finalPicks.Count)  ];
+		if (finalPicks.Count == 0) {
+			Console.Main.Log("No final picks!");
+		}
+
+		AttackOption choice = finalPicks[ UnityEngine.Random.Range(0, finalPicks.Count)];
 		poa.fireLocation = choice.target;
 		poa.attackDirection = choice.direction;
 		poa.moveLocation = choice.bestMoveTile;
