@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 465686}
   - component: {fileID: 11414302}
-  - component: {fileID: 11482262}
   - component: {fileID: 7144873483728166675}
-  - component: {fileID: -6482049314141224398}
+  - component: {fileID: 1218642937785711864}
+  - component: {fileID: 8636779078158662277}
   m_Layer: 0
   m_Name: Shout
   m_TagString: Untagged
@@ -48,21 +48,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26e1788e9444143a5a79ea3477544eb8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &11482262
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 116620}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d478dccdfc0c249c8b0c70151dfbadfa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  horizontal: 6
-  vertical: 2147483647
-  doesPassThroughWalls: 1
 --- !u!114 &7144873483728166675
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -76,7 +61,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   description: Make all alies in area aware of known foes.
---- !u!114 &-6482049314141224398
+--- !u!114 &1218642937785711864
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -85,9 +70,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 116620}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ffd7ea7b3905740319e4815a4502c137, type: 3}
+  m_Script: {fileID: 11500000, guid: c16bb6d46a9544a89b01fffbf7177c42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  horizontal: 1
+  vertical: 2147483647
+--- !u!114 &8636779078158662277
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 116620}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bfc060451846474682d03d2523aafaf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  horizontal: 6
+  vertical: 6
+  doesPassThroughWalls: 1
 --- !u!1 &192764
 GameObject:
   m_ObjectHideFlags: 0

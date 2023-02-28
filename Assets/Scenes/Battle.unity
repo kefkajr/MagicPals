@@ -204,8 +204,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c9f1723f52054d18b1d16966ea90bb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DebugComputerPlayer: 1
-  MakeAllUnitsSeeEachOther: 1
+  DebugComputerPlayer: 0
+  MakeAllUnitsSeeEachOther: 0
 --- !u!4 &85297742
 Transform:
   m_ObjectHideFlags: 0

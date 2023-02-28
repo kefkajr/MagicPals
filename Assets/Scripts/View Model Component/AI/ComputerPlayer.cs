@@ -59,9 +59,10 @@ public class ComputerPlayer : MonoBehaviour
 				// It DOES matter where you stand and it DOES matter where you face
 				yield return PlanDirectionDependent(poa);
 		}
-		else if (topPriorityTileOfInterest != null)
+		if (poa.ability == null && topPriorityTileOfInterest != null)
 		{
-			// Just position yourself better for the next turn
+			// Just position yourself better for the next turn.
+			/// TODO: Update the attack option algorithm to just give us the best move option for next turn.
 			yield return Investigate(poa);
 		}
 		else
@@ -152,7 +153,7 @@ public class ComputerPlayer : MonoBehaviour
 		{
 			Tile moveTile = moveOptions[i];
 			actor.Place( moveTile );
-			List<Tile> fireOptions = ar.GetTilesInRange(BC.board);
+			List<Tile> fireOptions = ar.GetTilesInRange(BC.board).OrderBy(tile => tile.pos.x).ThenBy(tile => tile.pos.y).ToList();;
 			
 			for (int j = 0; j < fireOptions.Count; ++j)
 			{
@@ -236,7 +237,8 @@ public class ComputerPlayer : MonoBehaviour
 	
 	List<Tile> GetMoveOptions ()
 	{
-		return actor.GetComponent<Movement>().GetTilesInRange(BC.board);
+		List<Tile> tiles = actor.GetComponent<Movement>().GetTilesInRange(BC.board);
+		return tiles.OrderBy(tile => tile.pos.x).ThenBy(tile => tile.pos.y).ToList();
 	}
 
 	/* As we were creating each Attack Option (a note on the effect area of using an ability),
@@ -390,7 +392,7 @@ public class ComputerPlayer : MonoBehaviour
 		if (bestOptions.Count == 0)
 		{
 			poa.ability = null; // Clear ability as a sign not to perform it
-			yield return null;
+			yield break;
 		}
 
 		List<AttackOption> finalPicks = new List<AttackOption>();
@@ -409,10 +411,6 @@ public class ComputerPlayer : MonoBehaviour
 			{
 				finalPicks.Add(option);
 			}
-		}
-		
-		if (finalPicks.Count == 0) {
-			Console.Main.Log("No final picks!");
 		}
 
 		AttackOption choice = finalPicks[ UnityEngine.Random.Range(0, finalPicks.Count)];
@@ -438,7 +436,7 @@ public class ComputerPlayer : MonoBehaviour
 				{
 					// Move toward top awareness / point of interest
 					poa.moveLocation = toCheck;
-					yield return null;
+					break;
 				}
 				// Board search keeps previous tiles in memory
 				toCheck = toCheck.prev;
@@ -469,11 +467,13 @@ public class ComputerPlayer : MonoBehaviour
 					int distanceToCurrentFoe = BC.board.GetDistance(actor.tile, a.stealth.unit.tile);
 					int distanceToPotentialFoe = BC.board.GetDistance(actor.tile, a.stealth.unit.tile);
 					topPriorityFoe = distanceToPotentialFoe < distanceToCurrentFoe ? a.stealth.unit : topPriorityFoe;
+					topPriorityTileOfInterest = topPriorityFoe.tile; // Also set top priotiy tile of interest
 				}
 				else
                 {
 					// This foe is the top priority.
 					topPriorityFoe = a.stealth.unit;
+					topPriorityTileOfInterest = topPriorityFoe.tile; // Also set top priotiy tile of interest
                 }
             } else
             {
