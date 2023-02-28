@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Sentry
   m_EditorClassIdentifier: 
   model: Monster
-  job: Rogue
+  job: Warrior
   attack: Sentry Skill/Rifle Fire
   abilityCatalog: Sentry
   attackPattern: Sentry Attack Pattern

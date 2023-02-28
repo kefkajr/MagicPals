@@ -55,23 +55,23 @@ public class InitBattleState : BattleState
 			Unit unit = instance.GetComponent<Unit>();
 			if (unit.name == "Cece")
 			{
-				unit.Place(board.GetTile(new Point(5, 4)));
+				unit.Place(board.GetTile(new Point(8, 1)));
 				unit.dir = Direction.South;
 			} else if (unit.name == "Nessa")
 			{
-				unit.Place(board.GetTile(new Point(1, 6)));
+				unit.Place(board.GetTile(new Point(7, 1)));
 				unit.dir = Direction.South;
 			}
 			else if (unit.name == "Sentry")
 			{
 				if (didPlaceFirstSentry)
 				{
-					unit.Place(board.GetTile(new Point(4, 6)));
+					unit.Place(board.GetTile(new Point(0, 9)));
 					unit.name = "Wedge";
 				}
 				else
 				{
-					unit.Place(board.GetTile(new Point(3, 8)));
+					unit.Place(board.GetTile(new Point(1, 9)));
 					unit.name = "Biggs";
 					didPlaceFirstSentry = true;
 				}

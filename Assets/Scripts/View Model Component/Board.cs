@@ -179,7 +179,7 @@ public class Board : MonoBehaviour
 		}
 
 		path.Reverse();
-		SelectTiles(path); // TODO remove this
+		DeSelectAllTiles(); // TODO remove this
 		return path;
 	}
 
