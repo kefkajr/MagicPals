@@ -25,6 +25,18 @@ public class Board : MonoBehaviour
 	Color defaultTileColor = new Color(1, 1, 1, 1);
 	#endregion
 
+	void Awake ()
+	{
+		GameObject.Find("Battle Controller").GetComponent<BattleController>();
+		InputController.fireEvent += OnFire;
+	}
+
+	bool isPaused = false;
+	void OnFire (object sender, InfoEventArgs<int> e)
+	{
+		isPaused = false;
+	}
+
 	#region Public
 	public void Load (LevelData data)
 	{
@@ -108,10 +120,8 @@ public class Board : MonoBehaviour
 		return retValue;
 	}
 
-	public List<Tile> FindPath(Tile start, Tile end)
+	public IEnumerator FindPath(Unit unit, Tile start, Tile end, Action<List<Tile>> completionHandler)
     {
-		List<Tile> retValue = new List<Tile>();
-
 		List<Tile> openSet = new List<Tile>();
 		HashSet<Tile> closedSet = new HashSet<Tile>();
 		openSet.Add(start);
@@ -131,29 +141,46 @@ public class Board : MonoBehaviour
 			openSet.Remove(currentTile);
 			closedSet.Add(currentTile);
 
+			SelectTiles(new List<Tile>{currentTile}, Color.green);
+
 			if (currentTile == end)
 			{
-				return RetracePath(start, end);
+				completionHandler(RetracePath(start, end));
+				break;
 			}
 
 			foreach (Tile neighbour in GetNeighbours(currentTile.pos.x, currentTile.pos.y, max.x, max.y))
 			{
+				isPaused = GameConfig.Main.DebugPathfinding;
+
 				if (WallSeparatingTiles(currentTile, neighbour) != null || closedSet.Contains(neighbour)) continue;
 
-				int newMovementCostToNeighbour = currentTile.g + GetDistance(currentTile, neighbour);
+				SelectTiles(new List<Tile>{neighbour}, Color.blue);
+
+				int newMovementCostToNeighbour = (currentTile.g + GetDistance(currentTile, neighbour)) * MovementCostMultiplier(unit, neighbour);
 				if (newMovementCostToNeighbour < neighbour.g || !openSet.Contains(neighbour))
 				{
 					neighbour.g = newMovementCostToNeighbour;
 					neighbour.h = GetDistance(neighbour, end);
 					neighbour.prev = currentTile;
 
-					if (!openSet.Contains(neighbour))
+					if (!openSet.Contains(neighbour)) {
+						SelectTiles(new List<Tile>{neighbour}, Color.cyan);
 						openSet.Add(neighbour);
+					}
+				}
+
+				Console.Main.Log(string.Format("{0} - G: {1}, H: {2}, F: {3}", neighbour, neighbour.g, neighbour.h, neighbour.f));
+
+				while(isPaused)  {
+					yield return null;
 				}
 			}
+			SelectTiles(new List<Tile>{currentTile}, Color.red);
 		}
 
-		return retValue;
+		DeSelectAllTiles();
+		yield break;
 	}
 
 	public int GetDistance(Tile tileA, Tile tileB)
@@ -164,6 +191,13 @@ public class Board : MonoBehaviour
 		if (dstX > dstY)
 			return 14 * dstY + 10 * (dstX - dstY);
 		return 14 * dstX + 10 * (dstY - dstX);
+	}
+
+	public int MovementCostMultiplier(Unit unit, Tile tile) {
+		GameObject potentialOccupant = tile.occupant;
+		if (potentialOccupant != null && potentialOccupant.GetComponent<Unit>() != null && potentialOccupant.GetComponent<Unit>() != unit)
+			return 2;
+		return 1;
 	}
 
 	List<Tile> RetracePath(Tile startTile, Tile targetTile)
@@ -187,9 +221,9 @@ public class Board : MonoBehaviour
 	{
 		List<Tile> myNeighbours = new List<Tile>();
 
-		if (x > 0 && x < width - 1)
+		if (x >= 0 && x <= width)
 		{
-			if (y > 0 && y < height - 1)
+			if (y >= 0 && y <= height)
 			{
 				if (tiles.ContainsKey(new Point(x + 1, y)))
 				{
@@ -235,7 +269,7 @@ public class Board : MonoBehaviour
 					if (wt3 != null) myNeighbours.Add(wt3);
 				}
 			}
-			else if (y == height - 1)
+			else if (y == height)
 			{
 				if (tiles.ContainsKey(new Point(x, y - 1)))
 				{
@@ -257,7 +291,7 @@ public class Board : MonoBehaviour
 		}
 		else if (x == 0)
 		{
-			if (y > 0 && y < height - 1)
+			if (y >= 0 && y <= height)
 			{
 				if (tiles.ContainsKey(new Point(x + 1, y)))
 				{
@@ -291,7 +325,7 @@ public class Board : MonoBehaviour
 					if (wt3 != null) myNeighbours.Add(wt3);
 				}
 			}
-			else if (y == height - 1)
+			else if (y == height)
 			{
 				if (tiles.ContainsKey(new Point(x + 1, y)))
 				{
@@ -306,9 +340,9 @@ public class Board : MonoBehaviour
 				}
 			}
 		}
-		else if (x == width - 1)
+		else if (x == width)
 		{
-			if (y > 0 && y < height - 1)
+			if (y >= 0 && y <= height)
 			{
 				if (tiles.ContainsKey(new Point(x - 1, y)))
 				{
@@ -341,7 +375,7 @@ public class Board : MonoBehaviour
 					if (wt3 != null) myNeighbours.Add(wt3);
 				}
 			}
-			else if (y == height - 1)
+			else if (y == height)
 			{
 				if (tiles.ContainsKey(new Point(x - 1, y)))
 				{

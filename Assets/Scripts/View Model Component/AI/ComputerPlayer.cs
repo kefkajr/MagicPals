@@ -59,18 +59,19 @@ public class ComputerPlayer : MonoBehaviour
 				// It DOES matter where you stand and it DOES matter where you face
 				yield return PlanDirectionDependent(poa);
 		}
-		if (poa.ability == null && topPriorityTileOfInterest != null)
-		{
-			// Just position yourself better for the next turn.
-			/// TODO: Update the attack option algorithm to just give us the best move option for next turn.
-			yield return Investigate(poa);
-		}
-		else
-		{
-			Console.Main.Log(string.Format("{0} has nothing to do", actor.name));
-			// TODO: Perform sentry duties instead
-			// Stay put
-			poa.moveLocation = actor.tile;
+		if (poa.ability == null) {
+			if (topPriorityTileOfInterest != null) {
+				// Just position yourself better for the next turn.
+				/// TODO: Update the attack option algorithm to just give us the best move option for next turn.
+				yield return Investigate(poa);
+			}
+			else
+			{
+				Console.Main.Log(string.Format("{0} has nothing to do", actor.name));
+				// TODO: Perform sentry duties instead
+				// Stay put
+				poa.moveLocation = actor.tile;
+			}
 		}
 
 		// Step 3: Return the completed plan
@@ -427,20 +428,21 @@ public class ComputerPlayer : MonoBehaviour
 		List<Tile> moveOptions = GetMoveOptions();
 		if (topPriorityTileOfInterest != null)
 		{
-			List<Tile> idealPath = BC.board.FindPath(actor.tile, topPriorityTileOfInterest);
-			Console.Main.Log(string.Format("{0} is investigating {1}", actor.name, topPriorityTileOfInterest.ToString()));
-			Tile toCheck = idealPath.Count > 0 ? idealPath.Last() : null;
-			while (toCheck != null)
-			{
-				if (moveOptions.Contains(toCheck))
+			yield return BC.board.FindPath(actor, actor.tile, topPriorityTileOfInterest, delegate (List<Tile> finalPath) {
+				Console.Main.Log(string.Format("{0} is investigating {1}", actor.name, topPriorityTileOfInterest.ToString()));
+				Tile toCheck = finalPath.Count > 0 ? finalPath.Last() : null;
+				while (toCheck != null)
 				{
-					// Move toward top awareness / point of interest
-					poa.moveLocation = toCheck;
-					break;
+					if (moveOptions.Contains(toCheck))
+					{
+						// Move toward top awareness / point of interest
+						poa.moveLocation = toCheck;
+						break;
+					}
+					// Board search keeps previous tiles in memory
+					toCheck = toCheck.prev;
 				}
-				// Board search keeps previous tiles in memory
-				toCheck = toCheck.prev;
-			}
+			});
 		}
 		yield return null;
 	}

@@ -7,6 +7,7 @@ public class GameConfig : MonoBehaviour
     public static GameConfig Main { get; private set; }
 
     public bool DebugComputerPlayer;
+    public bool DebugPathfinding;
     public bool MakeAllUnitsSeeEachOther; // Only works at the start
 
     private void Awake()

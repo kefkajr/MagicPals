@@ -205,7 +205,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DebugComputerPlayer: 0
-  MakeAllUnitsSeeEachOther: 0
+  DebugPathfinding: 1
+  MakeAllUnitsSeeEachOther: 1
 --- !u!4 &85297742
 Transform:
   m_ObjectHideFlags: 0
