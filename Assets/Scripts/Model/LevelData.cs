@@ -5,4 +5,5 @@ using System.Collections.Generic;
 public class LevelData : ScriptableObject 
 {
 	public List<TileData> tiles;
+	public List<SpawnData> spawns;
 }

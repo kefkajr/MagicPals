@@ -5,6 +5,8 @@ using System.Collections;
 [CustomEditor(typeof(BoardCreator))]
 public class BoardCreatorInspector : Editor 
 {
+	public string recipeName = "";
+	
 	public BoardCreator current
 	{
 		get
@@ -64,6 +66,13 @@ public class BoardCreatorInspector : Editor
 			current.MoveWallIn();
 		if (GUILayout.Button("Move Wall Out"))
 			current.MoveWallOut();
+
+		GUILayout.Label("Spawn");
+		recipeName = EditorGUILayout.TextArea(recipeName, EditorStyles.textArea);
+		if (GUILayout.Button("Create Spawn Marker"))
+                current.CreateSpawnMarker(recipeName);
+		if (GUILayout.Button("Remove Spawn Marker"))
+                current.RemoveSpawnMarker();
 
 		GUILayout.Label("Data");
 		if (GUILayout.Button("Save"))

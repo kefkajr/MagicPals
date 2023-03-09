@@ -10,12 +10,14 @@ public class BoardCreator : MonoBehaviour
 	[SerializeField] public GameObject tileViewPrefab;
 	[SerializeField] public GameObject wallViewPrefab;
 	[SerializeField] public GameObject tileSelectionIndicatorPrefab;
+	[SerializeField] public GameObject spawnMarkerPrefab;
 	[SerializeField] public int width = 10;
 	[SerializeField] public int depth = 10;
 	[SerializeField] public int height = 8;
 	[SerializeField] public Point pos;
 	[SerializeField] public string levelName;
 	Dictionary<Point, Tile> tiles = new Dictionary<Point, Tile>();
+	Dictionary<Point, SpawnMarker> spawns = new Dictionary<Point, SpawnMarker>();
 
 	Transform marker
 	{
@@ -81,7 +83,6 @@ public class BoardCreator : MonoBehaviour
 	public void ChangeWallDirection(Direction direction)
     {
 		currentWallDirection = direction;
-
 	}
 
 	public void GrowWall()
@@ -114,6 +115,31 @@ public class BoardCreator : MonoBehaviour
 		MoveWall(pos, currentWallDirection, 1);
 	}
 
+	public void CreateSpawnMarker(string recipeName) {
+		RemoveSpawnMarker();
+
+		GameObject instance = Instantiate(spawnMarkerPrefab);
+		instance.transform.parent = transform;
+		SpawnMarker spawnMarker = instance.GetComponent<SpawnMarker>();
+		spawnMarker.recipeName = recipeName;
+		spawnMarker.position = pos;
+		spawnMarker.height = tiles[pos].height;
+		spawnMarker.direction = currentWallDirection;
+
+		spawns.Add(pos, spawnMarker);
+		spawnMarker.Match();
+	}
+
+	public void RemoveSpawnMarker() {
+		if (spawns.ContainsKey(pos)) {
+			if (spawns[pos] != null) {
+				if (spawns[pos].gameObject != null)
+					GameObject.DestroyImmediate(spawns[pos].gameObject);
+			}
+			spawns.Remove(pos);
+		}
+	}
+
 	public void Save ()
 	{
 		string filePath = Application.dataPath + "/Resources/Levels";
@@ -124,6 +150,10 @@ public class BoardCreator : MonoBehaviour
 		board.tiles = new List<TileData>( tiles.Count );
 		foreach (Tile t in tiles.Values)
 			board.tiles.Add( new TileData(t) );
+
+		board.spawns = new List<SpawnData>( spawns.Count );
+		foreach (SpawnMarker s in spawns.Values)
+			board.spawns.Add( new SpawnData(s.recipeName, s.position, s.direction) );
 		
 		string fileName = string.Format("Assets/Resources/Levels/{1}.asset", filePath, (levelName != "" || levelName != null)  ? levelName : "New Level");
 		AssetDatabase.CreateAsset(board, fileName);
@@ -148,6 +178,13 @@ public class BoardCreator : MonoBehaviour
 				w.Load(t, wd);
 				t.walls[wd.direction] = w;
 			}
+		}
+
+		foreach (SpawnData s in levelData.spawns)
+		{
+			pos.x = s.position.x;
+			pos.y = s.position.y;
+			CreateSpawnMarker(s.recipeName);
 		}
 	}
 	#endregion

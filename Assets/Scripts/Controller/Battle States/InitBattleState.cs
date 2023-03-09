@@ -15,7 +15,7 @@ public class InitBattleState : BattleState
 		board.Load( levelData );
 		Point p = new Point((int)levelData.tiles[0].point.x, (int)levelData.tiles[0].point.y);
 		SelectTile(p);
-		SpawnTestUnits();
+		SpawnUnits();
 		AddVictoryCondition();
 
 		owner.awarenessController.InitializeAwarenessMap();
@@ -26,26 +26,19 @@ public class InitBattleState : BattleState
 		owner.ChangeState<SelectUnitState>();
 	}
 	
-	void SpawnTestUnits ()
-	{
-		string[] recipes = new string[]
-		{
-			"Cece",
-			"Nessa",
-			"Sentry",
-			"Sentry"
-		};
-		
+	void SpawnUnits ()
+	{	
 		GameObject unitContainer = new GameObject("Units");
 		unitContainer.transform.SetParent(owner.transform);
 		
 		List<Tile> locations = new List<Tile>(board.tiles.Values);
 
 		bool didPlaceFirstSentry = false;
-		for (int i = 0; i < recipes.Length; ++i)
+		for (int i = 0; i < levelData.spawns.Count; ++i)
 		{
+			SpawnData spawn = levelData.spawns[i];
 			int level = UnityEngine.Random.Range(9, 12);
-			GameObject instance = UnitFactory.Create(recipes[i], level);
+			GameObject instance = UnitFactory.Create(spawn.recipeName);
 			instance.transform.SetParent(unitContainer.transform);
 			
 			int random = UnityEngine.Random.Range(0, locations.Count);
@@ -53,31 +46,16 @@ public class InitBattleState : BattleState
 			locations.RemoveAt(random);
 
 			Unit unit = instance.GetComponent<Unit>();
-			if (unit.name == "Cece")
-			{
-				unit.Place(board.GetTile(new Point(4, 7)));
-				unit.dir = Direction.South;
-			} else if (unit.name == "Nessa")
-			{
-				unit.Place(board.GetTile(new Point(3, 7)));
-				unit.dir = Direction.South;
-			}
-			else if (unit.name == "Sentry")
-			{
-				if (didPlaceFirstSentry)
-				{
-					unit.Place(board.GetTile(new Point(3, 6)));
-					unit.name = "Wedge";
-				}
-				else
-				{
-					unit.Place(board.GetTile(new Point(4, 6)));
-					unit.name = "Biggs";
-					didPlaceFirstSentry = true;
-				}
-				unit.dir = Direction.West;
-			}
+			unit.Place(board.GetTile(spawn.position));
+			unit.dir = spawn.direction;
 			unit.Match();
+
+			if (didPlaceFirstSentry) {
+				unit.name = "Wedge";
+			} else {
+				unit.name = "Biggs";
+				didPlaceFirstSentry = true;
+			}
 			
 			units.Add(unit);
 		}

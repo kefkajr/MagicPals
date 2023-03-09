@@ -6,7 +6,7 @@ using System.Collections.Generic;
 public static class UnitFactory
 {
 	#region Public
-	public static GameObject Create (string name, int level)
+	public static GameObject Create (string name)
 	{
 		UnitRecipe recipe = Resources.Load<UnitRecipe>("Unit Recipes/" + name);
 		if (recipe == null)
@@ -14,10 +14,10 @@ public static class UnitFactory
 			Debug.LogError("No Unit Recipe for name: " + name);
 			return null;
 		}
-		return Create(recipe, level);
+		return Create(recipe);
 	}
 
-	public static GameObject Create (UnitRecipe recipe, int level)
+	public static GameObject Create (UnitRecipe recipe)
 	{
 		GameObject unitObject = InstantiatePrefab("Units/" + recipe.model);
 		unitObject.name = recipe.name;
@@ -26,7 +26,7 @@ public static class UnitFactory
 		AddLocomotion(unitObject, recipe.locomotion);
 		unitObject.AddComponent<Status>();
 		AddJob(unitObject, recipe.job);
-		AddRank(unitObject, level);
+		AddRank(unitObject);
 		unitObject.AddComponent<Health>();
 		unitObject.AddComponent<Mana>();
 		AddAttack(unitObject, recipe.attack);
@@ -91,10 +91,10 @@ public static class UnitFactory
 		alliance.type = type;
 	}
 
-	static void AddRank (GameObject unitObject, int level)
+	static void AddRank (GameObject unitObject)
 	{
 		Rank rank = unitObject.AddComponent<Rank>();
-		rank.Init(level);
+		rank.Init(1);
 	}
 
 	static void AddAttack (GameObject unitObject, string name)

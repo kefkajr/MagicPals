@@ -462,3 +462,24 @@ MonoBehaviour:
       y: 2
     height: 1
     wallData: []
+  spawns:
+  - recipeName: Nessa
+    position:
+      x: 2
+      y: 6
+    direction: 3
+  - recipeName: Cece
+    position:
+      x: 4
+      y: 8
+    direction: 0
+  - recipeName: Sentry
+    position:
+      x: 2
+      y: 1
+    direction: 1
+  - recipeName: Sentry
+    position:
+      x: 7
+      y: 5
+    direction: 2

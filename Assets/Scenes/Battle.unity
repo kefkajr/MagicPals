@@ -205,7 +205,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DebugComputerPlayer: 0
-  DebugPathfinding: 1
+  DebugPathfinding: 0
   MakeAllUnitsSeeEachOther: 1
 --- !u!4 &85297742
 Transform:
@@ -1144,7 +1144,7 @@ MonoBehaviour:
   cameraRig: {fileID: 81033365}
   board: {fileID: 373292836}
   boardInventory: {fileID: 1629048031}
-  levelData: {fileID: 11400000, guid: 0bbf75f699440421ab3a6e5273194d87, type: 2}
+  levelData: {fileID: 11400000, guid: 767803d7a43694855960dff8fa9eed59, type: 2}
   tileSelectionIndicator: {fileID: 697354563}
   pos:
     x: 0
