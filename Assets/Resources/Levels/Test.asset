@@ -67,17 +67,29 @@ MonoBehaviour:
       x: 5
       y: 9
     height: 1
-    wallData: []
+    wallData:
+    - direction: 0
+      origin: 1
+      thickness: 1
+      height: 3
   - point:
       x: 6
       y: 9
     height: 1
-    wallData: []
+    wallData:
+    - direction: 0
+      origin: 1
+      thickness: 1
+      height: 3
   - point:
       x: 7
       y: 9
     height: 1
-    wallData: []
+    wallData:
+    - direction: 0
+      origin: 1
+      thickness: 1
+      height: 3
   - point:
       x: 8
       y: 9
@@ -230,7 +242,11 @@ MonoBehaviour:
       x: 3
       y: 9
     height: 1
-    wallData: []
+    wallData:
+    - direction: 0
+      origin: 1
+      thickness: 1
+      height: 2
   - point:
       x: 0
       y: 6
@@ -396,7 +412,11 @@ MonoBehaviour:
       x: 4
       y: 9
     height: 1
-    wallData: []
+    wallData:
+    - direction: 0
+      origin: 1
+      thickness: 1
+      height: 2
   - point:
       x: 3
       y: 1
@@ -462,12 +482,16 @@ MonoBehaviour:
       y: 2
     height: 1
     wallData: []
+  - point:
+      x: 8
+      y: 10
+    height: 1
+    wallData:
+    - direction: 3
+      origin: 1
+      thickness: 1
+      height: 3
   spawns:
-  - recipeName: Nessa
-    position:
-      x: 2
-      y: 6
-    direction: 3
   - recipeName: Cece
     position:
       x: 4
@@ -476,10 +500,18 @@ MonoBehaviour:
   - recipeName: Sentry
     position:
       x: 2
-      y: 1
+      y: 8
     direction: 1
   - recipeName: Sentry
     position:
       x: 7
       y: 5
-    direction: 2
+    direction: 0
+  - recipeName: Nessa
+    position:
+      x: 5
+      y: 8
+    direction: 0
+  exits:
+  - x: 8
+    y: 10

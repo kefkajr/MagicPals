@@ -6,4 +6,5 @@ public class LevelData : ScriptableObject
 {
 	public List<TileData> tiles;
 	public List<SpawnData> spawns;
+	public List<Point> exits;
 }

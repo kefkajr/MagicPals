@@ -121,7 +121,8 @@ public abstract class BattleState : State
 	
 	protected virtual bool IsBattleOver ()
 	{
-		return owner.GetComponent<BaseVictoryCondition>().Victor != Alliances.None;
+		BaseVictoryCondition vc = owner.GetComponent<BaseVictoryCondition>();
+		return vc.Victor != Alliances.None;
 	}
 
 	public struct MoveEventData

@@ -11,6 +11,7 @@ public class BoardCreator : MonoBehaviour
 	[SerializeField] public GameObject wallViewPrefab;
 	[SerializeField] public GameObject tileSelectionIndicatorPrefab;
 	[SerializeField] public GameObject spawnMarkerPrefab;
+	[SerializeField] public GameObject exitMarkerPrefab;
 	[SerializeField] public int width = 10;
 	[SerializeField] public int depth = 10;
 	[SerializeField] public int height = 8;
@@ -18,6 +19,7 @@ public class BoardCreator : MonoBehaviour
 	[SerializeField] public string levelName;
 	Dictionary<Point, Tile> tiles = new Dictionary<Point, Tile>();
 	Dictionary<Point, SpawnMarker> spawns = new Dictionary<Point, SpawnMarker>();
+	Dictionary<Point, ExitMarker> exits = new Dictionary<Point, ExitMarker>();
 
 	Transform marker
 	{
@@ -76,6 +78,8 @@ public class BoardCreator : MonoBehaviour
 		for (int i = transform.childCount - 1; i >= 0; --i)
 			DestroyImmediate(transform.GetChild(i).gameObject);
 		tiles.Clear();
+		spawns.Clear();
+		exits.Clear();
 	}
 
 	Direction currentWallDirection = Direction.North;
@@ -140,6 +144,29 @@ public class BoardCreator : MonoBehaviour
 		}
 	}
 
+	public void CreateExitMarker() {
+		RemoveSpawnMarker();
+
+		GameObject instance = Instantiate(exitMarkerPrefab);
+		instance.transform.parent = transform;
+		ExitMarker exitMarker = instance.GetComponent<ExitMarker>();
+		exitMarker.position = pos;
+		exitMarker.height = tiles[pos].height;
+
+		exits.Add(pos, exitMarker);
+		exitMarker.Match();
+	}
+
+	public void RemoveExitMarker() {
+		if (exits.ContainsKey(pos)) {
+			if (exits[pos] != null) {
+				if (exits[pos].gameObject != null)
+					GameObject.DestroyImmediate(exits[pos].gameObject);
+			}
+			exits.Remove(pos);
+		}
+	}
+
 	public void Save ()
 	{
 		string filePath = Application.dataPath + "/Resources/Levels";
@@ -154,6 +181,10 @@ public class BoardCreator : MonoBehaviour
 		board.spawns = new List<SpawnData>( spawns.Count );
 		foreach (SpawnMarker s in spawns.Values)
 			board.spawns.Add( new SpawnData(s.recipeName, s.position, s.direction) );
+
+		board.exits = new List<Point>( exits.Count );
+		foreach (ExitMarker e in exits.Values)
+			board.exits.Add( new Point(e.position.x, e.position.y) );
 		
 		string fileName = string.Format("Assets/Resources/Levels/{1}.asset", filePath, (levelName != "" || levelName != null)  ? levelName : "New Level");
 		AssetDatabase.CreateAsset(board, fileName);
@@ -185,6 +216,13 @@ public class BoardCreator : MonoBehaviour
 			pos.x = s.position.x;
 			pos.y = s.position.y;
 			CreateSpawnMarker(s.recipeName);
+		}
+
+		foreach (Point p in levelData.exits)
+		{
+			pos.x = p.x;
+			pos.y = p.y;
+			CreateExitMarker();
 		}
 	}
 	#endregion

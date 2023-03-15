@@ -30,6 +30,9 @@ public class InitBattleState : BattleState
 	{	
 		GameObject unitContainer = new GameObject("Units");
 		unitContainer.transform.SetParent(owner.transform);
+
+		GameObject escapedUnitContainer = new GameObject("Escaped Units");
+		escapedUnitContainer.transform.SetParent(owner.transform);
 		
 		List<Tile> locations = new List<Tile>(board.tiles.Values);
 
@@ -50,11 +53,13 @@ public class InitBattleState : BattleState
 			unit.dir = spawn.direction;
 			unit.Match();
 
-			if (didPlaceFirstSentry) {
-				unit.name = "Wedge";
-			} else {
-				unit.name = "Biggs";
-				didPlaceFirstSentry = true;
+			if (unit.name == "Sentry") {
+				if (didPlaceFirstSentry) {
+					unit.name = "Wedge";
+				} else {
+					unit.name = "Biggs";
+					didPlaceFirstSentry = true;
+				}
 			}
 			
 			units.Add(unit);
@@ -65,10 +70,13 @@ public class InitBattleState : BattleState
 
 	void AddVictoryCondition ()
 	{
-		DefeatTargetVictoryCondition vc = owner.gameObject.AddComponent<DefeatTargetVictoryCondition>();
-		Unit enemy = units[ units.Count - 1 ];
-		vc.target = enemy;
-		Health health = enemy.GetComponent<Health>();
-		health.MinHP = 10;
+
+		// Old victory condition
+		// DefeatTargetVictoryCondition vc = owner.gameObject.AddComponent<DefeatTargetVictoryCondition>();
+		// Unit enemy = units[ units.Count - 1 ];
+		// vc.target = enemy;
+		// Health health = enemy.GetComponent<Health>();
+		// health.MinHP = 10;
+		EscapeVictoryCondition vc = owner.gameObject.AddComponent<EscapeVictoryCondition>();
 	}
 }

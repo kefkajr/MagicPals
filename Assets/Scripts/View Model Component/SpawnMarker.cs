@@ -5,7 +5,7 @@ using TMPro;
 
 public class SpawnMarker : MonoBehaviour
 {
-    public const float stepHeight = 0.5f;
+    const float stepHeight = 0.5f;
 
     public string recipeName;
     public TextMeshProUGUI recipeNameLabel;

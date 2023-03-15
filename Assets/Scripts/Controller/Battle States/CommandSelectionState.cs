@@ -10,6 +10,7 @@ public class CommandSelectionState : BaseAbilityMenuState
 		public static string Action = "Action";
 		public static string Item = "Item";
 		public static string PickUp = "Pick up";
+		public static string Escape = "Escape";
 		public static string Wait = "Wait";
 	}
 
@@ -45,6 +46,8 @@ public class CommandSelectionState : BaseAbilityMenuState
 		menuOptions.Add(Option.Item);
 		if (owner.boardInventory.GetItemsByPoint(turn.actor.tile.pos).Count > 0)
 			menuOptions.Add(Option.PickUp);
+		if (owner.levelData.exits.Contains(owner.turn.actor.tile.pos))
+			menuOptions.Add(Option.Escape);
 		menuOptions.Add(Option.Wait);
 
 		abilityMenuPanelController.Show(menuTitle, menuOptions);
@@ -69,6 +72,18 @@ public class CommandSelectionState : BaseAbilityMenuState
 			ItemPickUpState.boardInventory = owner.boardInventory;
 			ItemPickUpState.point = turn.actor.tile.pos;
 			owner.ChangeState<ItemPickUpState>();
+		} else if (selectedOption == Option.Escape) {
+			owner.GetState<FlexibleOptionState>().SetTitle("Escape");
+			List<FlexibleOption> options = new List<FlexibleOption> {
+				new FlexibleOption("Escape", "Leave the area and do not return", delegate() {
+					owner.ChangeState<EscapeState>();
+				}),
+				new FlexibleOption("Do not Escape", "Stay in the area", delegate() {
+					owner.ChangeState<CommandSelectionState>();
+				})
+			 };
+			FlexibleOptionState.flexibleOptions = options;
+			owner.ChangeState<FlexibleOptionState>();
 		} else if (selectedOption == Option.Wait) {
 			owner.ChangeState<EndFacingState>();
 		}

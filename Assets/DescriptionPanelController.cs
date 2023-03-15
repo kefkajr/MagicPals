@@ -41,6 +41,15 @@ public class DescriptionPanelController : MonoBehaviour
 		TogglePos(ShowKey);
 	}
 
+	public void Show(string title, string description)
+	{
+		canvas.SetActive(true);
+		titleLabel.text = title;
+		descriptionLabel.text = FormatDescription(description);
+
+		TogglePos(ShowKey);
+	}
+
 	public void Hide()
 	{
 		Tweener t = TogglePos(HideKey);

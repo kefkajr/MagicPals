@@ -93,6 +93,9 @@ public class Awareness: IEquatable<Awareness>
 			case AwarenessType.Seen:
 				switch (newType)
 				{
+					case AwarenessType.Unaware:
+						type = newType;
+						return true;
 					case AwarenessType.LostTrack:
 						type = newType;
 						level = StartingAwarenessLevel;

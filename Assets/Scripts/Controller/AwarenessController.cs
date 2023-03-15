@@ -6,6 +6,9 @@ using System;
 
 public class AwarenessController : MonoBehaviour
 {
+
+	public const string NotficationEscape = "NotficationEscape";
+
     protected BattleController battleController;
 	protected Board board { get { return battleController.board; } }
 
@@ -223,6 +226,26 @@ public class AwarenessController : MonoBehaviour
 		battleController.ChangeState<SelectUnitState>();
 	}
 
+	public void HandleUnitEscape(Unit unit) {
+		unit.stealth.isInvisible = true;
+		unit.tile.occupant = null;
+
+		foreach (Unit perceivingUnit in awarenessMap.Keys) {
+			if (perceivingUnit == unit) continue;
+			Awareness awareness = awarenessMap[perceivingUnit][unit];
+			awareness.Update(AwarenessType.Unaware, unit.tile.pos);
+		}
+
+		unit.transform.SetParent(GameObject.Find("Escaped Units").transform);
+
+        battleController.escapedUnits.Add(unit);
+        battleController.units.Remove(unit);
+
+        unit.gameObject.SetActive(false);
+
+		this.PostNotification(NotficationEscape, unit);
+	}
+
 	void OnEnable()
 	{
 		this.AddObserver(AwarenessLevelDecay, TurnOrderController.TurnCompletedNotification);
@@ -244,23 +267,24 @@ public class AwarenessController : MonoBehaviour
 		}
 	}
 
+
 	void OnDrawGizmos()
 	{
-		foreach (Unit perceivingUnit in awarenessMap.Keys)
-		{
-			foreach (Unit perceivedUnit in awarenessMap[perceivingUnit].Keys)
-			{
-				Awareness awareness = awarenessMap[perceivingUnit][perceivedUnit];
-				Color color = awareness.type.GizmoColor();
-				color.a = 0.5f;
-				Gizmos.color = color;
-				Vector3 perceiverPosition = GameObject.Find(string.Format("Units/{0}/Jumper/Sphere/Sphere", awareness.perception.unit.name)).transform.position + Vector3.up * 0.5f;
-				Vector3 perceivedPosition = GameObject.Find(string.Format("Units/{0}/Jumper/Sphere/Sphere 1", awareness.stealth.unit.name)).transform.position + Vector3.up * 0.5f;
-				for (float i = 0.1f; i < 1f; i += 0.1f)
-				{
-					Gizmos.DrawCube(Vector3.Lerp(perceiverPosition, perceivedPosition, i), new Vector3(0.1f, 0.1f, 0.1f));
-				}
-			}
-		}
+		// foreach (Unit perceivingUnit in awarenessMap.Keys)
+		// {
+		// 	foreach (Unit perceivedUnit in awarenessMap[perceivingUnit].Keys)
+		// 	{
+		// 		Awareness awareness = awarenessMap[perceivingUnit][perceivedUnit];
+		// 		Color color = awareness.type.GizmoColor();
+		// 		color.a = 0.5f;
+		// 		Gizmos.color = color;
+		// 		Vector3 perceiverPosition = GameObject.Find(string.Format("Units/{0}/Jumper/Sphere/Sphere", awareness.perception.unit.name)).transform.position + Vector3.up * 0.5f;
+		// 		Vector3 perceivedPosition = GameObject.Find(string.Format("Units/{0}/Jumper/Sphere/Sphere 1", awareness.stealth.unit.name)).transform.position + Vector3.up * 0.5f;
+		// 		for (float i = 0.1f; i < 1f; i += 0.1f)
+		// 		{
+		// 			Gizmos.DrawCube(Vector3.Lerp(perceiverPosition, perceivedPosition, i), new Vector3(0.1f, 0.1f, 0.1f));
+		// 		}
+		// 	}
+		// }
 	}
 }

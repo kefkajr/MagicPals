@@ -20,6 +20,7 @@ public class BattleController : StateMachine
 	public FacingIndicator facingIndicator;
 	public Turn turn = new Turn();
 	public List<Unit> units = new List<Unit>();
+	public List<Unit> escapedUnits = new List<Unit>();
 	public IEnumerator round;
 	public ComputerPlayer cpu;
 

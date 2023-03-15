@@ -74,6 +74,12 @@ public class BoardCreatorInspector : Editor
 		if (GUILayout.Button("Remove Spawn Marker"))
                 current.RemoveSpawnMarker();
 
+		GUILayout.Label("Exit");
+		if (GUILayout.Button("Create Exit"))
+                current.CreateExitMarker();
+		if (GUILayout.Button("Remove Exit"))
+                current.RemoveExitMarker();
+
 		GUILayout.Label("Data");
 		if (GUILayout.Button("Save"))
 			current.Save();
