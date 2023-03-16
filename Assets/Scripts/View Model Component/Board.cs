@@ -9,6 +9,7 @@ public class Board : MonoBehaviour
 	#region Fields / Properties
 	[SerializeField] public GameObject tilePrefab;
 	[SerializeField] public GameObject wallPrefab;
+	[SerializeField] public GameObject exitPrefab;
 	public Dictionary<Point, Tile> tiles = new Dictionary<Point, Tile>();
 	public Point min { get { return _min; }}
 	public Point max { get { return _max; }}
@@ -63,6 +64,17 @@ public class Board : MonoBehaviour
 			_min.y = Mathf.Min(_min.y, t.pos.y);
 			_max.x = Mathf.Max(_max.x, t.pos.x);
 			_max.y = Mathf.Max(_max.y, t.pos.y);
+		}
+
+		for (int i = 0; i < data.exits.Count; ++i)
+		{
+			Point exitPoint = data.exits[i];
+			GameObject exitInstance = Instantiate(exitPrefab) as GameObject;
+			exitInstance.transform.SetParent(transform);
+			ExitMarker e = exitInstance.GetComponent<ExitMarker>();
+			e.position = exitPoint;
+			e.height = tiles[exitPoint].height;
+			e.Match();
 		}
 	}
 
