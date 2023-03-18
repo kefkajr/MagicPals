@@ -495,12 +495,12 @@ MonoBehaviour:
   - recipeName: Cece
     position:
       x: 4
-      y: 8
+      y: 4
     direction: 0
   - recipeName: Sentry
     position:
-      x: 2
-      y: 8
+      x: 7
+      y: 6
     direction: 1
   - recipeName: Sentry
     position:

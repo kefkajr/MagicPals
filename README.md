@@ -1,6 +1,29 @@
 # MagicPals
 This is where change summaries, work intentions, and related planning will be written.
 
+#### 3/18/23
+<img src="https://raw.githubusercontent.com/kefkajr/MagicPals/setup-prototype-encounter/Progress%20Pics/2023.03.18_spawnpoints.png" width=500>
+
+The Ability Picker now makes use of Ability Picker Criteria to decide which action to take in battle. Now enemies can shout and shoot more effectively. There isn't any reasoning around the way they select movement options, but they're not bad for now.
+
+The Board Creator can now make spawn points and exits. In battle, if all player controlled units reach the exit and choose to Escape, the battle ends.
+
+Moving toward a prototype:
+- Simplify unit stats. Make it so everone has, like, 5 HP, and getting struck by riflefire removes a specific number of HP.
+  - This may require reworking the Stats component altogether. At least we should start by just making all of the numbers smaller and removing randomization.
+
+General Improvements
+- Formally visualize the following in the game, rather than only while debugging:
+  - Viewing Range (faint color wash on tile at all times)
+    - Have this appear 1) during a unit's turn and 2) when the unit it highlighted during the player's turn.
+  - Noisy Range (distinct color wash on tile while confirming ability)
+  - Known Awarenesses (floating lines above unit's heads at all times)
+    - Use a line renderer. Point to a Seen target, or else point to the "point of interest" of a target being investigated.
+- Should also visualize HP changes and status effects, even just as text above the target's head.
+- Start including mouse input.
+  - The menu item with the mouse over it should be the selected.
+  - The tile selection indicator should move with the mouse when possbile.
+
 #### 2/13/23
 <img src="https://raw.githubusercontent.com/kefkajr/MagicPals/setup-prototype-encounter/Progress%20Pics/2023.02.13_shout.png" width=500>
 
@@ -20,18 +43,6 @@ Moving toward a prototype:
 - There should be an exit. Reaching it with both character should result in a win. One enemy should be guarding it.
 - The map editor should include "spawn" and "exit" tiles.
 - Test the Riflefire ability.
-- Simplify unit stats. Make it so everone has, like, 5 HP, and getting struck by riflefire removes a specific number of HP.
-
-General Improvements
-- Formally visualize the following in the game, rather than only while debugging:
-  - Viewing Range (faint color wash on tile at all times)
-    - Have this appear 1) during a unit's turn and 2) when the unit it highlighted during the player's turn.
-  - Noisy Range (distinct color wash on tile while confirming ability)
-  - Known Awarenesses (floating lines above unit's heads at all times)
-    - Use a line renderer. Point to a Seen target, or else point to the "point of interest" of a target being investigated.
-- Should also visualize HP changes and status effects, even just as text above the target's head.
-- Start including mouse input, if at least for moving the tile selection indicator.
-
 
 #### 12/18
 <img src="https://raw.githubusercontent.com/kefkajr/MagicPals/develop/Progress%20Pics/2022.12.18_emergency-turn.gif" width=500>
