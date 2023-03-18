@@ -23,6 +23,8 @@ General Improvements
 - Start including mouse input.
   - The menu item with the mouse over it should be the selected.
   - The tile selection indicator should move with the mouse when possbile.
+- New inputs might call for a new Input System from Unity.
+- While we're at it, how about utilizing the new Event System and getting rid of the old Notification Center?
 
 #### 2/13/23
 <img src="https://raw.githubusercontent.com/kefkajr/MagicPals/develop/Progress%20Pics/2023.02.13_shout.png" width=500>
