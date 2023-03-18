@@ -2,7 +2,7 @@
 This is where change summaries, work intentions, and related planning will be written.
 
 #### 3/18/23
-<img src="https://raw.githubusercontent.com/kefkajr/MagicPals/setup-prototype-encounter/Progress%20Pics/2023.03.18_spawnpoints.png" width=500>
+<img src="https://raw.githubusercontent.com/kefkajr/MagicPals/develop/Progress%20Pics/2023.03.18_spawnpoints.png" width=500>
 
 The Ability Picker now makes use of Ability Picker Criteria to decide which action to take in battle. Now enemies can shout and shoot more effectively. There isn't any reasoning around the way they select movement options, but they're not bad for now.
 
@@ -25,7 +25,7 @@ General Improvements
   - The tile selection indicator should move with the mouse when possbile.
 
 #### 2/13/23
-<img src="https://raw.githubusercontent.com/kefkajr/MagicPals/setup-prototype-encounter/Progress%20Pics/2023.02.13_shout.png" width=500>
+<img src="https://raw.githubusercontent.com/kefkajr/MagicPals/develop/Progress%20Pics/2023.02.13_shout.png" width=500>
 
 The Shout ability has been created. One unit can make any ally aware of any other units.
 
