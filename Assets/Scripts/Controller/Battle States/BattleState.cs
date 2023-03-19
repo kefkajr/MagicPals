@@ -30,6 +30,7 @@ public abstract class BattleState : State
 		{
 			InputController.moveEvent += OnMove;
 			InputController.submitEvent += OnSubmit;
+			InputController.cancelEvent += OnCancel;
 		}
 	}
 	
@@ -37,6 +38,7 @@ public abstract class BattleState : State
 	{
 		InputController.moveEvent -= OnMove;
 		InputController.submitEvent -= OnSubmit;
+		InputController.cancelEvent -= OnCancel;
 	}
 
 	public override void Enter ()

@@ -284,12 +284,12 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
             ""actions"": [
                 {
                     ""name"": ""Navigate"",
-                    ""type"": ""PassThrough"",
+                    ""type"": ""Value"",
                     ""id"": ""4711eb30-a4f2-4bda-b99e-6b473c3aa2e9"",
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": false
+                    ""initialStateCheck"": true
                 },
                 {
                     ""name"": ""Submit"",
@@ -373,18 +373,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Turn Camera Left"",
+                    ""name"": ""Turn Camera"",
                     ""type"": ""Button"",
                     ""id"": ""70724497-bd99-4db3-9d32-38bf80f1184b"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Turn Camera Right"",
-                    ""type"": ""Button"",
-                    ""id"": ""e17c890a-3603-4f51-a94b-66768257490c"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -404,7 +395,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 {
                     ""name"": ""Gamepad"",
                     ""id"": ""90a14279-6928-478d-93fc-75aa59914a3a"",
-                    ""path"": ""2DVector"",
+                    ""path"": ""2DVector(mode=2)"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -417,7 +408,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""id"": ""35ade951-48a3-469c-8dc3-477fe6731ea4"",
                     ""path"": ""<Gamepad>/leftStick/up"",
                     ""interactions"": """",
-                    ""processors"": """",
+                    ""processors"": ""AxisDeadzone"",
                     ""groups"": "";Gamepad"",
                     ""action"": ""Navigate"",
                     ""isComposite"": false,
@@ -428,7 +419,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""id"": ""ead931bd-d18f-478c-9792-8ec109567b61"",
                     ""path"": ""<Gamepad>/rightStick/up"",
                     ""interactions"": """",
-                    ""processors"": """",
+                    ""processors"": ""AxisDeadzone"",
                     ""groups"": "";Gamepad"",
                     ""action"": ""Navigate"",
                     ""isComposite"": false,
@@ -439,7 +430,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""id"": ""568e9f2e-c0ad-4222-b194-805485bd049b"",
                     ""path"": ""<Gamepad>/leftStick/down"",
                     ""interactions"": """",
-                    ""processors"": """",
+                    ""processors"": ""AxisDeadzone"",
                     ""groups"": "";Gamepad"",
                     ""action"": ""Navigate"",
                     ""isComposite"": false,
@@ -450,7 +441,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""id"": ""2235f85f-0793-4ccc-9737-553fd2383061"",
                     ""path"": ""<Gamepad>/rightStick/down"",
                     ""interactions"": """",
-                    ""processors"": """",
+                    ""processors"": ""AxisDeadzone"",
                     ""groups"": "";Gamepad"",
                     ""action"": ""Navigate"",
                     ""isComposite"": false,
@@ -461,7 +452,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""id"": ""b4c26bf9-1790-43b3-9191-427a5501ed25"",
                     ""path"": ""<Gamepad>/leftStick/left"",
                     ""interactions"": """",
-                    ""processors"": """",
+                    ""processors"": ""AxisDeadzone"",
                     ""groups"": "";Gamepad"",
                     ""action"": ""Navigate"",
                     ""isComposite"": false,
@@ -472,7 +463,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""id"": ""10d595d7-ce6c-4962-8196-b6ef2af700d7"",
                     ""path"": ""<Gamepad>/rightStick/left"",
                     ""interactions"": """",
-                    ""processors"": """",
+                    ""processors"": ""AxisDeadzone"",
                     ""groups"": "";Gamepad"",
                     ""action"": ""Navigate"",
                     ""isComposite"": false,
@@ -483,7 +474,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""id"": ""c6122a53-5231-4087-aeaa-e64d803253fe"",
                     ""path"": ""<Gamepad>/leftStick/right"",
                     ""interactions"": """",
-                    ""processors"": """",
+                    ""processors"": ""AxisDeadzone"",
                     ""groups"": "";Gamepad"",
                     ""action"": ""Navigate"",
                     ""isComposite"": false,
@@ -689,11 +680,11 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""4817637a-3a62-4bc1-abb2-b0587599eb04"",
+                    ""id"": ""ce62b8a9-c901-4b34-b8a7-f8975b5839b2"",
                     ""path"": ""*/{Cancel}"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse;Gamepad;Touch;Joystick;XR"",
+                    ""groups"": """",
                     ""action"": ""Cancel"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -848,18 +839,40 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Turn Camera Left"",
+                    ""action"": ""Turn Camera"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""1d44cfbc-e44b-42f6-a971-dc8dd819688b"",
+                    ""id"": ""6f3ad651-ec0c-4bec-abe5-c7503f983c18"",
                     ""path"": ""<Keyboard>/rightBracket"",
+                    ""interactions"": """",
+                    ""processors"": ""Invert"",
+                    ""groups"": """",
+                    ""action"": ""Turn Camera"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""238054d3-9e66-4e2a-adca-9d1b9affde52"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Turn Camera Right"",
+                    ""action"": ""Turn Camera"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a5e8e55a-0e69-43a5-92a3-a199d4bddb7f"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": ""Invert"",
+                    ""groups"": """",
+                    ""action"": ""Turn Camera"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -867,6 +880,17 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""c511c01c-4520-4379-8df2-aeb0975b8ac8"",
                     ""path"": ""<Keyboard>/backslash"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Tilt Camera"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""effd89d5-725a-494d-b990-8f921cdc41fd"",
+                    ""path"": ""<Gamepad>/rightStickPress"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -896,8 +920,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         m_UI_RightClick = m_UI.FindAction("RightClick", throwIfNotFound: true);
         m_UI_TrackedDevicePosition = m_UI.FindAction("TrackedDevicePosition", throwIfNotFound: true);
         m_UI_TrackedDeviceOrientation = m_UI.FindAction("TrackedDeviceOrientation", throwIfNotFound: true);
-        m_UI_TurnCameraLeft = m_UI.FindAction("Turn Camera Left", throwIfNotFound: true);
-        m_UI_TurnCameraRight = m_UI.FindAction("Turn Camera Right", throwIfNotFound: true);
+        m_UI_TurnCamera = m_UI.FindAction("Turn Camera", throwIfNotFound: true);
         m_UI_TiltCamera = m_UI.FindAction("Tilt Camera", throwIfNotFound: true);
     }
 
@@ -1017,8 +1040,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
     private readonly InputAction m_UI_RightClick;
     private readonly InputAction m_UI_TrackedDevicePosition;
     private readonly InputAction m_UI_TrackedDeviceOrientation;
-    private readonly InputAction m_UI_TurnCameraLeft;
-    private readonly InputAction m_UI_TurnCameraRight;
+    private readonly InputAction m_UI_TurnCamera;
     private readonly InputAction m_UI_TiltCamera;
     public struct UIActions
     {
@@ -1034,8 +1056,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         public InputAction @RightClick => m_Wrapper.m_UI_RightClick;
         public InputAction @TrackedDevicePosition => m_Wrapper.m_UI_TrackedDevicePosition;
         public InputAction @TrackedDeviceOrientation => m_Wrapper.m_UI_TrackedDeviceOrientation;
-        public InputAction @TurnCameraLeft => m_Wrapper.m_UI_TurnCameraLeft;
-        public InputAction @TurnCameraRight => m_Wrapper.m_UI_TurnCameraRight;
+        public InputAction @TurnCamera => m_Wrapper.m_UI_TurnCamera;
         public InputAction @TiltCamera => m_Wrapper.m_UI_TiltCamera;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
@@ -1076,12 +1097,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @TrackedDeviceOrientation.started -= m_Wrapper.m_UIActionsCallbackInterface.OnTrackedDeviceOrientation;
                 @TrackedDeviceOrientation.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnTrackedDeviceOrientation;
                 @TrackedDeviceOrientation.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnTrackedDeviceOrientation;
-                @TurnCameraLeft.started -= m_Wrapper.m_UIActionsCallbackInterface.OnTurnCameraLeft;
-                @TurnCameraLeft.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnTurnCameraLeft;
-                @TurnCameraLeft.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnTurnCameraLeft;
-                @TurnCameraRight.started -= m_Wrapper.m_UIActionsCallbackInterface.OnTurnCameraRight;
-                @TurnCameraRight.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnTurnCameraRight;
-                @TurnCameraRight.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnTurnCameraRight;
+                @TurnCamera.started -= m_Wrapper.m_UIActionsCallbackInterface.OnTurnCamera;
+                @TurnCamera.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnTurnCamera;
+                @TurnCamera.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnTurnCamera;
                 @TiltCamera.started -= m_Wrapper.m_UIActionsCallbackInterface.OnTiltCamera;
                 @TiltCamera.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnTiltCamera;
                 @TiltCamera.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnTiltCamera;
@@ -1119,12 +1137,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @TrackedDeviceOrientation.started += instance.OnTrackedDeviceOrientation;
                 @TrackedDeviceOrientation.performed += instance.OnTrackedDeviceOrientation;
                 @TrackedDeviceOrientation.canceled += instance.OnTrackedDeviceOrientation;
-                @TurnCameraLeft.started += instance.OnTurnCameraLeft;
-                @TurnCameraLeft.performed += instance.OnTurnCameraLeft;
-                @TurnCameraLeft.canceled += instance.OnTurnCameraLeft;
-                @TurnCameraRight.started += instance.OnTurnCameraRight;
-                @TurnCameraRight.performed += instance.OnTurnCameraRight;
-                @TurnCameraRight.canceled += instance.OnTurnCameraRight;
+                @TurnCamera.started += instance.OnTurnCamera;
+                @TurnCamera.performed += instance.OnTurnCamera;
+                @TurnCamera.canceled += instance.OnTurnCamera;
                 @TiltCamera.started += instance.OnTiltCamera;
                 @TiltCamera.performed += instance.OnTiltCamera;
                 @TiltCamera.canceled += instance.OnTiltCamera;
@@ -1150,8 +1165,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         void OnRightClick(InputAction.CallbackContext context);
         void OnTrackedDevicePosition(InputAction.CallbackContext context);
         void OnTrackedDeviceOrientation(InputAction.CallbackContext context);
-        void OnTurnCameraLeft(InputAction.CallbackContext context);
-        void OnTurnCameraRight(InputAction.CallbackContext context);
+        void OnTurnCamera(InputAction.CallbackContext context);
         void OnTiltCamera(InputAction.CallbackContext context);
     }
 }

@@ -48,13 +48,14 @@ public class CameraRig : MonoBehaviour
 	protected void RemoveListeners()
 	{
 		InputController.turnCameraEvent -= TurnCamera;
+		InputController.tiltCameraEvent -= TiltCamera;
 	}
 
-	protected void TurnCamera(object sender, InfoEventArgs<int> e)
+	protected void TurnCamera(object sender, float f)
 	{
 		if (isRotating) return;
 
-		int newDirectionValue = (int)currentDirection + e.info;
+		int newDirectionValue = (int)currentDirection + (int)f;
 
 		if (newDirectionValue < 0)
 			newDirectionValue = 3;

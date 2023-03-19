@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 class Repeater
 {
 	const float threshold = 0.4f;
-	const float rate = 0.25f;
+	const float rate = 0.15f;
 	float _next;
 	bool _hold;
 	string _axis;
@@ -40,44 +40,41 @@ class Repeater
 public class InputController : MonoBehaviour
 {
 	public static event EventHandler<InfoEventArgs<Point>> moveEvent;
-	public static event Action cancelEvent;
 	public static event Action submitEvent;
-	public static event EventHandler<InfoEventArgs<int>> turnCameraEvent;
+	public static event Action cancelEvent;
+	public static event EventHandler<float> turnCameraEvent;
 	public static event Action tiltCameraEvent;
 
-	PlayerInputActions pia;
+	PlayerInput pia;
 
 	Repeater _hor = new Repeater("Horizontal");
 	Repeater _ver = new Repeater("Vertical");
 
 	void Awake() {
-		pia = new PlayerInputActions();
+		pia = GetComponent<PlayerInput>();
 	}
 
 	void OnEnable() {
-		pia.Enable();
-
-		pia.UI.Navigate.performed += DidNavigate;
-		pia.UI.Submit.performed += DidSubmit;
-		pia.UI.Cancel.performed += DidCancel;
-		pia.UI.TurnCameraLeft.performed += delegate(InputAction.CallbackContext context) { DidCameraTurn(context, -1); };
-		pia.UI.TurnCameraRight.performed += delegate(InputAction.CallbackContext context) { DidCameraTurn(context, 1); };
-		pia.UI.TiltCamera.performed += DidCameraTilt;
+		pia.actions["Submit"].performed += DidSubmit;
+		pia.actions["Cancel"].performed += DidCancel;
+		pia.actions["Turn Camera"].performed += DidCameraTurn;
+		pia.actions["Tilt Camera"].performed += DidCameraTilt;
 	}
 
 	void OnDisable() {
-		pia.Disable();
-
-		pia.UI.Navigate.performed -= DidNavigate;
-		pia.UI.Submit.performed -= DidSubmit;
-		pia.UI.Cancel.performed -= DidCancel;
-		pia.UI.TurnCameraLeft.performed -= delegate(InputAction.CallbackContext context) { DidCameraTurn(context, -1); };
-		pia.UI.TurnCameraRight.performed -= delegate(InputAction.CallbackContext context) { DidCameraTurn(context, 1); };
-		pia.UI.TiltCamera.performed -= DidCameraTilt;
+		pia.actions["Submit"].performed -= DidSubmit;
+		pia.actions["Cancel"].performed -= DidCancel;
+		pia.actions["Turn Camera"].performed -= DidCameraTurn;
+		pia.actions["Tilt Camera"].performed -= DidCameraTilt;
 	}
 
-	void DidNavigate(InputAction.CallbackContext context) {
-		Vector2 v = context.ReadValue<Vector2>();
+	void Update() {
+		Vector2 v = pia.actions["Navigate"].ReadValue<Vector2>();
+		if (v != null)
+			DidNavigate(v);
+	}
+
+	void DidNavigate(Vector2 v) {
 		int x = _hor.Update((int)v.x);
 		int y = _ver.Update((int)v.y);
 		if (x != 0 || y != 0)
@@ -95,8 +92,8 @@ public class InputController : MonoBehaviour
 		cancelEvent();
 	}
 
-	void DidCameraTurn(InputAction.CallbackContext context, int turn) {
-		turnCameraEvent(this, new InfoEventArgs<int>(turn));
+	void DidCameraTurn(InputAction.CallbackContext context) {
+		turnCameraEvent(this, context.ReadValue<float>());
 	}
 
 	void DidCameraTilt(InputAction.CallbackContext context) {
