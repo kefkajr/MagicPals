@@ -49,9 +49,9 @@ public class CutSceneState : BattleState
 		ConversationController.completeEvent -= OnCompleteConversation;
 	}
 
-	protected override void OnFire (object sender, InfoEventArgs<int> e)
+	protected override void OnSubmit ()
 	{
-		base.OnFire (sender, e);
+		base.OnSubmit ();
 		conversationController.Next();
 	}
 

@@ -43,20 +43,20 @@ public class ConfirmAbilityTargetState : BattleState
 			SetTarget(index - 1);
 	}
 
-	protected override void OnFire (object sender, InfoEventArgs<int> e)
+	protected override void OnSubmit ()
 	{
-		if (e.info == 0)
-		{
-			Trap trap = turn.ability.GetComponent<Trap>();
-			if (trap != null) {
-				owner.ChangeState<TrapSetState>();
-            } else if (turn.targets.Count > 0) {
-				FindTrueTargets();
-				owner.ChangeState<PerformAbilityState>();
-			}
+		Trap trap = turn.ability.GetComponent<Trap>();
+		if (trap != null) {
+			owner.ChangeState<TrapSetState>();
+		} else if (turn.targets.Count > 0) {
+			FindTrueTargets();
+			owner.ChangeState<PerformAbilityState>();
 		}
-		else
-			owner.ChangeState<AbilityTargetState>();
+	}
+
+	protected override void OnCancel ()
+	{
+		owner.ChangeState<AbilityTargetState>();
 	}
 
 	void FindTargets ()

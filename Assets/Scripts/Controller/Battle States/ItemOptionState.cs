@@ -57,7 +57,7 @@ public class ItemOptionState : BaseAbilityMenuState
 		descriptionPanelController.Show(item.describable);
 	}
 
-	protected override void Confirm()
+	protected override void OnSubmit()
 	{
 		int currentSelection = abilityMenuPanelController.selection;
 		string selectedOption = menuOptions[currentSelection];
@@ -99,7 +99,7 @@ public class ItemOptionState : BaseAbilityMenuState
 		owner.boardInventory.AddByTile(item, turn.actor.tile);
     }
 
-	protected override void Cancel()
+	protected override void OnCancel()
 	{
 		owner.ChangeState<ItemSelectionState>();
 	}

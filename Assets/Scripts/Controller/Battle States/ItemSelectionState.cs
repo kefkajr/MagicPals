@@ -37,7 +37,7 @@ public class ItemSelectionState : BaseAbilityMenuState
 		descriptionPanelController.Show(describable);
 	}
 
-	protected override void Confirm()
+	protected override void OnSubmit()
 	{
 		Merchandise item = inventory.items[abilityMenuPanelController.selection];
 		ItemOptionState.item = item;
@@ -45,7 +45,7 @@ public class ItemSelectionState : BaseAbilityMenuState
 		owner.ChangeState<ItemOptionState>();
 	}
 
-	protected override void Cancel()
+	protected override void OnCancel()
 	{
 		owner.ChangeState<CommandSelectionState>();
 	}

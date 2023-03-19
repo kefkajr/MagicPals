@@ -89,7 +89,7 @@ public class CameraRig : MonoBehaviour
 		isRotating = false;
 	}
 
-	protected void TiltCamera(object sender, int i)
+	protected void TiltCamera()
 	{
 		if (isTilting) return;
 

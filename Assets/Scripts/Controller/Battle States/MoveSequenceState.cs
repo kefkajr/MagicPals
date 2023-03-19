@@ -101,7 +101,7 @@ public class MoveSequenceState : BattleState
 		owner.awarenessController.InitiateEmergencyTurn(unit);
 	}
 
-	protected override void OnFire(object sender, InfoEventArgs<int> e)
+	protected override void OnSubmit()
 	{
 		Time.timeScale = 10f;
 	}

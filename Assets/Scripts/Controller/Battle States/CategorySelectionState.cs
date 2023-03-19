@@ -33,7 +33,7 @@ public class CategorySelectionState : BaseAbilityMenuState
 		abilityMenuPanelController.Show(menuTitle, menuOptions);
 	}
 
-	protected override void Confirm ()
+	protected override void OnSubmit ()
 	{
 		if (abilityMenuPanelController.selection == 0)
 			Attack();
@@ -41,7 +41,7 @@ public class CategorySelectionState : BaseAbilityMenuState
 			SetCategory(abilityMenuPanelController.selection - 1);
 	}
 	
-	protected override void Cancel ()
+	protected override void OnCancel ()
 	{
 		owner.ChangeState<CommandSelectionState>();
 	}

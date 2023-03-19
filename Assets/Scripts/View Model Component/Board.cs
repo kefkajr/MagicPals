@@ -29,11 +29,11 @@ public class Board : MonoBehaviour
 	void Awake ()
 	{
 		GameObject.Find("Battle Controller").GetComponent<BattleController>();
-		InputController.fireEvent += OnFire;
+		InputController.submitEvent += OnSubmit;
 	}
 
 	bool isPaused = false;
-	void OnFire (object sender, InfoEventArgs<int> e)
+	void OnSubmit ()
 	{
 		isPaused = false;
 	}

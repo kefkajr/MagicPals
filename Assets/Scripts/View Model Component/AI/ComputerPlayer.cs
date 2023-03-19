@@ -19,11 +19,11 @@ public class ComputerPlayer : MonoBehaviour
 	void Awake ()
 	{
 		BC = GetComponent<BattleController>();
-		InputController.fireEvent += OnFire;
+		InputController.submitEvent += OnSubmit;
 	}
 
 	bool isPaused = false;
-	void OnFire (object sender, InfoEventArgs<int> e)
+	void OnSubmit ()
 	{
 		isPaused = false;
 	}

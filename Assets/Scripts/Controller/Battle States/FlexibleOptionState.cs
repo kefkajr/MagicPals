@@ -40,13 +40,13 @@ public class FlexibleOptionState : BaseAbilityMenuState
 		DisplayFlexibleOptionInfo();
 	}
 
-	protected override void Confirm()
+	protected override void OnSubmit()
 	{
 		Action Action = flexibleOptions[abilityMenuPanelController.selection].action;
 		Action();
 	}
 
-	protected override void Cancel()
+	protected override void OnCancel()
 	{
 		owner.ChangeState<CommandSelectionState>();
 	}

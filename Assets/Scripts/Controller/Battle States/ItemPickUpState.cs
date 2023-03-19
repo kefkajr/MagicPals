@@ -36,7 +36,7 @@ public class ItemPickUpState : BaseAbilityMenuState
 		descriptionPanelController.Show(items[0].describable);
 	}
 
-	protected override void Confirm()
+	protected override void OnSubmit()
 	{
 		Merchandise item = GetCurrentlySelectedItem();
 		boardInventory.RemoveByPoint(item, point);
@@ -47,7 +47,7 @@ public class ItemPickUpState : BaseAbilityMenuState
 		owner.ChangeState<CommandSelectionState>();
 	}
 
-	protected override void Cancel()
+	protected override void OnCancel()
 	{
 		owner.ChangeState<CommandSelectionState>();
 	}

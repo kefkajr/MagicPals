@@ -50,7 +50,7 @@ public class ActionSelectionState : BaseAbilityMenuState
 		descriptionPanelController.Show(catalog.GetAbility(category, 0).describable);
 	}
 
-	protected override void Confirm ()
+	protected override void OnSubmit ()
 	{
 		int currentSelection = abilityMenuPanelController.selection;
 		if (!abilityMenuPanelController.GetLocked(currentSelection))
@@ -60,7 +60,7 @@ public class ActionSelectionState : BaseAbilityMenuState
 		}
 	}
 
-	protected override void Cancel ()
+	protected override void OnCancel ()
 	{
 		owner.ChangeState<CategorySelectionState>();
 	}

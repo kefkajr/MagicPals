@@ -32,19 +32,16 @@ public class EndFacingState : BattleState
 		LetActorLookInCurrentDirection();
 	}
 	
-	protected override void OnFire (object sender, InfoEventArgs<int> e)
+	protected override void OnSubmit ()
 	{
-		switch (e.info)
-		{
-		case 0:
-			owner.ChangeState<SelectUnitState>();
-			break;
-		case 1:
-			turn.actor.dir = startDir;
-			turn.actor.Match();
-			owner.ChangeState<CommandSelectionState>();
-			break;
-		}
+		owner.ChangeState<SelectUnitState>();
+	}
+
+	protected override void OnCancel ()
+	{
+		turn.actor.dir = startDir;
+		turn.actor.Match();
+		owner.ChangeState<CommandSelectionState>();
 	}
 
 	IEnumerator ComputerControl ()

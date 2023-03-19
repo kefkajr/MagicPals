@@ -40,17 +40,14 @@ public class ItemTargetState : BattleState
 		}
 	}
 
-	protected override void OnFire(object sender, InfoEventArgs<int> e)
+	protected override void OnSubmit()
 	{
-		if (e.info == 0)
-		{
-			if (ar.directionOriented || tiles.Contains(board.GetTile(pos)))
-				owner.ChangeState<ConfirmAbilityTargetState>();
-		}
-		else
-		{
-			owner.ChangeState<CategorySelectionState>();
-		}
+		if (ar.directionOriented || tiles.Contains(board.GetTile(pos)))
+			owner.ChangeState<ConfirmAbilityTargetState>();			
+	}
+
+	protected override void OnCancel() {
+		owner.ChangeState<CategorySelectionState>();
 	}
 
 	void ChangeDirection(Point p)

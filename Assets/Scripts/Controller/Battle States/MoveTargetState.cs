@@ -31,17 +31,14 @@ public class MoveTargetState : BattleState
 		RefreshPrimaryStatPanel(pos);
 	}
 	
-	protected override void OnFire (object sender, InfoEventArgs<int> e)
+	protected override void OnSubmit ()
 	{
-		if (e.info == 0)
-		{
-			if (tiles.Contains(owner.currentTile))
-				owner.ChangeState<MoveSequenceState>();
-		}
-		else
-		{
-			owner.ChangeState<CommandSelectionState>();
-		}
+		if (tiles.Contains(owner.currentTile))
+			owner.ChangeState<MoveSequenceState>();
+	}
+
+	protected override void OnCancel() {
+		owner.ChangeState<CommandSelectionState>();
 	}
 
 	IEnumerator ComputerHighlightMoveTarget ()

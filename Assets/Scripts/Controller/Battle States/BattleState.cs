@@ -29,14 +29,14 @@ public abstract class BattleState : State
 		if (driver == null || driver.Current == DriverType.Human)
 		{
 			InputController.moveEvent += OnMove;
-			InputController.fireEvent += OnFire;
+			InputController.submitEvent += OnSubmit;
 		}
 	}
 	
 	protected override void RemoveListeners ()
 	{
 		InputController.moveEvent -= OnMove;
-		InputController.fireEvent -= OnFire;
+		InputController.submitEvent -= OnSubmit;
 	}
 
 	public override void Enter ()
@@ -75,7 +75,12 @@ public abstract class BattleState : State
 		
 	}
 	
-	protected virtual void OnFire (object sender, InfoEventArgs<int> e)
+	protected virtual void OnSubmit ()
+	{
+		
+	}
+
+	protected virtual void OnCancel ()
 	{
 		
 	}

@@ -40,26 +40,23 @@ public class AbilityTargetState : BattleState
 		}
 	}
 	
-	protected override void OnFire (object sender, InfoEventArgs<int> e)
+	protected override void OnSubmit ()
 	{
-		if (e.info == 0)
+		if (ar.directionOriented || tiles.Contains(board.GetTile(pos)))
 		{
-			if (ar.directionOriented || tiles.Contains(board.GetTile(pos)))
-			{
-				turn.abilityEpicenterTile = board.GetTile(pos);
-				owner.ChangeState<ConfirmAbilityTargetState>();
-			}
+			turn.abilityEpicenterTile = board.GetTile(pos);
+			owner.ChangeState<ConfirmAbilityTargetState>();
 		}
+	}
+
+	protected override void OnCancel () {
+		// If the ability is inside of an item, return to the item list.
+		// Otherwise, go to the category list.
+		Merchandise merchandise = turn.ability.GetComponentInParent<Merchandise>();
+		if (merchandise != null)
+			owner.ChangeState<ItemOptionState>();
 		else
-		{
-			// If the ability is inside of an item, return to the item list.
-			// Otherwise, go to the category list.
-			Merchandise merchandise = turn.ability.GetComponentInParent<Merchandise>();
-			if (merchandise != null)
-				owner.ChangeState<ItemOptionState>();
-			else
-				owner.ChangeState<CategorySelectionState>();
-		}
+			owner.ChangeState<CategorySelectionState>();
 	}
 	
 	void ChangeDirection (Point p)

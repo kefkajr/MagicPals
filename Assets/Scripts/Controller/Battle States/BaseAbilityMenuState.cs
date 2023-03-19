@@ -22,14 +22,6 @@ public abstract class BaseAbilityMenuState : BattleState
 		descriptionPanelController.Hide();
 	}
 
-	protected override void OnFire (object sender, InfoEventArgs<int> e)
-	{
-		if (e.info == 0)
-			Confirm();
-		else
-			Cancel();
-	}
-
 	protected override void OnMove(object sender, MoveEventData moveEventData)
 	{
 		if (moveEventData.point.x > 0 || moveEventData.point.y < 0)
@@ -39,6 +31,4 @@ public abstract class BaseAbilityMenuState : BattleState
 	}
 
 	protected abstract void LoadMenu ();
-	protected abstract void Confirm ();
-	protected abstract void Cancel ();
 }

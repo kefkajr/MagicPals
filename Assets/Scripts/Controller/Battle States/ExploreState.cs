@@ -21,9 +21,8 @@ public class ExploreState : BattleState
 		RefreshPrimaryStatPanel(pos);
 	}
 	
-	protected override void OnFire (object sender, InfoEventArgs<int> e)
+	protected override void OnSubmit ()
 	{
-		if (e.info == 0)
-			owner.ChangeState<CommandSelectionState>();
+		owner.ChangeState<CommandSelectionState>();
 	}
 }

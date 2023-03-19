@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 using System;
-using System.Collections;
+using UnityEngine.InputSystem;
 
 class Repeater
 {
-	const float threshold = 0.5f;
+	const float threshold = 0.4f;
 	const float rate = 0.25f;
 	float _next;
 	bool _hold;
@@ -15,11 +15,9 @@ class Repeater
 		_axis = axisName;
 	}
 	
-	public int Update ()
+	public int Update (int value)
 	{
-		int retValue = 0;
-		int value = Mathf.RoundToInt( Input.GetAxisRaw(_axis) );
-		
+		int retValue = 0;		
 		if (value != 0)
 		{
 			if (Time.time > _next)
@@ -39,51 +37,69 @@ class Repeater
 	}
 }
 
-public class InputController : MonoBehaviour 
+public class InputController : MonoBehaviour
 {
 	public static event EventHandler<InfoEventArgs<Point>> moveEvent;
-	public static event EventHandler<InfoEventArgs<int>> fireEvent;
+	public static event Action cancelEvent;
+	public static event Action submitEvent;
 	public static event EventHandler<InfoEventArgs<int>> turnCameraEvent;
-	public static event EventHandler<int> tiltCameraEvent;
+	public static event Action tiltCameraEvent;
+
+	PlayerInputActions pia;
 
 	Repeater _hor = new Repeater("Horizontal");
 	Repeater _ver = new Repeater("Vertical");
-	string[] _buttons = new string[] {"Fire1", "Fire2", "Fire3" };
-	KeyCode[] _cameraTurners = new KeyCode[] { KeyCode.LeftBracket, KeyCode.RightBracket };
 
-	void Update () 
-	{
-		int x = _hor.Update();
-		int y = _ver.Update();
+	void Awake() {
+		pia = new PlayerInputActions();
+	}
+
+	void OnEnable() {
+		pia.Enable();
+
+		pia.UI.Navigate.performed += DidNavigate;
+		pia.UI.Submit.performed += DidSubmit;
+		pia.UI.Cancel.performed += DidCancel;
+		pia.UI.TurnCameraLeft.performed += delegate(InputAction.CallbackContext context) { DidCameraTurn(context, -1); };
+		pia.UI.TurnCameraRight.performed += delegate(InputAction.CallbackContext context) { DidCameraTurn(context, 1); };
+		pia.UI.TiltCamera.performed += DidCameraTilt;
+	}
+
+	void OnDisable() {
+		pia.Disable();
+
+		pia.UI.Navigate.performed -= DidNavigate;
+		pia.UI.Submit.performed -= DidSubmit;
+		pia.UI.Cancel.performed -= DidCancel;
+		pia.UI.TurnCameraLeft.performed -= delegate(InputAction.CallbackContext context) { DidCameraTurn(context, -1); };
+		pia.UI.TurnCameraRight.performed -= delegate(InputAction.CallbackContext context) { DidCameraTurn(context, 1); };
+		pia.UI.TiltCamera.performed -= DidCameraTilt;
+	}
+
+	void DidNavigate(InputAction.CallbackContext context) {
+		Vector2 v = context.ReadValue<Vector2>();
+		int x = _hor.Update((int)v.x);
+		int y = _ver.Update((int)v.y);
 		if (x != 0 || y != 0)
 		{
 			if (moveEvent != null)
 				moveEvent(this, new InfoEventArgs<Point>(new Point(x, y)));
 		}
+	}
 
-		for (int i = 0; i < _buttons.Length; ++i)
-		{
-			if (Input.GetButtonUp(_buttons[i]))
-			{
-				if (fireEvent != null)
-					fireEvent(this, new InfoEventArgs<int>(i));
-			}
-		}
+	void DidSubmit(InputAction.CallbackContext context) {
+		submitEvent();
+	}
 
-		if (turnCameraEvent != null)
-		{
-			if (Input.GetKeyUp(_cameraTurners[0]))
-				turnCameraEvent(this, new InfoEventArgs<int>(-1));
-			if (Input.GetKeyUp(_cameraTurners[1]))
-				turnCameraEvent(this, new InfoEventArgs<int>(1));
-		}
+	void DidCancel(InputAction.CallbackContext context) {
+		cancelEvent();
+	}
 
-		if (tiltCameraEvent != null)
-        {
-			if (Input.GetKeyUp(KeyCode.Backslash))
-            {
-				tiltCameraEvent(this, 0);
-            }
-        }
+	void DidCameraTurn(InputAction.CallbackContext context, int turn) {
+		turnCameraEvent(this, new InfoEventArgs<int>(turn));
+	}
+
+	void DidCameraTilt(InputAction.CallbackContext context) {
+		tiltCameraEvent();
 	}
 }

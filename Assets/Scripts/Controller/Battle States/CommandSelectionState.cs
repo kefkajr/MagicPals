@@ -58,7 +58,7 @@ public class CommandSelectionState : BaseAbilityMenuState
 		abilityMenuPanelController.SetLocked(menuOptions.IndexOf(Option.Item), inventory.items.Count < 1);
 	}
 
-	protected override void Confirm ()
+	protected override void OnSubmit ()
 	{
 		int currentSelection = abilityMenuPanelController.selection;
 		string selectedOption = menuOptions[currentSelection];
@@ -89,7 +89,7 @@ public class CommandSelectionState : BaseAbilityMenuState
 		}
 	}
 
-	protected override void Cancel ()
+	protected override void OnCancel ()
 	{
 		if (turn.hasUnitMoved && !turn.lockMove)
 		{
