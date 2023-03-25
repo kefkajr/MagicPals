@@ -17,7 +17,7 @@ public class AbilityMenuPanelController : MonoBehaviour
 	[SerializeField] public Text titleLabel;
 	[SerializeField] public Panel panel;
 	[SerializeField] public GameObject canvas;
-	List<AbilityMenuEntry> menuEntries = new List<AbilityMenuEntry>(MenuCount);
+	public List<AbilityMenuEntry> menuEntries = new List<AbilityMenuEntry>(MenuCount);
 	public int selection { get; private set; }
 	#endregion
 
@@ -98,16 +98,28 @@ public class AbilityMenuPanelController : MonoBehaviour
 		}
 	}
 
-	public void HandlePointer(Vector2 v) {
-		if (RaycastUtilities.PointerIsOverObject(v, panel.gameObject)) {
-			// Check if 
-		}
+	public bool SetSelection (int value)
+	{
+		if (menuEntries[value].IsLocked)
+			return false;
+		
+		// Deselect the previously selected entry
+		if (selection >= 0 && selection < menuEntries.Count)
+			Deselect();
+		
+		selection = value;
+		
+		// Select the new entry
+		if (selection >= 0 && selection < menuEntries.Count)
+			menuEntries[selection].IsSelected = true;
+		
+		return true;
 	}
 
-	public void DidPointerEnterEntry(AbilityMenuEntry entry) {
-		int index = menuEntries.IndexOf(entry);
-		SetSelection(index);
+	public void Deselect() {
+		menuEntries[selection].IsSelected = false;
 	}
+	
 	#endregion
 
 	#region Private
@@ -134,24 +146,6 @@ public class AbilityMenuPanelController : MonoBehaviour
 		for (int i = menuEntries.Count - 1; i >= 0; --i)
 			Enqueue(menuEntries[i]);
 		menuEntries.Clear();
-	}
-
-	bool SetSelection (int value)
-	{
-		if (menuEntries[value].IsLocked)
-			return false;
-		
-		// Deselect the previously selected entry
-		if (selection >= 0 && selection < menuEntries.Count)
-			menuEntries[selection].IsSelected = false;
-		
-		selection = value;
-		
-		// Select the new entry
-		if (selection >= 0 && selection < menuEntries.Count)
-			menuEntries[selection].IsSelected = true;
-		
-		return true;
 	}
 
 	Tweener TogglePos (string pos)

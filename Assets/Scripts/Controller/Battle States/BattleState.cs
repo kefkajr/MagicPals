@@ -30,6 +30,7 @@ public abstract class BattleState : State
 		{
 			InputController.moveEvent += OnMove;
 			InputController.pointEvent += OnPoint;
+			InputController.clickEvent += OnClick;
 			InputController.submitEvent += OnSubmit;
 			InputController.cancelEvent += OnCancel;
 		}
@@ -39,6 +40,7 @@ public abstract class BattleState : State
 	{
 		InputController.moveEvent -= OnMove;
 		InputController.pointEvent -= OnPoint;
+		InputController.clickEvent -= OnClick;
 		InputController.submitEvent -= OnSubmit;
 		InputController.cancelEvent -= OnCancel;
 	}
@@ -80,6 +82,11 @@ public abstract class BattleState : State
 	}
 
 	protected virtual void OnPoint (object sender, Vector2 v)
+	{
+		
+	}
+
+	protected virtual void OnClick (object sender, Vector2 v)
 	{
 		
 	}

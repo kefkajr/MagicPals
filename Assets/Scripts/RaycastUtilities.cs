@@ -17,7 +17,7 @@ public static class RaycastUtilities
         var results = new List<RaycastResult>();
         EventSystem.current.RaycastAll(pointerData, results);
         foreach(RaycastResult r in results) {
-            Debug.Log(r.gameObject.name);
+            Debug.Log(r.gameObject);
         }
         return results.Select(r => r.gameObject).ToList();
     }

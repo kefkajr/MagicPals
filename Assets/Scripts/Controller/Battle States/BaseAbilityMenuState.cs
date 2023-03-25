@@ -30,9 +30,29 @@ public abstract class BaseAbilityMenuState : BattleState
 			abilityMenuPanelController.Previous();
 	}
 
-	protected override void OnPoint(object sender, Vector2 v)
+	protected override void OnPoint (object sender, Vector2 v) {
+		// Found out which entry has the pointer of it and highlight it.
+		for(int i = 0; i < abilityMenuPanelController.menuEntries.Count; i ++) {
+			var entry = abilityMenuPanelController.menuEntries[i];
+			if (RaycastUtilities.PointerIsOverObject(v, entry.gameObject)) {
+				abilityMenuPanelController.SetSelection(i);
+				return;
+			}
+		}
+
+		// If pointer wanders off of menu panel, deselect all entries;
+		if (RaycastUtilities.PointerIsOverObject(v, abilityMenuPanelController.panel.gameObject)) {
+			abilityMenuPanelController.Deselect();
+		}
+	}
+
+	protected override void OnClick (object sender, Vector2 v)
 	{
-		// abilityMenuPanelController.HandlePointer(v);
+		if(RaycastUtilities.PointerIsOverObject(v, abilityMenuPanelController.panel.gameObject)) {
+			OnSubmit();
+		} else {
+			OnCancel();
+		}
 	}
 
 	protected abstract void LoadMenu ();

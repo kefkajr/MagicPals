@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 class Repeater
 {
@@ -46,7 +47,9 @@ public class InputController : MonoBehaviour
 	public static event Action tiltCameraEvent;
 
 	public static event EventHandler<Vector2> pointEvent;
+	public static event EventHandler<Vector2> clickEvent;
 
+	public Vector2 mousePosition;
 	PlayerInput pia;
 
 	Repeater _hor = new Repeater("Horizontal");
@@ -58,6 +61,7 @@ public class InputController : MonoBehaviour
 
 	void OnEnable() {
 		pia.actions["Point"].performed += DidPoint;
+		pia.actions["Click"].performed += DidClick;
 		pia.actions["Submit"].performed += DidSubmit;
 		pia.actions["Cancel"].performed += DidCancel;
 		pia.actions["Turn Camera"].performed += DidCameraTurn;
@@ -66,6 +70,7 @@ public class InputController : MonoBehaviour
 
 	void OnDisable() {
 		pia.actions["Point"].performed += DidPoint;
+		pia.actions["Click"].performed += DidClick;
 		pia.actions["Submit"].performed -= DidSubmit;
 		pia.actions["Cancel"].performed -= DidCancel;
 		pia.actions["Turn Camera"].performed -= DidCameraTurn;
@@ -103,8 +108,12 @@ public class InputController : MonoBehaviour
 	void DidCameraTilt(InputAction.CallbackContext context) {
 		tiltCameraEvent();
 	}
-
+	
 	void DidPoint(InputAction.CallbackContext context) {
-		pointEvent(this, context.ReadValue<Vector2>());
+		mousePosition = context.ReadValue<Vector2>();
+		pointEvent(this, mousePosition);
+	}
+	void DidClick(InputAction.CallbackContext context) {
+		clickEvent(this, mousePosition);
 	}
 }

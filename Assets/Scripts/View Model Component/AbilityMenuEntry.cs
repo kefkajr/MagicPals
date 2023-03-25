@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.EventSystems;
 
-public class AbilityMenuEntry : MonoBehaviour, IPointerEnterHandler
+public class AbilityMenuEntry : MonoBehaviour
 {
 	#region Enums
 	[System.Flags]
@@ -104,9 +104,4 @@ public class AbilityMenuEntry : MonoBehaviour, IPointerEnterHandler
 		this.controller = controller;
 	}
 	#endregion
-
-	public void OnPointerEnter(PointerEventData eventData)
-	{
-		controller.DidPointerEnterEntry(this);
-	}
 }
