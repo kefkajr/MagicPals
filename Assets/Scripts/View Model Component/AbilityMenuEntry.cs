@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using UnityEngine.EventSystems;
 
-public class AbilityMenuEntry : MonoBehaviour 
+public class AbilityMenuEntry : MonoBehaviour, IPointerEnterHandler
 {
 	#region Enums
 	[System.Flags]
@@ -74,6 +75,8 @@ public class AbilityMenuEntry : MonoBehaviour
 			}
 		}
 	}
+
+	AbilityMenuPanelController controller;
 	States state;
 	
 	[SerializeField] public Image bullet;
@@ -96,5 +99,14 @@ public class AbilityMenuEntry : MonoBehaviour
 	{
 		State = States.None;
 	}
+
+	public void SetController(AbilityMenuPanelController controller) {
+		this.controller = controller;
+	}
 	#endregion
+
+	public void OnPointerEnter(PointerEventData eventData)
+	{
+		controller.DidPointerEnterEntry(this);
+	}
 }

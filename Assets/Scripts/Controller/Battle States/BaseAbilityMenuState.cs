@@ -30,5 +30,10 @@ public abstract class BaseAbilityMenuState : BattleState
 			abilityMenuPanelController.Previous();
 	}
 
+	protected override void OnPoint(object sender, Vector2 v)
+	{
+		// abilityMenuPanelController.HandlePointer(v);
+	}
+
 	protected abstract void LoadMenu ();
 }

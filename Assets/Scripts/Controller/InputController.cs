@@ -45,6 +45,8 @@ public class InputController : MonoBehaviour
 	public static event EventHandler<float> turnCameraEvent;
 	public static event Action tiltCameraEvent;
 
+	public static event EventHandler<Vector2> pointEvent;
+
 	PlayerInput pia;
 
 	Repeater _hor = new Repeater("Horizontal");
@@ -55,6 +57,7 @@ public class InputController : MonoBehaviour
 	}
 
 	void OnEnable() {
+		pia.actions["Point"].performed += DidPoint;
 		pia.actions["Submit"].performed += DidSubmit;
 		pia.actions["Cancel"].performed += DidCancel;
 		pia.actions["Turn Camera"].performed += DidCameraTurn;
@@ -62,6 +65,7 @@ public class InputController : MonoBehaviour
 	}
 
 	void OnDisable() {
+		pia.actions["Point"].performed += DidPoint;
 		pia.actions["Submit"].performed -= DidSubmit;
 		pia.actions["Cancel"].performed -= DidCancel;
 		pia.actions["Turn Camera"].performed -= DidCameraTurn;
@@ -98,5 +102,9 @@ public class InputController : MonoBehaviour
 
 	void DidCameraTilt(InputAction.CallbackContext context) {
 		tiltCameraEvent();
+	}
+
+	void DidPoint(InputAction.CallbackContext context) {
+		pointEvent(this, context.ReadValue<Vector2>());
 	}
 }

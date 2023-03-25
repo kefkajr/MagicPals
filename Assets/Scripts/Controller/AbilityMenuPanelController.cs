@@ -97,6 +97,17 @@ public class AbilityMenuPanelController : MonoBehaviour
 				break;
 		}
 	}
+
+	public void HandlePointer(Vector2 v) {
+		if (RaycastUtilities.PointerIsOverObject(v, panel.gameObject)) {
+			// Check if 
+		}
+	}
+
+	public void DidPointerEnterEntry(AbilityMenuEntry entry) {
+		int index = menuEntries.IndexOf(entry);
+		SetSelection(index);
+	}
 	#endregion
 
 	#region Private
@@ -104,6 +115,7 @@ public class AbilityMenuPanelController : MonoBehaviour
 	{
 		Poolable p = GameObjectPoolController.Dequeue(EntryPoolKey);
 		AbilityMenuEntry entry = p.GetComponent<AbilityMenuEntry>();
+		entry.SetController(this);
 		entry.transform.SetParent(panel.transform, false);
 		entry.transform.localScale = Vector3.one;
 		entry.gameObject.SetActive(true);
