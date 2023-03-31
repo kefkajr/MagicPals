@@ -53,6 +53,16 @@ public class ItemSelectionState : BaseAbilityMenuState
 	protected override void OnMove(object sender, MoveEventData d)
 	{
 		base.OnMove(sender, d);
+		ShowItemDescription();
+	}
+
+	protected override void OnPoint(object sender, Vector2 v)
+	{
+		base.OnPoint(sender, v);
+		ShowItemDescription();
+	}
+
+	void ShowItemDescription() {
 		Merchandise item = inventory.items[abilityMenuPanelController.selection]; ;
 		descriptionPanelController.Show(item.describable);
 	}
