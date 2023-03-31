@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.EventSystems;
 
 public abstract class BattleState : State 
 {
@@ -78,12 +79,19 @@ public abstract class BattleState : State
 
 	protected virtual void OnMove (object sender, MoveEventData d)
 	{
-		
+		SelectTile(d.pointTranslatedByCameraDirection + pos);
+		RefreshPrimaryStatPanel(pos);
 	}
 
 	protected virtual void OnPoint (object sender, Vector2 v)
 	{
-		
+		foreach (Tile tile in owner.board.tiles.Values)
+		{
+			if (RaycastUtilities.IsPointerOverGameObject(v, tile.gameObject)) {
+				SelectTile(tile.pos);
+				break;
+			}
+		}
 	}
 
 	protected virtual void OnClick (object sender, Vector2 v)

@@ -34,21 +34,21 @@ public abstract class BaseAbilityMenuState : BattleState
 		// Found out which entry has the pointer of it and highlight it.
 		for(int i = 0; i < abilityMenuPanelController.menuEntries.Count; i ++) {
 			var entry = abilityMenuPanelController.menuEntries[i];
-			if (RaycastUtilities.PointerIsOverObject(v, entry.gameObject)) {
+			if (RaycastUtilities.IsPointerOverUIObject(v, entry.gameObject)) {
 				abilityMenuPanelController.SetSelection(i);
 				return;
 			}
 		}
 
 		// If pointer wanders off of menu panel, deselect all entries;
-		if (RaycastUtilities.PointerIsOverObject(v, abilityMenuPanelController.panel.gameObject)) {
+		if (RaycastUtilities.IsPointerOverUIObject(v, abilityMenuPanelController.panel.gameObject)) {
 			abilityMenuPanelController.Deselect();
 		}
 	}
 
 	protected override void OnClick (object sender, Vector2 v)
 	{
-		if(RaycastUtilities.PointerIsOverObject(v, abilityMenuPanelController.panel.gameObject)) {
+		if(RaycastUtilities.IsPointerOverUIObject(v, abilityMenuPanelController.panel.gameObject)) {
 			OnSubmit();
 		} else {
 			OnCancel();

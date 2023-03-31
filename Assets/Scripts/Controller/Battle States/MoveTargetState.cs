@@ -24,13 +24,6 @@ public class MoveTargetState : BattleState
 		tiles = null;
 		statPanelController.HidePrimary();
 	}
-
-	protected override void OnMove(object sender, MoveEventData moveEventData)
-	{
-		SelectTile(moveEventData.pointTranslatedByCameraDirection + pos);
-		RefreshPrimaryStatPanel(pos);
-	}
-	
 	protected override void OnSubmit ()
 	{
 		if (tiles.Contains(owner.currentTile))

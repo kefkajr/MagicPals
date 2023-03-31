@@ -14,12 +14,6 @@ public class ExploreState : BattleState
 		base.Exit ();
 		statPanelController.HidePrimary();
 	}
-
-	protected override void OnMove(object sender, MoveEventData d)
-	{
-		SelectTile(d.pointTranslatedByCameraDirection + pos);
-		RefreshPrimaryStatPanel(pos);
-	}
 	
 	protected override void OnSubmit ()
 	{
