@@ -143,11 +143,11 @@ public static class UnitFactory
 		// TODO Instead of this, instantiate the prefabs
 
 		List <GameObject> items = new List<GameObject>();
-		items.Add(InstantiatePrefab("Merchandise/" + "Sword"));
-		items.Add(InstantiatePrefab("Merchandise/" + "Shield"));
-		items.Add(InstantiatePrefab("Merchandise/" + "Winged Helmet"));
-		items.Add(InstantiatePrefab("Merchandise/" + "Health Potion"));
-		items.Add(InstantiatePrefab("Merchandise/" + "Bomb"));
+		// items.Add(InstantiatePrefab("Merchandise/" + "Sword"));
+		// items.Add(InstantiatePrefab("Merchandise/" + "Shield"));
+		// items.Add(InstantiatePrefab("Merchandise/" + "Winged Helmet"));
+		// items.Add(InstantiatePrefab("Merchandise/" + "Health Potion"));
+		// items.Add(InstantiatePrefab("Merchandise/" + "Bomb"));
 
         // Set items within inventory, and equip them if possible
         foreach (GameObject item in items)

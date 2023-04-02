@@ -647,6 +647,17 @@
                 },
                 {
                     "name": "",
+                    "id": "9b2da6b2-e1b0-43fa-a8cd-963553a7bf8b",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Submit",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "ce62b8a9-c901-4b34-b8a7-f8975b5839b2",
                     "path": "*/{Cancel}",
                     "interactions": "",
@@ -660,6 +671,28 @@
                     "name": "",
                     "id": "b863e62a-a5b1-44c2-97a5-7619c7cb46f0",
                     "path": "<Keyboard>/shift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Cancel",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fbde67bc-5c6a-45bf-96a8-81a6a7de631f",
+                    "path": "<Keyboard>/leftMeta",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Cancel",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "54082ac7-abd8-4ebb-ba3a-d6d3d9083dda",
+                    "path": "<Keyboard>/rightMeta",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

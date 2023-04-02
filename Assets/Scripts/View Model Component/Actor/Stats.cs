@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public class Stats : MonoBehaviour
 {
@@ -26,13 +27,19 @@ public class Stats : MonoBehaviour
 	#region Fields / Properties
 	public int this[StatTypes s]
 	{
-		get { return _data[(int)s]; }
+		get { return data[(int)s].value; }
 		set { SetValue(s, value, true); }
 	}
-	int[] _data = new int[ (int)StatTypes.Count ];
+	public Stat[] data = Stats.AllStatTypes().Select(t => new Stat(t)).ToArray();
 	#endregion
 	
 	#region Public
+    void Awake() {
+		foreach(StatTypes type in AllStatTypes()) {
+			Stat stat = new Stat(type);
+		}
+	}
+
 	public void SetValue (StatTypes type, int value, bool allowAdjustments)
 	{
 		int oldValue = this[type];
@@ -55,8 +62,12 @@ public class Stats : MonoBehaviour
 				return;
 		}
 		
-		_data[(int)type] = value;
+		data[(int)type].value = value;
 		this.PostNotification(DidChangeNotification(type), oldValue);
 	}
 	#endregion
+
+	static StatTypes[] AllStatTypes() {
+		return new StatTypes[] { StatTypes.LVL, StatTypes.EXP, StatTypes.HP, StatTypes.MHP, StatTypes.MP, StatTypes.MMP, StatTypes.ATK, StatTypes.DEF, StatTypes.MAT, StatTypes.MDF, StatTypes.EVD, StatTypes.RES, StatTypes.SPD, StatTypes.MOV, StatTypes.JMP, StatTypes.CTR };
+	}
 }

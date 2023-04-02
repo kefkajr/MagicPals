@@ -3,6 +3,8 @@ using System.Collections;
 
 public class CameraRig : MonoBehaviour 
 {
+	public enum FollowType { Mouse, Other }
+
 	public float speed = 3f;
 	public Transform follow;
 
