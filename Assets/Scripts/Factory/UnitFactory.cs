@@ -22,11 +22,11 @@ public static class UnitFactory
 		GameObject unitObject = InstantiatePrefab("Units/" + recipe.model);
 		unitObject.name = recipe.name;
 		unitObject.AddComponent<Unit>();
-		AddStats(unitObject);
+		AddStats(unitObject, recipe.statsTemplate);
 		AddLocomotion(unitObject, recipe.locomotion);
 		unitObject.AddComponent<Status>();
-		AddJob(unitObject, recipe.job);
-		AddRank(unitObject);
+		// AddJob(unitObject, recipe.job);
+		// AddRank(unitObject); 
 		unitObject.AddComponent<Health>();
 		unitObject.AddComponent<Mana>();
 		AddAttack(unitObject, recipe.attack);
@@ -54,10 +54,10 @@ public static class UnitFactory
 		return instance;
 	}
 
-	static void AddStats (GameObject unitObject)
+	static void AddStats (GameObject unitObject, StatsTemplate template)
 	{
 		Stats s = unitObject.AddComponent<Stats>();
-		s.SetValue(StatTypes.LVL, 1, false);
+		s.InitializeWithTemplate(template);
 	}
 
 	static void AddJob (GameObject unitObject, string name)

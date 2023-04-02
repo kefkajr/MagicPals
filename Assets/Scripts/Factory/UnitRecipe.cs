@@ -12,4 +12,5 @@ public class UnitRecipe : ScriptableObject
 	public Locomotions locomotion;
 	public Alliances alliance;
 	public PerceptionRecipe perceptionRecipe;
+	public StatsTemplate statsTemplate;
 }

@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed5a76bb92b0a4e5bb0f37ddf4ca9e9a, type: 3}
+  m_Name: HeroStatsTemplate
+  m_EditorClassIdentifier: 
+  data:
+    m_keys: 0300000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e000000
+    m_values:
+    - type: 3
+      value: 2
+    - type: 5
+      value: 3
+    - type: 6
+      value: 1
+    - type: 7
+      value: 0
+    - type: 8
+      value: 1
+    - type: 9
+      value: 1
+    - type: 10
+      value: 50
+    - type: 11
+      value: 50
+    - type: 12
+      value: 100
+    - type: 13
+      value: 4
+    - type: 14
+      value: 3

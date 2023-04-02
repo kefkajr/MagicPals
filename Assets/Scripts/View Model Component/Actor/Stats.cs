@@ -25,19 +25,23 @@ public class Stats : MonoBehaviour
 	#endregion
 	
 	#region Fields / Properties
-	public int this[StatTypes s]
+	public int this[StatTypes t]
 	{
-		get { return data[(int)s].value; }
-		set { SetValue(s, value, true); }
+		get { return data[t].value; }
+		set { SetValue(t, value, true); }
 	}
-	public Stat[] data = Stats.AllStatTypes().Select(t => new Stat(t)).ToArray();
+	SerializableDictionary<StatTypes, Stat> data = new SerializableDictionary<StatTypes, Stat>(Stats.AllStatTypes().ToDictionary(t => t, t => new Stat(t)));
 	#endregion
 	
 	#region Public
-    void Awake() {
-		foreach(StatTypes type in AllStatTypes()) {
-			Stat stat = new Stat(type);
+
+	public void InitializeWithTemplate(StatsTemplate template) {
+		foreach(Stat stat in template.data.Values.ToList()) {
+			data[stat.type].value = stat.value;
 		}
+		data[StatTypes.HP].value = data[StatTypes.MHP].value;
+		data[StatTypes.MP].value = data[StatTypes.MMP].value;
+		data[StatTypes.LVL].value = 1;
 	}
 
 	public void SetValue (StatTypes type, int value, bool allowAdjustments)
@@ -62,12 +66,16 @@ public class Stats : MonoBehaviour
 				return;
 		}
 		
-		data[(int)type].value = value;
+		data[type].value = value;
 		this.PostNotification(DidChangeNotification(type), oldValue);
 	}
 	#endregion
 
-	static StatTypes[] AllStatTypes() {
+	public static StatTypes[] AllStatTypes() {
 		return new StatTypes[] { StatTypes.LVL, StatTypes.EXP, StatTypes.HP, StatTypes.MHP, StatTypes.MP, StatTypes.MMP, StatTypes.ATK, StatTypes.DEF, StatTypes.MAT, StatTypes.MDF, StatTypes.EVD, StatTypes.RES, StatTypes.SPD, StatTypes.MOV, StatTypes.JMP, StatTypes.CTR };
+	}
+
+	public static StatTypes[] TemplateStatTypes() {
+		return new StatTypes[] { StatTypes.MHP, StatTypes.MMP, StatTypes.ATK, StatTypes.DEF, StatTypes.MAT, StatTypes.MDF, StatTypes.EVD, StatTypes.RES, StatTypes.SPD, StatTypes.MOV, StatTypes.JMP };
 	}
 }

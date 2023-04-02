@@ -20,3 +20,4 @@ MonoBehaviour:
   locomotion: 0
   alliance: 4
   perceptionRecipe: {fileID: 11400000, guid: fc02c695f023448b8a13b06ce378615c, type: 2}
+  statsTemplate: {fileID: 11400000, guid: 95e6717ce11d64d458204b352cb5f76a, type: 2}

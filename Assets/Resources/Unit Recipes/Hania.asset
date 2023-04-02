@@ -16,7 +16,8 @@ MonoBehaviour:
   job: Wizard
   attack: Common/Attack
   abilityCatalog: DemoCatalog
-  strategy: 
+  attackPattern: 
   locomotion: 0
   alliance: 2
   perceptionRecipe: {fileID: 11400000, guid: fc02c695f023448b8a13b06ce378615c, type: 2}
+  statsTemplate: {fileID: 11400000, guid: c73530da8110a4c1b9949ba764abf38e, type: 2}
