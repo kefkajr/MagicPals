@@ -37,7 +37,7 @@ public class HealAbilityEffect : BaseAbilityEffect
 
 		// Apply the amount to the target
 		Stats s = defender.GetComponent<Stats>();
-		s.SetValue(StatTypes.HP, value, false);
+		s.SetValue(StatTypes.HP, value, true);
 		return value;
 	}
 }

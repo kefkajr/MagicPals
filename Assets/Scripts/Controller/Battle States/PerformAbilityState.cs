@@ -23,7 +23,7 @@ public class PerformAbilityState : BattleState
 		
 		if (IsBattleOver())
 			owner.ChangeState<CutSceneState>();
-		else if (!UnitHasControl())
+		else if (!UnitCanReceiveCommands())
 			owner.ChangeState<SelectUnitState>();
 		else if (turn.hasUnitMoved)
 			owner.ChangeState<EndFacingState>();
@@ -56,10 +56,5 @@ public class PerformAbilityState : BattleState
 	{
 		// Height isn't being handled right now for noise perception.
 		return (from.distance + 1) <= turn.ability.noisy.radius;
-	}
-
-	bool UnitHasControl ()
-	{
-		return turn.actor.GetComponentInChildren<KnockOutStatusEffect>() == null;
 	}
 }

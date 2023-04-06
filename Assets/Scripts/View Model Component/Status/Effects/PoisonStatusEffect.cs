@@ -23,6 +23,6 @@ public class PoisonStatusEffect : StatusEffect
 		int currentHP = s[StatTypes.HP];
 		int maxHP = s[StatTypes.MHP];
 		int reduce = Mathf.Min(currentHP, Mathf.FloorToInt(maxHP * 0.1f));
-		s.SetValue(StatTypes.HP, (currentHP - reduce), false);
+		s.SetValue(StatTypes.HP, (currentHP - reduce), true);
 	}
 }

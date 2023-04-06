@@ -27,14 +27,11 @@ public abstract class BattleState : State
 
 	protected override void AddListeners ()
 	{
-		if (driver == null || driver.Current == DriverType.Human)
-		{
-			InputController.moveEvent += OnMove;
-			InputController.pointEvent += OnPoint;
-			InputController.clickEvent += OnClick;
-			InputController.submitEvent += OnSubmit;
-			InputController.cancelEvent += OnCancel;
-		}
+		InputController.moveEvent += OnMove;
+		InputController.pointEvent += OnPoint;
+		InputController.clickEvent += OnClick;
+		InputController.submitEvent += OnSubmit;
+		InputController.cancelEvent += OnCancel;
 	}
 	
 	protected override void RemoveListeners ()
@@ -85,6 +82,9 @@ public abstract class BattleState : State
 
 	protected virtual void OnPoint (object sender, Vector2 v)
 	{
+		if (driver.Current == DriverType.Computer)
+			return;
+		
 		foreach (Tile tile in owner.board.tiles.Values)
 		{
 			if (RaycastUtilities.IsPointerOverGameObject(v, tile.gameObject)) {
@@ -152,6 +152,11 @@ public abstract class BattleState : State
 	{
 		BaseVictoryCondition vc = owner.GetComponent<BaseVictoryCondition>();
 		return vc.Victor != Alliances.None;
+	}
+
+	protected virtual bool UnitCanReceiveCommands()
+	{
+		return turn.actor.KO == null;
 	}
 
 	public struct MoveEventData

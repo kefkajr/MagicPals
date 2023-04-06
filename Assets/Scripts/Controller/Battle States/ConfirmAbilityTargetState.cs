@@ -71,7 +71,7 @@ public class ConfirmAbilityTargetState : BattleState
     {
 		// Check to see if, on execution, a different target is hit by the missle.
 		ConstantAbilityRange range = turn.ability.GetComponentInChildren<ConstantAbilityRange>();
-		if (range != null && !range.doesPassThroughWalls)
+		if (range != null && range.isMissile)
         {
 			Unit targetImpedingMissle = board.UnitImpedingMissile(turn.actor.tile, pos);
 			if (targetImpedingMissle != null) {

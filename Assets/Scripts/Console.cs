@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿#nullable enable
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -56,7 +57,7 @@ public class Console : MonoBehaviour
         yield return null;
     }
 
-    IEnumerator PulseLogEntry(Text text)
+    IEnumerator PulseLogEntry(Text? text)
     {
         Color pulseColor = Color.yellow;
         Color normalColor = Color.white;

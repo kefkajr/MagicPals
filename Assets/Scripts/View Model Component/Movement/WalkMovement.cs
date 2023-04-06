@@ -12,9 +12,16 @@ public class WalkMovement : Movement
 		if ((Mathf.Abs(from.height - to.height) > jumpHeight))
 			return false;
 
-		// Skip if the tile is occupied by an enemy
-		if (to.occupant != null)
-			return false;
+		// Skip if the tile is occupied by a conscious enemy
+		if (to.occupant != null) {
+			Unit other = to.occupant.GetComponent<Unit>();
+			if (other != null && other.KO == null) {
+				Alliance actorAlliance = unit.GetComponentInChildren<Alliance>();
+				Alliance otherAlliance = other.GetComponentInChildren<Alliance>();
+				if (actorAlliance.IsMatch(otherAlliance, TargetType.Foe))
+					return false;
+			}
+		}
 
 		// Skip if walls are blocking the way
 		if (board.WallSeparatingTiles(from, to) != null)

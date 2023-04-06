@@ -11,6 +11,7 @@ public class Board : MonoBehaviour
 	[SerializeField] public GameObject wallPrefab;
 	[SerializeField] public GameObject exitPrefab;
 	public Dictionary<Point, Tile> tiles = new Dictionary<Point, Tile>();
+	public List<Patrol> patrols = new List<Patrol>();
 	public Point min { get { return _min; }}
 	public Point max { get { return _max; }}
 	Point _min;
@@ -75,6 +76,12 @@ public class Board : MonoBehaviour
 			e.position = exitPoint;
 			e.height = tiles[exitPoint].height;
 			e.Match();
+		}
+
+		for (int i = 0; i < data.patrolTracks.Count; ++i) {
+			PatrolTrack track = data.patrolTracks[i];
+			Patrol patrol = new Patrol(track);
+			patrols.Add(patrol);
 		}
 	}
 
@@ -474,7 +481,7 @@ public class Board : MonoBehaviour
 					if (occupant != null)
 					{
 						Unit newTarget = occupant.GetComponent<Unit>();
-						if (newTarget != null)
+						if (newTarget != null && newTarget.KO == null)
 							return newTarget;
 					}
 				}
@@ -528,14 +535,22 @@ public class Board : MonoBehaviour
 
 	public void SelectTiles (List<Tile> tiles, Color color)
 	{
-		for (int i = tiles.Count - 1; i >= 0; --i)
-			tiles[i].GetComponent<Renderer>().material.SetColor("_Color", color);
+		for (int i = 0; i < tiles.Count; ++i) {
+			Tile tile = tiles[i];
+			if (tile == null)
+				continue;
+			tile.GetComponent<Renderer>().material.SetColor("_Color", color);
+		}
 	}
 
 	public void DeSelectTiles (List<Tile> tiles)
 	{
-		for (int i = tiles.Count - 1; i >= 0; --i)
-			tiles[i].GetComponent<Renderer>().material.SetColor("_Color", defaultTileColor);
+		for (int i = 0; i < tiles.Count; ++i) {
+			Tile tile = tiles[i];
+			if (tile == null)
+				continue;
+			tile.GetComponent<Renderer>().material.SetColor("_Color", defaultTileColor);
+		}
 	}
 
 	public void DeSelectAllTiles ()

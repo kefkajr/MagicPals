@@ -107,7 +107,7 @@ public class CameraRig : MonoBehaviour
 
 		if (tiltTweener != null) tiltTweener.Stop();
 
-		Vector3 euler = new Vector3(isTilted ? 0 : 36, 0, 0);
+		Vector3 euler = new Vector3(isTilted ? 90 : 36, 0, 0);
 
 		TransformLocalEulerTweener t = (TransformLocalEulerTweener)pitchTransform.RotateToLocal(euler, tiltDuration, EasingEquations.EaseInOutQuad);
 

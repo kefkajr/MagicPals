@@ -702,28 +702,6 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""fbde67bc-5c6a-45bf-96a8-81a6a7de631f"",
-                    ""path"": ""<Keyboard>/leftMeta"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Cancel"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""54082ac7-abd8-4ebb-ba3a-d6d3d9083dda"",
-                    ""path"": ""<Keyboard>/rightMeta"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Cancel"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""81b02f61-53f4-4921-8462-90596b1586cd"",
                     ""path"": ""<Mouse>/position"",
                     ""interactions"": """",

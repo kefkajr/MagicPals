@@ -16,7 +16,7 @@ public class ReviveAbilityEffect : BaseAbilityEffect
 		Stats s = target.occupant.GetComponent<Stats>();
 
 		int value = Predict(target);
-		s.SetValue(StatTypes.HP, value, false);
+		s.SetValue(StatTypes.HP, value, true);
 		return value;
 	}
 }

@@ -21,7 +21,7 @@ public class TrapSetState : BattleState
 
 		if (IsBattleOver())
 			owner.ChangeState<CutSceneState>();
-		else if (!UnitHasControl())
+		else if (!UnitCanReceiveCommands())
 			owner.ChangeState<SelectUnitState>();
 		else if (turn.hasUnitMoved)
 			owner.ChangeState<EndFacingState>();
@@ -34,10 +34,5 @@ public class TrapSetState : BattleState
 		Tile tile = currentTile;
 		tile.trap = turn.ability.GetComponent<Trap>();
     }
-
-	bool UnitHasControl()
-	{
-		return turn.actor.GetComponentInChildren<KnockOutStatusEffect>() == null;
-	}
 }
 

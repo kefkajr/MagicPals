@@ -364,7 +364,7 @@ public class ComputerPlayer : MonoBehaviour
 
 			AttackOption option = options[i];
 			int score = option.GetScore(actor, poa.ability);
-			Console.Main.Log(string.Format("Option {0} - Best Move: {1}, Target: {2}, Score: {3}", i, option.bestMoveTile.ToString(), option.target.ToString(), score));
+			// Console.Main.Log(string.Format("Option {0} - Best Move: {1}, Target: {2}, Score: {3}", i, option.bestMoveTile.ToString(), option.target.ToString(), score));
 
 			BC.board.SelectTiles(new List<Tile>{option.bestMoveTile}, Color.green);
 			BC.board.SelectTiles(option.areaTargets, Color.cyan);
@@ -454,7 +454,8 @@ public class ComputerPlayer : MonoBehaviour
 
 		List<Awareness> topAwarenesses = AC.TopAwarenesses(actor).FindAll( delegate (Awareness a) {
 			Alliance otherAlliance = a.stealth.unit.GetComponentInChildren<Alliance>();
-			return actorAlliance.IsMatch(otherAlliance, TargetType.Foe);
+			var knockout = a.stealth.unit.KO;
+			return actorAlliance.IsMatch(otherAlliance, TargetType.Foe) && knockout == null;
 		});
 		if (topAwarenesses.Count == 0) return;
 

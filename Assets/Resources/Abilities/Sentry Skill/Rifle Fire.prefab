@@ -62,7 +62,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   horizontal: 6
   vertical: 2147483647
-  doesPassThroughWalls: 0
+  isMissile: 1
 --- !u!114 &11490612
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -77,7 +77,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   horizontal: 0
   vertical: 2147483647
-  doesPassThroughWalls: 0
+  isMissile: 1
 --- !u!114 &7144873483728166675
 MonoBehaviour:
   m_ObjectHideFlags: 0

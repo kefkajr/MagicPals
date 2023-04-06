@@ -16,7 +16,7 @@ public class AutoStatusController : MonoBehaviour
 	void OnHPDidChangeNotification (object sender, object args)
 	{
 		Stats stats = sender as Stats;
-		if (stats[StatTypes.HP] == 0)
+		if (stats[StatTypes.HP] <= 0)
 		{
 			Status status = stats.GetComponentInChildren<Status>();
 			StatComparisonCondition c = status.Add<KnockOutStatusEffect, StatComparisonCondition>();

@@ -54,7 +54,7 @@ public class DamageAbilityEffect : BaseAbilityEffect
 		if (constantValue == null || constantValue == "")
 		{
 			// Add some random variance
-			value = Mathf.FloorToInt(value * UnityEngine.Random.Range(0.9f, 1.1f));
+			// value = Mathf.FloorToInt(value * UnityEngine.Random.Range(0.9f, 1.1f));
 
 			// Clamp the damage to a range
 			value = Mathf.Clamp(value, minDamage, maxDamage);
@@ -62,7 +62,8 @@ public class DamageAbilityEffect : BaseAbilityEffect
 
 		// Apply the damage to the target
 		Stats s = defender.GetComponent<Stats>();
-		s.SetValue(StatTypes.HP, value, false);
+		int newValue = s[StatTypes.HP] + value;
+		s.SetValue(StatTypes.HP, newValue, true);
 		Console.Main.Log(string.Format("{0} {1} {2} HP", defender.name, value < 0 ? "lost" : "gained", Mathf.Abs(value)));
 		return value;
 	}
