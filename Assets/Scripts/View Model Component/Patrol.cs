@@ -44,9 +44,12 @@ public class Patrol
                 break;
             case PatrolActionType.Face:
                 poa.moveLocation = board.GetTile(patrolAction.targetMovePoint) ?? poa.moveLocation;
-                poa.attackDirection = patrolAction.facingDirection;
                 break;
         }
+    }
+
+    public Direction GetCurrentDirection() {
+        return patrolActions[currentPatrolActionIndex].facingDirection;
     }
 }
 

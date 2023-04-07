@@ -212,6 +212,7 @@ public class AwarenessController : MonoBehaviour
 
 	public List<Awareness> TopAwarenesses(Unit perceivingUnit)
 	{
+		if (awarenessMap.Count == 0) return new List<Awareness>();
 		List<Awareness> relevantAwarenesses = awarenessMap[perceivingUnit].Select(kv => kv.Value).ToList();
 		List<Awareness> activeAwarenesses = relevantAwarenesses.Where(a => a.type != AwarenessType.Unaware).ToList();
 		List<Awareness> orderedAwarenesses = activeAwarenesses.OrderByDescending(a => (int)a.type).ToList();

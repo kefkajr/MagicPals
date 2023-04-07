@@ -14,6 +14,7 @@ public class ComputerPlayer : MonoBehaviour
 	Perception perception { get { return actor.GetComponent<Perception>(); } }
 	Unit topPriorityFoe;
 	Tile topPriorityTileOfInterest;
+	Patrol patrol;
 	#endregion
 	
 	#region MonoBehaviour
@@ -66,13 +67,14 @@ public class ComputerPlayer : MonoBehaviour
 				/// TODO: Update the attack option algorithm to just give us the best move option for next turn.
 				yield return Investigate(poa);
 			} else {
-				Patrol patrol = PC.GetPatrolForUnit(actor);
+				this.patrol = PC.GetPatrolForUnit(actor);
 				if (patrol != null) {
 					patrol.SetPlan(poa, actor, BC.board);
 				} else {
 					List<Tile> moveOptions = GetMoveOptions();
-					yield return PC.GetNearestAvailablePatrol(actor, delegate (Patrol patrol) {
-						if (patrol != null) {
+					yield return PC.GetNearestAvailablePatrol(actor, delegate (Patrol p) {
+						if (p != null) {
+							this.patrol = p;
 							patrol.SetPlan(poa, actor, BC.board);
 							poa.moveLocation = FindNearestMoveOptionToTile(moveOptions, poa.moveLocation);
 						} else {
@@ -533,6 +535,9 @@ public class ComputerPlayer : MonoBehaviour
 				}
 			}
 			actor.dir = start;
+		} else if (this.patrol != null) {
+			// If patrolling, end in the patrol 
+			dir = patrol.GetCurrentDirection();
 		}
 		return dir;
 	}
