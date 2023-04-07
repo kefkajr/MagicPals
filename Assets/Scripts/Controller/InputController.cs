@@ -111,7 +111,7 @@ public class InputController : MonoBehaviour
 	
 	void DidPoint(InputAction.CallbackContext context) {
 		mousePosition = context.ReadValue<Vector2>();
-		pointEvent(this, mousePosition);
+		// pointEvent(this, mousePosition);
 	}
 	void DidClick(InputAction.CallbackContext context) {
 		clickEvent(this, mousePosition);

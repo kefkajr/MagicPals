@@ -11,7 +11,6 @@ public class Board : MonoBehaviour
 	[SerializeField] public GameObject wallPrefab;
 	[SerializeField] public GameObject exitPrefab;
 	public Dictionary<Point, Tile> tiles = new Dictionary<Point, Tile>();
-	public List<Patrol> patrols = new List<Patrol>();
 	public Point min { get { return _min; }}
 	public Point max { get { return _max; }}
 	Point _min;
@@ -76,12 +75,6 @@ public class Board : MonoBehaviour
 			e.position = exitPoint;
 			e.height = tiles[exitPoint].height;
 			e.Match();
-		}
-
-		for (int i = 0; i < data.patrolTracks.Count; ++i) {
-			PatrolTrack track = data.patrolTracks[i];
-			Patrol patrol = new Patrol(track);
-			patrols.Add(patrol);
 		}
 	}
 
@@ -557,6 +550,7 @@ public class Board : MonoBehaviour
 	{
 		DeSelectTiles(tiles.Values.ToList());
 	}
+
 	#endregion
 
 	#region Private

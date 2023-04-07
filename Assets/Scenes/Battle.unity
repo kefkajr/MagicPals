@@ -206,7 +206,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DebugComputerPlayer: 0
   DebugPathfinding: 0
-  MakeAllUnitsSeeEachOther: 1
+  MakeAllUnitsSeeEachOther: 0
 --- !u!4 &85297742
 Transform:
   m_ObjectHideFlags: 0
@@ -1356,6 +1356,7 @@ GameObject:
   - component: {fileID: 1725097818}
   - component: {fileID: 1725097819}
   - component: {fileID: 1725097820}
+  - component: {fileID: 1725097822}
   - component: {fileID: 1725097821}
   m_Layer: 0
   m_Name: Battle Controller
@@ -1409,6 +1410,7 @@ MonoBehaviour:
     x: 0
     y: 0
   awarenessController: {fileID: 1725097820}
+  patrolController: {fileID: 1725097822}
   abilityMenuPanelController: {fileID: 2031122890}
   descriptionPanelController: {fileID: 2030764689}
   statPanelController: {fileID: 308611629}
@@ -1558,6 +1560,19 @@ MonoBehaviour:
   m_DefaultActionMap: UI
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &1725097822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1725097814}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef42021704d3449719331e4d00b28fdf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  patrols: []
 --- !u!1 &1786019209
 GameObject:
   m_ObjectHideFlags: 0

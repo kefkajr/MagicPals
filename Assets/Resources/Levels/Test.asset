@@ -515,12 +515,12 @@ MonoBehaviour:
   - recipeName: Nessa
     position:
       x: 5
-      y: 9
+      y: 7
     direction: 0
   - recipeName: Cece
     position:
       x: 6
-      y: 9
+      y: 7
     direction: 0
   - recipeName: Sentry
     position:
@@ -535,7 +535,7 @@ MonoBehaviour:
   exits:
   - x: 8
     y: 10
-  patrolTracks:
+  patrols:
   - patrolActions:
     - type: 0
       targetMovePoint:
@@ -557,4 +557,4 @@ MonoBehaviour:
         x: 1
         y: 4
       facingDirection: 0
-    patroller: {fileID: 0}
+    currentPatrolActionIndex: 2

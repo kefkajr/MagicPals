@@ -8,7 +8,8 @@ public class ComputerPlayer : MonoBehaviour
 	#region Fields
 	BattleController BC;
 	Unit actor { get { return BC.turn.actor; }}
-	AwarenessController AC { get { return BC.GetComponent<AwarenessController>(); } }
+	AwarenessController AC { get { return BC.awarenessController; } }
+	PatrolController PC { get { return BC.patrolController; } }
 	Alliance actorAlliance { get { return actor.GetComponent<Alliance>(); }}
 	Perception perception { get { return actor.GetComponent<Perception>(); } }
 	Unit topPriorityFoe;
@@ -64,13 +65,21 @@ public class ComputerPlayer : MonoBehaviour
 				// Just position yourself better for the next turn.
 				/// TODO: Update the attack option algorithm to just give us the best move option for next turn.
 				yield return Investigate(poa);
-			}
-			else
-			{
-				Console.Main.Log(string.Format("{0} has nothing to do", actor.name));
-				// TODO: Perform sentry duties instead
-				// Stay put
-				poa.moveLocation = actor.tile;
+			} else {
+				Patrol patrol = PC.GetPatrolForUnit(actor);
+				if (patrol != null) {
+					patrol.SetPlan(poa, actor, BC.board);
+				} else {
+					List<Tile> moveOptions = GetMoveOptions();
+					yield return PC.GetNearestAvailablePatrol(actor, delegate (Patrol patrol) {
+						if (patrol != null) {
+							patrol.SetPlan(poa, actor, BC.board);
+							poa.moveLocation = FindNearestMoveOptionToTile(moveOptions, poa.moveLocation);
+						} else {
+							Console.Main.Log("No patrol found.");
+						}
+					});
+				}
 			}
 		}
 
@@ -425,26 +434,30 @@ public class ComputerPlayer : MonoBehaviour
 
 	IEnumerator Investigate(PlanOfAttack poa)
 	{
-		List<Tile> moveOptions = GetMoveOptions();
 		if (topPriorityTileOfInterest != null)
 		{
+			List<Tile> moveOptions = GetMoveOptions();
 			yield return BC.board.FindPath(actor, actor.tile, topPriorityTileOfInterest, delegate (List<Tile> finalPath) {
 				Console.Main.Log(string.Format("{0} is investigating {1}", actor.name, topPriorityTileOfInterest.ToString()));
-				Tile toCheck = finalPath.Count > 0 ? finalPath.Last() : null;
-				while (toCheck != null)
-				{
-					if (moveOptions.Contains(toCheck))
-					{
-						// Move toward top awareness / point of interest
-						poa.moveLocation = toCheck;
-						break;
-					}
-					// Board search keeps previous tiles in memory
-					toCheck = toCheck.prev;
-				}
+				poa.moveLocation = FindNearestMoveOptionToTile(moveOptions, finalPath.Count > 0 ? finalPath.Last() : null);
 			});
 		}
 		yield return null;
+	}
+
+	Tile FindNearestMoveOptionToTile(List<Tile> moveOptions, Tile tile) {
+		Tile toCheck = tile;
+		while (toCheck != null)
+		{
+			if (moveOptions.Contains(toCheck))
+			{
+				// Move toward top awareness / point of interest
+				return toCheck;
+			}
+			// Board search keeps previous tiles in memory
+			toCheck = toCheck.prev;
+		}
+		return toCheck;
 	}
 
 	void SetTopPriorityFoeAndPointOfInterest()

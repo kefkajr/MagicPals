@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public class MoveTargetState : BattleState
 {
@@ -14,7 +15,7 @@ public class MoveTargetState : BattleState
 		board.SelectTiles(tiles);
 		RefreshPrimaryStatPanel(pos);
 		if (driver.Current == DriverType.Computer)
-			StartCoroutine(ComputerHighlightMoveTarget());
+			StartCoroutine(ComputerMoveTarget());
 	}
 	
 	public override void Exit ()
@@ -34,19 +35,20 @@ public class MoveTargetState : BattleState
 		owner.ChangeState<CommandSelectionState>();
 	}
 
-	IEnumerator ComputerHighlightMoveTarget ()
-	{
-		// Skip to MoveSequenceState if the plan of attack has not move location
-		if (turn.plan.moveLocation == null)
-			turn.plan.moveLocation = turn.actor.tile;
+	IEnumerator ComputerMoveTarget() {
+		// In case the move location is outside of the unit's movement range,
+		// find the nearest accessible tile still in the pathfinding memory
+		Tile destination = turn.plan.moveLocation;
+		if (destination == null)
+			destination = turn.actor.tile;
 
 		Point cursorPos = pos;
-		while (cursorPos != turn.plan.moveLocation.pos)
+		while (cursorPos != destination.pos)
 		{
-			if (cursorPos.x < turn.plan.moveLocation.pos.x) cursorPos.x++;
-			if (cursorPos.x > turn.plan.moveLocation.pos.x) cursorPos.x--;
-			if (cursorPos.y < turn.plan.moveLocation.pos.y) cursorPos.y++;
-			if (cursorPos.y > turn.plan.moveLocation.pos.y) cursorPos.y--;
+			if (cursorPos.x < destination.pos.x) cursorPos.x++;
+			if (cursorPos.x > destination.pos.x) cursorPos.x--;
+			if (cursorPos.y < destination.pos.y) cursorPos.y++;
+			if (cursorPos.y > destination.pos.y) cursorPos.y--;
 			SelectTile(cursorPos);
 			yield return new WaitForSeconds(0.25f);
 		}

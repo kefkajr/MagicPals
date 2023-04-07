@@ -19,6 +19,7 @@ public class InitBattleState : BattleState
 		AddVictoryCondition();
 
 		owner.awarenessController.InitializeAwarenessMap();
+		owner.patrolController.Intialize(levelData.patrols);
 
 		owner.round = owner.gameObject.AddComponent<TurnOrderController>().Round();
 		yield return null;
