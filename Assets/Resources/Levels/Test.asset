@@ -514,32 +514,42 @@ MonoBehaviour:
   spawns:
   - recipeName: Sentry
     position:
-      x: 0
+      x: 8
+      y: 3
+    direction: 0
+  - recipeName: Nessa
+    position:
+      x: 8
+      y: 7
+    direction: 3
+  - recipeName: Cece
+    position:
+      x: 8
       y: 8
-    direction: 1
+    direction: 0
   exits:
   - x: 8
     y: 10
   patrols:
-  - patrolActions:
-    - type: 0
-      targetMovePoint:
+  - nodes:
+    - targetMovePoint:
         x: 2
         y: 7
-      facingDirection: 0
-    - type: 0
-      targetMovePoint:
+      facingDirection: 2
+      reverseDirection: 1
+    - targetMovePoint:
         x: 2
         y: 4
-      facingDirection: 0
-    - type: 0
-      targetMovePoint:
+      facingDirection: 2
+      reverseDirection: 1
+    - targetMovePoint:
         x: 1
         y: 4
-      facingDirection: 0
-    - type: 1
-      targetMovePoint:
+      facingDirection: 3
+      reverseDirection: 2
+    - targetMovePoint:
         x: 1
-        y: 4
+        y: 7
       facingDirection: 0
-    currentPatrolActionIndex: 3
+      reverseDirection: 2
+    currentPatrolNodeIndex: 1

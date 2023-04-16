@@ -7,9 +7,9 @@ using MyBox;
 [System.Serializable]
 public class Patrol
 {
-    public List<PatrolAction> patrolActions;
+    public List<PatrolNode> nodes;
     public Unit patroller { get; private set; }
-    public int currentPatrolActionIndex;
+    public int currentPatrolNodeIndex;
     private bool isReversed;
 
     void SetPatroller(Unit patroller) {
@@ -21,46 +21,68 @@ public class Patrol
     }
 
     public void SetPlan(PlanOfAttack poa, Unit unit, Board board) {
-        SetPatroller(unit);
-        PatrolAction patrolAction = patrolActions[currentPatrolActionIndex];
+        PatrolNode node = nodes[currentPatrolNodeIndex];
 
         // If the unit is not already at the current position
-        if (unit.tile.pos != patrolAction.targetMovePoint) {
-
-        } else { // If the unit is already the current position
-            // Move onto the next action
-            int newIndex = isReversed ? currentPatrolActionIndex - 1 : currentPatrolActionIndex + 1;
-            if (newIndex < 0 || newIndex >= patrolActions.Count) {
-                isReversed = !isReversed;
-                newIndex = isReversed ? currentPatrolActionIndex - 1 : currentPatrolActionIndex + 1;
+        if (unit.tile.pos != node.targetMovePoint) {
+            // Let the unit make its way to the current node
+            // and also decide whether to reverse the patrol
+            // based on the position they arrive from.
+            // Not perfect, but it's something.
+            int nextIndex = currentPatrolNodeIndex + 1;
+            int prevIndex = currentPatrolNodeIndex - 1;
+            if (nextIndex >= nodes.Count) {
+                isReversed = true;
+            } else if (prevIndex < 0) {
+                isReversed = false;
+            } else {
+                Tile tile = board.GetTile(node.targetMovePoint);
+                Tile nextTile = board.GetTile(nodes[nextIndex].targetMovePoint);
+                List<Direction> nextDir = tile.GetDirections(nextTile);
+                Tile prevTile = board.GetTile(nodes[prevIndex].targetMovePoint);
+                List<Direction> prevDir = tile.GetDirections(prevTile);
+                List<Direction> unitDir = unit.tile.GetDirections(tile);
+                foreach (Direction dir in unitDir) {
+                    if (nextDir.Contains(dir))
+                        isReversed = false;
+                    else if (prevDir.Contains(dir))
+                        isReversed = true;
+                }
             }
-            currentPatrolActionIndex = newIndex;
-            patrolAction = patrolActions[currentPatrolActionIndex];
+        } else { // If the unit is already at the current position
+            SetPatroller(unit);
+            // Move onto the next action
+            int newIndex = isReversed ? currentPatrolNodeIndex - 1 : currentPatrolNodeIndex + 1;
+            if (newIndex < 0 || newIndex >= nodes.Count) {
+                isReversed = !isReversed;
+                newIndex = isReversed ? currentPatrolNodeIndex - 1 : currentPatrolNodeIndex + 1;
+            }
+            currentPatrolNodeIndex = newIndex;
+            node = nodes[currentPatrolNodeIndex];
         }
 
-        switch (patrolAction.type) {
-            case PatrolActionType.Move:
-                poa.moveLocation = board.GetTile(patrolAction.targetMovePoint) ?? poa.moveLocation;
-                break;
-            case PatrolActionType.Face:
-                poa.moveLocation = board.GetTile(patrolAction.targetMovePoint) ?? poa.moveLocation;
-                break;
-        }
+        poa.moveLocation = board.GetTile(node.targetMovePoint) ?? poa.moveLocation;
     }
 
     public Direction GetCurrentDirection() {
-        return patrolActions[currentPatrolActionIndex].facingDirection;
+        PatrolNode n = nodes[currentPatrolNodeIndex];
+        Direction d = isReversed ? n.reverseDirection : n.facingDirection;
+        return d;
     }
 }
 
-public enum PatrolActionType {
-    Move, Face
-}
-
 [System.Serializable]
-public class PatrolAction {
+public class PatrolNode {
 
-    public PatrolActionType type;
     public Point targetMovePoint;
-    [ConditionalField(nameof(type), false, PatrolActionType.Face)] public Direction facingDirection;
+    public Direction facingDirection;
+    public Direction reverseDirection;
+
+    // Currently, the reverseDirecton is most useful in the middle of a patrol.
+    // It's use at the ends are more particular.
+    // - The first node will use the reverse direction.
+    // - The last node will use the normal facing direction.
+    // The exceptions are when the unit is entering the patrol either end.
+    // - The first node will use the normal facing direction
+    // - The last node will use the revere direction.
 }

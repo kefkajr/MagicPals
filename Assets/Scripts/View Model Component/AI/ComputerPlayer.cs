@@ -85,6 +85,12 @@ public class ComputerPlayer : MonoBehaviour
 			}
 		}
 
+		if(topPriorityFoe != null || topPriorityTileOfInterest != null) {
+			// If this unit is preoccupied, make sure they're not on patrol anymore
+			PC.RemoveUnitFromPatrol(actor);
+		}
+
+
 		// Step 3: Return the completed plan
 		turn.plan = poa;
 	}

@@ -26,18 +26,18 @@ public class PatrolController : MonoBehaviour
 			if (patrol.patroller != null)
 				continue;
 
-            int patrolsActionsToCheck = patrol.patrolActions.Count;
-            while (patrolsActionsToCheck > 0) {
-                for (int i = 0; i < patrol.patrolActions.Count; ++i) {
-                    PatrolAction patrolAction = patrol.patrolActions[i];
-                    yield return board.FindPath(unit, unit.tile, board.GetTile(patrolAction.targetMovePoint), delegate (List<Tile> finalPath) {
+            int patrolNodesToCheck = patrol.nodes.Count;
+            while (patrolNodesToCheck > 0) {
+                for (int i = 0; i < patrol.nodes.Count; ++i) {
+                    PatrolNode patrolNode = patrol.nodes[i];
+                    yield return board.FindPath(unit, unit.tile, board.GetTile(patrolNode.targetMovePoint), delegate (List<Tile> finalPath) {
                         int distance = finalPath.Count;
                         if (distance < shortestDistance) {
                             shortestDistance = distance;
                             nearestPatrol = patrol;
-                            nearestPatrol.currentPatrolActionIndex = i;
+                            nearestPatrol.currentPatrolNodeIndex = i;
                         }
-                        --patrolsActionsToCheck;
+                        --patrolNodesToCheck;
                     });				
                 }
             }
@@ -48,5 +48,11 @@ public class PatrolController : MonoBehaviour
     public Patrol GetPatrolForUnit(Unit unit) {
         Patrol patrol = patrols.Find(p => p.patroller == unit);
         return patrol;
+    }
+
+    public void RemoveUnitFromPatrol(Unit unit) {
+        Patrol patrol = GetPatrolForUnit(unit);
+        if (patrol != null)
+            patrol.RemovePatroller(unit);
     }
 }
