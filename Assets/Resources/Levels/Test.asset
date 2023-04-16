@@ -514,8 +514,8 @@ MonoBehaviour:
   spawns:
   - recipeName: Sentry
     position:
-      x: 8
-      y: 3
+      x: 3
+      y: 8
     direction: 0
   - recipeName: Nessa
     position:
