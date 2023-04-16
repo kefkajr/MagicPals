@@ -76,7 +76,6 @@ public class ComputerPlayer : MonoBehaviour
 						if (p != null) {
 							this.patrol = p;
 							patrol.SetPlan(poa, actor, BC.board);
-							poa.moveLocation = FindNearestMoveOptionToTile(moveOptions, poa.moveLocation);
 						} else {
 							Console.Main.Log("No patrol found.");
 						}
@@ -90,6 +89,15 @@ public class ComputerPlayer : MonoBehaviour
 			PC.RemoveUnitFromPatrol(actor);
 		}
 
+		// Find the nearest viable move option, if the current planned location is too far
+		if (poa.moveLocation != null) {
+			List<Tile> moveOptions = GetMoveOptions();
+			if (!moveOptions.Contains(poa.moveLocation)) {
+				yield return BC.board.FindPath(actor, actor.tile, BC.board.GetTile(poa.moveLocation.pos), delegate (List<Tile> finalPath) {
+					poa.moveLocation = FindNearestMoveOptionToTile(moveOptions, poa.moveLocation);
+				});
+			}
+		}	
 
 		// Step 3: Return the completed plan
 		turn.plan = poa;
@@ -447,7 +455,7 @@ public class ComputerPlayer : MonoBehaviour
 			List<Tile> moveOptions = GetMoveOptions();
 			yield return BC.board.FindPath(actor, actor.tile, topPriorityTileOfInterest, delegate (List<Tile> finalPath) {
 				Console.Main.Log(string.Format("{0} is investigating {1}", actor.name, topPriorityTileOfInterest.ToString()));
-				poa.moveLocation = FindNearestMoveOptionToTile(moveOptions, finalPath.Count > 0 ? finalPath.Last() : null);
+				poa.moveLocation = finalPath.Count > 0 ? finalPath.Last() : null;
 			});
 		}
 		yield return null;

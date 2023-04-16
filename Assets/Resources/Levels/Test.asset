@@ -514,9 +514,9 @@ MonoBehaviour:
   spawns:
   - recipeName: Sentry
     position:
-      x: 3
-      y: 8
-    direction: 0
+      x: 5
+      y: 7
+    direction: 1
   - recipeName: Nessa
     position:
       x: 8
@@ -524,8 +524,13 @@ MonoBehaviour:
     direction: 3
   - recipeName: Cece
     position:
+      x: 4
+      y: 4
+    direction: 0
+  - recipeName: Sentry
+    position:
       x: 8
-      y: 8
+      y: 4
     direction: 0
   exits:
   - x: 8
@@ -552,4 +557,4 @@ MonoBehaviour:
         y: 7
       facingDirection: 0
       reverseDirection: 2
-    currentPatrolNodeIndex: 1
+    currentPatrolNodeIndex: 0

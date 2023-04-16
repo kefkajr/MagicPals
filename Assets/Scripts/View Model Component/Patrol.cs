@@ -21,6 +21,8 @@ public class Patrol
     }
 
     public void SetPlan(PlanOfAttack poa, Unit unit, Board board) {
+        SetPatroller(unit);
+        
         PatrolNode node = nodes[currentPatrolNodeIndex];
 
         // If the unit is not already at the current position
@@ -50,7 +52,6 @@ public class Patrol
                 }
             }
         } else { // If the unit is already at the current position
-            SetPatroller(unit);
             // Move onto the next action
             int newIndex = isReversed ? currentPatrolNodeIndex - 1 : currentPatrolNodeIndex + 1;
             if (newIndex < 0 || newIndex >= nodes.Count) {
