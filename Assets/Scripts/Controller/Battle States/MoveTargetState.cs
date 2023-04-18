@@ -27,6 +27,8 @@ public class MoveTargetState : BattleState
 	}
 	protected override void OnSubmit ()
 	{
+		if (driver.Current == DriverType.Computer) return;
+		
 		if (tiles.Contains(owner.currentTile))
 			owner.ChangeState<MoveSequenceState>();
 	}

@@ -26,7 +26,6 @@ public class MoveSequenceState : BattleState
 		turn.hasUnitMoved = true;
 
 		Time.timeScale = 1f;
-
 		owner.ChangeState<CommandSelectionState>();
 	}
 
@@ -53,6 +52,7 @@ public class MoveSequenceState : BattleState
 		// Remove trap from tile
 		tile.trap = null;
 
+		Time.timeScale = 1f;
 		// Perform trap ability
 		owner.ChangeState<PerformAbilityState>();
 	}

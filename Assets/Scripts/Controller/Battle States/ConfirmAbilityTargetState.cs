@@ -45,6 +45,8 @@ public class ConfirmAbilityTargetState : BattleState
 
 	protected override void OnSubmit ()
 	{
+		if (driver.Current == DriverType.Computer) return;
+		
 		Trap trap = turn.ability.GetComponent<Trap>();
 		if (trap != null) {
 			owner.ChangeState<TrapSetState>();

@@ -60,6 +60,8 @@ public class CommandSelectionState : BaseAbilityMenuState
 
 	protected override void OnSubmit ()
 	{
+		if (driver.Current == DriverType.Computer) return;
+		
 		int currentSelection = abilityMenuPanelController.selection;
 		string selectedOption = menuOptions[currentSelection];
 		if (selectedOption == Option.Move) {

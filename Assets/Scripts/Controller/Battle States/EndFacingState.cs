@@ -34,6 +34,8 @@ public class EndFacingState : BattleState
 	
 	protected override void OnSubmit ()
 	{
+		if (driver.Current == DriverType.Computer) return;
+		
 		owner.ChangeState<SelectUnitState>();
 	}
 

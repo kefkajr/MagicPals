@@ -27,11 +27,16 @@ public abstract class BattleState : State
 
 	protected override void AddListeners ()
 	{
-		InputController.moveEvent += OnMove;
-		InputController.pointEvent += OnPoint;
-		InputController.clickEvent += OnClick;
-		InputController.submitEvent += OnSubmit;
-		InputController.cancelEvent += OnCancel;
+		
+		InputController.submitEvent += OnSubmit; // Allow time skip when computer moves
+
+		if (driver == null || driver.Current == DriverType.Human)
+		{
+			InputController.moveEvent += OnMove;
+			InputController.pointEvent += OnPoint;
+			InputController.clickEvent += OnClick;
+			InputController.cancelEvent += OnCancel;
+		}
 	}
 	
 	protected override void RemoveListeners ()

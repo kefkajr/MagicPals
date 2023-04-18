@@ -42,6 +42,8 @@ public class AbilityTargetState : BattleState
 	
 	protected override void OnSubmit ()
 	{
+		if (driver.Current == DriverType.Computer) return;
+
 		if (ar.directionOriented || tiles.Contains(board.GetTile(pos)))
 		{
 			turn.abilityEpicenterTile = board.GetTile(pos);
