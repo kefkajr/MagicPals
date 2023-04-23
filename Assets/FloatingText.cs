@@ -5,11 +5,19 @@ using TMPro;
 
 public class FloatingText : MonoBehaviour
 {
-    public Transform rig;
     public TMP_Text label;
 
     void Update()
     {
-        rig.transform.LookAt(Camera.main.transform);
+        transform.rotation = Quaternion.LookRotation(Camera.main.transform.forward);
+    }
+
+    public void Display(string s) {
+        label.text = s;
+    }
+
+    public void DidCompleteFloatingAnimation() {
+        Poolable p = GetComponent<Poolable>();
+        GameObjectPoolController.Enqueue(p);
     }
 }

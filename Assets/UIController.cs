@@ -39,10 +39,8 @@ public class UIController : MonoBehaviour
 	}
 
     public void DisplayFloatingText(Unit unit, string s) {
-        TMP_Text text = Deqeue(unit.transform.position);
-        text.text = s;
-
-        StartCoroutine(AnimateDecoratorDisplay(text));
+        FloatingText text = Deqeue(unit.transform.position);
+        text.Display(s);
     }
 
     // public Vector3 GetDecoratorPosition(Unit unit) {
@@ -61,15 +59,15 @@ public class UIController : MonoBehaviour
     //     return canvasPos;
     // }
 
-    TMP_Text Deqeue(Vector3 position) {
+    FloatingText Deqeue(Vector3 position) {
         Poolable p = GameObjectPoolController.Dequeue(floatingTextPoolKey);
         p.transform.SetParent(transform, false);
         p.transform.localScale = Vector3.one;
         p.transform.position = position;
         p.gameObject.SetActive(true);
 
-        TMP_Text t = p.GetComponentInChildren<TMP_Text>();
-        return t;
+        var floatingText = p.GetComponentInChildren<FloatingText>();
+        return floatingText;
     }
 
     IEnumerator AnimateDecoratorDisplay(TMP_Text text) {
