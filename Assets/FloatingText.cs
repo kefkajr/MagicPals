@@ -5,11 +5,12 @@ using TMPro;
 
 public class FloatingText : MonoBehaviour
 {
+    public Transform container;
     public TMP_Text label;
 
     void Update()
     {
-        transform.rotation = Quaternion.LookRotation(Camera.main.transform.forward);
+        container.transform.rotation = Quaternion.LookRotation(Camera.main.transform.forward);
     }
 
     public void Display(string s) {
@@ -17,7 +18,7 @@ public class FloatingText : MonoBehaviour
     }
 
     public void DidCompleteFloatingAnimation() {
-        Poolable p = GetComponent<Poolable>();
+        Poolable p = GetComponentInParent<Poolable>();
         GameObjectPoolController.Enqueue(p);
     }
 }
