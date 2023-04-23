@@ -19,7 +19,7 @@ public class AlertAbilityEffect : BaseAbilityEffect
 		if (alertingUnit == alertedUnit)
 			return 0;
 
-		AwarenessController ac = GameObject.Find("Battle Controller").GetComponent<AwarenessController>();
+		AwarenessController ac = GameObject.Find("Awareness Controller").GetComponent<AwarenessController>();
 		List<Awareness> awarenesses = ac.TopAwarenesses(alertingUnit);
 
 		foreach (Awareness awareness in awarenesses)

@@ -7,6 +7,7 @@ public class ExploreState : BattleState
 	{
 		base.Enter ();
 		RefreshPrimaryStatPanel(pos);
+		RefreshAwarenessLines(pos);
 	}
 
 	public override void Exit ()

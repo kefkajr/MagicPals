@@ -83,6 +83,7 @@ public abstract class BattleState : State
 	{
 		SelectTile(d.pointTranslatedByCameraDirection + pos);
 		RefreshPrimaryStatPanel(pos);
+		RefreshAwarenessLines(pos);
 	}
 
 	protected virtual void OnPoint (object sender, Vector2 v)
@@ -128,6 +129,15 @@ public abstract class BattleState : State
 		Tile t = board.GetTile(p);
 		GameObject content = t != null ? t.occupant : null;
 		return content != null ? content.GetComponent<Unit>() : null;
+	}
+
+	protected virtual void RefreshAwarenessLines (Point p)
+	{
+		Unit target = GetUnit(p);
+		if (target != null)
+			owner.awarenessController.DisplayAwarenessLines(target);
+		else
+			owner.awarenessController.ClearAwarenessLines();
 	}
 
 	protected virtual void RefreshPrimaryStatPanel (Point p)

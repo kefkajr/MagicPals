@@ -29,13 +29,12 @@ public static class AwarenessTypeExtensions
 		switch (type)
 		{
 			case AwarenessType.MayHaveHeard:
-				return Color.cyan;
 			case AwarenessType.MayHaveSeen:
 				return Color.yellow;
 			case AwarenessType.Seen:
 				return Color.red;
 			case AwarenessType.LostTrack:
-				return Color.white;
+				return Color.blue;
 			default: // Unaware:
 				return Color.gray;
 		};

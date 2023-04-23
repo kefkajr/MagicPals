@@ -11,16 +11,14 @@ public class AwarenessController : MonoBehaviour
 
     protected BattleController battleController;
 	protected Board board { get { return battleController.board; } }
-
     public Dictionary<Unit, Dictionary<Unit, Awareness>> awarenessMap = new Dictionary<Unit, Dictionary<Unit, Awareness>>();
+	[SerializeField] public GameObject awarenessLinePrefab;
+	[SerializeField] public Material awarenessLineMaterialSeen;
+	[SerializeField] public Material awarenessLineMaterialMayHaveSeen;
+	[SerializeField] public Material awarenessLineMaterialLost;
+	Dictionary<Awareness, AwarenessLine> awarenessLines = new Dictionary<Awareness, AwarenessLine>();
+	private const string poolKey = "AwarenessController.Line";
 	bool doesEveryoneSeeEveryone;
-
-    protected virtual void Awake()
-    {
-        battleController = GetComponent<BattleController>();
-        AddListeners();
-		doesEveryoneSeeEveryone = GameConfig.Main.MakeAllUnitsSeeEachOther;
-    }
 
 	protected void AddListeners()
 	{
@@ -35,6 +33,15 @@ public class AwarenessController : MonoBehaviour
 	protected void OnDestroy()
 	{
 		RemoveListeners();
+	}
+
+	public void Setup(BattleController bc) {
+		battleController = bc;
+		AddListeners();
+		doesEveryoneSeeEveryone = GameConfig.Main.MakeAllUnitsSeeEachOther;
+
+		InitializeAwarenessMap();
+		GameObjectPoolController.AddEntry(poolKey, awarenessLinePrefab, awarenessMap.Values.Count, int.MaxValue);
 	}
 
 	public void InitializeAwarenessMap()
@@ -245,6 +252,45 @@ public class AwarenessController : MonoBehaviour
         unit.gameObject.SetActive(false);
 
 		this.PostNotification(NotficationEscape, unit);
+	}
+
+	public void DisplayAwarenessLines(Unit unit) {
+		Alliance perceiverAlliance = unit.GetComponentInChildren<Alliance>();
+		foreach (Awareness a in TopAwarenesses(unit)) {
+			Alliance perceivedAlliance = a.stealth.GetComponentInChildren<Alliance>();
+			bool isAlly = perceiverAlliance.IsMatch(perceivedAlliance, TargetType.Ally);
+			if (isAlly) continue;
+
+			Poolable p = GameObjectPoolController.Dequeue(poolKey);
+			AwarenessLine line = p.GetComponent<AwarenessLine>();
+			line.transform.SetParent(battleController.transform, false);
+			line.transform.localScale = Vector3.one;
+			line.gameObject.SetActive(true);
+			line.SetAwareness(a, AwarenessLineMaterial(a.type));
+
+			awarenessLines[a] = line;
+		}
+	}
+
+	public void ClearAwarenessLines() {
+		foreach (AwarenessLine l in awarenessLines.Values) {
+			Poolable p = l.GetComponent<Poolable>();
+			GameObjectPoolController.Enqueue(p);
+		}
+	}
+
+	public Material AwarenessLineMaterial(AwarenessType type)
+	{
+		switch (type)
+		{
+			case AwarenessType.MayHaveHeard:
+			case AwarenessType.MayHaveSeen:
+				return awarenessLineMaterialMayHaveSeen;
+			case AwarenessType.Seen:
+				return awarenessLineMaterialSeen;
+			default: // Unaware:
+				return awarenessLineMaterialLost;
+		};
 	}
 
 	void OnEnable()

@@ -18,6 +18,20 @@ public class EscapeVictoryCondition : BaseVictoryCondition
 		this.RemoveObserver(CheckForHeroEscape, AwarenessController.NotficationEscape);
 	}
 
+	protected override void CheckForGameOver ()
+	{
+		// If any Ally is defeated, Game Over
+		for (int i = 0; i < bc.units.Count; ++i)
+		{
+			Alliance a = bc.units[i].GetComponent<Alliance>();
+			if (a == null)
+				continue;
+			
+			if (a.type == Alliances.Hero && IsDefeated(bc.units[i]))
+				Victor = Alliances.Enemy;
+		}
+	}
+
     void CheckForHeroEscape(object sender, object args)
 	{
         bool isAnyPartyMemberOnField = bc.units.Where(unit => unit.GetComponent<Alliance>() != null)

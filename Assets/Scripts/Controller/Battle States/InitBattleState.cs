@@ -18,8 +18,9 @@ public class InitBattleState : BattleState
 		SpawnUnits();
 		AddVictoryCondition();
 
-		owner.awarenessController.InitializeAwarenessMap();
+		owner.awarenessController.Setup(owner);
 		owner.patrolController.Intialize(levelData.patrols);
+		owner.uiController.Setup(units.Count);
 
 		owner.round = owner.gameObject.AddComponent<TurnOrderController>().Round();
 		yield return null;

@@ -16,7 +16,7 @@ public class ATypeHitRate : HitRate
 		evade = AdjustForRelativeFacing(defender, evade);
 		evade = AdjustForStatusEffects(defender, evade);
 		evade = Mathf.Clamp(evade, 5, 95);
-		return Final(evade);
+		return Final(0); // TODO Decide how this should be
 	}
 
 	int GetEvade (Unit target)
