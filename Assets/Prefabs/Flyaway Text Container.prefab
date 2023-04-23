@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 314875779105413998}
   m_Layer: 0
-  m_Name: Floating Text Container
+  m_Name: Flyaway Text Container
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -46,7 +46,7 @@ GameObject:
   - component: {fileID: 3752510045604671677}
   - component: {fileID: 5303279262531554498}
   m_Layer: 0
-  m_Name: Floating Text Label
+  m_Name: Flyaway Text Label
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

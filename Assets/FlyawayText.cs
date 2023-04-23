@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class FloatingText : MonoBehaviour
+public class FlyawayText : MonoBehaviour
 {
     public Transform container;
     public TMP_Text label;

@@ -5,11 +5,11 @@ using TMPro;
 
 public class UIController : MonoBehaviour
 {
-    [SerializeField] public GameObject floatingTextPrefab;
-    private const string floatingTextPoolKey = "UIController.statChangeDecoratorPrefab";
+    [SerializeField] public GameObject flyawayTextPrefab;
+    private const string flyawayTextPoolKey = "UIController.statChangeDecoratorPrefab";
 
     public void Setup(int unitCount) {
-        GameObjectPoolController.AddEntry(floatingTextPoolKey, floatingTextPrefab, unitCount, int.MaxValue);
+        GameObjectPoolController.AddEntry(flyawayTextPoolKey, flyawayTextPrefab, unitCount, int.MaxValue);
     }
 
     void OnEnable ()
@@ -35,11 +35,11 @@ public class UIController : MonoBehaviour
 
         Unit unit = stats.GetComponentInParent<Unit>();
 		
-        DisplayFloatingText(unit, differenceString);
+        DisplayFlyawayText(unit, differenceString);
 	}
 
-    public void DisplayFloatingText(Unit unit, string s) {
-        FloatingText text = Deqeue(unit.transform.position);
+    public void DisplayFlyawayText(Unit unit, string s) {
+        FlyawayText text = Deqeue(unit.transform.position);
         text.Display(s);
     }
 
@@ -59,15 +59,15 @@ public class UIController : MonoBehaviour
     //     return canvasPos;
     // }
 
-    FloatingText Deqeue(Vector3 position) {
-        Poolable p = GameObjectPoolController.Dequeue(floatingTextPoolKey);
+    FlyawayText Deqeue(Vector3 position) {
+        Poolable p = GameObjectPoolController.Dequeue(flyawayTextPoolKey);
         p.transform.SetParent(transform, false);
         p.transform.localScale = Vector3.one;
         p.transform.position = position;
         p.gameObject.SetActive(true);
 
-        var floatingText = p.GetComponentInChildren<FloatingText>();
-        return floatingText;
+        var flyawayText = p.GetComponentInChildren<FlyawayText>();
+        return flyawayText;
     }
 
     IEnumerator AnimateDecoratorDisplay(TMP_Text text) {
