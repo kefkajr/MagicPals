@@ -184,7 +184,7 @@ public static class UnitFactory
 	static void AddAwareness(GameObject obj, PerceptionRecipe perceptionRecipe)
 	{
 		Stealth stealth = obj.AddComponent<Stealth>();
-		Perception perception = obj.AddComponent<Perception>();
+		Perception perception = obj.GetComponentInChildren<Perception>();
 		perception.viewingRange = perceptionRecipe.viewingRange;
 		perception.hearingRange = perceptionRecipe.hearingRange;
 	}

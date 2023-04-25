@@ -17,6 +17,5 @@ public class ExitMarker : MonoBehaviour
     public void Match ()
 	{
 		transform.localPosition = new Vector3( position.x, height * stepHeight / 2f, position.y );
-		transform.localScale = new Vector3(1, 0.25f, 1);
 	}
 }

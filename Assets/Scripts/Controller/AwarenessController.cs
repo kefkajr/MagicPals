@@ -77,7 +77,7 @@ public class AwarenessController : MonoBehaviour
 
 	public List<Awareness> Look(Unit unit)
 	{
-		Perception perception = unit.GetComponent<Perception>();
+		Perception perception = unit.perception;
 		List<Awareness> updatedAwarenesses = new List<Awareness>();
 		HashSet<TileAwarenessTypePair> tilesInRange = GetTilesInVisibleRange(unit);
 		List<AwarenessType> visibleAwarenessTypes = new List<AwarenessType> { AwarenessType.MayHaveSeen, AwarenessType.Seen };
@@ -110,7 +110,7 @@ public class AwarenessController : MonoBehaviour
 
 	public HashSet<TileAwarenessTypePair> GetTilesInVisibleRange(Unit unit)
 	{
-		Perception perception = unit.GetComponent<Perception>();
+		Perception perception = unit.perception;
 		Vector2 viewingRange = perception.viewingRange;
 		HashSet<TileAwarenessTypePair> validatedTiles = new HashSet<TileAwarenessTypePair>();
 
@@ -255,6 +255,7 @@ public class AwarenessController : MonoBehaviour
 	}
 
 	public void DisplayAwarenessLines(Unit unit) {
+		ClearAwarenessLines();
 		Alliance perceiverAlliance = unit.GetComponentInChildren<Alliance>();
 		foreach (Awareness a in TopAwarenesses(unit)) {
 			Alliance perceivedAlliance = a.stealth.GetComponentInChildren<Alliance>();
@@ -276,6 +277,19 @@ public class AwarenessController : MonoBehaviour
 		foreach (AwarenessLine l in awarenessLines.Values) {
 			Poolable p = l.GetComponent<Poolable>();
 			GameObjectPoolController.Enqueue(p);
+		}
+	}
+
+	public void DisplayViewingRange(Unit unit) {
+		Vector3 origin = new Vector3(0, Tile.stepHeight, 0);
+		Vector3 leftWing = new Vector3(origin.x - (unit.perception.viewingRange.x), origin.y, origin.z + unit.perception.viewingRange.x);
+		Vector3 rightWing = new Vector3(origin.x + (unit.perception.viewingRange.x), origin.y, origin.z + unit.perception.viewingRange.x);
+		unit.perception.SetViewMesh(new Vector3[] { origin, leftWing, rightWing });
+	}
+
+	public void HideViewingRanges() {
+		foreach (Unit u in awarenessMap.Keys) {
+			u.perception.HideViewMesh();
 		}
 	}
 

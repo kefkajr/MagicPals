@@ -12,7 +12,7 @@ public class PatrolController : MonoBehaviour
 
     protected virtual void Awake()
     {
-        battleController = GetComponent<BattleController>();
+        battleController = GetComponentInParent<BattleController>();
     }
 
     public void Intialize(List<Patrol> patrols) {

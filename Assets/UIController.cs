@@ -39,7 +39,7 @@ public class UIController : MonoBehaviour
 	}
 
     public void DisplayFlyawayText(Unit unit, string s) {
-        FlyawayText text = Deqeue(unit.transform.position);
+        FloatingText text = Deqeue(unit.transform.position);
         text.Display(s);
     }
 
@@ -59,14 +59,14 @@ public class UIController : MonoBehaviour
     //     return canvasPos;
     // }
 
-    FlyawayText Deqeue(Vector3 position) {
+    FloatingText Deqeue(Vector3 position) {
         Poolable p = GameObjectPoolController.Dequeue(flyawayTextPoolKey);
         p.transform.SetParent(transform, false);
         p.transform.localScale = Vector3.one;
         p.transform.position = position;
         p.gameObject.SetActive(true);
 
-        var flyawayText = p.GetComponentInChildren<FlyawayText>();
+        var flyawayText = p.GetComponentInChildren<FloatingText>();
         return flyawayText;
     }
 

@@ -80,6 +80,9 @@ public class Tile : MonoBehaviour
 			Gizmos.color = color;
 			Gizmos.DrawSphere(center, 0.2f);
 			gizmoAlpha -= 0.01f;
+
+			if (gizmoAlpha <= 0)
+				isBeingPerceived = false;
 		}
 	}
 

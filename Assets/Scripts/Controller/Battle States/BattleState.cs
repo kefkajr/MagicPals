@@ -134,10 +134,13 @@ public abstract class BattleState : State
 	protected virtual void RefreshAwarenessLines (Point p)
 	{
 		Unit target = GetUnit(p);
-		if (target != null)
+		if (target != null) {
 			owner.awarenessController.DisplayAwarenessLines(target);
-		else
+			owner.awarenessController.DisplayViewingRange(target);
+		} else {
 			owner.awarenessController.ClearAwarenessLines();
+			owner.awarenessController.HideViewingRanges();
+		}
 	}
 
 	protected virtual void RefreshPrimaryStatPanel (Point p)
