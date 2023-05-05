@@ -536,7 +536,7 @@ public class Board : MonoBehaviour
 			Tile tile = tiles[i];
 			if (tile == null)
 				continue;
-			tile.GetComponent<Renderer>().material.SetColor("_Color", color);
+			tile.SetHighlightColor(color);
 		}
 	}
 
@@ -546,7 +546,7 @@ public class Board : MonoBehaviour
 			Tile tile = tiles[i];
 			if (tile == null)
 				continue;
-			tile.GetComponent<Renderer>().material.SetColor("_Color", defaultTileColor);
+			tile.HideHighlightColor();
 		}
 	}
 

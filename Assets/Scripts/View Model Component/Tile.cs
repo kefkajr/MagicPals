@@ -9,6 +9,7 @@ public class Tile : MonoBehaviour
 	#endregion
 
 	#region Fields / Properties
+	[SerializeField] public MeshRenderer highlightMeshRenderer;
 	public Point pos;
 	public int height;
 	public Vector3 center { get { return new Vector3(pos.x, height * stepHeight, pos.y); }}
@@ -49,6 +50,15 @@ public class Tile : MonoBehaviour
 	public void Load (TileData t)
 	{
 		Load (t.point, t.height);
+	}
+
+	public void SetHighlightColor(Color color) {
+		highlightMeshRenderer.gameObject.SetActive(true);
+		highlightMeshRenderer.material.SetColor("_Color", color);
+	}
+
+	public void HideHighlightColor() {
+		highlightMeshRenderer.gameObject.SetActive(false);
 	}
 
 	void Match ()
