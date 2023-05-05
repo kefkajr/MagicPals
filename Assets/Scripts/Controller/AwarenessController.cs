@@ -17,6 +17,7 @@ public class AwarenessController : MonoBehaviour
 	[SerializeField] public Material awarenessLineMaterialMayHaveSeen;
 	[SerializeField] public Material awarenessLineMaterialLost;
 	Dictionary<Awareness, AwarenessLine> awarenessLines = new Dictionary<Awareness, AwarenessLine>();
+	List<Tile> highlightedViewingRangeTiles = new List<Tile>();
 	private const string poolKey = "AwarenessController.Line";
 	bool doesEveryoneSeeEveryone;
 
@@ -281,16 +282,19 @@ public class AwarenessController : MonoBehaviour
 	}
 
 	public void DisplayViewingRange(Unit unit) {
-		Vector3 origin = new Vector3(0, Tile.stepHeight, 0);
-		Vector3 leftWing = new Vector3(origin.x - (unit.perception.viewingRange.x), origin.y, origin.z + unit.perception.viewingRange.x);
-		Vector3 rightWing = new Vector3(origin.x + (unit.perception.viewingRange.x), origin.y, origin.z + unit.perception.viewingRange.x);
-		unit.perception.SetViewMesh(new Vector3[] { origin, leftWing, rightWing });
+		HashSet<TileAwarenessTypePair> tilesInRange = GetTilesInVisibleRange(unit);
+		List<Tile> mainRangeTiles = tilesInRange.Where(tap => tap.awarenessType == AwarenessType.Seen).Select(tap => tap.tile).ToList();
+		List<Tile> edgeRangeTiles = tilesInRange.Where(tap => tap.awarenessType == AwarenessType.MayHaveSeen).Select(tap => tap.tile).ToList();
+
+		battleController.board.HighlightTiles(mainRangeTiles, BoardColorType.viewingRangeHighlight);
+		battleController.board.HighlightTiles(edgeRangeTiles, BoardColorType.viewingRangeEdgeHighlight);
+
+		mainRangeTiles.AddRange(edgeRangeTiles);
+		highlightedViewingRangeTiles = mainRangeTiles;
 	}
 
 	public void HideViewingRanges() {
-		foreach (Unit u in awarenessMap.Keys) {
-			u.perception.HideViewMesh();
-		}
+		battleController.board.DeHighlightTiles(highlightedViewingRangeTiles);
 	}
 
 	public Material AwarenessLineMaterial(AwarenessType type)

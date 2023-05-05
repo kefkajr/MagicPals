@@ -12,7 +12,7 @@ public class MoveTargetState : BattleState
 		base.Enter ();
 		Movement mover = turn.actor.GetComponent<Movement>();
 		tiles = mover.GetTilesInRange(board);
-		board.SelectTiles(tiles);
+		board.HighlightTiles(tiles, BoardColorType.moveRangeHighlight);
 		RefreshPrimaryStatPanel(pos);
 		if (driver.Current == DriverType.Computer)
 			StartCoroutine(ComputerMoveTarget());
@@ -21,7 +21,7 @@ public class MoveTargetState : BattleState
 	public override void Exit ()
 	{
 		base.Exit ();
-		board.DeSelectTiles(tiles);
+		board.DeHighlightTiles(tiles);
 		tiles = null;
 		statPanelController.HidePrimary();
 	}
@@ -56,6 +56,6 @@ public class MoveTargetState : BattleState
 		}
 		yield return new WaitForSeconds(0.5f);
 		owner.ChangeState<MoveSequenceState>();
-		owner.board.DeSelectTiles(new List<Tile>(owner.board.tiles.Values)); // TODO remove this when done debugging pathfinding
+		owner.board.DeHighlightTiles(new List<Tile>(owner.board.tiles.Values)); // TODO remove this when done debugging pathfinding
 	}
 }

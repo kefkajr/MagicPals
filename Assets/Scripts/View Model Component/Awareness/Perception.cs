@@ -10,37 +10,37 @@ public class Perception : MonoBehaviour
 
 	public Unit unit { get { return GetComponentInParent<Unit>(); } }
 
-	Mesh mesh;
-	public MeshRenderer meshRenderer;
-	public MeshFilter meshFilter;
+	// Mesh mesh;
+	// public MeshRenderer meshRenderer;
+	// public MeshFilter meshFilter;
 
-	void Start() {
-		mesh = new Mesh {
-			name = string.Format("{0} Perception Mesh", unit.name)
-		};
-	}
+	// void Start() {
+	// 	mesh = new Mesh {
+	// 		name = string.Format("{0} Perception Mesh", unit.name)
+	// 	};
+	// }
 
-	public void SetViewMesh(Vector3[] vertices) {
-		mesh.vertices = vertices;
-		mesh.triangles = new int[] {
-			0, 1, 2
-		};
-		mesh.normals = new Vector3[] {
-			Vector3.back, Vector3.back, Vector3.back
-		};
-		mesh.uv = new Vector2[] {
-			Vector2.zero, Vector2.right, Vector2.up
-		};
-		mesh.tangents = new Vector4[] {
-			new Vector4(1f, 0f, 0f, -1f),
-			new Vector4(1f, 0f, 0f, -1f),
-			new Vector4(1f, 0f, 0f, -1f)
-		};
-		meshFilter.mesh = mesh;
-	}
+	// public void SetViewMesh(Vector3[] vertices) {
+	// 	mesh.vertices = vertices;
+	// 	mesh.triangles = new int[] {
+	// 		0, 1, 2
+	// 	};
+	// 	mesh.normals = new Vector3[] {
+	// 		Vector3.up, Vector3.up, Vector3.up
+	// 	};
+	// 	// mesh.uv = new Vector2[] {
+	// 	// 	Vector2.zero, Vector2.right, Vector2.up
+	// 	// };
+	// 	// mesh.tangents = new Vector4[] {
+	// 	// 	new Vector4(1f, 0f, 0f, -1f),
+	// 	// 	new Vector4(1f, 0f, 0f, -1f),
+	// 	// 	new Vector4(1f, 0f, 0f, -1f)
+	// 	// };
+	// 		meshFilter.mesh = mesh;
+	// }
 
-	public void HideViewMesh() {
-		mesh.triangles = new int[0];
-		mesh.vertices = new Vector3[0];
-	}
+	// public void HideViewMesh() {
+	// 	mesh.triangles = new int[0];
+	// 	mesh.vertices = new Vector3[0];
+	// }
 }

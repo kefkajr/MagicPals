@@ -391,17 +391,17 @@ public class ComputerPlayer : MonoBehaviour
 			int score = option.GetScore(actor, poa.ability);
 			// Console.Main.Log(string.Format("Option {0} - Best Move: {1}, Target: {2}, Score: {3}", i, option.bestMoveTile.ToString(), option.target.ToString(), score));
 
-			BC.board.SelectTiles(new List<Tile>{option.bestMoveTile}, Color.green);
-			BC.board.SelectTiles(option.areaTargets, Color.cyan);
-			BC.board.SelectTiles(option.marks.Select(mark => mark.tile).ToList(), Color.magenta);
-			BC.board.SelectTiles(option.marks.Where(mark => mark.isMatch).Select(mark => mark.tile).ToList(), Color.red);
-			BC.board.SelectTiles(new List<Tile>{option.target}, Color.blue);
+			BC.board.HighlightTiles(new List<Tile>{option.bestMoveTile}, Color.green);
+			BC.board.HighlightTiles(option.areaTargets, Color.cyan);
+			BC.board.HighlightTiles(option.marks.Select(mark => mark.tile).ToList(), Color.magenta);
+			BC.board.HighlightTiles(option.marks.Where(mark => mark.isMatch).Select(mark => mark.tile).ToList(), Color.red);
+			BC.board.HighlightTiles(new List<Tile>{option.target}, Color.blue);
 
 			while(isPaused)  {
 				yield return null;
 			}
 
-			BC.board.DeSelectAllTiles();
+			BC.board.DeHighlightAllTiles();
 			
 			if (score > bestScore)
 			{

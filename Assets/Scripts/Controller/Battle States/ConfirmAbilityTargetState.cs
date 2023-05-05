@@ -13,7 +13,7 @@ public class ConfirmAbilityTargetState : BattleState
 		base.Enter ();
 		aa = turn.ability.GetComponent<AbilityArea>();
 		tiles = aa.GetTilesInArea(board, pos);
-		board.SelectTiles(tiles);
+		board.HighlightTiles(tiles, BoardColorType.targetAreaHighlight);
 		FindTargets();
 		RefreshPrimaryStatPanel(turn.actor.tile.pos);
 		if (turn.targets.Count > 0)
@@ -29,7 +29,7 @@ public class ConfirmAbilityTargetState : BattleState
 	public override void Exit ()
 	{
 		base.Exit ();
-		board.DeSelectTiles(tiles);
+		board.DeHighlightTiles(tiles);
 		statPanelController.HidePrimary();
 		statPanelController.HideSecondary();
 		hitSuccessIndicator.Hide();
@@ -77,7 +77,7 @@ public class ConfirmAbilityTargetState : BattleState
         {
 			Unit targetImpedingMissle = board.UnitImpedingMissile(turn.actor.tile, pos);
 			if (targetImpedingMissle != null) {
-				board.DeSelectTiles(tiles); // Deselect old tiles
+				board.DeHighlightTiles(tiles); // Deselect old tiles
 				tiles = aa.GetTilesInArea(board, targetImpedingMissle.tile.pos);
 				FindTargets();
 			}

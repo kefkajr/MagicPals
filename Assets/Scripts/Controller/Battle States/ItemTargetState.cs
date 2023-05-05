@@ -22,7 +22,7 @@ public class ItemTargetState : BattleState
 	public override void Exit()
 	{
 		base.Exit();
-		board.DeSelectTiles(tiles);
+		board.DeHighlightTiles(tiles);
 		statPanelController.HidePrimary();
 		statPanelController.HideSecondary();
 	}
@@ -55,7 +55,7 @@ public class ItemTargetState : BattleState
 		Direction dir = p.GetDirection();
 		if (turn.actor.dir != dir)
 		{
-			board.DeSelectTiles(tiles);
+			board.DeHighlightTiles(tiles);
 			turn.actor.dir = dir;
 			turn.actor.Match();
 			SelectTiles();
@@ -65,7 +65,7 @@ public class ItemTargetState : BattleState
 	void SelectTiles()
 	{
 		tiles = ar.GetTilesInRange(board);
-		board.SelectTiles(tiles);
+		board.HighlightTiles(tiles, BoardColorType.targetRangeHighlight);
 	}
 
 	IEnumerator ComputerHighlightTarget()
