@@ -80,13 +80,13 @@ public class AwarenessController : MonoBehaviour
 	{
 		Perception perception = unit.perception;
 		List<Awareness> updatedAwarenesses = new List<Awareness>();
-		HashSet<TileAwarenessTypePair> tilesInRange = GetTilesInVisibleRange(unit);
+		Dictionary<Tile, AwarenessType> tilesInRange = GetTilesInVisibleRange(unit);
 		List<AwarenessType> visibleAwarenessTypes = new List<AwarenessType> { AwarenessType.MayHaveSeen, AwarenessType.Seen };
 
 		// first check MayHaveSeen range, then Seen range.
 		foreach (AwarenessType type in visibleAwarenessTypes)
 		{
-			List<Tile> tilesByType = tilesInRange.Where(t => t.awarenessType == type).Select(t => t.tile).ToList();
+			List<Tile> tilesByType = tilesInRange.Where(t => t.Value == type).Select(t => t.Key).ToList();
 			List<GameObject> tileOccupants = tilesByType.Select(t => t.occupant).Where(o => o != null).ToList();
 			List<Unit> unitsInRange = tileOccupants.Select(o => o.GetComponent<Unit>()).Where(u => u != null).ToList();
 			List<Stealth> stealthsInRange = unitsInRange.Select(unit => unit.GetComponent<Stealth>()).ToList();
@@ -109,18 +109,18 @@ public class AwarenessController : MonoBehaviour
 		return updatedAwarenesses;
 	}
 
-	public HashSet<TileAwarenessTypePair> GetTilesInVisibleRange(Unit unit)
+	public Dictionary<Tile, AwarenessType> GetTilesInVisibleRange(Unit unit)
 	{
 		Perception perception = unit.perception;
 		Vector2 viewingRange = perception.viewingRange;
-		HashSet<TileAwarenessTypePair> validatedTiles = new HashSet<TileAwarenessTypePair>();
+		Dictionary<Tile, AwarenessType> validatedTiles = new Dictionary<Tile, AwarenessType>();
 
 		bool IsValidTile(Tile fromTile, Tile toTile)
 		{
 			if (fromTile == null || toTile == null)
 				return false;
 
-			List<Tile> knownTiles = validatedTiles.Select(t => t.tile).ToList();
+			List<Tile> knownTiles = validatedTiles.Keys.ToList();
 			if (!knownTiles.Contains(fromTile) && fromTile != unit.tile)
 				return false;
 
@@ -133,7 +133,7 @@ public class AwarenessController : MonoBehaviour
 		int dir = (unit.dir == Direction.North || unit.dir == Direction.East) ? 1 : -1;
 
 		// Draw a line from the unit to each of the furthest tiles from their viewing range
-		for (int sightline = (int)-viewingRange.x; sightline < viewingRange.x; sightline++)
+		for (int sightline = (int)-viewingRange.x; sightline <= viewingRange.x; sightline++)
 		{
 
 			Point pos = unit.tile.pos;
@@ -161,12 +161,17 @@ public class AwarenessController : MonoBehaviour
 						if (IsValidTile(fromTile, tile))
 						{
 							tile.isBeingPerceived = true;
-							tile.gizmoAlpha = 1;
 							bool isTileAtEdgeOfVisibleRange = sightline == (int)-viewingRange.x ||
 								sightline == (int)viewingRange.x ||
 								pos == end;
-							tile.gizmoColor = isTileAtEdgeOfVisibleRange ? Color.yellow : Color.red;
-							validatedTiles.Add(new TileAwarenessTypePair(tile, isTileAtEdgeOfVisibleRange ? AwarenessType.MayHaveSeen : AwarenessType.Seen));
+
+							// Make sure the edge tiles are always associated with the MayHaveSeen type,
+							// and that they aren't overwritten with the Seen type.
+							AwarenessType awarenessType = isTileAtEdgeOfVisibleRange ? AwarenessType.MayHaveSeen : AwarenessType.Seen;
+							if (validatedTiles.ContainsKey(tile)) {
+								awarenessType = validatedTiles[tile] == AwarenessType.MayHaveSeen ? validatedTiles[tile] : awarenessType;
+							}
+							validatedTiles[tile] = awarenessType;
 						}
 						else
 						{
@@ -282,9 +287,9 @@ public class AwarenessController : MonoBehaviour
 	}
 
 	public void DisplayViewingRange(Unit unit) {
-		HashSet<TileAwarenessTypePair> tilesInRange = GetTilesInVisibleRange(unit);
-		List<Tile> mainRangeTiles = tilesInRange.Where(tap => tap.awarenessType == AwarenessType.Seen).Select(tap => tap.tile).ToList();
-		List<Tile> edgeRangeTiles = tilesInRange.Where(tap => tap.awarenessType == AwarenessType.MayHaveSeen).Select(tap => tap.tile).ToList();
+		Dictionary<Tile, AwarenessType> tilesInRange = GetTilesInVisibleRange(unit);
+		List<Tile> mainRangeTiles = tilesInRange.Where(tap => tap.Value == AwarenessType.Seen).Select(tap => tap.Key).ToList();
+		List<Tile> edgeRangeTiles = tilesInRange.Where(tap => tap.Value == AwarenessType.MayHaveSeen).Select(tap => tap.Key).ToList();
 
 		battleController.board.HighlightTiles(mainRangeTiles, BoardColorType.viewingRangeHighlight);
 		battleController.board.HighlightTiles(edgeRangeTiles, BoardColorType.viewingRangeEdgeHighlight);

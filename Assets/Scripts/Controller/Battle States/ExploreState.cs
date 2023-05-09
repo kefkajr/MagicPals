@@ -6,6 +6,7 @@ public class ExploreState : BattleState
 	public override void Enter ()
 	{
 		base.Enter ();
+		board.DeHighlightAllTiles();
 		RefreshPrimaryStatPanel(pos);
 		RefreshAwarenessLines(pos);
 	}

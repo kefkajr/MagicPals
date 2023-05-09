@@ -25,6 +25,14 @@ public class MoveTargetState : BattleState
 		tiles = null;
 		statPanelController.HidePrimary();
 	}
+
+	protected override void OnMove(object sender, MoveEventData moveEventData)
+	{
+		base.OnMove(sender, moveEventData);
+		// Keep move range tile highlights from being overridden by other highlights (i.e. viewing range highlights)
+		board.HighlightTiles(tiles, BoardColorType.moveRangeHighlight);
+	}
+
 	protected override void OnSubmit ()
 	{
 		if (driver.Current == DriverType.Computer) return;

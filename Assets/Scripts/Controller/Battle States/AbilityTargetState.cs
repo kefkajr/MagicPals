@@ -5,15 +5,20 @@ using System.Collections.Generic;
 public class AbilityTargetState : BattleState 
 {
 	List<Tile> tiles;
-	AbilityRange ar;
+	AbilityRange range;
+	AbilityArea area;
 	
 	public override void Enter ()
 	{
 		base.Enter ();
-		ar = turn.ability.GetComponent<AbilityRange>();
-		SelectTiles ();
+		range = turn.ability.GetComponent<AbilityRange>();
+		area = turn.ability.GetComponent<AbilityArea>();
+
+		HighlightRangeTiles ();
+		HighlightAreaTiles();
+
 		statPanelController.ShowPrimary(turn.actor.gameObject);
-		if (ar.directionOriented)
+		if (range.directionOriented)
 			RefreshSecondaryStatPanel(pos);
 		if (driver.Current == DriverType.Computer)
 			StartCoroutine(ComputerHighlightTarget());
@@ -29,7 +34,10 @@ public class AbilityTargetState : BattleState
 
 	protected override void OnMove(object sender, MoveEventData moveEventData)
 	{
-		if (ar.directionOriented)
+		board.DeHighlightAllTiles();
+		HighlightRangeTiles ();
+
+		if (range.directionOriented)
 		{
 			ChangeDirection(moveEventData.pointTranslatedByCameraDirection);
 		}
@@ -38,13 +46,15 @@ public class AbilityTargetState : BattleState
 			SelectTile(moveEventData.pointTranslatedByCameraDirection + pos);
 			RefreshSecondaryStatPanel(pos);
 		}
+
+		HighlightAreaTiles();
 	}
 	
 	protected override void OnSubmit ()
 	{
 		if (driver.Current == DriverType.Computer) return;
 
-		if (ar.directionOriented || tiles.Contains(board.GetTile(pos)))
+		if (range.directionOriented || tiles.Contains(board.GetTile(pos)))
 		{
 			turn.abilityEpicenterTile = board.GetTile(pos);
 			owner.ChangeState<ConfirmAbilityTargetState>();
@@ -60,6 +70,12 @@ public class AbilityTargetState : BattleState
 		else
 			owner.ChangeState<CategorySelectionState>();
 	}
+
+	// protected override void SelectTile (Point p) {
+	// 	Tile potentialTile = board.GetTile(p);
+	// 	if (tiles.Contains(potentialTile))
+	// 		base.SelectTile(p);
+	// }
 	
 	void ChangeDirection (Point p)
 	{
@@ -69,19 +85,26 @@ public class AbilityTargetState : BattleState
 			board.DeHighlightTiles(tiles);
 			turn.actor.dir = dir;
 			turn.actor.Match();
-			SelectTiles ();
 		}
 	}
 	
-	void SelectTiles ()
+	void HighlightRangeTiles ()
 	{
-		tiles = ar.GetTilesInRange(board);
+		tiles = range.GetTilesInRange(board);
 		board.HighlightTiles(tiles, BoardColorType.targetRangeHighlight);
+	}
+
+	void HighlightAreaTiles ()
+	{
+		if (tiles.Contains(board.GetTile(pos))) {
+			List<Tile> areaTiles = area.GetTilesInArea(board, pos);
+			board.HighlightTiles(areaTiles, BoardColorType.targetAreaHighlight);
+		}
 	}
 
 	IEnumerator ComputerHighlightTarget ()
 	{
-		if (ar.directionOriented)
+		if (range.directionOriented)
 		{
 			ChangeDirection(turn.plan.attackDirection.GetNormal());
 			yield return new WaitForSeconds(0.25f);
@@ -102,7 +125,7 @@ public class AbilityTargetState : BattleState
 		yield return new WaitForSeconds(0.5f);
 
 		// Define ability epicenter
-		if (ar.directionOriented || tiles.Contains(board.GetTile(pos)))
+		if (range.directionOriented || tiles.Contains(board.GetTile(pos)))
 		{
 			turn.abilityEpicenterTile = board.GetTile(pos);
 		}

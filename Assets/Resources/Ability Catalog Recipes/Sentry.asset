@@ -20,3 +20,6 @@ MonoBehaviour:
   - name: Phantasm Skill
     entries:
     - Prominence
+  - name: Sagacity Skill
+    entries:
+    - Water
