@@ -13,7 +13,7 @@ public class ConfirmAbilityTargetState : BattleState
 		base.Enter ();
 		aa = turn.ability.GetComponent<AbilityArea>();
 		tiles = aa.GetTilesInArea(board, pos);
-		board.HighlightTiles(tiles, BoardColorType.targetAreaHighlight);
+		board.HighlightTiles(tiles, TileHighlightColorType.targetAreaHighlight);
 		FindTargets();
 		RefreshPrimaryStatPanel(turn.actor.tile.pos);
 		if (turn.targets.Count > 0)

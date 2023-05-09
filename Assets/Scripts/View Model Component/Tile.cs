@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public class Tile : MonoBehaviour 
 {
@@ -17,6 +18,15 @@ public class Tile : MonoBehaviour
 	public GameObject occupant;
 	public Trap trap;
 	public List<Merchandise> items;
+
+	public HashSet<TileHighlightColorType> highlights;
+
+	public Color moveRangeHighlightColor = new Color(0, 1, 1, 1);
+	public Color targetRangeHighlightColor = new Color(0, 1, 1, 1);
+	public Color targetAreaHighlightColor = new Color(0, 1, 1, 1);
+	public Color viewingRangeHighlightColor = new Color(0, 1, 1, 1);
+	public Color viewingRangeEdgeHighlightColor = new Color(0, 1, 1, 1);
+	public Color defaultTileColor = new Color(1, 1, 1, 1);
 
 	[HideInInspector] public Tile prev;
 	[HideInInspector] public int distance;
@@ -52,13 +62,54 @@ public class Tile : MonoBehaviour
 		Load (t.point, t.height);
 	}
 
-	public void SetHighlightColor(Color color) {
-		highlightMeshRenderer.gameObject.SetActive(true);
-		highlightMeshRenderer.material.SetColor("_Color", color);
+	public void AddHighlight(TileHighlightColorType type) {
+		highlights.Add(type);
+		SetHighlightColor();
 	}
 
-	public void HideHighlightColor() {
-		highlightMeshRenderer.gameObject.SetActive(false);
+	public void RemoveHighlight(TileHighlightColorType type) {
+		highlights.Remove(type);
+		SetHighlightColor();
+	}
+
+	public void ClearHighlights() {
+		highlights = new HashSet<TileHighlightColorType>();
+		SetHighlightColor();
+	}
+
+	public void SetHighlightColor() {
+		if (highlights.Count == 0) {
+			highlightMeshRenderer.gameObject.SetActive(false);
+			return;
+		}
+
+		// Color newColor = new Color();
+		// foreach (TileHighlightColorType h in highlights) {
+		// 	Color color = ColorForType(h);
+		// 	newColor += color;
+		// }
+		// newColor = newColor / highlights.Count;
+		Color newColor = ColorForType(highlights.Last());
+
+		highlightMeshRenderer.gameObject.SetActive(true);
+		highlightMeshRenderer.material.SetColor("_Color", newColor);
+	}
+
+	Color ColorForType(TileHighlightColorType type) {
+		switch(type) {
+			case TileHighlightColorType.moveRangeHighlight:
+				return moveRangeHighlightColor;
+			case TileHighlightColorType.targetRangeHighlight:
+				return targetRangeHighlightColor;
+			case TileHighlightColorType.targetAreaHighlight:
+				return targetAreaHighlightColor;
+			case TileHighlightColorType.viewingRangeHighlight:
+				return viewingRangeHighlightColor;
+			case TileHighlightColorType.viewingRangeEdgeHighlight:
+				return viewingRangeEdgeHighlightColor;
+			default:
+				return defaultTileColor;
+		}
 	}
 
 	void Match ()
@@ -118,4 +169,8 @@ public class TileData
 			this.wallData.Add(new WallData(wall));
 		}
 	}
+}
+
+public enum TileHighlightColorType {
+	moveRangeHighlight, targetRangeHighlight, targetAreaHighlight, viewingRangeHighlight, viewingRangeEdgeHighlight, defaultTile
 }

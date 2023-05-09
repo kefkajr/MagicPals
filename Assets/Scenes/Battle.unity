@@ -480,12 +480,6 @@ MonoBehaviour:
   wallPrefab: {fileID: 169248, guid: 62c0e675ae7a645cc8506fdd82c9bbe0, type: 3}
   exitPrefab: {fileID: 3994794568852751041, guid: f31305faa638d436faebf1e5dce559f1,
     type: 3}
-  moveRangeHighlightColor: {r: 0.5093005, g: 0.990566, b: 0.990566, a: 1}
-  targetRangeHighlightColor: {r: 0.5058824, g: 0.9921569, b: 0.9960785, a: 1}
-  targetAreaHighlightColor: {r: 1, g: 0.4847802, b: 0, a: 1}
-  viewingRangeHighlightColor: {r: 0.75259566, g: 0.03921567, b: 0.9607843, a: 1}
-  viewingRangeEdgeHighlightColor: {r: 0.856955, g: 0.46293163, b: 0.9716981, a: 1}
-  defaultTileColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1001 &411106485
 PrefabInstance:
   m_ObjectHideFlags: 0

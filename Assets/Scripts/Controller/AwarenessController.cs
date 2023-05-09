@@ -291,8 +291,8 @@ public class AwarenessController : MonoBehaviour
 		List<Tile> mainRangeTiles = tilesInRange.Where(tap => tap.Value == AwarenessType.Seen).Select(tap => tap.Key).ToList();
 		List<Tile> edgeRangeTiles = tilesInRange.Where(tap => tap.Value == AwarenessType.MayHaveSeen).Select(tap => tap.Key).ToList();
 
-		battleController.board.HighlightTiles(mainRangeTiles, BoardColorType.viewingRangeHighlight);
-		battleController.board.HighlightTiles(edgeRangeTiles, BoardColorType.viewingRangeEdgeHighlight);
+		battleController.board.HighlightTiles(mainRangeTiles, TileHighlightColorType.viewingRangeHighlight);
+		battleController.board.HighlightTiles(edgeRangeTiles, TileHighlightColorType.viewingRangeEdgeHighlight);
 
 		mainRangeTiles.AddRange(edgeRangeTiles);
 		highlightedViewingRangeTiles = mainRangeTiles;

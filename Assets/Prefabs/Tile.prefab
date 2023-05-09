@@ -119,6 +119,12 @@ MonoBehaviour:
   occupant: {fileID: 0}
   trap: {fileID: 0}
   items: []
+  moveRangeHighlightColor: {r: 0.9716981, g: 0.9447439, b: 0.38042897, a: 1}
+  targetRangeHighlightColor: {r: 0.2756764, g: 0.7476909, b: 0.990566, a: 1}
+  targetAreaHighlightColor: {r: 0.990566, g: 0.5873155, b: 0.22895159, a: 1}
+  viewingRangeHighlightColor: {r: 0.92072254, g: 0.2783019, b: 1, a: 1}
+  viewingRangeEdgeHighlightColor: {r: 0.93535537, g: 0.55998576, b: 0.9811321, a: 1}
+  defaultTileColor: {r: 1, g: 1, b: 1, a: 1}
   prev: {fileID: 0}
   distance: 0
   g: 0

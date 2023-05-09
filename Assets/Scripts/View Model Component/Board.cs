@@ -22,12 +22,6 @@ public class Board : MonoBehaviour
 		new Point(1, 0),
 		new Point(-1, 0)
 	};
-	public Color moveRangeHighlightColor = new Color(0, 1, 1, 1);
-	public Color targetRangeHighlightColor = new Color(0, 1, 1, 1);
-	public Color targetAreaHighlightColor = new Color(0, 1, 1, 1);
-	public Color viewingRangeHighlightColor = new Color(0, 1, 1, 1);
-	public Color viewingRangeEdgeHighlightColor = new Color(0, 1, 1, 1);
-	public Color defaultTileColor = new Color(1, 1, 1, 1);
 	#endregion
 
 	void Awake ()
@@ -157,7 +151,7 @@ public class Board : MonoBehaviour
 			openSet.Remove(currentTile);
 			closedSet.Add(currentTile);
 
-			HighlightTiles(new List<Tile>{currentTile}, Color.green);
+			HighlightTiles(new List<Tile>{currentTile}, TileHighlightColorType.moveRangeHighlight);
 
 			if (currentTile == end)
 			{
@@ -171,7 +165,7 @@ public class Board : MonoBehaviour
 
 				if (WallSeparatingTiles(currentTile, neighbour) != null || closedSet.Contains(neighbour)) continue;
 
-				HighlightTiles(new List<Tile>{neighbour}, Color.blue);
+				HighlightTiles(new List<Tile>{neighbour}, TileHighlightColorType.targetRangeHighlight);
 
 				int newMovementCostToNeighbour = (currentTile.g + GetDistance(currentTile, neighbour)) * MovementCostMultiplier(unit, neighbour);
 				if (newMovementCostToNeighbour < neighbour.g || !openSet.Contains(neighbour))
@@ -181,7 +175,7 @@ public class Board : MonoBehaviour
 					neighbour.prev = currentTile;
 
 					if (!openSet.Contains(neighbour)) {
-						HighlightTiles(new List<Tile>{neighbour}, Color.cyan);
+						HighlightTiles(new List<Tile>{neighbour}, TileHighlightColorType.targetAreaHighlight);
 						openSet.Add(neighbour);
 					}
 				}
@@ -192,7 +186,7 @@ public class Board : MonoBehaviour
 					yield return null;
 				}
 			}
-			HighlightTiles(new List<Tile>{currentTile}, Color.red);
+			HighlightTiles(new List<Tile>{currentTile}, TileHighlightColorType.viewingRangeHighlight);
 		}
 
 		DeHighlightAllTiles();
@@ -225,7 +219,7 @@ public class Board : MonoBehaviour
 		{
 			path.Add(currentTile);
 			currentTile = currentTile.prev;
-			HighlightTiles(path, BoardColorType.targetRangeHighlight);
+			HighlightTiles(path, TileHighlightColorType.targetRangeHighlight);
 		}
 
 		path.Reverse();
@@ -525,18 +519,13 @@ public class Board : MonoBehaviour
 		return null;
 	}
 
-	public void HighlightTiles (List<Tile> tiles, BoardColorType type)
-	{
-		HighlightTiles(tiles, ColorForType(type));
-	}
-
-	public void HighlightTiles (List<Tile> tiles, Color color)
+	public void HighlightTiles (List<Tile> tiles, TileHighlightColorType type)
 	{
 		for (int i = 0; i < tiles.Count; ++i) {
 			Tile tile = tiles[i];
 			if (tile == null)
 				continue;
-			tile.SetHighlightColor(color);
+			tile.AddHighlight(type);
 		}
 	}
 
@@ -546,7 +535,7 @@ public class Board : MonoBehaviour
 			Tile tile = tiles[i];
 			if (tile == null)
 				continue;
-			tile.HideHighlightColor();
+			tile.ClearHighlights();
 		}
 	}
 
@@ -573,26 +562,5 @@ public class Board : MonoBehaviour
 		a = b;
 		b = temp;
 	}
-
-	Color ColorForType(BoardColorType type) {
-		switch(type) {
-			case BoardColorType.moveRangeHighlight:
-				return moveRangeHighlightColor;
-			case BoardColorType.targetRangeHighlight:
-				return targetRangeHighlightColor;
-			case BoardColorType.targetAreaHighlight:
-				return targetAreaHighlightColor;
-			case BoardColorType.viewingRangeHighlight:
-				return viewingRangeHighlightColor;
-			case BoardColorType.viewingRangeEdgeHighlight:
-				return viewingRangeEdgeHighlightColor;
-			default:
-				return defaultTileColor;
-		}
-	}
 	#endregion
-}
-
-public enum BoardColorType {
-	moveRangeHighlight, targetRangeHighlight, targetAreaHighlight, viewingRangeHighlight, viewingRangeEdgeHighlight, defaultTile
 }

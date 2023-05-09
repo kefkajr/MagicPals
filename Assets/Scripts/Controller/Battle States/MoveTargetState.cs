@@ -12,7 +12,7 @@ public class MoveTargetState : BattleState
 		base.Enter ();
 		Movement mover = turn.actor.GetComponent<Movement>();
 		tiles = mover.GetTilesInRange(board);
-		board.HighlightTiles(tiles, BoardColorType.moveRangeHighlight);
+		board.HighlightTiles(tiles, TileHighlightColorType.moveRangeHighlight);
 		RefreshPrimaryStatPanel(pos);
 		if (driver.Current == DriverType.Computer)
 			StartCoroutine(ComputerMoveTarget());
@@ -30,7 +30,7 @@ public class MoveTargetState : BattleState
 	{
 		base.OnMove(sender, moveEventData);
 		// Keep move range tile highlights from being overridden by other highlights (i.e. viewing range highlights)
-		board.HighlightTiles(tiles, BoardColorType.moveRangeHighlight);
+		board.HighlightTiles(tiles, TileHighlightColorType.moveRangeHighlight);
 	}
 
 	protected override void OnSubmit ()

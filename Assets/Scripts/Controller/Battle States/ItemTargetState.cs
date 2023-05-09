@@ -65,7 +65,7 @@ public class ItemTargetState : BattleState
 	void SelectTiles()
 	{
 		tiles = ar.GetTilesInRange(board);
-		board.HighlightTiles(tiles, BoardColorType.targetRangeHighlight);
+		board.HighlightTiles(tiles, TileHighlightColorType.targetRangeHighlight);
 	}
 
 	IEnumerator ComputerHighlightTarget()

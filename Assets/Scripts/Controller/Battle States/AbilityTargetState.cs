@@ -91,14 +91,14 @@ public class AbilityTargetState : BattleState
 	void HighlightRangeTiles ()
 	{
 		tiles = range.GetTilesInRange(board);
-		board.HighlightTiles(tiles, BoardColorType.targetRangeHighlight);
+		board.HighlightTiles(tiles, TileHighlightColorType.targetRangeHighlight);
 	}
 
 	void HighlightAreaTiles ()
 	{
 		if (tiles.Contains(board.GetTile(pos))) {
 			List<Tile> areaTiles = area.GetTilesInArea(board, pos);
-			board.HighlightTiles(areaTiles, BoardColorType.targetAreaHighlight);
+			board.HighlightTiles(areaTiles, TileHighlightColorType.targetAreaHighlight);
 		}
 	}
 
