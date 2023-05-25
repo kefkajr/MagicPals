@@ -22,7 +22,7 @@ public class InitBattleState : BattleState
 		owner.patrolController.Intialize(levelData.patrols);
 		owner.uiController.Setup(units.Count);
 
-		owner.round = owner.gameObject.AddComponent<TurnOrderController>().Round();
+		owner.round = owner.turnOrderController.Round();
 		yield return null;
 		//owner.ChangeState<CutSceneState>();
 		owner.ChangeState<SelectUnitState>();

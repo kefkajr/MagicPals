@@ -30,4 +30,14 @@ public class Unit : MonoBehaviour
 		transform.localEulerAngles = dir.ToEuler();
 	}
 
+	public bool IsDefeated ()
+	{
+		Health health = GetComponent<Health>();
+		if (health)
+			return health.MinHP == health.HP;
+		
+		Stats stats = GetComponent<Stats>();
+		return stats[StatTypes.HP] == 0;
+	}
+
 }

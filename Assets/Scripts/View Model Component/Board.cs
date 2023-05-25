@@ -180,7 +180,8 @@ public class Board : MonoBehaviour
 					}
 				}
 
-				Console.Main.Log(string.Format("{0} - G: {1}, H: {2}, F: {3}", neighbour, neighbour.g, neighbour.h, neighbour.f));
+				if (isPaused)
+					Console.Main.Log(string.Format("{0} - G: {1}, H: {2}, F: {3}", neighbour, neighbour.g, neighbour.h, neighbour.f));
 
 				while(isPaused)  {
 					yield return null;

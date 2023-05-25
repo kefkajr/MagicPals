@@ -23,11 +23,12 @@ public class EscapeVictoryCondition : BaseVictoryCondition
 		// If any Ally is defeated, Game Over
 		for (int i = 0; i < bc.units.Count; ++i)
 		{
-			Alliance a = bc.units[i].GetComponent<Alliance>();
+			Unit unit = bc.units[i];
+			Alliance a = unit.GetComponent<Alliance>();
 			if (a == null)
 				continue;
 			
-			if (a.type == Alliances.Hero && IsDefeated(bc.units[i]))
+			if (a.type == Alliances.Hero && unit.IsDefeated())
 				Victor = Alliances.Enemy;
 		}
 	}

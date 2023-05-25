@@ -49,24 +49,15 @@ public abstract class BaseVictoryCondition : MonoBehaviour
 	{
 		for (int i = 0; i < bc.units.Count; ++i)
 		{
-			Alliance a = bc.units[i].GetComponent<Alliance>();
+			Unit unit = bc.units[i];
+			Alliance a = unit.GetComponent<Alliance>();
 			if (a == null)
 				continue;
 			
-			if (a.type == type && !IsDefeated(bc.units[i]))
+			if (a.type == type && !unit.IsDefeated())
 				return false;
 		}
 		return true;
-	}
-	
-	protected virtual bool IsDefeated (Unit unit)
-	{
-		Health health = unit.GetComponent<Health>();
-		if (health)
-			return health.MinHP == health.HP;
-		
-		Stats stats = unit.GetComponent<Stats>();
-		return stats[StatTypes.HP] == 0;
 	}
 	#endregion
 }
