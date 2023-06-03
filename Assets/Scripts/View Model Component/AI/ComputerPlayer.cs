@@ -537,6 +537,7 @@ public class ComputerPlayer : MonoBehaviour
 		//TODO: Avoid showing back to foe, but try to face a point of interest
 		if (topPriorityFoe != null)
 		{
+			// Try to face the foe and turn your back away from them
 			Direction start = actor.dir;
 			for (int i = 0; i < 4; ++i)
 			{
@@ -548,6 +549,14 @@ public class ComputerPlayer : MonoBehaviour
 				}
 			}
 			actor.dir = start;
+		} else if (topPriorityTileOfInterest != null) {
+			// Try to face the tile of interest
+			// *** TODO: Find some other way to access the PlanOfAttack than this. Maybe make it a class property?
+			var directions = BC.turn.plan.moveLocation.GetDirections(topPriorityTileOfInterest);
+			if (directions.Count > 0)
+				dir = BC.turn.plan.moveLocation.GetDirections(topPriorityTileOfInterest).First();
+			else
+				dir = actor.dir; // Just continue facing in the current direction.
 		} else {
 			Patrol patrol = PC.GetPatrolForUnit(actor);
 			if (patrol != null) {
