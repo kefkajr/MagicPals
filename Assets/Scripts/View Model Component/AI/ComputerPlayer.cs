@@ -262,7 +262,8 @@ public class ComputerPlayer : MonoBehaviour
 	List<Tile> GetMoveOptions ()
 	{
 		List<Tile> tiles = actor.GetComponent<Movement>().GetTilesInRange(BC.board);
-		return tiles.OrderBy(tile => tile.pos.x).ThenBy(tile => tile.pos.y).ToList();
+		List<Tile> unoccupiedTiles = tiles.Where((t) => t.occupant == null).ToList();
+		return unoccupiedTiles.OrderBy(tile => tile.pos.x).ThenBy(tile => tile.pos.y).ToList();
 	}
 
 	/* As we were creating each Attack Option (a note on the effect area of using an ability),

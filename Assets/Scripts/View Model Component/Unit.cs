@@ -20,8 +20,17 @@ public class Unit : MonoBehaviour
 		// Link unit and tile references
 		tile = target;
 		
-		if (target != null)
-			target.occupant = gameObject;
+		if (target != null) {
+			// If this unit is passing through an occupied tile,
+			// presumably the occupant is an ally. This unit should not
+			// become the new occupant, lest we lose the old occupant.
+			
+			// *** This should be stress tested.
+			// An alternate solution would be to use the Place method more rarely. 
+			if (target.occupant == null) {
+				target.occupant = gameObject;
+			}
+		}
 	}
 
 	public void Match ()
