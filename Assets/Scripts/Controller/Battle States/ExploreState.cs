@@ -8,7 +8,7 @@ public class ExploreState : BattleState
 		base.Enter ();
 		board.DeHighlightAllTiles();
 		RefreshPrimaryStatPanel(pos);
-		RefreshAwarenessLines(pos);
+		DisplayAwarenessInfoForUnitAtPoint(pos);
 	}
 
 	public override void Exit ()

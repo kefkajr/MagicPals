@@ -83,7 +83,7 @@ public abstract class BattleState : State
 	{
 		SelectTile(d.pointTranslatedByCameraDirection + pos);
 		RefreshPrimaryStatPanel(pos);
-		RefreshAwarenessLines(pos);
+		DisplayAwarenessInfoForUnitAtPoint(pos);
 	}
 
 	protected virtual void OnPoint (object sender, Vector2 v)
@@ -131,15 +131,15 @@ public abstract class BattleState : State
 		return content != null ? content.GetComponent<Unit>() : null;
 	}
 
-	protected virtual void RefreshAwarenessLines (Point p)
+	protected virtual void DisplayAwarenessInfoForUnitAtPoint (Point p)
 	{
+		owner.awarenessController.ClearAwarenessLines();
+		owner.awarenessController.HideViewingRanges();
+
 		Unit target = GetUnit(p);
 		if (target != null && !target.IsDefeated()) {
 			owner.awarenessController.DisplayAwarenessLines(target);
 			owner.awarenessController.DisplayViewingRange(target);
-		} else {
-			owner.awarenessController.ClearAwarenessLines();
-			owner.awarenessController.HideViewingRanges();
 		}
 	}
 
