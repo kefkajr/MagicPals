@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 
-public class ConversationPanel : MonoBehaviour  {
+public class ConversationPanel : MonoBehaviour {
 	public Text message;
 	public Image speaker;
 	public GameObject arrow;
@@ -16,7 +16,7 @@ public class ConversationPanel : MonoBehaviour  {
 		t.loopCount = -1;
 	}
 
-	public IEnumerator DisPlay(SpeakerData sd) {
+	public IEnumerator Display(SpeakerData sd) {
 		speaker.sprite = sd.speaker;
 		speaker.SetNativeSize();
 
