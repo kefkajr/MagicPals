@@ -48,8 +48,9 @@ public class EndFacingState : BattleState
 
 	IEnumerator ComputerControl ()
 	{
-		yield return new WaitForSeconds(0.5f);
 		turn.actor.dir = owner.cpu.DetermineEndFacingDirection();
+		owner.cpu.HandleEndOfInvestigation();
+		yield return new WaitForSeconds(0.5f);
 		turn.actor.Match();
 		owner.facingIndicator.SetDirection(turn.actor.dir);
 

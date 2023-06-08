@@ -12,8 +12,8 @@ public class ComputerPlayer : MonoBehaviour
 	PatrolController PC { get { return BC.patrolController; } }
 	Alliance actorAlliance { get { return actor.GetComponent<Alliance>(); }}
 	Perception perception { get { return actor.GetComponent<Perception>(); } }
-	Unit topPriorityFoe;
-	Tile topPriorityTileOfInterest;
+	Awareness topPriorityFoeAwareness;
+	Awareness topPriorityInterestAwareness;
 	#endregion
 	
 	#region MonoBehaviour
@@ -38,7 +38,7 @@ public class ComputerPlayer : MonoBehaviour
 
 		PlanOfAttack poa = new PlanOfAttack();
 
-		if (topPriorityFoe != null)
+		if (topPriorityFoeAwareness != null)
 		{
 			// Step 1: Decide what ability to use
 			AttackPattern pattern = actor.GetComponentInChildren<AttackPattern>();
@@ -61,7 +61,7 @@ public class ComputerPlayer : MonoBehaviour
 				yield return PlanDirectionDependent(poa);
 		}
 		if (poa.ability == null) {
-			if (topPriorityTileOfInterest != null) {
+			if (topPriorityInterestAwareness != null) {
 				// Just position yourself better for the next turn.
 				/// TODO: Update the attack option algorithm to just give us the best move option for next turn.
 				yield return Investigate(poa);
@@ -82,7 +82,7 @@ public class ComputerPlayer : MonoBehaviour
 			}
 		}
 
-		if(topPriorityFoe != null || topPriorityTileOfInterest != null) {
+		if(topPriorityFoeAwareness != null || topPriorityInterestAwareness != null) {
 			// If this unit is preoccupied, make sure they're not on patrol anymore
 			PC.RemoveUnitFromPatrol(actor);
 		}
@@ -449,8 +449,9 @@ public class ComputerPlayer : MonoBehaviour
 
 	IEnumerator Investigate(PlanOfAttack poa)
 	{
-		if (topPriorityTileOfInterest != null)
+		if (topPriorityInterestAwareness != null)
 		{
+			Tile topPriorityTileOfInterest = BC.board.GetTile(topPriorityInterestAwareness.pointOfInterest);
 			List<Tile> moveOptions = GetMoveOptions();
 			yield return BC.board.FindPath(actor, actor.tile, topPriorityTileOfInterest, delegate (List<Tile> finalPath) {
 				Console.Main.Log(string.Format("{0} is investigating {1}", actor.name, topPriorityTileOfInterest.ToString()));
@@ -477,8 +478,8 @@ public class ComputerPlayer : MonoBehaviour
 
 	void SetTopPriorityFoeAndPointOfInterest()
 	{
-		topPriorityFoe = null;
-		topPriorityTileOfInterest = null;
+		topPriorityFoeAwareness = null;
+		topPriorityInterestAwareness = null;
 
 		List<Awareness> topAwarenesses = AC.TopAwarenesses(actor).FindAll( delegate (Awareness a) {
 			Alliance otherAlliance = a.stealth.unit.GetComponentInChildren<Alliance>();
@@ -492,34 +493,35 @@ public class ComputerPlayer : MonoBehaviour
 			if (a.type == AwarenessType.Seen)
             {
 				// Find the nearest potential foe
-				if (topPriorityFoe != null)
+				if (topPriorityFoeAwareness != null)
                 {
 					// This new foe is the top priority if they're closer.
+					Unit topPriorityFoe = topPriorityFoeAwareness.stealth.unit;
 					int distanceToCurrentFoe = BC.board.GetDistance(actor.tile, a.stealth.unit.tile);
 					int distanceToPotentialFoe = BC.board.GetDistance(actor.tile, a.stealth.unit.tile);
-					topPriorityFoe = distanceToPotentialFoe < distanceToCurrentFoe ? a.stealth.unit : topPriorityFoe;
-					topPriorityTileOfInterest = topPriorityFoe.tile; // Also set top priotiy tile of interest
+					topPriorityFoeAwareness = distanceToPotentialFoe < distanceToCurrentFoe ? a : topPriorityFoeAwareness;
+					topPriorityInterestAwareness = topPriorityFoeAwareness; // Also set top priotiy tile of interest
 				}
 				else
                 {
 					// This foe is the top priority.
-					topPriorityFoe = a.stealth.unit;
-					topPriorityTileOfInterest = topPriorityFoe.tile; // Also set top priotiy tile of interest
+					topPriorityFoeAwareness = a;
+					topPriorityInterestAwareness = topPriorityFoeAwareness; // Also set top priotiy tile of interest
                 }
             } else
             {
 				// Find the nearest potential point of interest
-				if (topPriorityTileOfInterest != null)
+				if (topPriorityInterestAwareness != null)
 				{
 					// This new point of interest is the top priority if they're closer.
 					int distanceToCurrentPointOfInterest = BC.board.GetDistance(actor.tile, BC.board.GetTile(a.pointOfInterest));
 					int distanceToPotentialPointOfInterest = BC.board.GetDistance(actor.tile, BC.board.GetTile(a.pointOfInterest));
-					topPriorityFoe = distanceToPotentialPointOfInterest < distanceToCurrentPointOfInterest ? a.stealth.unit : topPriorityFoe;
+					topPriorityFoeAwareness = distanceToPotentialPointOfInterest < distanceToCurrentPointOfInterest ? a : topPriorityFoeAwareness;
 				}
 				else
 				{
 					// This point of interest is the top priority.
-					topPriorityTileOfInterest = BC.board.GetTile(a.pointOfInterest);
+					topPriorityInterestAwareness = a;
 				}
 			}
         }
@@ -535,26 +537,28 @@ public class ComputerPlayer : MonoBehaviour
 		SetTopPriorityFoeAndPointOfInterest();
 		Direction dir = (Direction)UnityEngine.Random.Range(0, 4);
 		//TODO: Avoid showing back to foe, but try to face a point of interest
-		if (topPriorityFoe != null)
+		if (topPriorityFoeAwareness != null)
 		{
 			// Try to face the foe and turn your back away from them
 			Direction start = actor.dir;
 			for (int i = 0; i < 4; ++i)
 			{
 				actor.dir = (Direction)i;
-				if (topPriorityFoe.GetFacing(actor) == Facings.Front)
+				if (topPriorityFoeAwareness.stealth.unit.GetFacing(actor) == Facings.Front)
 				{
 					dir = actor.dir;
 					break;
 				}
 			}
 			actor.dir = start;
-		} else if (topPriorityTileOfInterest != null) {
+		} else if (topPriorityInterestAwareness != null) {
 			// Try to face the tile of interest
 			// *** TODO: Find some other way to access the PlanOfAttack than this. Maybe make it a class property?
-			var directions = BC.turn.plan.moveLocation.GetDirections(topPriorityTileOfInterest);
+			var origin = BC.turn.plan.moveLocation != null ? BC.turn.plan.moveLocation : actor.tile;
+			var interestingTile = BC.board.GetTile(topPriorityInterestAwareness.pointOfInterest);
+			var directions = origin.GetDirections(interestingTile);
 			if (directions.Count > 0)
-				dir = BC.turn.plan.moveLocation.GetDirections(topPriorityTileOfInterest).First();
+				dir = directions.First();
 			else
 				dir = actor.dir; // Just continue facing in the current direction.
 		} else {
@@ -566,5 +570,20 @@ public class ComputerPlayer : MonoBehaviour
 		}
 		return dir;
 	}
+
+	public void HandleEndOfInvestigation() {
+		if (topPriorityInterestAwareness != null) {
+			var interestingTile = BC.board.GetTile(topPriorityInterestAwareness.pointOfInterest);
+			bool didUnitFinishInvestigation = topPriorityInterestAwareness != null && actor.tile == interestingTile;
+			if (didUnitFinishInvestigation) {
+				BC.awarenessController.UpdateAwareness(topPriorityInterestAwareness, AwarenessType.Unaware, topPriorityInterestAwareness.pointOfInterest);
+				SetTopPriorityFoeAndPointOfInterest();
+				if (topPriorityInterestAwareness != null) {
+					HandleEndOfInvestigation();
+				}
+			}
+		}
+	}
+
 	#endregion
 }

@@ -3,10 +3,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-public class FlyMovement : Movement 
-{
-	public override IEnumerator Traverse(Board board, Tile tile, MoveSequenceState moveSequenceState)
-	{
+public class FlyMovement : Movement  {
+	public override IEnumerator Traverse(Board board, Tile tile, MoveSequenceState moveSequenceState) {
 		// Store the distance between the start tile and target tile
 		float dist = Mathf.Sqrt(Mathf.Pow(tile.pos.x - unit.tile.pos.x, 2) + Mathf.Pow(tile.pos.y - unit.tile.pos.y, 2));
 		unit.Place(tile);
@@ -39,8 +37,7 @@ public class FlyMovement : Movement
 		while (tweener != null)
 			yield return null;
 
-		if (tile.trap != null)
-		{
+		if (tile.trap != null) {
 			// Run trap handler and end traversal
 			moveSequenceState.TriggerTrap(tile);
 			yield break;

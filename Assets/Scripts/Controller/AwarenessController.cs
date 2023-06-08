@@ -97,10 +97,9 @@ public class AwarenessController : MonoBehaviour
 				{
 					// Find existing awareness and update it with the perceived unit's existing location
 					Awareness awareness = awarenessMap[perception.unit][stealth.unit];
-					if (awareness.Update(type, stealth.unit.tile.pos))
+					if (UpdateAwareness(awareness, type, stealth.unit.tile.pos))
                     {
 						updatedAwarenesses.Add(awareness);
-						Console.Main.Log(awareness.ToString());
 					}
 				}
 			}
@@ -205,13 +204,35 @@ public class AwarenessController : MonoBehaviour
 		if (intersection.Count > 0)
 		{
 			Awareness awareness = awarenessMap[perception.unit][noisyStealth.unit];
-			if (awareness.Update(AwarenessType.MayHaveHeard, pointOfNoise))
+			if (UpdateAwareness(awareness, AwarenessType.MayHaveHeard, pointOfNoise))
 			{
 				updatedAwarenesses.Add(awareness);
-				Console.Main.Log(awareness.ToString());
 			}
 		}
 		return updatedAwarenesses;
+	}
+
+	public bool UpdateAwareness(Awareness awareness, AwarenessType type, Point pointOfInterest) {
+		bool awarenessDidChange = awareness.Update(type, pointOfInterest);
+		if (awarenessDidChange) {
+			switch (type) {
+				case AwarenessType.Unaware:
+				case AwarenessType.LostTrack:
+					battleController.uiController.DisplayFlyawayText(awareness.perception.unit, "...");
+					break;
+				case AwarenessType.MayHaveHeard:
+				case AwarenessType.MayHaveSeen:
+					battleController.uiController.DisplayFlyawayText(awareness.perception.unit, "?");
+					break;
+				case AwarenessType.Seen:
+					battleController.uiController.DisplayFlyawayText(awareness.perception.unit, "!");
+					break;
+				default:
+					break;
+			}
+			Console.Main.Log(awareness.ToString());
+		}
+		return awarenessDidChange;
 	}
 
 	public bool IsAwareOfUnit(Unit perceivingUnit, Unit perceivedUnit, AwarenessType[] types)
@@ -247,7 +268,7 @@ public class AwarenessController : MonoBehaviour
 		foreach (Unit perceivingUnit in awarenessMap.Keys) {
 			if (perceivingUnit == unit) continue;
 			Awareness awareness = awarenessMap[perceivingUnit][unit];
-			awareness.Update(AwarenessType.Unaware, unit.tile.pos);
+			UpdateAwareness(awareness, AwarenessType.Unaware, unit.tile.pos);
 		}
 
 		unit.transform.SetParent(GameObject.Find("Escaped Units").transform);
@@ -328,6 +349,7 @@ public class AwarenessController : MonoBehaviour
 
 	void AwarenessLevelDecay(object sender, object args)
 	{
+		Console.Main.Log("Awareness Decay");
 		foreach (Unit perceivingUnit in awarenessMap.Keys)
         {
 			foreach (Unit perceivedUnit in awarenessMap[perceivingUnit].Keys)

@@ -39,8 +39,8 @@ public class AlertAbilityEffect : BaseAbilityEffect
 				if ((int)newType > (int)oldType)
 				{
 					// Give the alert united the same type of awareness of the target as the alerting unit (except for seeing)
-					ac.awarenessMap[alertedUnit][awareness.stealth.unit].Update(newType, awareness.pointOfInterest);
-					Console.Main.Log(string.Format("{0}", ac.awarenessMap[alertedUnit][awareness.stealth.unit]));
+					var awarenessToChange = ac.awarenessMap[alertedUnit][awareness.stealth.unit];
+					ac.UpdateAwareness(awarenessToChange, newType, awareness.pointOfInterest);
 				}
 
 			}

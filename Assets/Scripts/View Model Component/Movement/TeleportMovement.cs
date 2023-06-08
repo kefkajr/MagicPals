@@ -3,10 +3,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-public class TeleportMovement : Movement 
-{
-	public override IEnumerator Traverse(Board board, Tile tile, MoveSequenceState moveSequenceState)
-	{
+public class TeleportMovement : Movement  {
+	public override IEnumerator Traverse(Board board, Tile tile, MoveSequenceState moveSequenceState) {
 		unit.Place(tile);
 
 		Tweener spin = jumper.RotateToLocal(new Vector3(0, 360, 0), animationDuration, EasingEquations.EaseInOutQuad);
@@ -24,8 +22,7 @@ public class TeleportMovement : Movement
 		while (grow != null)
 			yield return null;
 
-		if (tile.trap != null)
-		{
+		if (tile.trap != null) {
 			// Run trap handler and end traversal
 			moveSequenceState.TriggerTrap(tile);
 			yield break;

@@ -3,8 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-public abstract class Movement : MonoBehaviour
-{
+public abstract class Movement : MonoBehaviour {
 	#region Properties
 	public int range { get { return stats[StatTypes.MOV]; }}
 	public int jumpHeight { get { return stats[StatTypes.JMP]; }}
@@ -16,21 +15,18 @@ public abstract class Movement : MonoBehaviour
 	#endregion
 
 	#region MonoBehaviour
-	protected virtual void Awake ()
-	{
+	protected virtual void Awake () {
 		unit = GetComponent<Unit>();
 		jumper = transform.Find("Jumper");
 	}
 
-	protected virtual void Start ()
-	{
+	protected virtual void Start () {
 		stats = GetComponent<Stats>();
 	}
 	#endregion
 
 	#region Public
-	public virtual List<Tile> GetTilesInRange (Board board)
-	{
+	public virtual List<Tile> GetTilesInRange (Board board) {
 		List<Tile> retValue = board.Search( unit.tile, delegate (Tile from, Tile to) {
 			return ExpandSearch(board, from, to);
 		});
@@ -42,20 +38,17 @@ public abstract class Movement : MonoBehaviour
 	#endregion
 
 	#region Protected
-	protected virtual bool ExpandSearch (Board board, Tile from, Tile to)
-	{
+	protected virtual bool ExpandSearch (Board board, Tile from, Tile to) {
 		return (from.distance + 1) <= range;
 	}
 
-	protected virtual void Filter (List<Tile> tiles)
-	{
+	protected virtual void Filter (List<Tile> tiles) {
 		for (int i = tiles.Count - 1; i >= 0; --i)
 			if (tiles[i].occupant != null)
 				tiles.RemoveAt(i);
 	}
 
-	protected virtual IEnumerator Turn (Direction dir)
-	{
+	protected virtual IEnumerator Turn (Direction dir) {
 		TransformLocalEulerTweener t = (TransformLocalEulerTweener)transform.RotateToLocal(dir.ToEuler(), 0.25f, EasingEquations.EaseInOutQuad);
 		
 		// When rotating between North and West, we must make an exception so it looks like the unit

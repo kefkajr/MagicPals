@@ -2,8 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class Equippable : MonoBehaviour
-{
+public class Equippable : MonoBehaviour {
 	static public string IsEquippedMarker = "*";
 	#region Fields
 	/// <summary>
@@ -30,29 +29,25 @@ public class Equippable : MonoBehaviour
 	public bool isEquipped { get; private set; }
 	#endregion
 
-	public void OnEquip()
-	{
+	public void OnEquip() {
 		if (isEquipped)
 			return;
 		isEquipped = true;
 
 		Feature[] features = GetComponentsInChildren<Feature>();
-		for (int i = 0; i < features.Length; ++i)
-		{
+		for (int i = 0; i < features.Length; ++i) {
 			features[i].Activate(gameObject);
 		}
 
 		transform.parent.gameObject.name = transform.parent.gameObject.name + IsEquippedMarker; // Add marker
 	}
-	public void OnUnEquip()
-	{
+	public void OnUnEquip() {
 		if (!isEquipped)
 			return;
 		isEquipped = false;
 
 		Feature[] features = GetComponentsInChildren<Feature>();
-		for (int i = 0; i < features.Length; ++i)
-		{
+		for (int i = 0; i < features.Length; ++i) {
 			features[i].Deactivate();
 		}
 

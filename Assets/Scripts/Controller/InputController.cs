@@ -61,7 +61,7 @@ public class InputController : MonoBehaviour
 
 	void OnEnable() {
 		pia.actions["Point"].performed += DidPoint;
-		pia.actions["Click"].performed += DidClick;
+		// pia.actions["Click"].performed += DidClick;
 		pia.actions["Submit"].performed += DidSubmit;
 		pia.actions["Cancel"].performed += DidCancel;
 		pia.actions["Turn Camera"].performed += DidCameraTurn;
@@ -70,7 +70,7 @@ public class InputController : MonoBehaviour
 
 	void OnDisable() {
 		pia.actions["Point"].performed += DidPoint;
-		pia.actions["Click"].performed += DidClick;
+		// pia.actions["Click"].performed += DidClick;
 		pia.actions["Submit"].performed -= DidSubmit;
 		pia.actions["Cancel"].performed -= DidCancel;
 		pia.actions["Turn Camera"].performed -= DidCameraTurn;

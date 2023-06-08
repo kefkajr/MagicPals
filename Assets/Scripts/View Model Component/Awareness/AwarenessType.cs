@@ -1,16 +1,12 @@
 using UnityEngine;
 
-public enum AwarenessType
-{
+public enum AwarenessType {
 	Unaware, LostTrack, MayHaveHeard, MayHaveSeen, Seen
 }
 
-public static class AwarenessTypeExtensions
-{
-	public static string ActionVerb(this AwarenessType type)
-	{
-		switch (type)
-		{
+public static class AwarenessTypeExtensions {
+	public static string ActionVerb(this AwarenessType type) {
+		switch (type) {
 			case AwarenessType.MayHaveHeard:
 				return "may have heard";
 			case AwarenessType.MayHaveSeen:
@@ -24,10 +20,8 @@ public static class AwarenessTypeExtensions
 		};
 	}
 
-	public static Color GizmoColor(this AwarenessType type)
-	{
-		switch (type)
-		{
+	public static Color GizmoColor(this AwarenessType type) {
+		switch (type) {
 			case AwarenessType.MayHaveHeard:
 			case AwarenessType.MayHaveSeen:
 				return Color.yellow;

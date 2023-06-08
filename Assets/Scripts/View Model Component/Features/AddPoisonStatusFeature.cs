@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class AddPoisonStatusFeature : AddStatusFeature<PoisonStatusEffect> 
-{
+public class AddPoisonStatusFeature : AddStatusFeature<PoisonStatusEffect> {
 
 }

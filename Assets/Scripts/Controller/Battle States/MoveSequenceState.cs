@@ -73,15 +73,14 @@ public class MoveSequenceState : BattleState
 
 	public bool DidGetSpottedByUnits()
 	{
-		// If the driver is Human, and they get spotted, then they should get an Emergency Turn
-		DriverType currentDriverType = owner.turn.actor.GetComponent<Driver>().Current;
+		// // If the driver is Human, and they get spotted, then they should get an Emergency Turn
+		// DriverType currentDriverType = owner.turn.actor.GetComponent<Driver>().Current;
 
-		if (currentDriverType != DriverType.Human)
-			return false;
+		// if (currentDriverType != DriverType.Human)
+		// 	return false;
 
 		List<Awareness> totalAwarenesses = new List<Awareness>();
-		List<Unit> computerUnits = owner.units.Where(u => u.GetComponent<Driver>().Current == DriverType.Computer).ToList();
-		foreach (Unit unit in computerUnits)
+		foreach (Unit unit in owner.units)
 		{
 			List<Awareness> awarenesses = owner.awarenessController.Look(unit).Where((a) => a.type == AwarenessType.Seen).ToList();
 			totalAwarenesses.AddRange(awarenesses);

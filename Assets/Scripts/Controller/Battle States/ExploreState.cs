@@ -20,5 +20,6 @@ public class ExploreState : BattleState
 	protected override void OnSubmit ()
 	{
 		owner.ChangeState<CommandSelectionState>();
+		DisplayAwarenessInfoForUnitAtPoint(pos);
 	}
 }

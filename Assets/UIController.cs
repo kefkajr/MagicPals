@@ -8,8 +8,11 @@ public class UIController : MonoBehaviour
     [SerializeField] public GameObject flyawayTextPrefab;
     private const string flyawayTextPoolKey = "UIController.statChangeDecoratorPrefab";
 
+    bool isSetup;
+
     public void Setup(int unitCount) {
         GameObjectPoolController.AddEntry(flyawayTextPoolKey, flyawayTextPrefab, unitCount, int.MaxValue);
+        isSetup = true;
     }
 
     void OnEnable ()
@@ -39,6 +42,8 @@ public class UIController : MonoBehaviour
 	}
 
     public void DisplayFlyawayText(Unit unit, string s) {
+        if (!isSetup) return;
+        
         FloatingText text = Deqeue(unit.transform.position);
         text.Display(s);
     }
