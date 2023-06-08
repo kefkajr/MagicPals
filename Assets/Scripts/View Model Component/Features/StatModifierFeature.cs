@@ -6,7 +6,7 @@ public class StatModifierFeature : Feature {
 	public StatTypes type;
 	public int amount;
 
-	Stats stats  {  get  { return _target.GetComponentInParent<Stats>(); } }
+	Stats stats { get { return _target.GetComponentInParent<Stats>(); } }
 	#endregion
 
 	#region Protected

@@ -2,13 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class GameObjectPoolController : MonoBehaviour 
-{
+public class GameObjectPoolController : MonoBehaviour {
 	#region Fields / Properties
-	static GameObjectPoolController Instance
-	{
-		get
-		{
+	static GameObjectPoolController Instance {
+		get {
 			if (instance == null)
 				CreateSharedInstance();
 			return instance;
@@ -20,8 +17,7 @@ public class GameObjectPoolController : MonoBehaviour
 	#endregion
 	
 	#region MonoBehaviour
-	void Awake ()
-	{
+	void Awake() {
 		if (instance != null && instance != this)
 			Destroy(this);
 		else
@@ -30,16 +26,14 @@ public class GameObjectPoolController : MonoBehaviour
 	#endregion
 	
 	#region Public
-	public static void SetMaxCount (string key, int maxCount)
-	{
+	public static void SetMaxCount(string key, int maxCount) {
 		if (!pools.ContainsKey(key))
 			return;
 		PoolData data = pools[key];
 		data.maxCount = maxCount;
 	}
 
-	public static bool AddEntry (string key, GameObject prefab, int prepopulate, int maxCount)
-	{
+	public static bool AddEntry(string key, GameObject prefab, int prepopulate, int maxCount) {
 		if (pools.ContainsKey(key))
 			return false;
 		
@@ -55,28 +49,24 @@ public class GameObjectPoolController : MonoBehaviour
 		return true;
 	}
 	
-	public static void ClearEntry (string key)
-	{
+	public static void ClearEntry(string key) {
 		if (!pools.ContainsKey(key))
 			return;
 		
 		PoolData data = pools[key];
-		while (data.pool.Count > 0)
-		{
+		while (data.pool.Count > 0) {
 			Poolable obj = data.pool.Dequeue();
 			GameObject.Destroy(obj.gameObject);
 		}
 		pools.Remove(key);
 	}
 	
-	public static void Enqueue (Poolable sender)
-	{
+	public static void Enqueue(Poolable sender) {
 		if (sender == null || sender.isPooled || !pools.ContainsKey(sender.key))
 			return;
 		
 		PoolData data = pools[sender.key];
-		if (data.pool.Count >= data.maxCount)
-		{
+		if (data.pool.Count >= data.maxCount) {
 			GameObject.Destroy(sender.gameObject);
 			return;
 		}
@@ -87,8 +77,7 @@ public class GameObjectPoolController : MonoBehaviour
 		sender.gameObject.SetActive(false);
 	}
 	
-	public static Poolable Dequeue (string key)
-	{
+	public static Poolable Dequeue(string key) {
 		if (!pools.ContainsKey(key))
 			return null;
 		
@@ -103,14 +92,13 @@ public class GameObjectPoolController : MonoBehaviour
 	#endregion
 	
 	#region Private
-	static void CreateSharedInstance ()
-	{
+	static void CreateSharedInstance() {
 		GameObject obj = new GameObject("GameObject Pool Controller");
 		DontDestroyOnLoad(obj);
 		instance = obj.AddComponent<GameObjectPoolController>();
 	}
 	
-	static Poolable CreateInstance (string key, GameObject prefab)
+	static Poolable CreateInstance(string key, GameObject prefab)
 	{
 		GameObject instance = Instantiate(prefab) as GameObject;
 		Poolable p = instance.AddComponent<Poolable>();

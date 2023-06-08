@@ -4,8 +4,7 @@ using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 
-public class BoardCreator : MonoBehaviour 
-{
+public class BoardCreator : MonoBehaviour {
 	#region Fields / Properties
 	[SerializeField] public GameObject tileViewPrefab;
 	[SerializeField] public GameObject wallViewPrefab;
@@ -21,10 +20,8 @@ public class BoardCreator : MonoBehaviour
 	Dictionary<Point, SpawnMarker> spawns = new Dictionary<Point, SpawnMarker>();
 	Dictionary<Point, ExitMarker> exits = new Dictionary<Point, ExitMarker>();
 
-	Transform marker
-	{
-		get
-		{
+	Transform marker {
+		get {
 			if (_marker == null)
 			{
 				GameObject instance = Instantiate(tileSelectionIndicatorPrefab);
@@ -37,44 +34,37 @@ public class BoardCreator : MonoBehaviour
 	#endregion
 
 	#region Public
-	public void MoveMarker(Direction direction)
-	{
+	public void MoveMarker(Direction direction) {
 		int xChange = direction == Direction.West ? -1 : direction == Direction.East ? 1 : 0;
 		int yChange = direction == Direction.South ? -1 : direction == Direction.North ? 1 : 0;
 		pos.x += xChange;
 		pos.y += yChange;
 	}
 
-	public void Grow ()
-	{
+	public void Grow() {
 		GrowSingle(pos);
 	}
 	
-	public void Shrink ()
-	{
+	public void Shrink() {
 		ShrinkSingle(pos);
 	}
 
-	public void GrowArea ()
-	{
+	public void GrowArea() {
 		Rect r = new Rect(pos.x, pos.y, 5, 5);
 		GrowRect(r);
 	}
 	
-	public void ShrinkArea ()
-	{
+	public void ShrinkArea() {
 		Rect r = new Rect(pos.x, pos.y, 5, 5);
 		ShrinkRect(r);
 	}
 
-	public void UpdateMarker ()
-	{
+	public void UpdateMarker() {
 		Tile t = tiles.ContainsKey(pos) ? tiles[pos] : null;
 		marker.localPosition = t != null ? t.center : new Vector3(pos.x, 0, pos.y);
 	}
 
-	public void Clear ()
-	{
+	public void Clear() {
 		for (int i = transform.childCount - 1; i >= 0; --i)
 			DestroyImmediate(transform.GetChild(i).gameObject);
 		tiles.Clear();
@@ -84,38 +74,31 @@ public class BoardCreator : MonoBehaviour
 
 	Direction currentWallDirection = Direction.North;
 
-	public void ChangeWallDirection(Direction direction)
-    {
+	public void ChangeWallDirection(Direction direction) {
 		currentWallDirection = direction;
 	}
 
-	public void GrowWall()
-	{
+	public void GrowWall() {
 		GrowWall(pos, currentWallDirection);
 	}
 
-	public void ShrinkWall()
-	{
+	public void ShrinkWall() {
 		ShrinkWall(pos, currentWallDirection);
 	}
 
-	public void ThickenWall()
-	{
+	public void ThickenWall() {
 		ThickenWall(pos, currentWallDirection);
 	}
 
-	public void ThinWall()
-	{
+	public void ThinWall() {
 		ThinWall(pos, currentWallDirection);
 	}
 
-	public void MoveWallIn()
-	{
+	public void MoveWallIn() {
 		MoveWall(pos, currentWallDirection, -1);
 	}
 
-	public void MoveWallOut()
-	{
+	public void MoveWallOut() {
 		MoveWall(pos, currentWallDirection, 1);
 	}
 
@@ -167,8 +150,7 @@ public class BoardCreator : MonoBehaviour
 		}
 	}
 
-	public void Save ()
-	{
+	public void Save() {
 		string filePath = Application.dataPath + "/Resources/Levels";
 		if (!Directory.Exists(filePath))
 			CreateSaveDirectory ();
@@ -190,36 +172,31 @@ public class BoardCreator : MonoBehaviour
 		AssetDatabase.CreateAsset(board, fileName);
 	}
 
-	public void Load ()
-	{
+	public void Load() {
 		LevelData levelData = AssetDatabase.LoadAssetAtPath<LevelData>(string.Format("Assets/Resources/Levels/{0}.asset", levelName));
 		Clear();
 		if (levelData == null)
 			return;
 		
-		foreach (TileData td in levelData.tiles)
-		{
+		foreach (TileData td in levelData.tiles) {
 			Tile t = CreateTile();
 			t.Load(td);
 			tiles.Add(t.pos, t);
 
-			foreach (WallData wd in td.wallData)
-			{
+			foreach (WallData wd in td.wallData) {
 				Wall w = CreateWall();
 				w.Load(t, wd);
 				t.walls[wd.direction] = w;
 			}
 		}
 
-		foreach (SpawnData s in levelData.spawns)
-		{
+		foreach (SpawnData s in levelData.spawns) {
 			pos.x = s.position.x;
 			pos.y = s.position.y;
 			CreateSpawnMarker(s.recipeName);
 		}
 
-		foreach (Point p in levelData.exits)
-		{
+		foreach (Point p in levelData.exits) {
 			pos.x = p.x;
 			pos.y = p.y;
 			CreateExitMarker();
@@ -228,8 +205,7 @@ public class BoardCreator : MonoBehaviour
 	#endregion
 
 	#region Private
-	Rect RandomRect ()
-	{
+	Rect RandomRect() {
 		int x = Random.Range(0, width);
 		int y = Random.Range(0, depth);
 		int w = Random.Range(1, width - x + 1);
@@ -237,39 +213,31 @@ public class BoardCreator : MonoBehaviour
 		return new Rect(x, y, w, h);
 	}
 
-	void GrowRect (Rect rect)
-	{
-		for (int y = (int)rect.yMin; y < (int)rect.yMax; ++y)
-		{
-			for (int x = (int)rect.xMin; x < (int)rect.xMax; ++x)
-			{
+	void GrowRect(Rect rect) {
+		for (int y = (int)rect.yMin; y < (int)rect.yMax; ++y) {
+			for (int x = (int)rect.xMin; x < (int)rect.xMax; ++x) {
 				Point p = new Point(x, y);
 				GrowSingle(p);
 			}
 		}
 	}
 	
-	void ShrinkRect (Rect rect)
-	{
-		for (int y = (int)rect.yMin; y < (int)rect.yMax; ++y)
-		{
-			for (int x = (int)rect.xMin; x < (int)rect.xMax; ++x)
-			{
+	void ShrinkRect(Rect rect) {
+		for (int y = (int)rect.yMin; y < (int)rect.yMax; ++y) {
+			for (int x = (int)rect.xMin; x < (int)rect.xMax; ++x) {
 				Point p = new Point(x, y);
 				ShrinkSingle(p);
 			}
 		}
 	}
 
-	Tile CreateTile ()
-	{
+	Tile CreateTile() {
 		GameObject instance = Instantiate(tileViewPrefab);
 		instance.transform.parent = transform;
 		return instance.GetComponent<Tile>();
 	}
 	
-	Tile GetOrCreateTile (Point p)
-	{
+	Tile GetOrCreateTile(Point p) {
 		if (tiles.ContainsKey(p))
 			return tiles[p];
 		
@@ -280,23 +248,20 @@ public class BoardCreator : MonoBehaviour
 		return t;
 	}
 	
-	void GrowSingle (Point p)
-	{
+	void GrowSingle(Point p) {
 		Tile t = GetOrCreateTile(p);
 		if (t.height < height)
 			t.Grow();
 	}
 
-	void ShrinkSingle (Point p)
-	{
+	void ShrinkSingle(Point p) {
 		if (!tiles.ContainsKey(p))
 			return;
 		
 		Tile t = tiles[p];
 		t.Shrink();
 		
-		if (t.height <= 0)
-		{
+		if (t.height <= 0) {
 			tiles.Remove(p);
 			foreach (Wall w in t.walls.Values)
 				DestroyImmediate(w.gameObject);
@@ -304,35 +269,30 @@ public class BoardCreator : MonoBehaviour
 		}
 	}
 
-	void GrowWall(Point p, Direction d)
-	{
+	void GrowWall(Point p, Direction d) {
 		Tile t = GetOrCreateTile(p);
 		if (t.height < 1)
 			GrowSingle(p);
-		if (t.height < height)
-		{
+		if (t.height < height) {
 			Wall w = GetOrCreateWall(t, d);
 			if (t.height + w.height < height)
 				w.Grow();
 		}
 	}
 
-	void ShrinkWall(Point p, Direction d)
-	{
+	void ShrinkWall(Point p, Direction d) {
 		Tile t = GetOrCreateTile(p);
 		Wall w = GetOrCreateWall(t, d);
 
 		w.Shrink();
 
-		if (w.height <= 0)
-		{
+		if (w.height <= 0) {
 			t.walls.Remove(d);
 			DestroyImmediate(w.gameObject);
 		}
 	}
 
-	void ThickenWall(Point p, Direction d)
-	{
+	void ThickenWall(Point p, Direction d) {
 		Tile t = GetOrCreateTile(p);
 		if (t.height < 1)
 			GrowSingle(p);
@@ -340,22 +300,19 @@ public class BoardCreator : MonoBehaviour
 		w.Thicken();
 	}
 
-	void ThinWall(Point p, Direction d)
-	{
+	void ThinWall(Point p, Direction d) {
 		Tile t = GetOrCreateTile(p);
 		Wall w = GetOrCreateWall(t, d);
 
 		w.Thin();
 
-		if (w.thickness <= 0)
-		{
+		if (w.thickness <= 0) {
 			t.walls.Remove(d);
 			DestroyImmediate(w.gameObject);
 		}
 	}
 
-	void MoveWall(Point p, Direction d, int originChange)
-	{
+	void MoveWall(Point p, Direction d, int originChange) {
 		Tile t = GetOrCreateTile(p);
 		if (t.height < 1)
 			GrowSingle(p);
@@ -363,15 +320,13 @@ public class BoardCreator : MonoBehaviour
 		w.MoveOrigin(originChange);
 	}
 
-	Wall CreateWall()
-    {
+	Wall CreateWall() {
 		GameObject instance = Instantiate(wallViewPrefab);
 		instance.transform.parent = transform;
 		return instance.GetComponent<Wall>();
 	}
 
-	Wall GetOrCreateWall(Tile t, Direction d)
-	{
+	Wall GetOrCreateWall(Tile t, Direction d) {
 		if (t.walls.ContainsKey(d))
 			return t.walls[d];
 
@@ -383,8 +338,7 @@ public class BoardCreator : MonoBehaviour
 		return w;
 	}
 
-	void CreateSaveDirectory ()
-	{
+	void CreateSaveDirectory() {
 		string filePath = Application.dataPath + "/Resources";
 		if (!Directory.Exists(filePath))
 			AssetDatabase.CreateFolder("Assets", "Resources");

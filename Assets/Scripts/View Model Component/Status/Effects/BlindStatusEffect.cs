@@ -1,20 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class BlindStatusEffect : StatusEffect 
-{
-	void OnEnable ()
-	{
+public class BlindStatusEffect : StatusEffect {
+	void OnEnable() {
 		this.AddObserver( OnHitRateStatusCheck, HitRate.StatusCheckNotification );
 	}
 	
-	void OnDisable ()
-	{
+	void OnDisable() {
 		this.RemoveObserver( OnHitRateStatusCheck, HitRate.StatusCheckNotification );
 	}
 
-	void OnHitRateStatusCheck (object sender, object args)
-	{
+	void OnHitRateStatusCheck (object sender, object args) {
 		Info<Unit, Unit, int> info = args as Info<Unit, Unit, int>;
 		Unit owner = GetComponentInParent<Unit>();
 		if (owner == info.arg0)

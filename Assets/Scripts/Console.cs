@@ -4,8 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Console : MonoBehaviour
-{
+public class Console : MonoBehaviour {
 
     public static Console Main { get; private set; }
 
@@ -17,30 +16,24 @@ public class Console : MonoBehaviour
     [SerializeField] public Panel panel;
     public int maxMessageCount = 5;
 
-    private void Awake()
-    {
-        if (Main != null && Main != this)
-        {
+    private void Awake() {
+        if (Main != null && Main != this) {
             Destroy(this);
-        }
-        else
-        {
+        } else {
             Main = this;
         }
 
 		GameObjectPoolController.AddEntry(EntryPoolKey, entryPrefab, maxMessageCount, int.MaxValue);
     }
 
-    public void Log(string s)
-    {
+    public void Log(string s){
         if (panel == null || !panel.gameObject.activeInHierarchy)
             return;
 
         StartCoroutine(DisplayInConsole(s));
     }
 
-    IEnumerator DisplayInConsole(string s)
-    {
+    IEnumerator DisplayInConsole(string s) {
         Poolable entry = GameObjectPoolController.Dequeue(EntryPoolKey);
         entry.transform.SetParent(panel.transform, false);
 		entry.transform.localScale = Vector3.one;
@@ -48,11 +41,9 @@ public class Console : MonoBehaviour
         var text = entry.GetComponent<Text>();
         text.text = string.Format("{0} ", Time.time) + s;
 
-        if (panel.transform.childCount > maxMessageCount)
-        {
+        if (panel.transform.childCount > maxMessageCount) {
             var difference = panel.transform.childCount - maxMessageCount;
-            for (int i = 0; i < difference; i++)
-            {
+            for (int i = 0; i < difference; i++) {
 
                 Poolable p = panel.transform.GetChild(i).GetComponent<Poolable>();
                 GameObjectPoolController.Enqueue(p);
@@ -66,8 +57,7 @@ public class Console : MonoBehaviour
         yield return null;
     }
 
-    IEnumerator PulseLogEntry(Text text)
-    {
+    IEnumerator PulseLogEntry(Text text) {
         Color pulseColor = Color.yellow;
         Color normalColor = Color.white;
 
@@ -75,8 +65,7 @@ public class Console : MonoBehaviour
         float time = 0;
         float duration = 2f;
 
-        while (time < duration)
-        {
+        while (time < duration) {
             var newColor = Color.Lerp(pulseColor, normalColor, time / duration);
             text.color = newColor;
             time += Time.deltaTime;
@@ -84,8 +73,7 @@ public class Console : MonoBehaviour
         }
     }
 
-    Tweener TogglePos (string pos)
-	{
+    Tweener TogglePos(string pos) {
 		Tweener t = panel.SetPosition(pos, true);
 		t.duration = 0.5f;
 		t.equation = EasingEquations.EaseOutQuad;

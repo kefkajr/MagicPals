@@ -3,8 +3,7 @@ using System.Collections;
 using System.Linq;
 using UnityEngine;
 
-public class Inventory : MonoBehaviour
-{
+public class Inventory : MonoBehaviour {
 	#region Notifications
 	public const string EquippedNotification = "Inventory.EquippedNotification";
 	public const string UnEquippedNotification = "Inventory.UnEquippedNotification";
@@ -21,19 +20,16 @@ public class Inventory : MonoBehaviour
 
 	#region Public
 
-	public virtual void Add (Merchandise item)
-    {
+	public virtual void Add(Merchandise item) {
 		_items.Add(item);
 		item.gameObject.transform.SetParent(this.transform);
 	}
 
-	public virtual void Remove(Merchandise item)
-	{
+	public virtual void Remove(Merchandise item) {
 		_items.Remove(item);
 	}
 
-	public void Equip (Equippable equippable, EquipSlots slots)
-	{
+	public void Equip(Equippable equippable, EquipSlots slots) {
 		UnEquip(slots);
 
 		equippable.currentSlots = slots;
@@ -43,8 +39,7 @@ public class Inventory : MonoBehaviour
 		this.PostNotification(EquippedNotification, equippable);
 	}
 
-	public void UnEquip (Equippable equippable)
-	{
+	public void UnEquip(Equippable equippable) {
 		equippable.currentSlots = EquipSlots.None;
 
 		equippable.OnUnEquip();
@@ -52,20 +47,16 @@ public class Inventory : MonoBehaviour
 		this.PostNotification(UnEquippedNotification, equippable);
 	}
 	
-	public void UnEquip (EquipSlots slots)
-	{
-		for (int i = equippedItems.Count - 1; i >= 0; --i)
-		{
+	public void UnEquip (EquipSlots slots) {
+		for (int i = equippedItems.Count - 1; i >= 0; --i) {
 			Equippable equippable = equippedItems[i];
 			if ( (equippable.currentSlots & slots) != EquipSlots.None )
 				UnEquip(equippable);
 		}
 	}
 
-	public Equippable GetEquipment (EquipSlots slots)
-	{
-		for (int i = equippableItems.Count - 1; i >= 0; --i)
-		{
+	public Equippable GetEquipment(EquipSlots slots) {
+		for (int i = equippableItems.Count - 1; i >= 0; --i) {
 			Equippable equippable = equippableItems[i];
 			if ( (equippable.currentSlots & slots) != EquipSlots.None )
 				return equippable;
@@ -73,8 +64,7 @@ public class Inventory : MonoBehaviour
 		return null;
 	}
 
-	public void Discard(Merchandise item)
-	{
+	public void Discard(Merchandise item) {
 		_items.Remove(item);
 		Destroy(item.gameObject);
 	}

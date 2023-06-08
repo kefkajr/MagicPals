@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class Patrol
-{
+public class Patrol {
     public List<PatrolNode> nodes;
     public Unit patroller { get; private set; }
     public int currentPatrolNodeIndex;

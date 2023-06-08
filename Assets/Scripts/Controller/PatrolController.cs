@@ -4,14 +4,12 @@ using UnityEngine;
 using System;
 using System.Linq;
 
-public class PatrolController : MonoBehaviour
-{
+public class PatrolController : MonoBehaviour {
     protected BattleController battleController;
     protected Board board { get { return battleController.board; } }
     public List<Patrol> patrols = new List<Patrol>();
 
-    protected virtual void Awake()
-    {
+    protected virtual void Awake() {
         battleController = GetComponentInParent<BattleController>();
     }
 

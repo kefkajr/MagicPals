@@ -2,28 +2,24 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public abstract class BaseAbilityMenuState : BattleState
-{
+public abstract class BaseAbilityMenuState : BattleState {
 	protected string menuTitle;
 	protected List<string> menuOptions;
 
-	public override void Enter ()
-	{
-		base.Enter ();
+	public override void Enter() {
+		base.Enter();
 		SelectTile(turn.actor.tile.pos);
 		if (driver.Current == DriverType.Human)
 			LoadMenu();
 	}
 
-	public override void Exit ()
-	{
-		base.Exit ();
+	public override void Exit() {
+		base.Exit();
 		abilityMenuPanelController.Hide();
 		descriptionPanelController.Hide();
 	}
 
-	protected override void OnMove(object sender, MoveEventData moveEventData)
-	{
+	protected override void OnMove(object sender, MoveEventData moveEventData) {
 		if (moveEventData.point.x > 0 || moveEventData.point.y < 0)
 			abilityMenuPanelController.Next();
 		else
@@ -46,8 +42,7 @@ public abstract class BaseAbilityMenuState : BattleState
 		}
 	}
 
-	protected override void OnClick (object sender, Vector2 v)
-	{
+	protected override void OnClick (object sender, Vector2 v) {
 		if(RaycastUtilities.IsPointerOverUIObject(v, abilityMenuPanelController.panel.gameObject)) {
 			OnSubmit();
 		} else {

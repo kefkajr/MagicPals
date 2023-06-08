@@ -4,8 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System;
 
-public class AwarenessController : MonoBehaviour
-{
+public class AwarenessController : MonoBehaviour {
 
 	public const string NotficationEscape = "NotficationEscape";
 
@@ -21,18 +20,15 @@ public class AwarenessController : MonoBehaviour
 	private const string poolKey = "AwarenessController.Line";
 	bool doesEveryoneSeeEveryone;
 
-	protected void AddListeners()
-	{
+	protected void AddListeners() {
 
 	}
 
-	protected void RemoveListeners()
-	{
+	protected void RemoveListeners() {
 
 	}
 
-	protected void OnDestroy()
-	{
+	protected void OnDestroy() {
 		RemoveListeners();
 	}
 
@@ -45,15 +41,11 @@ public class AwarenessController : MonoBehaviour
 		GameObjectPoolController.AddEntry(poolKey, awarenessLinePrefab, awarenessMap.Values.Count, int.MaxValue);
 	}
 
-	public void InitializeAwarenessMap()
-    {
+	public void InitializeAwarenessMap() {
 		// Allow all units to look at any other units
-		foreach (Unit perceivingUnit in battleController.units)
-		{
-			foreach (Unit perceivedUnit in battleController.units)
-			{
-				if (perceivingUnit != perceivedUnit)
-				{
+		foreach (Unit perceivingUnit in battleController.units) {
+			foreach (Unit perceivedUnit in battleController.units) {
+				if (perceivingUnit != perceivedUnit) {
 
 					var newAwareness = new Awareness(
 						perceivingUnit.perception,
@@ -61,12 +53,9 @@ public class AwarenessController : MonoBehaviour
 						perceivedUnit.tile.pos,
 						doesEveryoneSeeEveryone ? AwarenessType.Seen : AwarenessType.Unaware);
 
-					if (awarenessMap.ContainsKey(perceivingUnit))
-					{
+					if (awarenessMap.ContainsKey(perceivingUnit)) {
 						awarenessMap[perceivingUnit].Add(perceivedUnit, newAwareness);
-					}
-					else
-					{
+					} else {
 						awarenessMap.Add(perceivingUnit, new Dictionary<Unit, Awareness> { [perceivedUnit] = newAwareness });
 					}
 				}
@@ -76,29 +65,24 @@ public class AwarenessController : MonoBehaviour
 		}
     }
 
-	public List<Awareness> Look(Unit unit)
-	{
+	public List<Awareness> Look(Unit unit) {
 		Perception perception = unit.perception;
 		List<Awareness> updatedAwarenesses = new List<Awareness>();
 		Dictionary<Tile, AwarenessType> tilesInRange = GetTilesInVisibleRange(unit);
 		List<AwarenessType> visibleAwarenessTypes = new List<AwarenessType> { AwarenessType.MayHaveSeen, AwarenessType.Seen };
 
 		// first check MayHaveSeen range, then Seen range.
-		foreach (AwarenessType type in visibleAwarenessTypes)
-		{
+		foreach (AwarenessType type in visibleAwarenessTypes) {
 			List<Tile> tilesByType = tilesInRange.Where(t => t.Value == type).Select(t => t.Key).ToList();
 			List<GameObject> tileOccupants = tilesByType.Select(t => t.occupant).Where(o => o != null).ToList();
 			List<Unit> unitsInRange = tileOccupants.Select(o => o.GetComponent<Unit>()).Where(u => u != null).ToList();
 			List<Stealth> stealthsInRange = unitsInRange.Select(unit => unit.GetComponent<Stealth>()).ToList();
-			foreach (Stealth stealth in stealthsInRange)
-			{
+			foreach (Stealth stealth in stealthsInRange) {
 				// If the unit is not invisible
-				if (!stealth.isInvisible)
-				{
+				if (!stealth.isInvisible) {
 					// Find existing awareness and update it with the perceived unit's existing location
 					Awareness awareness = awarenessMap[perception.unit][stealth.unit];
-					if (UpdateAwareness(awareness, type, stealth.unit.tile.pos))
-                    {
+					if (UpdateAwareness(awareness, type, stealth.unit.tile.pos)) {
 						updatedAwarenesses.Add(awareness);
 					}
 				}
@@ -108,14 +92,12 @@ public class AwarenessController : MonoBehaviour
 		return updatedAwarenesses;
 	}
 
-	public Dictionary<Tile, AwarenessType> GetTilesInVisibleRange(Unit unit)
-	{
+	public Dictionary<Tile, AwarenessType> GetTilesInVisibleRange(Unit unit) {
 		Perception perception = unit.perception;
 		Vector2 viewingRange = perception.viewingRange;
 		Dictionary<Tile, AwarenessType> validatedTiles = new Dictionary<Tile, AwarenessType>();
 
-		bool IsValidTile(Tile fromTile, Tile toTile)
-		{
+		bool IsValidTile(Tile fromTile, Tile toTile) {
 			if (fromTile == null || toTile == null)
 				return false;
 
@@ -132,8 +114,7 @@ public class AwarenessController : MonoBehaviour
 		int dir = (unit.dir == Direction.North || unit.dir == Direction.East) ? 1 : -1;
 
 		// Draw a line from the unit to each of the furthest tiles from their viewing range
-		for (int sightline = (int)-viewingRange.x; sightline <= viewingRange.x; sightline++)
-		{
+		for (int sightline = (int)-viewingRange.x; sightline <= viewingRange.x; sightline++) {
 
 			Point pos = unit.tile.pos;
 			Point end;
@@ -150,15 +131,11 @@ public class AwarenessController : MonoBehaviour
 			int err = (dx > dy ? dx : -dy) / 2;
 			int e2;
 			Tile fromTile = null;
-			for (; ; )
-			{
+			for (; ; ) {
 				Tile tile = board.GetTile(pos);
-				if (tile != null)
-				{
-					if (fromTile != null)
-					{
-						if (IsValidTile(fromTile, tile))
-						{
+				if (tile != null) {
+					if (fromTile != null) {
+						if (IsValidTile(fromTile, tile)) {
 							tile.isBeingPerceived = true;
 							bool isTileAtEdgeOfVisibleRange = sightline == (int)-viewingRange.x ||
 								sightline == (int)viewingRange.x ||
@@ -171,9 +148,7 @@ public class AwarenessController : MonoBehaviour
 								awarenessType = validatedTiles[tile] == AwarenessType.MayHaveSeen ? validatedTiles[tile] : awarenessType;
 							}
 							validatedTiles[tile] = awarenessType;
-						}
-						else
-						{
+						} else {
 							break;
 						}
 					}
@@ -190,8 +165,7 @@ public class AwarenessController : MonoBehaviour
 		return validatedTiles;
 	}
 
-	public List<Awareness> Listen(Unit unit, Point pointOfNoise, List<Tile> noisyTiles, Stealth noisyStealth)
-	{
+	public List<Awareness> Listen(Unit unit, Point pointOfNoise, List<Tile> noisyTiles, Stealth noisyStealth) {
 		Perception perception = unit.GetComponent<Perception>();
 		List<Awareness> updatedAwarenesses = new List<Awareness>();
 
@@ -201,11 +175,9 @@ public class AwarenessController : MonoBehaviour
 		});
 
 		List<Tile> intersection = noisyTiles.Intersect(tilesInRange).ToList();
-		if (intersection.Count > 0)
-		{
+		if (intersection.Count > 0) {
 			Awareness awareness = awarenessMap[perception.unit][noisyStealth.unit];
-			if (UpdateAwareness(awareness, AwarenessType.MayHaveHeard, pointOfNoise))
-			{
+			if (UpdateAwareness(awareness, AwarenessType.MayHaveHeard, pointOfNoise)) {
 				updatedAwarenesses.Add(awareness);
 			}
 		}
@@ -235,8 +207,7 @@ public class AwarenessController : MonoBehaviour
 		return awarenessDidChange;
 	}
 
-	public bool IsAwareOfUnit(Unit perceivingUnit, Unit perceivedUnit, AwarenessType[] types)
-	{
+	public bool IsAwareOfUnit(Unit perceivingUnit, Unit perceivedUnit, AwarenessType[] types) {
 		if (perceivingUnit == perceivedUnit)
 			return false;
 
@@ -244,8 +215,7 @@ public class AwarenessController : MonoBehaviour
 		return types.Contains(relevantAwareness.type);
 	}
 
-	public List<Awareness> TopAwarenesses(Unit perceivingUnit)
-	{
+	public List<Awareness> TopAwarenesses(Unit perceivingUnit) {
 		if (awarenessMap.Count == 0) return new List<Awareness>();
 		List<Awareness> relevantAwarenesses = awarenessMap[perceivingUnit].Select(kv => kv.Value).ToList();
 		List<Awareness> activeAwarenesses = relevantAwarenesses.Where(a => a.type != AwarenessType.Unaware).ToList();
@@ -253,8 +223,7 @@ public class AwarenessController : MonoBehaviour
 		return orderedAwarenesses;
 	}
 
-	public void InitiateEmergencyTurn(Unit unit)
-    {
+	public void InitiateEmergencyTurn(Unit unit) {
 		Console.Main.Log(string.Format("{0} was spotted! Receiving 1000 CTR", unit.name));
 		Stats s = unit.GetComponent<Stats>();
 		s.SetValue(StatTypes.CTR, 1000, false);
@@ -337,31 +306,25 @@ public class AwarenessController : MonoBehaviour
 		};
 	}
 
-	void OnEnable()
-	{
+	void OnEnable() {
 		this.AddObserver(AwarenessLevelDecay, TurnOrderController.TurnCompletedNotification);
 	}
 
-	void OnDisable()
-	{
+	void OnDisable() {
 		this.RemoveObserver(AwarenessLevelDecay, TurnOrderController.TurnCompletedNotification);
 	}
 
-	void AwarenessLevelDecay(object sender, object args)
-	{
+	void AwarenessLevelDecay(object sender, object args) {
 		Console.Main.Log("Awareness Decay");
-		foreach (Unit perceivingUnit in awarenessMap.Keys)
-        {
-			foreach (Unit perceivedUnit in awarenessMap[perceivingUnit].Keys)
-			{
+		foreach (Unit perceivingUnit in awarenessMap.Keys) {
+			foreach (Unit perceivedUnit in awarenessMap[perceivingUnit].Keys) {
 				awarenessMap[perceivingUnit][perceivedUnit].Decay();
 			}
 		}
 	}
 
 
-	void OnDrawGizmos()
-	{
+	void OnDrawGizmos() {
 		// foreach (Unit perceivingUnit in awarenessMap.Keys)
 		// {
 		// 	foreach (Unit perceivedUnit in awarenessMap[perceivingUnit].Keys)

@@ -17,7 +17,7 @@ public class StatPanelController : MonoBehaviour
 	#endregion
 
 	#region MonoBehaviour
-	void Start ()
+	void Start()
 	{
 		if (primaryPanel.panel.CurrentPosition == null)
 			primaryPanel.panel.SetPosition(HideKey, false);
@@ -27,31 +27,31 @@ public class StatPanelController : MonoBehaviour
 	#endregion
 
 	#region Public
-	public void ShowPrimary (GameObject obj)
+	public void ShowPrimary(GameObject obj)
 	{
 		primaryPanel.Display(obj);
 		MovePanel(primaryPanel, ShowKey, ref primaryTransition);
 	}
 
-	public void HidePrimary ()
+	public void HidePrimary()
 	{
 		MovePanel(primaryPanel, HideKey, ref primaryTransition);
 	}
 
-	public void ShowSecondary (GameObject obj)
+	public void ShowSecondary(GameObject obj)
 	{
 		secondaryPanel.Display(obj);
 		MovePanel(secondaryPanel, ShowKey, ref secondaryTransition);
 	}
 
-	public void HideSecondary ()
+	public void HideSecondary()
 	{
 		MovePanel(secondaryPanel, HideKey, ref secondaryTransition);
 	}
 	#endregion
 
 	#region Private
-	void MovePanel (StatPanel obj, string pos, ref Tweener t)
+	void MovePanel(StatPanel obj, string pos, ref Tweener t)
 	{
 		Panel.Position target = obj.panel[pos];
 		if (obj.panel.CurrentPosition != target)

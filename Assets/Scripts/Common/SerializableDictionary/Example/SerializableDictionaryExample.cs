@@ -18,7 +18,7 @@ public class SerializableDictionaryExample : MonoBehaviour {
 	public StringHashSet m_stringHashSet;
 	#endif
 
-	void Reset ()
+	void Reset()
 	{
 		// access by property
 		StringStringDictionary = new Dictionary<string, string>() { {"first key", "value A"}, {"second key", "value B"}, {"third key", "value C"} };

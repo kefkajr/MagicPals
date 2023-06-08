@@ -2,10 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class CommandSelectionState : BaseAbilityMenuState
-{
-	class Option
-	{
+public class CommandSelectionState : BaseAbilityMenuState {
+	class Option {
 		public static string Move = "Move";
 		public static string Action = "Action";
 		public static string Item = "Item";
@@ -14,9 +12,8 @@ public class CommandSelectionState : BaseAbilityMenuState
 		public static string Wait = "Wait";
 	}
 
-	public override void Enter ()
-	{
-		base.Enter ();
+	public override void Enter() {
+		base.Enter();
 		statPanelController.ShowPrimary(turn.actor.gameObject);
 		if (driver.Current == DriverType.Computer)
 			StartCoroutine( ComputerTurn() );
@@ -26,14 +23,12 @@ public class CommandSelectionState : BaseAbilityMenuState
 		board.DeHighlightAllTiles();
 	}
 
-	public override void Exit ()
-	{
-		base.Exit ();
+	public override void Exit() {
+		base.Exit();
 		statPanelController.HidePrimary();
 	}
 
-	protected override void LoadMenu ()
-	{
+	protected override void LoadMenu () {
 		if (menuOptions == null)
 		{
 			menuTitle = "Commands";
@@ -59,8 +54,7 @@ public class CommandSelectionState : BaseAbilityMenuState
 		abilityMenuPanelController.SetLocked(menuOptions.IndexOf(Option.Item), inventory.items.Count < 1);
 	}
 
-	protected override void OnSubmit ()
-	{
+	protected override void OnSubmit() {
 		if (driver.Current == DriverType.Computer) return;
 		
 		int currentSelection = abilityMenuPanelController.selection;
@@ -92,24 +86,18 @@ public class CommandSelectionState : BaseAbilityMenuState
 		}
 	}
 
-	protected override void OnCancel ()
-	{
-		if (turn.hasUnitMoved && !turn.lockMove)
-		{
+	protected override void OnCancel() {
+		if (turn.hasUnitMoved && !turn.lockMove) {
 			turn.UndoMove();
 			SelectTile(turn.actor.tile.pos);
 			LoadMenu();
-		}
-		else
-		{
+		} else {
 			owner.ChangeState<ExploreState>();
 		}
 	}
 
-	IEnumerator ComputerTurn ()
-	{
-		if (turn.plan == null)
-		{
+	IEnumerator ComputerTurn () {
+		if (turn.plan == null) {
 			yield return owner.cpu.Evaluate(turn);
 			turn.ability = turn.plan.ability;
 		}

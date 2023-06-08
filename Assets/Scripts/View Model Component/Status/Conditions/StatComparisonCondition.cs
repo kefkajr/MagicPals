@@ -12,55 +12,46 @@ public class StatComparisonCondition : StatusCondition
 	#endregion
 	
 	#region MonoBehaviour
-	void Awake ()
-	{
+	void Awake() {
 		stats = GetComponentInParent<Stats>();
 	}
 	
-	void OnDisable ()
-	{
+	void OnDisable() {
 		this.RemoveObserver(OnStatChanged, Stats.DidChangeNotification(type), stats);
 	}
 	#endregion
 	
 	#region Public
-	public void Init (StatTypes type, int value, Func<bool> condition)
-	{
+	public void Init (StatTypes type, int value, Func<bool> condition) {
 		this.type = type;
 		this.value = value;
 		this.condition = condition;
 		this.AddObserver(OnStatChanged, Stats.DidChangeNotification(type), stats);
 	}
 	
-	public bool EqualTo ()
-	{
+	public bool EqualTo () {
 		return stats[type] == value;
 	}
 	
-	public bool LessThan ()
-	{
+	public bool LessThan () {
 		return stats[type] < value;
 	}
 	
-	public bool LessThanOrEqualTo ()
-	{
+	public bool LessThanOrEqualTo () {
 		return stats[type] <= value;
 	}
 	
-	public bool GreaterThan ()
-	{
+	public bool GreaterThan () {
 		return stats[type] > value;
 	}
 	
-	public bool GreaterThanOrEqualTo ()
-	{
+	public bool GreaterThanOrEqualTo () {
 		return stats[type] >= value;
 	}
 	#endregion
 	
 	#region Notification Handlers
-	void OnStatChanged (object sender, object args)
-	{
+	void OnStatChanged (object sender, object args) {
 		if (condition != null && !condition())
 			Remove();
 	}

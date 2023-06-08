@@ -1,7 +1,6 @@
 ﻿using System;
 
-public class Awareness: IEquatable<Awareness>
-{
+public class Awareness: IEquatable<Awareness> {
 	static int StartingAwarenessLevel = 20; // TODO: This should change with testing
 
 	public Perception perception;

@@ -7,28 +7,20 @@ public class AudioSequenceData {
 	public double startTime { get; private set; }
 	public readonly AudioSource source;
 
-	public bool isScheduled { 
-		get { 
-			return startTime > 0; 
-		}
-	}
+	public bool isScheduled {  get { return startTime > 0; } }
 
-	public double endTime { 
-		get { 
-			return startTime + source.clip.length;
-		}
-	}
+	public double endTime { get { return startTime + source.clip.length; } }
 	#endregion
 
 	#region Constructor
-	public AudioSequenceData (AudioSource source) {
+	public AudioSequenceData(AudioSource source) {
 		this.source = source;
 		startTime = -1;
 	}
 	#endregion
 
 	#region Public
-	public void Schedule (double time) {
+	public void Schedule(double time) {
 		if (isScheduled)
 			source.SetScheduledStartTime(time);
 		else
@@ -36,7 +28,7 @@ public class AudioSequenceData {
 		startTime = time;
 	}
 
-	public void Stop () {
+	public void Stop() {
 		startTime = -1;
 		source.Stop();
 	}

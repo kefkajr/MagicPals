@@ -2,25 +2,21 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class ItemPickUpState : BaseAbilityMenuState
-{
+public class ItemPickUpState : BaseAbilityMenuState {
 	public static BoardInventory boardInventory;
 	public static Point point;
 
-	public override void Enter()
-	{
+	public override void Enter() {
 		base.Enter();
 		statPanelController.ShowPrimary(turn.actor.gameObject);
 	}
 
-	public override void Exit()
-	{
+	public override void Exit() {
 		base.Exit();
 		statPanelController.HidePrimary();
 	}
 
-	protected override void LoadMenu()
-	{
+	protected override void LoadMenu() {
 		if (menuOptions == null)
 			menuOptions = new List<string>();
 		else
@@ -36,8 +32,7 @@ public class ItemPickUpState : BaseAbilityMenuState
 		descriptionPanelController.Show(items[0].describable);
 	}
 
-	protected override void OnSubmit()
-	{
+	protected override void OnSubmit() {
 		Merchandise item = GetCurrentlySelectedItem();
 		boardInventory.RemoveByPoint(item, point);
 
@@ -47,20 +42,17 @@ public class ItemPickUpState : BaseAbilityMenuState
 		owner.ChangeState<CommandSelectionState>();
 	}
 
-	protected override void OnCancel()
-	{
+	protected override void OnCancel() {
 		owner.ChangeState<CommandSelectionState>();
 	}
 
-	protected override void OnMove(object sender, MoveEventData d)
-	{
+	protected override void OnMove(object sender, MoveEventData d) {
 		base.OnMove(sender, d);
 		Merchandise item = GetCurrentlySelectedItem();
 		descriptionPanelController.Show(item.describable);
 	}
 
-	private Merchandise GetCurrentlySelectedItem()
-    {
+	private Merchandise GetCurrentlySelectedItem() {
 		List<Merchandise> items = boardInventory.GetItemsByPoint(point);
 		Merchandise item = items[abilityMenuPanelController.selection];
 		return item;

@@ -2,10 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class AdjacentAbilityRange : AbilityRange
-{
-    public override List<Tile> GetTilesInRange(Board board)
-    {
+public class AdjacentAbilityRange : AbilityRange {
+    public override List<Tile> GetTilesInRange(Board board) {
         List<Tile> tileList = board.Search(unit.tile, delegate (Tile from, Tile to) {
             return ExpandSearch(board, from, to);
 		});
@@ -15,8 +13,7 @@ public class AdjacentAbilityRange : AbilityRange
         return tileList;
     }
 
-    bool ExpandSearch(Board board, Tile from, Tile to)
-    {
+    bool ExpandSearch(Board board, Tile from, Tile to) {
         // Skip if walls are blocking the way
         if (board.WallSeparatingTiles(from, to) != null)
             return false;

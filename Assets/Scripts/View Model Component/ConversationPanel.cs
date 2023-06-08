@@ -2,15 +2,13 @@
 using UnityEngine.UI;
 using System.Collections;
 
-public class ConversationPanel : MonoBehaviour 
-{
+public class ConversationPanel : MonoBehaviour  {
 	public Text message;
 	public Image speaker;
 	public GameObject arrow;
 	public Panel panel;
 
-	void Start ()
-	{
+	void Start() {
 		Vector3 pos = arrow.transform.localPosition;
 		arrow.transform.localPosition = new Vector3(pos.x, pos.y + 5, pos.z);
 		Tweener t = arrow.transform.MoveToLocal(new Vector3(pos.x, pos.y - 5, pos.z), 0.5f, EasingEquations.EaseInQuad);
@@ -18,8 +16,7 @@ public class ConversationPanel : MonoBehaviour
 		t.loopCount = -1;
 	}
 
-	public IEnumerator Display (SpeakerData sd)
-	{
+	public IEnumerator DisPlay(SpeakerData sd) {
 		speaker.sprite = sd.speaker;
 		speaker.SetNativeSize();
 

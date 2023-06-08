@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class SpawnMarker : MonoBehaviour
-{
+public class SpawnMarker : MonoBehaviour {
     const float stepHeight = 0.5f;
 
     public string recipeName;
@@ -14,15 +13,13 @@ public class SpawnMarker : MonoBehaviour
     public Transform directionMarker;
     public Direction direction;
 
-	public SpawnMarker(string recipeName, Point position, Direction direction)
-	{
+	public SpawnMarker(string recipeName, Point position, Direction direction) {
 		this.recipeName = recipeName;
 		this.position = position;
         this.direction = direction;
 	}
 
-    public void Match ()
-	{
+    public void Match () {
 		transform.localPosition = new Vector3( position.x, height * stepHeight / 2f, position.y );
 		transform.localScale = new Vector3(1, 0.25f, 1);
         recipeNameLabel.text = recipeName;
@@ -34,14 +31,12 @@ public class SpawnMarker : MonoBehaviour
 }
 
 [System.Serializable]
-public class SpawnData
-{
+public class SpawnData {
     public string recipeName;
     public Point position;
     public Direction direction;
 
-	public SpawnData(string recipeName, Point position, Direction direction)
-	{
+	public SpawnData(string recipeName, Point position, Direction direction) {
 		this.recipeName = recipeName;
 		this.position = position;
         this.direction = direction;

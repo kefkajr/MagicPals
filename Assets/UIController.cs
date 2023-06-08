@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class UIController : MonoBehaviour
-{
+public class UIController : MonoBehaviour {
     [SerializeField] public GameObject flyawayTextPrefab;
     private const string flyawayTextPoolKey = "UIController.statChangeDecoratorPrefab";
 
@@ -15,20 +14,17 @@ public class UIController : MonoBehaviour
         isSetup = true;
     }
 
-    void OnEnable ()
-	{
+    void OnEnable() {
 		this.AddObserver(OnHPDidChangeNotification, Stats.DidChangeNotification(StatTypes.HP));
 	}
 	
-	void OnDisable ()
-	{
+	void OnDisable() {
 		this.RemoveObserver(OnHPDidChangeNotification, Stats.DidChangeNotification(StatTypes.HP));
 	}
 
     // Floating Text for HP changes
 
-    void OnHPDidChangeNotification (object sender, object args)
-	{
+    void OnHPDidChangeNotification(object sender, object args) {
 		Stats stats = sender as Stats;
         int newHPValue = stats[StatTypes.HP];
         int oldHPValue = (int)args;

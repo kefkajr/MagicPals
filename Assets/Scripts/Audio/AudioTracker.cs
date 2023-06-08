@@ -50,7 +50,7 @@ public class AudioTracker : MonoBehaviour {
 	#endregion
 
 	#region Private
-	IEnumerator TrackSequence () {
+	IEnumerator TrackSequence() {
 		while (true) {
 			yield return null;
 			SetTime(source.time);
@@ -58,28 +58,28 @@ public class AudioTracker : MonoBehaviour {
 		}
 	}
 
-	void AudioSourceBegan () {
+	void AudioSourceBegan() {
 		if (onPlay != null) {
 			onPlay(this);
 		}
 	}
 
-	void AudioSourceLooped () {
+	void AudioSourceLooped() {
 		if (onLoop != null)
 			onLoop(this);
 	}
 
-	void AudioSourceCompleted () {
+	void AudioSourceCompleted() {
 		if (onComplete != null)
 			onComplete(this);
 	}
 
-	void AudioSourcePaused () {
+	void AudioSourcePaused() {
 		if (onPause != null)
 			onPause(this);
 	}
 
-	void SetIsPlaying (bool isPlaying) {
+	void SetIsPlaying(bool isPlaying) {
 		if (lastIsPlaying == isPlaying)
 			return;
 		
@@ -96,7 +96,7 @@ public class AudioTracker : MonoBehaviour {
 			StopCoroutine(trackingCoroutine);
 	}
 
-	void SetTime (float time) {
+	void SetTime(float time) {
 		if (lastTime > time) {
 			AudioSourceLooped();
 		}

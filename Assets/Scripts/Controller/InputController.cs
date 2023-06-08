@@ -3,33 +3,27 @@ using System;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-class Repeater
-{
+class Repeater {
 	const float threshold = 0.4f;
 	const float rate = 0.15f;
 	float _next;
 	bool _hold;
 	string _axis;
 	
-	public Repeater (string axisName)
-	{
+	public Repeater(string axisName) {
 		_axis = axisName;
 	}
 	
-	public int Update (int value)
-	{
+	public int Update(int value) {
 		int retValue = 0;		
-		if (value != 0)
-		{
+		if (value != 0) {
 			if (Time.time > _next)
 			{
 				retValue = value;
 				_next = Time.time + (_hold ? rate : threshold);
 				_hold = true;
 			}
-		}
-		else
-		{
+		} else {
 			_hold = false;
 			_next = 0;
 		}
@@ -38,8 +32,7 @@ class Repeater
 	}
 }
 
-public class InputController : MonoBehaviour
-{
+public class InputController : MonoBehaviour {
 	public static event EventHandler<InfoEventArgs<Point>> moveEvent;
 	public static event Action submitEvent;
 	public static event Action cancelEvent;

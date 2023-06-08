@@ -2,8 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AwarenessLine : MonoBehaviour
-{
+public class AwarenessLine : MonoBehaviour {
     public LineRenderer lineRenderer;
 
     private Awareness awareness;
@@ -27,8 +26,7 @@ public class AwarenessLine : MonoBehaviour
         lineRenderer.positionCount = 200;
         float t = 0f;
         Vector3 B = new Vector3(0, 0, 0);
-        for (int i = 0; i < lineRenderer.positionCount; i++)
-        {
+        for (int i = 0; i < lineRenderer.positionCount; i++) {
             B = (1 - t) * (1 - t) * start + 2 * (1 - t) * t * middle + t * t * end;
             lineRenderer.SetPosition(i, B);
             t += (1 / (float)lineRenderer.positionCount);

@@ -2,13 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class ItemTargetState : BattleState
-{
+public class ItemTargetState : BattleState {
 	List<Tile> tiles;
 	AbilityRange ar;
 
-	public override void Enter()
-	{
+	public override void Enter() {
 		base.Enter();
 		ar = turn.ability.GetComponent<AbilityRange>();
 		SelectTiles();
@@ -19,29 +17,23 @@ public class ItemTargetState : BattleState
 			StartCoroutine(ComputerHighlightTarget());
 	}
 
-	public override void Exit()
-	{
+	public override void Exit() {
 		base.Exit();
 		board.DeHighlightTiles(tiles);
 		statPanelController.HidePrimary();
 		statPanelController.HideSecondary();
 	}
 
-	protected override void OnMove(object sender, MoveEventData d)
-	{
-		if (ar.directionOriented)
-		{
+	protected override void OnMove(object sender, MoveEventData d) {
+		if (ar.directionOriented) {
 			ChangeDirection(d.pointTranslatedByCameraDirection);
-		}
-		else
-		{
+		} else {
 			SelectTile(d.pointTranslatedByCameraDirection + pos);
 			RefreshSecondaryStatPanel(pos);
 		}
 	}
 
-	protected override void OnSubmit()
-	{
+	protected override void OnSubmit() {
 		if (ar.directionOriented || tiles.Contains(board.GetTile(pos)))
 			owner.ChangeState<ConfirmAbilityTargetState>();			
 	}
@@ -50,11 +42,9 @@ public class ItemTargetState : BattleState
 		owner.ChangeState<CategorySelectionState>();
 	}
 
-	void ChangeDirection(Point p)
-	{
+	void ChangeDirection(Point p) {
 		Direction dir = p.GetDirection();
-		if (turn.actor.dir != dir)
-		{
+		if (turn.actor.dir != dir) {
 			board.DeHighlightTiles(tiles);
 			turn.actor.dir = dir;
 			turn.actor.Match();
@@ -62,24 +52,18 @@ public class ItemTargetState : BattleState
 		}
 	}
 
-	void SelectTiles()
-	{
+	void SelectTiles() {
 		tiles = ar.GetTilesInRange(board);
 		board.HighlightTiles(tiles, TileHighlightColorType.targetRangeHighlight);
 	}
 
-	IEnumerator ComputerHighlightTarget()
-	{
-		if (ar.directionOriented)
-		{
+	IEnumerator ComputerHighlightTarget() {
+		if (ar.directionOriented) {
 			ChangeDirection(turn.plan.attackDirection.GetNormal());
 			yield return new WaitForSeconds(0.25f);
-		}
-		else
-		{
+		} else {
 			Point cursorPos = pos;
-			while (cursorPos != turn.plan.fireLocation.pos)
-			{
+			while (cursorPos != turn.plan.fireLocation.pos) {
 				if (cursorPos.x < turn.plan.fireLocation.pos.x) cursorPos.x++;
 				if (cursorPos.x > turn.plan.fireLocation.pos.x) cursorPos.x--;
 				if (cursorPos.y < turn.plan.fireLocation.pos.y) cursorPos.y++;

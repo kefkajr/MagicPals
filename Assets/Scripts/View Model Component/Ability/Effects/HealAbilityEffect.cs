@@ -1,12 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class HealAbilityEffect : BaseAbilityEffect 
-{
+public class HealAbilityEffect : BaseAbilityEffect {
 	public string constantValue = null;
 
-	public override int Predict (Tile target)
-	{
+	public override int Predict (Tile target) {
 		if (constantValue != null && constantValue != "")
 			return int.Parse(constantValue);
 
@@ -15,12 +13,10 @@ public class HealAbilityEffect : BaseAbilityEffect
 		return GetStat(attacker, defender, GetPowerNotification, 0);
 	}
 
-	protected override int OnApply (Tile target)
-	{
+	protected override int OnApply (Tile target) {
 		Unit defender = target.occupant.GetComponent<Unit>();
 		int value;
-		if (constantValue == null || constantValue == "")
-		{
+		if (constantValue == null || constantValue == "") {
 			// Start with the predicted value
 			value = Predict(target);
 
@@ -29,8 +25,7 @@ public class HealAbilityEffect : BaseAbilityEffect
 
 			// Clamp the amount to a range
 			value = Mathf.Clamp(value, minDamage, maxDamage);
-		} else
-        {
+		} else {
 			// Use constant value
 			value = int.Parse(constantValue);
         }

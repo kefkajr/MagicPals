@@ -15,12 +15,12 @@ public abstract class Movement : MonoBehaviour {
 	#endregion
 
 	#region MonoBehaviour
-	protected virtual void Awake () {
+	protected virtual void Awake() {
 		unit = GetComponent<Unit>();
 		jumper = transform.Find("Jumper");
 	}
 
-	protected virtual void Start () {
+	protected virtual void Start() {
 		stats = GetComponent<Stats>();
 	}
 	#endregion

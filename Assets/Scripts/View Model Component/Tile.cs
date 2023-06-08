@@ -3,8 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-public class Tile : MonoBehaviour 
-{
+public class Tile : MonoBehaviour {
 	#region Const
 	public const float stepHeight = 0.25f;
 	#endregion
@@ -38,27 +37,23 @@ public class Tile : MonoBehaviour
 	#endregion
 
 	#region Public
-	public void Grow ()
-	{
+	public void Grow () {
 		height++;
 		Match();
 	}
 	
-	public void Shrink ()
-	{
+	public void Shrink () {
 		height--;
 		Match ();
 	}
 
-	public void Load (Point p, int h)
-	{
+	public void Load (Point p, int h) {
 		pos = p;
 		height = h;
 		Match();
 	}
 	
-	public void Load (TileData t)
-	{
+	public void Load (TileData t) {
 		Load (t.point, t.height);
 	}
 
@@ -112,13 +107,11 @@ public class Tile : MonoBehaviour
 		}
 	}
 
-	void Match ()
-	{
+	void Match () {
 		transform.localPosition = new Vector3( pos.x, height * stepHeight / 2f, pos.y );
 		transform.localScale = new Vector3(1, height * stepHeight, 1);
 
-		foreach (Wall w in walls.Values)
-        {
+		foreach (Wall w in walls.Values) {
 			w.Load(this, w.direction);
         }
 	}
@@ -129,13 +122,11 @@ public class Tile : MonoBehaviour
 	public float gizmoAlpha;
 	public Color gizmoColor = Color.red;
 
-	void OnDrawGizmos()
-	{
+	void OnDrawGizmos() {
 		GUI.color = Color.black;
 		UnityEditor.Handles.Label(transform.position, string.Format("{0}, {1}", pos.x, pos.y));
 
-		if (isBeingPerceived) 
-		{
+		if (isBeingPerceived) {
 			Color color = gizmoColor;
 			color.a = gizmoAlpha;
 			Gizmos.color = color;
@@ -147,25 +138,21 @@ public class Tile : MonoBehaviour
 		}
 	}
 
-	public override string ToString()
-	{
+	public override string ToString() {
 		return string.Format("Tile: {0}", pos.ToString());
 	}
 }
 
 [System.Serializable]
-public class TileData
-{
+public class TileData {
 	public Point point;
 	public int height;
 	public List<WallData> wallData = new List<WallData>();
 
-	public TileData(Tile tile)
-	{
+	public TileData(Tile tile) {
 		this.point = tile.pos;
 		this.height = tile.height;
-		foreach (Wall wall in tile.walls.Values)
-		{
+		foreach (Wall wall in tile.walls.Values) {
 			this.wallData.Add(new WallData(wall));
 		}
 	}

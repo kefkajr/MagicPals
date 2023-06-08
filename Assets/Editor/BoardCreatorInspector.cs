@@ -3,20 +3,12 @@ using UnityEditor;
 using System.Collections;
 
 [CustomEditor(typeof(BoardCreator))]
-public class BoardCreatorInspector : Editor 
-{
+public class BoardCreatorInspector : Editor {
 	public string recipeName = "";
 	
-	public BoardCreator current
-	{
-		get
-		{
-			return (BoardCreator)target;
-		}
-	}
+	public BoardCreator current { get { return (BoardCreator)target; } }
 
-	public override void OnInspectorGUI ()
-	{
+	public override void OnInspectorGUI() {
 		DrawDefaultInspector();
 
 		GUILayout.Label("Marker Position");
@@ -89,6 +81,6 @@ public class BoardCreatorInspector : Editor
 			current.Clear();
 
 		if (GUI.changed)
-			current.UpdateMarker ();
+			current.UpdateMarker();
 	}
 }

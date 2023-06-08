@@ -10,18 +10,18 @@ public class AbsorbDamageAbilityEffectTarget : BaseAbilityEffect
 	#endregion
 
 	#region MonoBehaviour
-	void Awake ()
+	void Awake()
 	{
 		effect = GetTrackedEffect();
 	}
 
-	void OnEnable ()
+	void OnEnable()
 	{
 		this.AddObserver(OnEffectHit, BaseAbilityEffect.HitNotification, effect);
 		this.AddObserver(OnEffectMiss, BaseAbilityEffect.MissedNotification, effect);
 	}
 
-	void OnDisable ()
+	void OnDisable()
 	{
 		this.RemoveObserver(OnEffectHit, BaseAbilityEffect.HitNotification, effect);
 		this.RemoveObserver(OnEffectMiss, BaseAbilityEffect.MissedNotification, effect);

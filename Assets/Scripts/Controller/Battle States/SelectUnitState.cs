@@ -1,22 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class SelectUnitState : BattleState 
-{
-	public override void Enter ()
-	{
-		base.Enter ();
+public class SelectUnitState : BattleState {
+	public override void Enter() {
+		base.Enter();
 		StartCoroutine("ChangeCurrentUnit");
 	}
 
-	public override void Exit ()
-	{
-		base.Exit ();
+	public override void Exit() {
+		base.Exit();
 		statPanelController.HidePrimary();
 	}
 
-	IEnumerator ChangeCurrentUnit ()
-	{
+	IEnumerator ChangeCurrentUnit() {
 		owner.round.MoveNext();
 		SelectTile(turn.actor.tile.pos);
 		RefreshPrimaryStatPanel(pos);

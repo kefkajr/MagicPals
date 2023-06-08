@@ -3,13 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-public class MoveTargetState : BattleState
-{
+public class MoveTargetState : BattleState {
 	List<Tile> tiles;
 	
-	public override void Enter ()
-	{
-		base.Enter ();
+	public override void Enter() {
+		base.Enter();
 		Movement mover = turn.actor.GetComponent<Movement>();
 		tiles = mover.GetTilesInRange(board);
 		board.HighlightTiles(tiles, TileHighlightColorType.moveRangeHighlight);
@@ -18,23 +16,20 @@ public class MoveTargetState : BattleState
 			StartCoroutine(ComputerMoveTarget());
 	}
 	
-	public override void Exit ()
-	{
-		base.Exit ();
+	public override void Exit() {
+		base.Exit();
 		board.DeHighlightTiles(tiles);
 		tiles = null;
 		statPanelController.HidePrimary();
 	}
 
-	protected override void OnMove(object sender, MoveEventData moveEventData)
-	{
+	protected override void OnMove(object sender, MoveEventData moveEventData) {
 		base.OnMove(sender, moveEventData);
 		// Keep move range tile highlights from being overridden by other highlights (i.e. viewing range highlights)
 		board.HighlightTiles(tiles, TileHighlightColorType.moveRangeHighlight);
 	}
 
-	protected override void OnSubmit ()
-	{
+	protected override void OnSubmit() {
 		if (driver.Current == DriverType.Computer) return;
 		
 		if (tiles.Contains(owner.currentTile))

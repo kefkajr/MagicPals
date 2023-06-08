@@ -1,23 +1,19 @@
 ﻿using UnityEngine;
 using UnityEditor;
 
-public class YourClassAsset
-{
+public class YourClassAsset {
 	[MenuItem("Assets/Create/Conversation Data")]
-	public static void CreateConversationData ()
-	{
-		ScriptableObjectUtility.CreateAsset<ConversationData> ();
+	public static void CreateConversationData() {
+		ScriptableObjectUtility.CreateAsset<ConversationData>();
 	}
 
 	[MenuItem("Assets/Create/Unit Recipe")]
-	public static void CreateUnitRecipe ()
-	{
-		ScriptableObjectUtility.CreateAsset<UnitRecipe> ();
+	public static void CreateUnitRecipe() {
+		ScriptableObjectUtility.CreateAsset<UnitRecipe>();
 	}
 	
 	[MenuItem("Assets/Create/Ability Catalog Recipe")]
-	public static void CreateAbilityCatalogRecipe ()
-	{
-		ScriptableObjectUtility.CreateAsset<AbilityCatalogRecipe> ();
+	public static void CreateAbilityCatalogRecipe() {
+		ScriptableObjectUtility.CreateAsset<AbilityCatalogRecipe>();
 	}
 }

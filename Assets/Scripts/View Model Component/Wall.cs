@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Wall : MonoBehaviour
-{
+public class Wall : MonoBehaviour {
     public enum Origin { withinBorder, onBorder, withoutBorder}
 
     public const int thicknessMax = 8;
@@ -16,15 +15,13 @@ public class Wall : MonoBehaviour
     public int height = 1;
     public Origin origin = Origin.onBorder;
 
-    public void Load(Tile tile, Direction direction)
-    {
+    public void Load(Tile tile, Direction direction) {
         this.tile = tile;
         this.direction = direction;
         Match();
     }
 
-    public void Load(Tile tile, WallData wallData)
-    {
+    public void Load(Tile tile, WallData wallData) {
         this.tile = tile;
         this.direction = wallData.direction;
         this.thickness = wallData.thickness;
@@ -32,37 +29,30 @@ public class Wall : MonoBehaviour
         Match();
     }
 
-    public void Grow()
-    {
+    public void Grow() {
         height++;
         Match();
     }
 
-    public void Shrink()
-    {
+    public void Shrink() {
         height--;
         Match();
     }
 
-    public void Thicken()
-    {
-        if (thickness < thicknessMax)
-        {
+    public void Thicken() {
+        if (thickness < thicknessMax) {
             thickness++;
             Match();
         }
     }
 
-    public void Thin()
-    {
+    public void Thin() {
         thickness--;
         Match();
     }
 
-    public void MoveOrigin(int i)
-    {
-        switch (origin)
-        {
+    public void MoveOrigin(int i) {
+        switch (origin) {
             case Origin.withinBorder:
                 origin = i > 0 ? Origin.onBorder : origin;
                 break;
@@ -76,14 +66,12 @@ public class Wall : MonoBehaviour
         Match();
     }
 
-    void Match()
-    {
+    void Match() {
         float posX;
         float posZ;
         float scaleX;
         float scaleZ;
-        switch (direction)
-        {
+        switch (direction) {
             case Direction.North:
                 scaleX = 1;
                 scaleZ = thickness * stepThickness;
@@ -115,10 +103,8 @@ public class Wall : MonoBehaviour
         transform.localScale = new Vector3(scaleX, height * stepHeight, scaleZ);
     }
 
-    float OriginOffSetFromScale(float scale)
-    {
-        switch(origin)
-        {
+    float OriginOffSetFromScale(float scale) {
+        switch(origin) {
             case Origin.withinBorder:
                 return -scale / 2;
             case Origin.withoutBorder:
@@ -130,15 +116,13 @@ public class Wall : MonoBehaviour
 }
 
 [System.Serializable]
-public class WallData
-{
+public class WallData {
     public Direction direction;
     public Wall.Origin origin;
     public int thickness;
     public int height;
 
-    public WallData(Wall wall)
-    {
+    public WallData(Wall wall) {
         this.direction = wall.direction;
         this.origin = wall.origin;
         this.thickness = wall.thickness;

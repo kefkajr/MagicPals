@@ -2,13 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class EndFacingState : BattleState 
-{
+public class EndFacingState : BattleState{
 	Direction startDir;
 
-	public override void Enter ()
-	{
-		base.Enter ();
+	public override void Enter() {
+		base.Enter();
 		startDir = turn.actor.dir;
 		SelectTile(turn.actor.tile.pos);
 		owner.facingIndicator.gameObject.SetActive(true);
@@ -17,14 +15,12 @@ public class EndFacingState : BattleState
 			StartCoroutine(ComputerControl());
 	}
 
-	public override void Exit ()
-	{
+	public override void Exit() {
 		owner.facingIndicator.gameObject.SetActive(false);
-		base.Exit ();
+		base.Exit();
 	}
 	
-	protected override void OnMove (object sender, MoveEventData d)
-	{
+	protected override void OnMove(object sender, MoveEventData d) {
 		turn.actor.dir = d.pointTranslatedByCameraDirection.GetDirection();
 		turn.actor.Match();
 		owner.facingIndicator.SetDirection(turn.actor.dir);
@@ -32,22 +28,19 @@ public class EndFacingState : BattleState
 		LetActorLookInCurrentDirection();
 	}
 	
-	protected override void OnSubmit ()
-	{
+	protected override void OnSubmit() {
 		if (driver.Current == DriverType.Computer) return;
 		
 		owner.ChangeState<SelectUnitState>();
 	}
 
-	protected override void OnCancel ()
-	{
+	protected override void OnCancel() {
 		turn.actor.dir = startDir;
 		turn.actor.Match();
 		owner.ChangeState<CommandSelectionState>();
 	}
 
-	IEnumerator ComputerControl ()
-	{
+	IEnumerator ComputerControl() {
 		turn.actor.dir = owner.cpu.DetermineEndFacingDirection();
 		owner.cpu.HandleEndOfInvestigation();
 		yield return new WaitForSeconds(0.5f);
@@ -60,8 +53,7 @@ public class EndFacingState : BattleState
 		owner.ChangeState<SelectUnitState>();
 	}
 
-	void LetActorLookInCurrentDirection()
-    {
+	void LetActorLookInCurrentDirection() {
 		// Allow the unit to perceive in whatever direction they turn
 		owner.awarenessController.Look(turn.actor);
 	}

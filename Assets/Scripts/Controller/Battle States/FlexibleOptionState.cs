@@ -3,20 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 
-public class FlexibleOptionState : BaseAbilityMenuState
-{
+public class FlexibleOptionState : BaseAbilityMenuState {
 	// Set menu title before entering this state
 
 	public static List<FlexibleOption> flexibleOptions;
 
-	public override void Enter()
-	{
+	public override void Enter() {
 		base.Enter();
 		statPanelController.ShowPrimary(turn.actor.gameObject);
 	}
 
-	public override void Exit()
-	{
+	public override void Exit() {
 		base.Exit();
 		statPanelController.HidePrimary();
 	}
@@ -25,8 +22,7 @@ public class FlexibleOptionState : BaseAbilityMenuState
 		menuTitle = title;
 	}
 
-	protected override void LoadMenu()
-	{
+	protected override void LoadMenu() {
 		if (menuOptions == null)
 			menuOptions = new List<string>();
 		else
@@ -40,19 +36,16 @@ public class FlexibleOptionState : BaseAbilityMenuState
 		DisplayFlexibleOptionInfo();
 	}
 
-	protected override void OnSubmit()
-	{
+	protected override void OnSubmit() {
 		Action Action = flexibleOptions[abilityMenuPanelController.selection].action;
 		Action();
 	}
 
-	protected override void OnCancel()
-	{
+	protected override void OnCancel() {
 		owner.ChangeState<CommandSelectionState>();
 	}
 
-	protected override void OnMove(object sender, MoveEventData d)
-	{
+	protected override void OnMove(object sender, MoveEventData d) {
 		base.OnMove(sender, d);
 		DisplayFlexibleOptionInfo();
 	}

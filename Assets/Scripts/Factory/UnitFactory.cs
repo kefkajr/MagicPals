@@ -130,8 +130,7 @@ public static class UnitFactory
 		}
 	}
 
-	static void AddInventory(GameObject unitObject)
-    {
+	static void AddInventory(GameObject unitObject) {
 		// Create inventory object and component
 		GameObject invObject = new GameObject("Inventory");
 		invObject.AddComponent<Inventory>();
@@ -150,8 +149,7 @@ public static class UnitFactory
 		// items.Add(InstantiatePrefab("Merchandise/" + "Bomb"));
 
         // Set items within inventory, and equip them if possible
-        foreach (GameObject item in items)
-        {
+        foreach (GameObject item in items) {
             item.transform.SetParent(invObject.transform);
 			Merchandise merchandise = item.GetComponent<Merchandise>();
 			inv.Add(merchandise);
@@ -159,30 +157,24 @@ public static class UnitFactory
         }
     }
 
-	static void EquipItem(Inventory inv, GameObject item)
-	{
+	static void EquipItem(Inventory inv, GameObject item) {
 		Equippable toEquip = item.GetComponentInChildren<Equippable>();
 		if (toEquip != null)
 			inv.Equip(toEquip, toEquip.defaultSlots);
 	}
 
-	static void AddAttackPattern (GameObject obj, string name)
-	{
+	static void AddAttackPattern (GameObject obj, string name) {
 		Driver driver = obj.AddComponent<Driver>();
-		if (string.IsNullOrEmpty(name))
-		{
+		if (string.IsNullOrEmpty(name)) {
 			driver.normal = DriverType.Human;
-		}
-		else
-		{
+		} else {
 			driver.normal = DriverType.Computer;
 			GameObject instance = InstantiatePrefab("Attack Pattern/" + name);
 			instance.transform.SetParent(obj.transform);
 		}
 	}
 
-	static void AddAwareness(GameObject obj, PerceptionRecipe perceptionRecipe)
-	{
+	static void AddAwareness(GameObject obj, PerceptionRecipe perceptionRecipe) {
 		Stealth stealth = obj.AddComponent<Stealth>();
 		Perception perception = obj.GetComponentInChildren<Perception>();
 		perception.viewingRange = perceptionRecipe.viewingRange;

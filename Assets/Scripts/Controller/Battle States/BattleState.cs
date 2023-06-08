@@ -3,8 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.EventSystems;
 
-public abstract class BattleState : State 
-{
+public abstract class BattleState : State {
 	protected BattleController owner;
 	protected Driver driver;
 	public CameraRig cameraRig { get { return owner.cameraRig; }}
@@ -20,18 +19,15 @@ public abstract class BattleState : State
 	public Turn turn { get { return owner.turn; }}
 	public List<Unit> units { get { return owner.units; }}
 
-	protected virtual void Awake ()
-	{
+	protected virtual void Awake() {
 		owner = GetComponent<BattleController>();
 	}
 
-	protected override void AddListeners ()
-	{
+	protected override void AddListeners() {
 		
 		InputController.submitEvent += OnSubmit; // Allow time skip when computer moves
 
-		if (driver == null || driver.Current == DriverType.Human)
-		{
+		if (driver == null || driver.Current == DriverType.Human) {
 			InputController.moveEvent += OnMove;
 			InputController.pointEvent += OnPoint;
 			InputController.clickEvent += OnClick;
@@ -39,8 +35,7 @@ public abstract class BattleState : State
 		}
 	}
 	
-	protected override void RemoveListeners ()
-	{
+	protected override void RemoveListeners() {
 		InputController.moveEvent -= OnMove;
 		InputController.pointEvent -= OnPoint;
 		InputController.clickEvent -= OnClick;
@@ -48,19 +43,16 @@ public abstract class BattleState : State
 		InputController.cancelEvent -= OnCancel;
 	}
 
-	public override void Enter ()
-	{
+	public override void Enter() {
 		driver = (turn.actor != null) ? turn.actor.GetComponent<Driver>() : null;
-		base.Enter ();
+		base.Enter();
 	}
 
-	void OnMove(object sender, InfoEventArgs<Point> e)
-	{
+	void OnMove(object sender, InfoEventArgs<Point> e) {
 		// Translate which direction up/down/left/right go dending on the current camera direction
 		Point point = e.info;
 		Point translatedPoint;
-		switch (cameraRig.currentDirection)
-		{
+		switch (cameraRig.currentDirection) {
 			case Direction.North:
 				translatedPoint = point;
 				break;
@@ -79,15 +71,13 @@ public abstract class BattleState : State
 		OnMove(sender, moveEventData);
 	}
 
-	protected virtual void OnMove (object sender, MoveEventData d)
-	{
+	protected virtual void OnMove(object sender, MoveEventData d) {
 		SelectTile(d.pointTranslatedByCameraDirection + pos);
 		RefreshPrimaryStatPanel(pos);
 		DisplayAwarenessInfoForUnitAtPoint(pos);
 	}
 
-	protected virtual void OnPoint (object sender, Vector2 v)
-	{
+	protected virtual void OnPoint(object sender, Vector2 v) {
 		if (driver.Current == DriverType.Computer)
 			return;
 		
@@ -100,23 +90,19 @@ public abstract class BattleState : State
 		}
 	}
 
-	protected virtual void OnClick (object sender, Vector2 v)
-	{
+	protected virtual void OnClick(object sender, Vector2 v) {
 		
 	}
 	
-	protected virtual void OnSubmit ()
-	{
+	protected virtual void OnSubmit() {
 		
 	}
 
-	protected virtual void OnCancel ()
-	{
+	protected virtual void OnCancel() {
 		
 	}
 
-	protected virtual void SelectTile (Point p)
-	{
+	protected virtual void SelectTile(Point p) {
 		if (pos == p || !board.tiles.ContainsKey(p))
 			return;
 
@@ -124,15 +110,13 @@ public abstract class BattleState : State
 		tileSelectionIndicator.localPosition = board.tiles[p].center;
 	}
 
-	protected virtual Unit GetUnit (Point p)
-	{
+	protected virtual Unit GetUnit(Point p) {
 		Tile t = board.GetTile(p);
 		GameObject content = t != null ? t.occupant : null;
 		return content != null ? content.GetComponent<Unit>() : null;
 	}
 
-	protected virtual void DisplayAwarenessInfoForUnitAtPoint (Point p)
-	{
+	protected virtual void DisplayAwarenessInfoForUnitAtPoint(Point p) {
 		owner.awarenessController.ClearAwarenessLines();
 		owner.awarenessController.HideViewingRanges();
 
@@ -143,8 +127,7 @@ public abstract class BattleState : State
 		}
 	}
 
-	protected virtual void RefreshPrimaryStatPanel (Point p)
-	{
+	protected virtual void RefreshPrimaryStatPanel(Point p) {
 		Unit target = GetUnit(p);
 		if (target != null)
 			statPanelController.ShowPrimary(target.gameObject);
@@ -152,8 +135,7 @@ public abstract class BattleState : State
 			statPanelController.HidePrimary();
 	}
 
-	protected virtual void RefreshSecondaryStatPanel (Point p)
-	{
+	protected virtual void RefreshSecondaryStatPanel(Point p) {
 		Unit target = GetUnit(p);
 		if (target != null)
 			statPanelController.ShowSecondary(target.gameObject);
@@ -161,29 +143,24 @@ public abstract class BattleState : State
 			statPanelController.HideSecondary();
 	}
 
-	protected virtual bool DidPlayerWin ()
-	{
+	protected virtual bool DidPlayerWin() {
 		return owner.GetComponent<BaseVictoryCondition>().Victor == Alliances.Hero;
 	}
 	
-	protected virtual bool IsBattleOver ()
-	{
+	protected virtual bool IsBattleOver() {
 		BaseVictoryCondition vc = owner.GetComponent<BaseVictoryCondition>();
 		return vc.Victor != Alliances.None;
 	}
 
-	protected virtual bool UnitCanReceiveCommands()
-	{
+	protected virtual bool UnitCanReceiveCommands() {
 		return turn.actor.KO == null;
 	}
 
-	public struct MoveEventData
-    {
+	public struct MoveEventData {
 		public Point point;
 		public Point pointTranslatedByCameraDirection;
 
-		public MoveEventData(Point point, Point pointTranslatedByCameraDirection)
-		{
+		public MoveEventData(Point point, Point pointTranslatedByCameraDirection) {
 			this.point = point;
 			this.pointTranslatedByCameraDirection = pointTranslatedByCameraDirection;
 		}

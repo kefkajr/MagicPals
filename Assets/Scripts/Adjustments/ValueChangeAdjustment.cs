@@ -2,8 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class ValueChangeAdjustment : BaseAdjustment
-{
+public class ValueChangeAdjustment : BaseAdjustment {
 	#region Fields / Properteis
 	public readonly float fromValue;
 	public readonly float toValue;
@@ -12,23 +11,20 @@ public class ValueChangeAdjustment : BaseAdjustment
 	#endregion
 
 	#region Constructor
-	public ValueChangeAdjustment (float fromValue, float toValue) : base (true)
-	{
+	public ValueChangeAdjustment(float fromValue, float toValue) : base (true) {
 		this.fromValue = fromValue;
 		this.toValue = toValue;
 	}
 	#endregion
 
 	#region Public
-	public void AddModifier (ValueModifier m)
-	{
+	public void AddModifier(ValueModifier m) {
 		if (modifiers == null)
 			modifiers = new List<ValueModifier>();
 		modifiers.Add(m);
 	}
 
-	public float GetModifiedValue ()
-	{
+	public float GetModifiedValue() {
 		if (modifiers == null)
 			return toValue;
 
@@ -42,8 +38,7 @@ public class ValueChangeAdjustment : BaseAdjustment
 	#endregion
 
 	#region Private
-	int Compare (ValueModifier x, ValueModifier y)
-	{
+	int Compare(ValueModifier x, ValueModifier y) {
 		return x.sortOrder.CompareTo(y.sortOrder);
 	}
 	#endregion	

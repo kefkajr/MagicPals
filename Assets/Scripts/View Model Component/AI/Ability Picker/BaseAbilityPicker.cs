@@ -16,7 +16,7 @@ public abstract class BaseAbilityPicker : MonoBehaviour
 	#endregion
 
 	#region MonoBehaviour
-	void Start ()
+	void Start()
 	{
 		owner = GetComponentInParent<Unit>();
 		ac = owner.GetComponentInChildren<AbilityCatalog>();

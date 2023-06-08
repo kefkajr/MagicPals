@@ -30,18 +30,18 @@ public class Rank : MonoBehaviour
 	#endregion
 
 	#region MonoBehaviour
-	void Awake ()
+	void Awake()
 	{
 		stats = GetComponent<Stats>();
 	}
 
-	void OnEnable ()
+	void OnEnable()
 	{
 		this.AddObserver(OnExpWillChange, Stats.WillChangeNotification(StatTypes.EXP), stats);
 		this.AddObserver(OnExpDidChange, Stats.DidChangeNotification(StatTypes.EXP), stats);
 	}
 
-	void OnDisable ()
+	void OnDisable()
 	{
 		this.RemoveObserver(OnExpWillChange, Stats.WillChangeNotification(StatTypes.EXP), stats);
 		this.RemoveObserver(OnExpDidChange, Stats.DidChangeNotification(StatTypes.EXP), stats);

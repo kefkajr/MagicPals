@@ -6,7 +6,7 @@ public class MusicPlayer : MonoBehaviour {
 	public AudioClip loopClip;
 	public AudioSequence sequence { get; private set; }
 
-	void Start () {
+	void Start() {
 		sequence = gameObject.AddComponent<AudioSequence>();
 		sequence.Play(introClip, loopClip);
 		AudioSequenceData data = sequence.GetData(loopClip);

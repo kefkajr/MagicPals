@@ -21,20 +21,20 @@ public class Mana : MonoBehaviour
 	#endregion
 	
 	#region MonoBehaviour
-	void Awake ()
+	void Awake()
 	{
 		stats = GetComponent<Stats>();
 		unit = GetComponent<Unit>();
 	}
 	
-	void OnEnable ()
+	void OnEnable()
 	{
 		this.AddObserver(OnMPWillChange, Stats.WillChangeNotification(StatTypes.MP), stats);
 		this.AddObserver(OnMMPDidChange, Stats.DidChangeNotification(StatTypes.MMP), stats);
 		this.AddObserver(OnTurnBegan, TurnOrderController.TurnBeganNotification, unit);
 	}
 	
-	void OnDisable ()
+	void OnDisable()
 	{
 		this.RemoveObserver(OnMPWillChange, Stats.WillChangeNotification(StatTypes.MP), stats);
 		this.RemoveObserver(OnMMPDidChange, Stats.DidChangeNotification(StatTypes.MMP), stats);

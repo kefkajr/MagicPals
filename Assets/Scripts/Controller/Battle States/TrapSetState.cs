@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TrapSetState : BattleState
-{
-	public override void Enter()
-	{
+public class TrapSetState : BattleState {
+	public override void Enter() {
 		base.Enter();
 		turn.hasUnitActed = true;
 		if (turn.hasUnitMoved)
@@ -13,8 +11,7 @@ public class TrapSetState : BattleState
 		StartCoroutine(Animate());
 	}
 
-	IEnumerator Animate()
-	{
+	IEnumerator Animate() {
 		// TODO play animations, etc
 		yield return null;
 		SetTrap();
@@ -29,8 +26,7 @@ public class TrapSetState : BattleState
 			owner.ChangeState<CommandSelectionState>();
 	}
 
-	void SetTrap()
-    {
+	void SetTrap() {
 		Tile tile = currentTile;
 		tile.trap = turn.ability.GetComponent<Trap>();
     }

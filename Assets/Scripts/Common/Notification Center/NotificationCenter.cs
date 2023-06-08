@@ -18,8 +18,7 @@ using Handler = System.Action<System.Object, System.Object>;
 /// </summary>
 using SenderTable = System.Collections.Generic.Dictionary<System.Object, System.Collections.Generic.List<System.Action<System.Object, System.Object>>>;
 
-public class NotificationCenter
-{
+public class NotificationCenter {
 	#region Properties
 	/// <summary>
 	/// The dictionary "key" (string) represents a notificationName property to be observed
@@ -35,21 +34,17 @@ public class NotificationCenter
 	#endregion
 	
 	#region Public
-	public void AddObserver (Handler handler, string notificationName)
-	{
+	public void AddObserver (Handler handler, string notificationName) {
 		AddObserver(handler, notificationName, null);
 	}
 	
-	public void AddObserver (Handler handler, string notificationName, System.Object sender)
-	{
-		if (handler == null)
-		{
+	public void AddObserver (Handler handler, string notificationName, System.Object sender) {
+		if (handler == null) {
 			Debug.LogError("Can't add a null event handler for notification, " + notificationName);
 			return;
 		}
 		
-		if (string.IsNullOrEmpty(notificationName))
-		{
+		if (string.IsNullOrEmpty(notificationName)) {
 			Debug.LogError("Can't observe an unnamed notification");
 			return;
 		}
@@ -65,8 +60,7 @@ public class NotificationCenter
 			subTable.Add(key, new List<Handler>());
 		
 		List<Handler> list = subTable[key];
-		if (!list.Contains(handler))
-		{
+		if (!list.Contains(handler)) {
 			if (_invoking.Contains(list))
 				subTable[key] = list = new List<Handler>(list);
 			
@@ -74,21 +68,17 @@ public class NotificationCenter
 		}
 	}
 	
-	public void RemoveObserver (Handler handler, string notificationName)
-	{
+	public void RemoveObserver (Handler handler, string notificationName) {
 		RemoveObserver(handler, notificationName, null);
 	}
 	
-	public void RemoveObserver (Handler handler, string notificationName, System.Object sender)
-	{
-		if (handler == null)
-		{
+	public void RemoveObserver (Handler handler, string notificationName, System.Object sender) {
+		if (handler == null) {
 			Debug.LogError("Can't remove a null event handler for notification, " + notificationName);
 			return;
 		}
 		
-		if (string.IsNullOrEmpty(notificationName))
-		{
+		if (string.IsNullOrEmpty(notificationName)) {
 			Debug.LogError("A notification name is required to stop observation");
 			return;
 		}
@@ -105,29 +95,25 @@ public class NotificationCenter
 		
 		List<Handler> list = subTable[key];
 		int index = list.IndexOf(handler);
-		if (index != -1)
-		{
+		if (index != -1) {
 			if (_invoking.Contains(list))
 				subTable[key] = list = new List<Handler>(list);
 			list.RemoveAt(index);
 		}
 	}
 	
-	public void Clean ()
-	{
+	public void Clean () {
 		string[] notKeys = new string[_table.Keys.Count];
 		_table.Keys.CopyTo(notKeys, 0);
 		
-		for (int i = notKeys.Length - 1; i >= 0; --i)
-		{
+		for (int i = notKeys.Length - 1; i >= 0; --i) {
 			string notificationName = notKeys[i];
 			SenderTable senderTable = _table[notificationName];
 			
 			object[] senKeys = new object[ senderTable.Keys.Count ];
 			senderTable.Keys.CopyTo(senKeys, 0);
 			
-			for (int j = senKeys.Length - 1; j >= 0; --j)
-			{
+			for (int j = senKeys.Length - 1; j >= 0; --j) {
 				object sender = senKeys[j];
 				List<Handler> handlers = senderTable[sender];
 				if (handlers.Count == 0)
@@ -139,20 +125,16 @@ public class NotificationCenter
 		}
 	}
 	
-	public void PostNotification (string notificationName)
-	{
+	public void PostNotification (string notificationName) {
 		PostNotification(notificationName, null);
 	}
 	
-	public void PostNotification (string notificationName, System.Object sender)
-	{
+	public void PostNotification (string notificationName, System.Object sender) {
 		PostNotification(notificationName, sender, null);
 	}
 	
-	public void PostNotification (string notificationName, System.Object sender, System.Object e)
-	{
-		if (string.IsNullOrEmpty(notificationName))
-		{
+	public void PostNotification (string notificationName, System.Object sender, System.Object e) {
+		if (string.IsNullOrEmpty(notificationName)) {
 			Debug.LogError("A notification name is required");
 			return;
 		}
@@ -163,8 +145,7 @@ public class NotificationCenter
 		
 		// Post to subscribers who specified a sender to observe
 		SenderTable subTable = _table[notificationName];
-		if (sender != null && subTable.ContainsKey(sender))
-		{
+		if (sender != null && subTable.ContainsKey(sender)) {
 			List<Handler> handlers = subTable[sender];
 			_invoking.Add(handlers);
 			for (int i = 0; i < handlers.Count; ++i)
@@ -173,8 +154,7 @@ public class NotificationCenter
 		}
 		
 		// Post to subscribers who did not specify a sender to observe
-		if (subTable.ContainsKey(this))
-		{
+		if (subTable.ContainsKey(this)) {
 			List<Handler> handlers = subTable[this];
 			_invoking.Add(handlers);
 			for (int i = 0; i < handlers.Count; ++i)

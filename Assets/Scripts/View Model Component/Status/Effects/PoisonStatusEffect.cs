@@ -1,24 +1,20 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PoisonStatusEffect : StatusEffect 
-{
+public class PoisonStatusEffect : StatusEffect {
 	Unit owner;
 
-	void OnEnable ()
-	{
+	void OnEnable() {
 		owner = GetComponentInParent<Unit>();
 		if (owner)
 			this.AddObserver(OnNewTurn, TurnOrderController.TurnBeganNotification, owner);
 	}
 
-	void OnDisable ()
-	{
+	void OnDisable() {
 		this.RemoveObserver(OnNewTurn, TurnOrderController.TurnBeganNotification, owner);
 	}
 
-	void OnNewTurn (object sender, object args)
-	{
+	void OnNewTurn (object sender, object args) {
 		Stats s = GetComponentInParent<Stats>();
 		int currentHP = s[StatTypes.HP];
 		int maxHP = s[StatTypes.MHP];

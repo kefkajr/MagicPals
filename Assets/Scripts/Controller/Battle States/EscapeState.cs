@@ -3,16 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 
-public class EscapeState : BattleState
-{
-	public override void Enter()
-	{
+public class EscapeState : BattleState {
+	public override void Enter() {
 		base.Enter();
         StartCoroutine(AnimateEscape());
 	}
 
-	public override void Exit()
-	{
+	public override void Exit() {
 		base.Exit();
 	}
 

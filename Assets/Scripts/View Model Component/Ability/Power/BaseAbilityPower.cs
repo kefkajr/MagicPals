@@ -8,14 +8,14 @@ public abstract class BaseAbilityPower : MonoBehaviour
 	protected abstract int GetBaseDefense (Unit target);
 	protected abstract int GetPower ();
 
-	void OnEnable ()
+	void OnEnable()
 	{
 		this.AddObserver(OnGetBaseAttack, BaseAbilityEffect.GetAttackNotification);
 		this.AddObserver(OnGetBaseDefense, BaseAbilityEffect.GetDefenseNotification);
 		this.AddObserver(OnGetPower, BaseAbilityEffect.GetPowerNotification);
 	}
 
-	void OnDisable ()
+	void OnDisable()
 	{
 		this.RemoveObserver(OnGetBaseAttack, BaseAbilityEffect.GetAttackNotification);
 		this.RemoveObserver(OnGetBaseDefense, BaseAbilityEffect.GetDefenseNotification);

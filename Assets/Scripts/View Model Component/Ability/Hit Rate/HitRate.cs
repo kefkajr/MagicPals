@@ -28,7 +28,7 @@ public abstract class HitRate : MonoBehaviour
 	#endregion
 
 	#region MonoBehaviour
-	protected virtual void Start ()
+	protected virtual void Start()
 	{
 		attacker = GetComponentInParent<Unit>();
 	}

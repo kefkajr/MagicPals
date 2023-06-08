@@ -15,11 +15,11 @@ public class SerializableDictionaryPropertyDrawer : PropertyDrawer
 	const string ValuesFieldName = "m_values";
 	protected const float IndentWidth = 15f;
 
-	static GUIContent s_iconPlus = IconContent ("Toolbar Plus", "Add entry");
-	static GUIContent s_iconMinus = IconContent ("Toolbar Minus", "Remove entry");
-	static GUIContent s_warningIconConflict = IconContent ("console.warnicon.sml", "Conflicting key, this entry will be lost");
-	static GUIContent s_warningIconOther = IconContent ("console.infoicon.sml", "Conflicting key");
-	static GUIContent s_warningIconNull = IconContent ("console.warnicon.sml", "Null key, this entry will be lost");
+	static GUIContent s_iconPlus = IconContent("Toolbar Plus", "Add entry");
+	static GUIContent s_iconMinus = IconContent("Toolbar Minus", "Remove entry");
+	static GUIContent s_warningIconConflict = IconContent("console.warnicon.sml", "Conflicting key, this entry will be lost");
+	static GUIContent s_warningIconOther = IconContent("console.infoicon.sml", "Conflicting key");
+	static GUIContent s_warningIconNull = IconContent("console.warnicon.sml", "Null key, this entry will be lost");
 	static GUIStyle s_buttonStyle = GUIStyle.none;
 	static GUIContent s_tempContent = new GUIContent();
 

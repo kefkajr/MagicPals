@@ -32,30 +32,24 @@ public class TurnOrderController : MonoBehaviour
 
 	public List<Text> textEntries = new List<Text>(maxEntryCount);
 
-	private void Awake()
-    {
+	private void Awake() {
 		GameObjectPoolController.AddEntry(EntryPoolKey, entryPrefab, maxEntryCount, int.MaxValue);
     }
 
-	public IEnumerator Round ()
-	{
-		while (true)
-		{
+	public IEnumerator Round() {
+		while (true) {
 			this.PostNotification(RoundBeganNotification);
 
-			for (int i = 0; i < bc.units.Count; ++i)
-			{
+			for (int i = 0; i < bc.units.Count; ++i) {
 				Stats s = bc.units[i].GetComponent<Stats>();
 				s[StatTypes.CTR] += s[StatTypes.SPD];
 			}
 
-			for (int i = bc.units.Count - 1; i >= 0; --i)
-			{
+			for (int i = bc.units.Count - 1; i >= 0; --i) {
 				UpdateTurnOrderUI();
 				
 				Unit unit = bc.units[i];
-				if (CanTakeTurn(unit))
-				{
+				if (CanTakeTurn(unit)) {
 					bc.turn.Change(unit);
 					unit.PostNotification(TurnBeganNotification);
 
@@ -95,8 +89,7 @@ public class TurnOrderController : MonoBehaviour
 
 		var units = new List<Unit>(unitsSortedByTurnOrder);
 		units.Reverse();
-		for (int i = 0; i < units.Count; ++i)
-		{
+		for (int i = 0; i < units.Count; ++i) {
 			if (i > maxEntryCount) return;
 
 			Unit unit = units[i];
@@ -111,8 +104,7 @@ public class TurnOrderController : MonoBehaviour
 		TogglePos(ShowKey);
 	}
 
-	Text Dequeue ()
-	{
+	Text Dequeue() {
 		Poolable p = GameObjectPoolController.Dequeue(EntryPoolKey);
 		Text entry = p.GetComponent<Text>();
 		entry.transform.SetParent(panel.transform, false);
@@ -121,21 +113,18 @@ public class TurnOrderController : MonoBehaviour
 		return entry;
 	}
 
-	void Enqueue (Text entry)
-	{
+	void Enqueue(Text entry) {
 		Poolable p = entry.GetComponent<Poolable>();
 		GameObjectPoolController.Enqueue(p);
 	}
 
-	void Clear ()
-	{
+	void Clear() {
 		for (int i = textEntries.Count - 1; i >= 0; --i)
 			Enqueue(textEntries[i]);
 		textEntries.Clear();
 	}
 
-	Tweener TogglePos (string pos)
-	{
+	Tweener TogglePos(string pos) {
 		Tweener t = panel.SetPosition(pos, true);
 		t.duration = 0.5f;
 		t.equation = EasingEquations.EaseOutQuad;
@@ -143,15 +132,13 @@ public class TurnOrderController : MonoBehaviour
 	}
 	// Conditional Logic
 
-	bool CanTakeTurn (Unit target)
-	{
+	bool CanTakeTurn(Unit target) {
 		BaseAdjustment adj = new BaseAdjustment( GetCounter(target) >= turnActivation);
 		target.PostNotification( TurnCheckNotification, adj);
 		return adj.toggle;
 	}
 
-	int GetCounter (Unit target)
-	{
+	int GetCounter(Unit target) {
 		int counter = target.GetComponent<Stats>()[StatTypes.CTR];
 		return counter;
 	}

@@ -2,22 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameConfig : MonoBehaviour
-{
+public class GameConfig : MonoBehaviour {
     public static GameConfig Main { get; private set; }
 
     public bool DebugComputerPlayer;
     public bool DebugPathfinding;
     public bool MakeAllUnitsSeeEachOther; // Only works at the start
 
-    private void Awake()
-    {
-        if (Main != null && Main != this)
-        {
+    private void Awake() {
+        if (Main != null && Main != this) {
             Destroy(this);
-        }
-        else
-        {
+        } else {
             Main = this;
         }
     }

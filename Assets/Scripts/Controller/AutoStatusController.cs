@@ -1,20 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class AutoStatusController : MonoBehaviour 
-{
-	void OnEnable ()
-	{
+public class AutoStatusController : MonoBehaviour {
+	void OnEnable() {
 		this.AddObserver(OnHPDidChangeNotification, Stats.DidChangeNotification(StatTypes.HP));
 	}
 	
-	void OnDisable ()
-	{
+	void OnDisable() {
 		this.RemoveObserver(OnHPDidChangeNotification, Stats.DidChangeNotification(StatTypes.HP));
 	}
 	
-	void OnHPDidChangeNotification (object sender, object args)
-	{
+	void OnHPDidChangeNotification (object sender, object args) {
 		Stats stats = sender as Stats;
 		if (stats[StatTypes.HP] <= 0)
 		{

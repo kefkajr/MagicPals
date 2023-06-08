@@ -6,7 +6,7 @@ public class AllianceAbilityEffectTarget : AbilityEffectTarget
 	public TargetType targetType;
 	Alliance alliance;
 
-	void Start ()
+	void Start()
 	{
 		alliance = GetComponentInParent<Alliance>();
 	}

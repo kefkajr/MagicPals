@@ -3,8 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 
-public class DescriptionPanelController : MonoBehaviour
-{
+public class DescriptionPanelController : MonoBehaviour {
 	#region Constants
 	const string ShowKey = "Show";
 	const string HideKey = "Hide";
@@ -18,18 +17,15 @@ public class DescriptionPanelController : MonoBehaviour
 	#endregion
 
 	#region MonoBehaviour
-	void Start()
-	{
+	void Start() {
 		panel.SetPosition(HideKey, false);
 		canvas.SetActive(false);
 	}
 	#endregion
 
 	#region Public
-	public void Show(Describable describable)
-	{
-		if (describable == null)
-        {
+	public void Show(Describable describable) {
+		if (describable == null) {
 			Hide();
 			return;
         }
@@ -41,8 +37,7 @@ public class DescriptionPanelController : MonoBehaviour
 		TogglePos(ShowKey);
 	}
 
-	public void Show(string title, string description)
-	{
+	public void Show(string title, string description) {
 		canvas.SetActive(true);
 		titleLabel.text = title;
 		descriptionLabel.text = FormatDescription(description);
@@ -50,8 +45,7 @@ public class DescriptionPanelController : MonoBehaviour
 		TogglePos(ShowKey);
 	}
 
-	public void Hide()
-	{
+	public void Hide() {
 		Tweener t = TogglePos(HideKey);
 		t.completedEvent += delegate (object sender, System.EventArgs e)
 		{
@@ -62,8 +56,7 @@ public class DescriptionPanelController : MonoBehaviour
 		};
 	}
 
-	Tweener TogglePos(string pos)
-	{
+	Tweener TogglePos(string pos) {
 		Tweener t = panel.SetPosition(pos, true);
 		t.duration = 0.5f;
 		t.equation = EasingEquations.EaseOutQuad;
@@ -71,8 +64,7 @@ public class DescriptionPanelController : MonoBehaviour
 	}
 
 
-	string FormatDescription(string description)
-    {
+	string FormatDescription(string description) {
 		return description.Replace("\\n", "\n");
 	}
 	#endregion

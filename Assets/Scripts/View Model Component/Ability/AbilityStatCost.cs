@@ -10,18 +10,18 @@ public class AbilityStatCost : MonoBehaviour
 	#endregion
 
 	#region MonoBehaviour
-	void Awake ()
+	void Awake()
 	{
 		owner = GetComponent<Ability>();
 	}
 
-	void OnEnable ()
+	void OnEnable()
 	{
 		this.AddObserver(OnCanPerformCheck, Ability.CanPerformCheck, owner);
 		this.AddObserver(OnDidPerformNotification, Ability.DidPerformNotification, owner);
 	}
 
-	void OnDisable ()
+	void OnDisable()
 	{
 		this.RemoveObserver(OnCanPerformCheck, Ability.CanPerformCheck, owner);
 		this.RemoveObserver(OnDidPerformNotification, Ability.DidPerformNotification, owner);

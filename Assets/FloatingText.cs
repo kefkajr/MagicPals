@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class FloatingText : MonoBehaviour
-{
+public class FloatingText : MonoBehaviour {
     public Transform container;
     public TMP_Text label;
 
-    void Update()
-    {
+    void Update() {
         container.transform.rotation = Quaternion.LookRotation(Camera.main.transform.forward);
     }
 

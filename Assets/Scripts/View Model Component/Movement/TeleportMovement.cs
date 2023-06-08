@@ -3,7 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-public class TeleportMovement : Movement  {
+public class TeleportMovement : Movement {
 	public override IEnumerator Traverse(Board board, Tile tile, MoveSequenceState moveSequenceState) {
 		unit.Place(tile);
 

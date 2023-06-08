@@ -3,15 +3,13 @@ using UnityEngine.UI;
 using System;
 using System.Collections;
 
-public class BattleMessageController : MonoBehaviour 
-{
+public class BattleMessageController : MonoBehaviour {
 	[SerializeField] public Text label;
 	[SerializeField] public GameObject canvas;
 	[SerializeField] public CanvasGroup group;
 	EasingControl ec;
 
-	void Awake ()
-	{
+	void Awake() {
 		ec = gameObject.AddComponent<EasingControl>();
 		ec.duration = 0.5f;
 		ec.equation = EasingEquations.EaseInOutQuad;
@@ -19,21 +17,18 @@ public class BattleMessageController : MonoBehaviour
 		ec.updateEvent += OnUpdateEvent;
 	}
 
-	public void Display (string message)
-	{
+	public void Display(string message) {
 		group.alpha = 0;
 		canvas.SetActive(true);
 		label.text = message;
 		StartCoroutine(Sequence());
 	}
 
-	void OnUpdateEvent (object sender, EventArgs e)
-	{
+	void OnUpdateEvent(object sender, EventArgs e) {
 		group.alpha = ec.currentValue;
 	}
 
-	IEnumerator Sequence ()
-	{
+	IEnumerator Sequence() {
 		ec.Play();
 
 		while (ec.IsPlaying)

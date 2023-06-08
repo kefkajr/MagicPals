@@ -21,18 +21,18 @@ public class Health : MonoBehaviour
 	#endregion
 	
 	#region MonoBehaviour
-	void Awake ()
+	void Awake()
 	{
 		stats = GetComponent<Stats>();
 	}
 	
-	void OnEnable ()
+	void OnEnable()
 	{
 		this.AddObserver(OnHPWillChange, Stats.WillChangeNotification(StatTypes.HP), stats);
 		this.AddObserver(OnMHPDidChange, Stats.DidChangeNotification(StatTypes.MHP), stats);
 	}
 	
-	void OnDisable ()
+	void OnDisable()
 	{
 		this.RemoveObserver(OnHPWillChange, Stats.WillChangeNotification(StatTypes.HP), stats);
 		this.RemoveObserver(OnMHPDidChange, Stats.DidChangeNotification(StatTypes.MHP), stats);

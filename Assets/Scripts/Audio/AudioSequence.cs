@@ -5,8 +5,7 @@ using System.Collections.Generic;
 public class AudioSequence : MonoBehaviour {
 
 	#region Enum
-	private enum PlayMode
-	{
+	private enum PlayMode {
 		Stopped,
 		Playing,
 		Paused
@@ -20,7 +19,7 @@ public class AudioSequence : MonoBehaviour {
 	#endregion
 
 	#region Public
-	public void Play (params AudioClip[] clips) {
+	public void Play(params AudioClip[] clips) {
 		if (playMode == PlayMode.Stopped)
 			playMode = PlayMode.Playing;
 		else if (playMode == PlayMode.Paused)
@@ -29,8 +28,7 @@ public class AudioSequence : MonoBehaviour {
 		double startTime = GetNextStartTime();
 		for (int i = 0; i < clips.Length; ++i) {
 			AudioClip clip = clips[i];
-			if (clip == null)
-            {
+			if (clip == null) {
 				Debug.Log("Audio clip is missing");
 				continue;
             }
@@ -40,7 +38,7 @@ public class AudioSequence : MonoBehaviour {
 		}
 	}
 
-	public void Pause () {
+	public void Pause() {
 		if (playMode != PlayMode.Playing)
 			return;
 		playMode = PlayMode.Paused;
@@ -51,7 +49,7 @@ public class AudioSequence : MonoBehaviour {
 		}
 	}
 
-	public void UnPause () {
+	public void UnPause() {
 		if (playMode != PlayMode.Paused)
 			return;
 		playMode = PlayMode.Playing;
@@ -64,14 +62,14 @@ public class AudioSequence : MonoBehaviour {
 		}
 	}
 
-	public void Stop () {
+	public void Stop() {
 		playMode = PlayMode.Stopped;
 		foreach (AudioSequenceData data in playMap.Values) {
 			data.Stop();
 		}
 	}
 
-	public AudioSequenceData GetData (AudioClip clip) {
+	public AudioSequenceData GetData(AudioClip clip) {
 		if (!playMap.ContainsKey(clip)) {
 			AudioSource source = gameObject.AddComponent<AudioSource>();
 			source.clip = clip;
@@ -82,7 +80,7 @@ public class AudioSequence : MonoBehaviour {
 	#endregion
 
 	#region Private
-	AudioSequenceData GetFirst () {
+	AudioSequenceData GetFirst() {
 		double lowestStartTime = double.MaxValue;
 		AudioSequenceData firstData = null;
 		foreach (AudioSequenceData data in playMap.Values) {
@@ -94,7 +92,7 @@ public class AudioSequence : MonoBehaviour {
 		return firstData;
 	}
 
-	AudioSequenceData GetLast () {
+	AudioSequenceData GetLast() {
 		double highestEndTime = double.MinValue;
 		AudioSequenceData lastData = null;
 		foreach (AudioSequenceData data in playMap.Values) {
@@ -106,7 +104,7 @@ public class AudioSequence : MonoBehaviour {
 		return lastData;
 	}
 
-	double GetNextStartTime () {
+	double GetNextStartTime() {
 		AudioSequenceData lastToPlay = GetLast();
 		if (lastToPlay != null && lastToPlay.endTime > AudioSettings.dspTime)
 			return lastToPlay.endTime;

@@ -2,8 +2,7 @@
 using System;
 using System.Collections;
 
-public class ConversationController : MonoBehaviour 
-{
+public class ConversationController : MonoBehaviour {
 	#region Events
 	public static event EventHandler completeEvent;
 	#endregion
@@ -25,7 +24,7 @@ public class ConversationController : MonoBehaviour
 	#endregion
 
 	#region MonoBehaviour
-	void Start ()
+	void Start()
 	{
 		canvas = GetComponentInChildren<Canvas>();
 		if (leftPanel.panel.CurrentPosition == null)
@@ -37,15 +36,13 @@ public class ConversationController : MonoBehaviour
 	#endregion
 
 	#region Public
-	public void Show (ConversationData data)
-	{
+	public void Show(ConversationData data) {
 		canvas.gameObject.SetActive(true);
 		conversation = Sequence (data);
 		conversation.MoveNext();
 	}
 
-	public void Next ()
-	{
+	public void Next() {
 		if (conversation == null || transition != null)
 			return;
 		
@@ -54,10 +51,8 @@ public class ConversationController : MonoBehaviour
 	#endregion
 
 	#region Private
-	IEnumerator Sequence (ConversationData data)
-	{
-		for (int i = 0; i < data.list.Count; ++i)
-		{
+	IEnumerator Sequence(ConversationData data) {
+		for (int i = 0; i < data.list.Count; ++i) {
 			SpeakerData sd = data.list[i];
 
 			ConversationPanel currentPanel = (sd.anchor == TextAnchor.UpperLeft || sd.anchor == TextAnchor.MiddleLeft || sd.anchor == TextAnchor.LowerLeft) ? leftPanel : rightPanel;
@@ -65,13 +60,10 @@ public class ConversationController : MonoBehaviour
 			presenter.MoveNext();
 
 			string show, hide;
-			if (sd.anchor == TextAnchor.UpperLeft || sd.anchor == TextAnchor.UpperCenter || sd.anchor == TextAnchor.UpperRight)
-			{
+			if (sd.anchor == TextAnchor.UpperLeft || sd.anchor == TextAnchor.UpperCenter || sd.anchor == TextAnchor.UpperRight) {
 				show = ShowTop;
 				hide = HideTop;
-			}
-			else
-			{
+			} else {
 				show = ShowBottom;
 				hide = HideBottom;
 			}
@@ -96,8 +88,7 @@ public class ConversationController : MonoBehaviour
 			completeEvent(this, EventArgs.Empty);
 	}
 
-	void MovePanel (ConversationPanel obj, string pos)
-	{
+	void MovePanel (ConversationPanel obj, string pos) {
 		transition = obj.panel.SetPosition(pos, true);
 		transition.duration = 0.5f;
 		transition.equation = EasingEquations.EaseOutQuad;

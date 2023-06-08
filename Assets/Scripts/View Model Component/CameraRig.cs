@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CameraRig : MonoBehaviour 
-{
+public class CameraRig : MonoBehaviour {
 	public enum FollowType { Mouse, Other }
 
 	public float speed = 3f;
@@ -20,41 +19,34 @@ public class CameraRig : MonoBehaviour
 	bool isTilting = false;
 	bool isTilted = false;
 
-	void Awake ()
-	{
+	void Awake() {
 		AddListeners();
 	}
 	
-	void Update ()
-	{
+	void Update() {
 		if (follow)
 			transform.position = Vector3.Lerp(transform.position, follow.position, speed * Time.deltaTime);
 	}
 
-	public void Exit()
-	{
+	public void Exit() {
 		RemoveListeners();
 	}
 
-	protected void OnDestroy()
-	{
+	protected void OnDestroy() {
 		RemoveListeners();
 	}
 
-	protected void AddListeners()
-	{
+	protected void AddListeners() {
 		InputController.turnCameraEvent += TurnCamera;
 		InputController.tiltCameraEvent += TiltCamera;
 	}
 
-	protected void RemoveListeners()
-	{
+	protected void RemoveListeners() {
 		InputController.turnCameraEvent -= TurnCamera;
 		InputController.tiltCameraEvent -= TiltCamera;
 	}
 
-	protected void TurnCamera(object sender, float f)
-	{
+	protected void TurnCamera(object sender, float f) {
 		if (isRotating) return;
 
 		int newDirectionValue = (int)currentDirection + (int)f;
@@ -69,8 +61,7 @@ public class CameraRig : MonoBehaviour
 		StartCoroutine(Turn());
 	}
 
-	protected virtual IEnumerator Turn()
-	{
+	protected virtual IEnumerator Turn() {
 		isRotating = true;
 
 		if (rotateTweener != null) rotateTweener.Stop();
@@ -92,8 +83,7 @@ public class CameraRig : MonoBehaviour
 		isRotating = false;
 	}
 
-	protected void TiltCamera()
-	{
+	protected void TiltCamera() {
 		if (isTilting) return;
 
 		isTilted = !isTilted;
@@ -101,8 +91,7 @@ public class CameraRig : MonoBehaviour
 		StartCoroutine(Tilt());
 	}
 
-	protected virtual IEnumerator Tilt()
-	{
+	protected virtual IEnumerator Tilt() {
 		isTilting = true;
 
 		if (tiltTweener != null) tiltTweener.Stop();

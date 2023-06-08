@@ -3,19 +3,15 @@ using System.Collections.Generic;
 using System.Collections;
 using System.Linq;
 
-public class MoveSequenceState : BattleState 
-{
-	public override void Enter ()
-	{
-		base.Enter ();
+public class MoveSequenceState : BattleState {
+	public override void Enter() {
+		base.Enter();
 		StartCoroutine("Sequence");
 	}
 	
-	IEnumerator Sequence ()
-	{
+	IEnumerator Sequence() {
 		// Check if a trap is triggered in the starting tile
-		if (turn.actor.tile.trap != null)
-		{
+		if (turn.actor.tile.trap != null) {
 			TriggerTrap(turn.actor.tile);
 			yield return null;
 		}
@@ -29,8 +25,7 @@ public class MoveSequenceState : BattleState
 		owner.ChangeState<CommandSelectionState>();
 	}
 
-    public void TriggerTrap(Tile tile)
-    {
+    public void TriggerTrap(Tile tile) {
 		// Set trap and ability
 		Trap trap = tile.trap;
 		turn.ability = trap.GetComponent<Ability>();
@@ -57,8 +52,7 @@ public class MoveSequenceState : BattleState
 		owner.ChangeState<PerformAbilityState>();
 	}
 
-	public List<Awareness> Spot()
-    {
+	public List<Awareness> Spot() {
 		// If the driver is Human, we don't want to give units they look at an Emergency Turn
 		DriverType currentDriverType = owner.turn.actor.GetComponent<Driver>().Current;
 
@@ -71,8 +65,7 @@ public class MoveSequenceState : BattleState
 		return playerAwarenesses;
 	}
 
-	public bool DidGetSpottedByUnits()
-	{
+	public bool DidGetSpottedByUnits() {
 		// // If the driver is Human, and they get spotted, then they should get an Emergency Turn
 		// DriverType currentDriverType = owner.turn.actor.GetComponent<Driver>().Current;
 
@@ -80,28 +73,24 @@ public class MoveSequenceState : BattleState
 		// 	return false;
 
 		List<Awareness> totalAwarenesses = new List<Awareness>();
-		foreach (Unit unit in owner.units)
-		{
+		foreach (Unit unit in owner.units) {
 			List<Awareness> awarenesses = owner.awarenessController.Look(unit).Where((a) => a.type == AwarenessType.Seen).ToList();
 			totalAwarenesses.AddRange(awarenesses);
 		}
 
 		List<Awareness> playerAwarenesses = totalAwarenesses.Where((a) => a.stealth.GetComponent<Driver>().Current == DriverType.Human).ToList();
-		if (playerAwarenesses.Count > 0)
-		{
+		if (playerAwarenesses.Count > 0) {
 			return true;
 		}
 
 		return false;
 	}
 
-	public void TriggerEmergencyTurn(Unit unit)
-    {
+	public void TriggerEmergencyTurn(Unit unit) {
 		owner.awarenessController.InitiateEmergencyTurn(unit);
 	}
 
-	protected override void OnSubmit()
-	{
+	protected override void OnSubmit() {
 		Time.timeScale = 10f;
 	}
 }

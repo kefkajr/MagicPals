@@ -2,16 +2,13 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class InitBattleState : BattleState 
-{
-	public override void Enter ()
-	{
-		base.Enter ();
+public class InitBattleState : BattleState {
+	public override void Enter() {
+		base.Enter();
 		StartCoroutine(Init());
 	}
 	
-	IEnumerator Init ()
-	{
+	IEnumerator Init() {
 		board.Load( levelData );
 		Point p = new Point((int)levelData.tiles[0].point.x, (int)levelData.tiles[0].point.y);
 		SelectTile(p);
@@ -28,8 +25,7 @@ public class InitBattleState : BattleState
 		owner.ChangeState<SelectUnitState>();
 	}
 	
-	void SpawnUnits ()
-	{	
+	void SpawnUnits() {	
 		GameObject unitContainer = new GameObject("Units");
 		unitContainer.transform.SetParent(owner.transform);
 
@@ -39,8 +35,7 @@ public class InitBattleState : BattleState
 		List<Tile> locations = new List<Tile>(board.tiles.Values);
 
 		bool didPlaceFirstSentry = false;
-		for (int i = 0; i < levelData.spawns.Count; ++i)
-		{
+		for (int i = 0; i < levelData.spawns.Count; ++i) {
 			SpawnData spawn = levelData.spawns[i];
 			int level = UnityEngine.Random.Range(9, 12);
 			GameObject instance = UnitFactory.Create(spawn.recipeName);
@@ -70,9 +65,7 @@ public class InitBattleState : BattleState
 		SelectTile(units[0].tile.pos);
 	}
 
-	void AddVictoryCondition ()
-	{
-
+	void AddVictoryCondition() {
 		// Old victory condition
 		// DefeatTargetVictoryCondition vc = owner.gameObject.AddComponent<DefeatTargetVictoryCondition>();
 		// Unit enemy = units[ units.Count - 1 ];

@@ -2,8 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class BattleController : StateMachine 
-{
+public class BattleController : StateMachine {
 	public CameraRig cameraRig;
 	public Board board;
 	public BoardInventory boardInventory;
@@ -27,8 +26,7 @@ public class BattleController : StateMachine
 	public IEnumerator round;
 	public ComputerPlayer cpu;
 
-	void Start ()
-	{
+	void Start() {
 		ChangeState<InitBattleState>();
 	}
 }

@@ -9,17 +9,14 @@ using System.Collections.Generic;
  * In most cases those will be FixedAbilityPickers,
  * but we could also nest other complex types of pickers if we wanted to.
  * Then we randomly grab one of the pickers and return the value that the selected picker holds. */
-public class RandomAbilityPicker : BaseAbilityPicker
-{
+public class RandomAbilityPicker : BaseAbilityPicker {
 	public List<BaseAbilityPicker> pickers;
 
-	public override bool IsViable(BattleController bc)
-    {
+	public override bool IsViable(BattleController bc) {
         return false;
     }
 
-	public override void Pick (PlanOfAttack plan)
-	{
+	public override void Pick (PlanOfAttack plan) {
 		int index = Random.Range(0, pickers.Count);
 		BaseAbilityPicker p = pickers[index];
 		p.Pick(plan);

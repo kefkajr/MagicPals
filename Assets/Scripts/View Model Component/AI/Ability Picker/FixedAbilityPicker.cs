@@ -13,24 +13,20 @@ using System.Collections.Generic;
  * the actual ability of the same name and then update the plan of attack with our decisions.
  * If the named ability can’t be found, we grab the first ability it can find instead
  * (which would be Attack). */
-public class FixedAbilityPicker : BaseAbilityPicker
-{
+public class FixedAbilityPicker : BaseAbilityPicker {
 	public TargetType targetType;
 	public AbilityPickerCriteria abilityPickerCriteria;
 	public string ability;
 
-    public override bool IsViable(BattleController bc)
-    {
+    public override bool IsViable(BattleController bc) {
         return abilityPickerCriteria.IsFulfilled(bc, owner, targetType);
     }
 
-    public override void Pick (PlanOfAttack plan)
-	{
+    public override void Pick (PlanOfAttack plan) {
 		plan.targetType = targetType;
 		plan.ability = Find(ability);
 
-		if (plan.ability == null)
-		{
+		if (plan.ability == null) {
 			plan.ability = Default();
 			plan.targetType = TargetType.Foe;
 		}
@@ -43,12 +39,9 @@ public enum AbilityPickerCriteria {
     IsNotAwareOfTheSameFoes
 }
 
-public static class AbilityPickerCriteriaExtensions
-{
-    public static bool IsFulfilled(this AbilityPickerCriteria apc, BattleController bc, Unit actor, TargetType targetType)
-	{
-		switch (apc)
-		{
+public static class AbilityPickerCriteriaExtensions {
+    public static bool IsFulfilled(this AbilityPickerCriteria apc, BattleController bc, Unit actor, TargetType targetType) {
+		switch (apc) {
 			case AbilityPickerCriteria.IsSeen:
 				List<Awareness> topAwarenesses = bc.awarenessController.TopAwarenesses(actor);
 				foreach (Awareness awareness in topAwarenesses) {
