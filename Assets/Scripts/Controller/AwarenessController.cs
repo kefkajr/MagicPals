@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,9 +16,18 @@ public class AwarenessController : MonoBehaviour {
 	[SerializeField] public Material awarenessLineMaterialSeen;
 	[SerializeField] public Material awarenessLineMaterialMayHaveSeen;
 	[SerializeField] public Material awarenessLineMaterialLost;
+
+	[SerializeField] public GameObject entryPrefab;
+    [SerializeField] public Panel panel;
+	const int maxTextEntryCount = 12;
+	public List<Text> textEntries = new List<Text>(maxTextEntryCount);
 	Dictionary<Awareness, AwarenessLine> awarenessLines = new Dictionary<Awareness, AwarenessLine>();
 	List<Tile> highlightedViewingRangeTiles = new List<Tile>();
-	private const string poolKey = "AwarenessController.Line";
+	private const string AwarenessLinePoolKey = "AwarenessController.Line";
+
+	const string ShowKey = "Show";
+	const string HideKey = "Hide";
+	private const string AwarenessEntryPoolKey = "AwarenessEntryKey";
 	bool doesEveryoneSeeEveryone;
 
 	protected void AddListeners() {
@@ -38,7 +48,9 @@ public class AwarenessController : MonoBehaviour {
 		doesEveryoneSeeEveryone = GameConfig.Main.MakeAllUnitsSeeEachOther;
 
 		InitializeAwarenessMap();
-		GameObjectPoolController.AddEntry(poolKey, awarenessLinePrefab, awarenessMap.Values.Count, int.MaxValue);
+		GameObjectPoolController.AddEntry(AwarenessLinePoolKey, awarenessLinePrefab, awarenessMap.Values.Count, int.MaxValue);
+
+		UpdateAwarenessDescriptionDisplay();
 	}
 
 	public void InitializeAwarenessMap() {
@@ -63,6 +75,10 @@ public class AwarenessController : MonoBehaviour {
 
 			Look(perceivingUnit);
 		}
+    }
+
+	private void Awake() {
+		GameObjectPoolController.AddEntry(AwarenessEntryPoolKey, entryPrefab, maxTextEntryCount, int.MaxValue);
     }
 
 	public List<Awareness> Look(Unit unit) {
@@ -203,6 +219,7 @@ public class AwarenessController : MonoBehaviour {
 					break;
 			}
 			Console.Main.Log(awareness.ToString());
+			UpdateAwarenessDescriptionDisplay();
 		}
 		return awarenessDidChange;
 	}
@@ -250,6 +267,8 @@ public class AwarenessController : MonoBehaviour {
 		this.PostNotification(NotficationEscape, unit);
 	}
 
+	// Awareness Lines and Viewing Ranges
+
 	public void DisplayAwarenessLines(Unit unit) {
 		ClearAwarenessLines();
 		Alliance perceiverAlliance = unit.GetComponentInChildren<Alliance>();
@@ -258,7 +277,7 @@ public class AwarenessController : MonoBehaviour {
 			bool isAlly = perceiverAlliance.IsMatch(perceivedAlliance, TargetType.Ally);
 			if (isAlly) continue;
 
-			Poolable p = GameObjectPoolController.Dequeue(poolKey);
+			Poolable p = GameObjectPoolController.Dequeue(AwarenessLinePoolKey);
 			AwarenessLine line = p.GetComponent<AwarenessLine>();
 			line.transform.SetParent(battleController.transform, false);
 			line.transform.localScale = Vector3.one;
@@ -306,6 +325,68 @@ public class AwarenessController : MonoBehaviour {
 		};
 	}
 
+	// Awareness Description Display
+
+	void UpdateAwarenessDescriptionDisplay() {
+		Clear();
+
+		foreach (Dictionary<Unit, Awareness> awarenessDict in awarenessMap.Values.ToList() ) {
+			foreach (Awareness awareness in awarenessDict.Values.ToList() ) {
+				if (textEntries.Count >= maxTextEntryCount) return;
+
+				Text entry = Dequeue();
+				entry.text = awareness.ToString();
+				switch (awareness.type) {
+				case AwarenessType.Unaware:
+					entry.color = Color.white;
+					break;
+				case AwarenessType.LostTrack:
+					entry.color = Color.gray;
+					break;
+				case AwarenessType.MayHaveHeard:
+				case AwarenessType.MayHaveSeen:
+					entry.color = Color.yellow;
+					break;
+				case AwarenessType.Seen:
+					entry.color = Color.red;
+					break;
+				default:
+					break;
+			}
+				textEntries.Add(entry);
+			}
+		}
+
+		TogglePos(ShowKey);
+	}
+
+	Text Dequeue() {
+		Poolable p = GameObjectPoolController.Dequeue(AwarenessEntryPoolKey);
+		Text entry = p.GetComponent<Text>();
+		entry.transform.SetParent(panel.transform, false);
+		entry.transform.localScale = Vector3.one;
+		entry.gameObject.SetActive(true);
+		return entry;
+	}
+
+	void Enqueue(Text entry) {
+		Poolable p = entry.GetComponent<Poolable>();
+		GameObjectPoolController.Enqueue(p);
+	}
+
+	void Clear() {
+		for (int i = textEntries.Count - 1; i >= 0; --i)
+			Enqueue(textEntries[i]);
+		textEntries.Clear();
+	}
+
+	Tweener TogglePos(string pos) {
+		Tweener t = panel.SetPosition(pos, true);
+		t.duration = 0.5f;
+		t.equation = EasingEquations.EaseOutQuad;
+		return t;
+	}
+
 	void OnEnable() {
 		this.AddObserver(AwarenessLevelDecay, TurnOrderController.TurnCompletedNotification);
 	}
@@ -321,6 +402,8 @@ public class AwarenessController : MonoBehaviour {
 				awarenessMap[perceivingUnit][perceivedUnit].Decay();
 			}
 		}
+
+		UpdateAwarenessDescriptionDisplay();
 	}
 
 

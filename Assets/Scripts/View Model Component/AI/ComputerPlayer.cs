@@ -465,7 +465,10 @@ public class ComputerPlayer : MonoBehaviour {
 					// This new point of interest is the top priority if they're closer.
 					int distanceToCurrentPointOfInterest = BC.board.GetDistance(actor.tile, BC.board.GetTile(a.pointOfInterest));
 					int distanceToPotentialPointOfInterest = BC.board.GetDistance(actor.tile, BC.board.GetTile(a.pointOfInterest));
-					topPriorityFoeAwareness = distanceToPotentialPointOfInterest < distanceToCurrentPointOfInterest ? a : topPriorityFoeAwareness;
+					// If the potential point of interest is where the unit is already,
+					// it's not worth investigating.
+					if (distanceToPotentialPointOfInterest != 0)
+						topPriorityFoeAwareness = distanceToPotentialPointOfInterest < distanceToCurrentPointOfInterest ? a : topPriorityFoeAwareness;
 				} else {
 					// This point of interest is the top priority.
 					topPriorityInterestAwareness = a;
