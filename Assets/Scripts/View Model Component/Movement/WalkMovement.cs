@@ -49,10 +49,11 @@ public class WalkMovement : Movement {
 			// Check if this unit spotted another unit
 			List<Awareness> spottedAwarenesses = moveSequenceState.Spot();
 			if (spottedAwarenesses.Count > 0) {
+				// *** TODO: What happens when an enemy spots the player during their move?
 				// Pause and then trigger emergency turn
-				yield return new WaitForSeconds(1);
-				moveSequenceState.TriggerEmergencyTurn(spottedAwarenesses[0].stealth.unit);
-				yield break;
+				// yield return new WaitForSeconds(1);
+				// moveSequenceState.TriggerEmergencyTurn(spottedAwarenesses[0].stealth.unit);
+				// yield break;
 			}
 
 			// Walk
@@ -65,14 +66,12 @@ public class WalkMovement : Movement {
 
 			// Check if this unit was spotted by another unit
 			if (moveSequenceState.DidGetSpottedByUnits()) {
-				// TODO: Figure out a good oportunity to stop the player during their own turn.
+				// *** TODO: Figure out a good oportunity to stop the player during their own turn.
 
-				if (false) {
-					// Pause and then trigger emergency turn
-					yield return new WaitForSeconds(1);
-					moveSequenceState.TriggerEmergencyTurn(unit);
-					yield break;
-				}
+				// Pause and then trigger emergency turn
+				// yield return new WaitForSeconds(1);
+				// moveSequenceState.TriggerEmergencyTurn(unit);
+				// yield break;
 			}
 
 			if (to.trap != null) {
