@@ -6,7 +6,8 @@ using System.Collections.Generic;
 public class PerformAbilityState : BattleState {
 	public override void Enter() {
 		base.Enter();
-		turn.hasUnitActed = true;
+		owner.turnOrderController.DidActorPerformActionType(ActionType.Major);
+
 		if (turn.hasUnitMoved)
 			turn.lockMove = true;
 		StartCoroutine(Animate());

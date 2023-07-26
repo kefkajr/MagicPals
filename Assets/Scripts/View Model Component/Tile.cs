@@ -18,7 +18,7 @@ public class Tile : MonoBehaviour {
 	public Trap trap;
 	public List<Merchandise> items;
 
-	public HashSet<TileHighlightColorType> highlights;
+	public HashSet<TileHighlightColorType> highlights = new HashSet<TileHighlightColorType>();
 
 	public Color moveRangeHighlightColor = new Color(0, 1, 1, 1);
 	public Color targetRangeHighlightColor = new Color(0, 1, 1, 1);

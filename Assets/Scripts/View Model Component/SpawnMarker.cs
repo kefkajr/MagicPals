@@ -12,11 +12,13 @@ public class SpawnMarker : MonoBehaviour {
     public int height;
     public Transform directionMarker;
     public Direction direction;
+    public int turnInitiativeOffset;
 
-	public SpawnMarker(string recipeName, Point position, Direction direction) {
+	public SpawnMarker(string recipeName, Point position, Direction direction, int turnInitiativeOffset) {
 		this.recipeName = recipeName;
 		this.position = position;
         this.direction = direction;
+        this.turnInitiativeOffset = turnInitiativeOffset;
 	}
 
     public void Match () {
@@ -35,10 +37,12 @@ public class SpawnData {
     public string recipeName;
     public Point position;
     public Direction direction;
+    public int turnInitiativeOffset;
 
-	public SpawnData(string recipeName, Point position, Direction direction) {
+	public SpawnData(string recipeName, Point position, Direction direction, int turnInitiativeOffset) {
 		this.recipeName = recipeName;
 		this.position = position;
         this.direction = direction;
+        this.turnInitiativeOffset = turnInitiativeOffset;
 	}
 }

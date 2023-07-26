@@ -6,6 +6,7 @@ using System.Linq;
 public class MoveSequenceState : BattleState {
 	public override void Enter() {
 		base.Enter();
+
 		StartCoroutine("Sequence");
 	}
 	
@@ -19,9 +20,8 @@ public class MoveSequenceState : BattleState {
 		Movement m = turn.actor.GetComponent<Movement>();
 		yield return StartCoroutine(m.Traverse(board: board, tile: owner.currentTile, moveSequenceState: this));
 
-		turn.hasUnitMoved = true;
-
 		Time.timeScale = 1f;
+		owner.turnOrderController.DidActorPerformActionType(ActionType.Move);
 		owner.ChangeState<CommandSelectionState>();
 	}
 
@@ -33,7 +33,7 @@ public class MoveSequenceState : BattleState {
 
 		// Halt unit movement
 		turn.actor.Place(tile);
-		turn.hasUnitMoved = true;
+		owner.turnOrderController.DidActorPerformActionType(ActionType.Move);
 		SelectTile(tile.pos);
 
 		// Define targets for trap ability

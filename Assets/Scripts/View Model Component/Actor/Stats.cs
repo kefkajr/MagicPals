@@ -30,18 +30,23 @@ public class Stats : MonoBehaviour
 		get { return data[t].value; }
 		set { SetValue(t, value, true); }
 	}
+
+	public int turnInitiativeOffset;
 	SerializableDictionary<StatTypes, Stat> data = new SerializableDictionary<StatTypes, Stat>(Stats.AllStatTypes().ToDictionary(t => t, t => new Stat(t)));
 	#endregion
 	
 	#region Public
 
-	public void InitializeWithTemplate(StatsTemplate template) {
+	public void InitializeWithTemplate(StatsTemplate template, int turnInitiativeOffset) {
 		foreach(Stat stat in template.data.Values.ToList()) {
 			data[stat.type].value = stat.value;
 		}
 		data[StatTypes.HP].value = data[StatTypes.MHP].value;
 		data[StatTypes.MP].value = data[StatTypes.MMP].value;
 		data[StatTypes.LVL].value = 1;
+
+		data[StatTypes.CTR].value = 5 - turnInitiativeOffset;
+		this.turnInitiativeOffset = turnInitiativeOffset;
 	}
 
 	public void SetValue (StatTypes type, int value, bool allowAdjustments)

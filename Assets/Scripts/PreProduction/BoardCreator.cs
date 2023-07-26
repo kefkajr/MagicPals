@@ -162,7 +162,7 @@ public class BoardCreator : MonoBehaviour {
 
 		board.spawns = new List<SpawnData>( spawns.Count );
 		foreach (SpawnMarker s in spawns.Values)
-			board.spawns.Add( new SpawnData(s.recipeName, s.position, s.direction) );
+			board.spawns.Add( new SpawnData(s.recipeName, s.position, s.direction, s.turnInitiativeOffset) );
 
 		board.exits = new List<Point>( exits.Count );
 		foreach (ExitMarker e in exits.Values)

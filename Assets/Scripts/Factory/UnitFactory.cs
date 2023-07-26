@@ -6,23 +6,20 @@ using System.Collections.Generic;
 public static class UnitFactory
 {
 	#region Public
-	public static GameObject Create (string name)
+
+	public static GameObject Create (SpawnData spawn)
 	{
-		UnitRecipe recipe = Resources.Load<UnitRecipe>("Unit Recipes/" + name);
+		UnitRecipe recipe = Resources.Load<UnitRecipe>("Unit Recipes/" + spawn.recipeName);
 		if (recipe == null)
 		{
-			Debug.LogError("No Unit Recipe for name: " + name);
+			Debug.LogError("No Unit Recipe for name: " + spawn.recipeName);
 			return null;
 		}
-		return Create(recipe);
-	}
 
-	public static GameObject Create (UnitRecipe recipe)
-	{
 		GameObject unitObject = InstantiatePrefab("Units/" + recipe.model);
 		unitObject.name = recipe.name;
 		unitObject.AddComponent<Unit>();
-		AddStats(unitObject, recipe.statsTemplate);
+		AddStats(unitObject, recipe.statsTemplate, spawn.turnInitiativeOffset);
 		AddLocomotion(unitObject, recipe.locomotion);
 		unitObject.AddComponent<Status>();
 		// AddJob(unitObject, recipe.job);
@@ -54,10 +51,10 @@ public static class UnitFactory
 		return instance;
 	}
 
-	static void AddStats (GameObject unitObject, StatsTemplate template)
+	static void AddStats (GameObject unitObject, StatsTemplate template, int turnInitiativeOffset)
 	{
 		Stats s = unitObject.AddComponent<Stats>();
-		s.InitializeWithTemplate(template);
+		s.InitializeWithTemplate(template, turnInitiativeOffset);
 	}
 
 	static void AddJob (GameObject unitObject, string name)

@@ -38,7 +38,7 @@ public class InitBattleState : BattleState {
 		for (int i = 0; i < levelData.spawns.Count; ++i) {
 			SpawnData spawn = levelData.spawns[i];
 			int level = UnityEngine.Random.Range(9, 12);
-			GameObject instance = UnitFactory.Create(spawn.recipeName);
+			GameObject instance = UnitFactory.Create(spawn);
 			instance.transform.SetParent(unitContainer.transform);
 			
 			int random = UnityEngine.Random.Range(0, locations.Count);

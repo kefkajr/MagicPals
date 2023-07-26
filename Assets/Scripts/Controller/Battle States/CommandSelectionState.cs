@@ -12,6 +12,8 @@ public class CommandSelectionState : BaseAbilityMenuState {
 		public static string Wait = "Wait";
 	}
 
+	TurnOrderController toc { get { return owner.turnOrderController; } }
+
 	public override void Enter() {
 		base.Enter();
 		statPanelController.ShowPrimary(turn.actor.gameObject);
@@ -47,8 +49,8 @@ public class CommandSelectionState : BaseAbilityMenuState {
 		menuOptions.Add(Option.Wait);
 
 		abilityMenuPanelController.Show(menuTitle, menuOptions);
-		abilityMenuPanelController.SetLocked(menuOptions.IndexOf(Option.Move), turn.hasUnitMoved);
-		abilityMenuPanelController.SetLocked(menuOptions.IndexOf(Option.Action), turn.hasUnitActed);
+		abilityMenuPanelController.SetLocked(menuOptions.IndexOf(Option.Move), !toc.CanActorPerformActionType(ActionType.Move));
+		abilityMenuPanelController.SetLocked(menuOptions.IndexOf(Option.Action), !toc.CanActorPerformActionType(ActionType.Major));
 
 		Inventory inventory = turn.actor.GetComponentInChildren<Inventory>();
 		abilityMenuPanelController.SetLocked(menuOptions.IndexOf(Option.Item), inventory.items.Count < 1);
@@ -88,7 +90,7 @@ public class CommandSelectionState : BaseAbilityMenuState {
 
 	protected override void OnCancel() {
 		if (turn.hasUnitMoved && !turn.lockMove) {
-			turn.UndoMove();
+			owner.turnOrderController.DidActorUndoActionType(ActionType.Move);
 			SelectTile(turn.actor.tile.pos);
 			LoadMenu();
 		} else {

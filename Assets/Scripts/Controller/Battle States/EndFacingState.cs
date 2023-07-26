@@ -7,6 +7,9 @@ public class EndFacingState : BattleState{
 
 	public override void Enter() {
 		base.Enter();
+		
+		owner.turnOrderController.DidActorPerformActionType(ActionType.Wait);
+
 		startDir = turn.actor.dir;
 		SelectTile(turn.actor.tile.pos);
 		owner.facingIndicator.gameObject.SetActive(true);
@@ -35,6 +38,8 @@ public class EndFacingState : BattleState{
 	}
 
 	protected override void OnCancel() {
+		owner.turnOrderController.DidActorUndoActionType(ActionType.Wait);
+
 		turn.actor.dir = startDir;
 		turn.actor.Match();
 		owner.ChangeState<CommandSelectionState>();

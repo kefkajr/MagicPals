@@ -1,15 +1,35 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
+
+public enum ActionType {
+	Major, Move, Wait
+}
+
+public static class ActionTypeExention {
+	public static int Value(this ActionType a)
+	{
+		switch (a)
+		{
+			case ActionType.Major:
+				return 3;
+			case ActionType.Move:
+				return 2;
+			case ActionType.Wait:
+				return 2;
+			default: return -1;
+		}
+	}
+}
 
 public class TurnOrderController : MonoBehaviour 
 {
 	#region Constants
-	const int turnActivation = 100;
-	const int turnCost = 50;
-	const int moveCost = 30;
-	const int actionCost = 20;
+	const int turnActivation = 5;
+	const int turnStepAmount = 1;
+	const int turnWaitOnlyPenality = 1;
 	const int maxEntryCount = 5;
 
 	const string ShowKey = "Show";
@@ -18,11 +38,9 @@ public class TurnOrderController : MonoBehaviour
 	#endregion
 
 	#region Notifications
-	public const string RoundBeganNotification = "TurnOrderController.roundBegan";
 	public const string TurnCheckNotification = "TurnOrderController.turnCheck";
 	public const string TurnBeganNotification = "TurnOrderController.TurnBeganNotification";
 	public const string TurnCompletedNotification = "TurnOrderController.turnCompleted";
-	public const string RoundEndedNotification = "TurnOrderController.roundEnded";
 	#endregion
 
 	#region Public
@@ -37,51 +55,94 @@ public class TurnOrderController : MonoBehaviour
     }
 
 	public IEnumerator Round() {
-		while (true) {
-			this.PostNotification(RoundBeganNotification);
+		while (bc.units.Count > 0) {				
+			Unit unit = GetReadyUnit();
 
-			for (int i = 0; i < bc.units.Count; ++i) {
-				Stats s = bc.units[i].GetComponent<Stats>();
-				s[StatTypes.CTR] += s[StatTypes.SPD];
+			if (unit == null) {
+				IncrementTurnOrder();
+				continue;
 			}
 
-			for (int i = bc.units.Count - 1; i >= 0; --i) {
-				UpdateTurnOrderUI();
-				
-				Unit unit = bc.units[i];
-				if (CanTakeTurn(unit)) {
-					bc.turn.Change(unit);
-					unit.PostNotification(TurnBeganNotification);
+			bc.turn.Change(unit);
 
-					yield return unit;
+			UpdateTurnOrderUI();
 
-					int cost = turnCost;
-					if (bc.turn.hasUnitMoved)
-						cost += moveCost;
-					if (bc.turn.hasUnitActed)
-						cost += actionCost;
+			unit.PostNotification(TurnBeganNotification);
 
-					Stats s = unit.GetComponent<Stats>();
-					s.SetValue(StatTypes.CTR, s[StatTypes.CTR] - cost, false);
+			yield return unit;
 
-					unit.PostNotification(TurnCompletedNotification);
-				}
-			}
-			
-			this.PostNotification(RoundEndedNotification);
+			unit.PostNotification(TurnCompletedNotification);
 		}
 	}
+
+	public void DidActorPerformActionType(ActionType actionType) {
+		Stats s = bc.turn.actor.GetComponent<Stats>();
+		int cost = TrueActionTypeCost(actionType); 
+		s.SetValue(StatTypes.CTR, s[StatTypes.CTR] - cost, false);
+
+		UpdateTurnOrderUI();
+
+		bc.turn.TakeActionType(actionType);
+	}
+
+	public void DidActorUndoActionType(ActionType actionType) {
+		Stats s = bc.turn.actor.GetComponent<Stats>();
+		int cost = TrueActionTypeCost(actionType); 
+		s.SetValue(StatTypes.CTR, s[StatTypes.CTR] + cost, false);
+
+		UpdateTurnOrderUI();
+
+		bc.turn.RemoveActionType(actionType);
+	}
+
+	public bool CanActorPerformActionType(ActionType actionType) {
+		int ctr = GetCounter(bc.turn.actor);
+		return ctr >= actionType.Value();
+	}
+
 	#endregion
 
 	#region Private
 
 	BattleController bc { get { return GetComponentInParent<BattleController>(); } }
 
+	void IncrementTurnOrder() {
+		for (int i = 0; i < bc.units.Count; ++i) {
+			Stats s = bc.units[i].GetComponent<Stats>();
+			int startingValue = s[StatTypes.CTR];
+			if (startingValue < turnActivation)
+				s.SetValue(StatTypes.CTR, startingValue + turnStepAmount, true);
+		}
+	}
+
+	Unit GetReadyUnit() {
+		List<Unit> readyUnits = unitsSortedByTurnOrder.Where(
+			(u) => CanTakeTurn(u)
+		).ToList();
+
+		if (readyUnits.Count == 1)
+			return readyUnits.First();
+
+		readyUnits.Sort( (a, b) => GetTurnInitiativeOffset(a).CompareTo(GetTurnInitiativeOffset(b)));
+		return readyUnits.First();
+	}
+
 	List<Unit> unitsSortedByTurnOrder { get {
-		var units = new List<Unit>( bc.units );
+		var units = new List<Unit>(bc.units).ToList();
 		units.Sort( (a,b) => GetCounter(a).CompareTo(GetCounter(b)));
 		return units;
 	} }
+
+	int TrueActionTypeCost(ActionType actionType) {
+		switch(actionType) {
+			case ActionType.Wait:
+				if (!bc.turn.hasUnitMoved && !bc.turn.hasUnitActed)
+					return ActionType.Wait.Value() + turnWaitOnlyPenality;
+				goto default;
+			default:
+ 				return actionType.Value();
+		}
+	}
 
 	// Turn Order UI
 	void UpdateTurnOrderUI() {
@@ -97,7 +158,7 @@ public class TurnOrderController : MonoBehaviour
 
 			Text entry = Dequeue();
 			entry.text = string.Format("{0}: {1}", unit.name, s[StatTypes.CTR].ToString());
-			entry.fontStyle = i == 0 ? FontStyle.Bold : entry.fontStyle;
+			entry.fontStyle = unit == bc.turn.actor ? FontStyle.Bold : FontStyle.Normal;
 			textEntries.Add(entry);
 		}
 
@@ -141,6 +202,11 @@ public class TurnOrderController : MonoBehaviour
 	int GetCounter(Unit target) {
 		int counter = target.GetComponent<Stats>()[StatTypes.CTR];
 		return counter;
+	}
+
+	int GetTurnInitiativeOffset(Unit target) {
+		int tio = target.GetComponent<Stats>().turnInitiativeOffset;
+		return tio;
 	}
 
 	#endregion
