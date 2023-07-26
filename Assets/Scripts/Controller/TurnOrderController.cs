@@ -124,6 +124,10 @@ public class TurnOrderController : MonoBehaviour
 			return readyUnits.First();
 
 		readyUnits.Sort( (a, b) => GetTurnInitiativeOffset(a).CompareTo(GetTurnInitiativeOffset(b)));
+
+		if (readyUnits.Count == 0)
+			return null;
+			
 		return readyUnits.First();
 	}
 
