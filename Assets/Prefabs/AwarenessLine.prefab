@@ -180,6 +180,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lineRenderer: {fileID: 1495416850434163976}
   awarenessLevelFloatingText: {fileID: 6559194947272485611}
+  isFading: 0
 --- !u!1 &7165917438900266580
 GameObject:
   m_ObjectHideFlags: 0

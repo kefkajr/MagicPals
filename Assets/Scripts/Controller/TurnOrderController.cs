@@ -133,6 +133,7 @@ public class TurnOrderController : MonoBehaviour
 
 	List<Unit> unitsSortedByTurnOrder { get {
 		var units = new List<Unit>(bc.units).ToList();
+		units.Sort( (a,b) => GetTurnInitiativeOffset(a).CompareTo(GetCounter(b)));
 		units.Sort( (a,b) => GetCounter(a).CompareTo(GetCounter(b)));
 		return units;
 	} }

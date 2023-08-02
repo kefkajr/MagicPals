@@ -226,21 +226,25 @@ MonoBehaviour:
       x: 2
       y: 4
     direction: 2
+    turnInitiativeOffset: 2
   - recipeName: Nessa
     position:
       x: 1
       y: 1
     direction: 0
+    turnInitiativeOffset: 1
   - recipeName: Cece
     position:
       x: 4
       y: 1
     direction: 0
+    turnInitiativeOffset: 0
   - recipeName: Sentry
     position:
       x: 0
       y: 2
     direction: 1
+    turnInitiativeOffset: 3
   exits:
   - x: 0
     y: 5
@@ -256,7 +260,7 @@ MonoBehaviour:
         y: 2
       facingDirection: 0
       reverseDirection: 0
-    currentPatrolNodeIndex: 0
+    currentPatrolNodeIndex: 1
   - nodes:
     - targetMovePoint:
         x: 2
@@ -268,4 +272,4 @@ MonoBehaviour:
         y: 4
       facingDirection: 1
       reverseDirection: 1
-    currentPatrolNodeIndex: 0
+    currentPatrolNodeIndex: 1

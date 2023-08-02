@@ -220,6 +220,7 @@ public class AwarenessController : MonoBehaviour {
 			}
 			Console.Main.Log(awareness.ToString());
 			UpdateAwarenessDescriptionDisplay();
+			DisplayAwarenessLines(awareness.perception.unit, true);
 		}
 		return awarenessDidChange;
 	}
@@ -269,7 +270,7 @@ public class AwarenessController : MonoBehaviour {
 
 	// Awareness Lines and Viewing Ranges
 
-	public void DisplayAwarenessLines(Unit unit) {
+	public void DisplayAwarenessLines(Unit unit, bool shouldFadeOut = false) {
 		ClearAwarenessLines();
 		Alliance perceiverAlliance = unit.GetComponentInChildren<Alliance>();
 		foreach (Awareness a in TopAwarenesses(unit)) {
@@ -283,6 +284,10 @@ public class AwarenessController : MonoBehaviour {
 			line.transform.localScale = Vector3.one;
 			line.gameObject.SetActive(true);
 			line.SetAwareness(a, AwarenessLineMaterial(a.type));
+			
+			if (shouldFadeOut) {
+				line.Fadeout();
+			}
 
 			awarenessLines[a] = line;
 		}
@@ -290,6 +295,8 @@ public class AwarenessController : MonoBehaviour {
 
 	public void ClearAwarenessLines() {
 		foreach (AwarenessLine l in awarenessLines.Values) {
+			if (l.isFading) continue;
+			
 			Poolable p = l.GetComponent<Poolable>();
 			GameObjectPoolController.Enqueue(p);
 		}

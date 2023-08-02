@@ -22,6 +22,7 @@ public class CommandSelectionState : BaseAbilityMenuState {
 
 		// Allow the unit to perceive in whatever direction they start facing
 		owner.awarenessController.Look(turn.actor);
+		owner.awarenessController.ClearAwarenessLines();
 		board.DeHighlightAllTiles();
 	}
 

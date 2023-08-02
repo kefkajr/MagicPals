@@ -8,13 +8,13 @@ public class AwarenessLine : MonoBehaviour {
 
     private Awareness awareness;
 
+    public bool isFading;
+
     const float terminusOffset = 0.6f;
     const float midddleOffset = 2.5f;
 
-    public void SetAwareness(Awareness awareness, Material material) {
-        awarenessLevelFloatingText.Display(string.Format("{0}", awareness.level));
-        lineRenderer.positionCount = 2;
-        lineRenderer.material = material;
+    public void Update() {
+        if (awareness == null) return;
 
         Vector3 start = awareness.perception.unit.transform.position;
         start.y += terminusOffset;
@@ -37,5 +37,48 @@ public class AwarenessLine : MonoBehaviour {
                 awarenessLevelFloatingText.container.transform.position = levelTextPosition;
             }
         }
+    }
+
+    public void SetAwareness(Awareness awareness, Material material) {
+        this.awareness = awareness;
+        awarenessLevelFloatingText.Display(string.Format("{0}", awareness.level));
+        lineRenderer.positionCount = 2;
+        lineRenderer.material = material;
+    }
+
+    public void Fadeout() {
+        StartCoroutine(AnimateFadeout());
+    }
+
+    public void Clear() {
+        Poolable p = GetComponent<Poolable>();
+        GameObjectPoolController.Enqueue(p);
+    }
+
+    IEnumerator AnimateFadeout() {
+        isFading = true;
+        Gradient lineRendererGradient = new Gradient();
+        float fadeSpeed = 0.6f;
+        float timeElapsed = 0f;
+        float alpha = 1f;
+
+        yield return new WaitForSeconds(1f);
+ 
+        while (timeElapsed < fadeSpeed)
+        {
+            alpha = Mathf.Lerp(1f, 0f, timeElapsed / fadeSpeed);
+
+            Color newStartColor = new Color(lineRenderer.startColor.r, lineRenderer.startColor.g, lineRenderer.startColor.b, alpha);
+            Color newEndColor = new Color(lineRenderer.endColor.r, lineRenderer.endColor.g, lineRenderer.endColor.b, alpha);
+            Color textColor = new Color(awarenessLevelFloatingText.label.color.r, awarenessLevelFloatingText.label.color.g, awarenessLevelFloatingText.label.color.b, alpha);
+            lineRenderer.startColor = newStartColor;
+            lineRenderer.endColor = newEndColor;
+            awarenessLevelFloatingText.label.color = textColor;
+ 
+            timeElapsed += Time.deltaTime;
+            yield return null;
+        }
+        isFading = false;
+        Clear();
     }
 }
