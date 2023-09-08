@@ -47,9 +47,8 @@ public class AwarenessController : MonoBehaviour {
 		AddListeners();
 		doesEveryoneSeeEveryone = GameConfig.Main.MakeAllUnitsSeeEachOther;
 
-		InitializeAwarenessMap();
 		GameObjectPoolController.AddEntry(AwarenessLinePoolKey, awarenessLinePrefab, awarenessMap.Values.Count, int.MaxValue);
-
+		InitializeAwarenessMap();
 		UpdateAwarenessDescriptionDisplay();
 	}
 
@@ -220,7 +219,7 @@ public class AwarenessController : MonoBehaviour {
 			}
 			Console.Main.Log(awareness.ToString());
 			UpdateAwarenessDescriptionDisplay();
-			DisplayAwarenessLines(awareness.perception.unit, true);
+			DisplayAwarenessLine(awareness, true);
 		}
 		return awarenessDidChange;
 	}
@@ -270,26 +269,30 @@ public class AwarenessController : MonoBehaviour {
 
 	// Awareness Lines and Viewing Ranges
 
-	public void DisplayAwarenessLines(Unit unit, bool shouldFadeOut = false) {
-		ClearAwarenessLines();
+	public void DisplayAwarenessLine(Awareness awareness, bool shouldFadeOut = false) {
+		Poolable p = GameObjectPoolController.Dequeue(AwarenessLinePoolKey);
+		AwarenessLine line = p.GetComponent<AwarenessLine>();
+		line.transform.SetParent(battleController.transform, false);
+		line.transform.localScale = Vector3.one;
+		line.gameObject.SetActive(true);
+		line.SetAwareness(awareness, AwarenessLineMaterial(awareness.type));
+		
+		if (shouldFadeOut) {
+			line.Fadeout();
+		}
+
+		awarenessLines[awareness] = line;
+	}
+
+		public void DisplayAwarenessLines(Unit unit, bool shouldFadeOut = false) {
+		// ClearAwarenessLines();
 		Alliance perceiverAlliance = unit.GetComponentInChildren<Alliance>();
 		foreach (Awareness a in TopAwarenesses(unit)) {
 			Alliance perceivedAlliance = a.stealth.GetComponentInChildren<Alliance>();
 			bool isAlly = perceiverAlliance.IsMatch(perceivedAlliance, TargetType.Ally);
 			if (isAlly) continue;
 
-			Poolable p = GameObjectPoolController.Dequeue(AwarenessLinePoolKey);
-			AwarenessLine line = p.GetComponent<AwarenessLine>();
-			line.transform.SetParent(battleController.transform, false);
-			line.transform.localScale = Vector3.one;
-			line.gameObject.SetActive(true);
-			line.SetAwareness(a, AwarenessLineMaterial(a.type));
-			
-			if (shouldFadeOut) {
-				line.Fadeout();
-			}
-
-			awarenessLines[a] = line;
+			DisplayAwarenessLine(a, shouldFadeOut);
 		}
 	}
 

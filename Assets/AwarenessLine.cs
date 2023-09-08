@@ -44,6 +44,13 @@ public class AwarenessLine : MonoBehaviour {
         awarenessLevelFloatingText.Display(string.Format("{0}", awareness.level));
         lineRenderer.positionCount = 2;
         lineRenderer.material = material;
+
+        // Make sure the line and text are visible when the awareness is set.
+        Color startColor = new Color(lineRenderer.startColor.r, lineRenderer.startColor.g, lineRenderer.startColor.b, 1);
+
+        lineRenderer.startColor = startColor;
+        lineRenderer.endColor = startColor;
+        awarenessLevelFloatingText.label.color = startColor;
     }
 
     public void Fadeout() {
@@ -57,7 +64,6 @@ public class AwarenessLine : MonoBehaviour {
 
     IEnumerator AnimateFadeout() {
         isFading = true;
-        Gradient lineRendererGradient = new Gradient();
         float fadeSpeed = 0.6f;
         float timeElapsed = 0f;
         float alpha = 1f;
@@ -73,7 +79,6 @@ public class AwarenessLine : MonoBehaviour {
             Color textColor = new Color(awarenessLevelFloatingText.label.color.r, awarenessLevelFloatingText.label.color.g, awarenessLevelFloatingText.label.color.b, alpha);
             lineRenderer.startColor = newStartColor;
             lineRenderer.endColor = newEndColor;
-            awarenessLevelFloatingText.label.color = textColor;
  
             timeElapsed += Time.deltaTime;
             yield return null;
