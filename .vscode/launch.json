@@ -7,8 +7,8 @@
         {
             "name": "Unity Editor",
             "type": "unity",
-            "path": "/Users/user/MagicPals/Library/EditorInstance.json",
-            "request": "launch"
+            "request": "launch",
+            "processId": "/Users/terry/Library/EditorInstance.json"
         },
         {
             "name": "Windows Player",
