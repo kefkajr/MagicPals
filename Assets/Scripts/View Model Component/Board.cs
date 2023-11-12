@@ -103,6 +103,7 @@ public class Board : MonoBehaviour {
                     // The current tile is also set as their prev tile reference.
 					next.distance = t.distance + 1;
 					next.prev = t;
+					t.next = next;
 					checkNext.Enqueue(next);
 					retValue.Add(next);
 				}
@@ -463,6 +464,7 @@ public class Board : MonoBehaviour {
 		foreach (Tile t in tiles.Values)
 		{
 			t.prev = null;
+			t.next = null;
 			t.distance = int.MaxValue;
 		}
 	}

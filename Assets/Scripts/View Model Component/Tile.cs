@@ -28,6 +28,7 @@ public class Tile : MonoBehaviour {
 	public Color defaultTileColor = new Color(1, 1, 1, 1);
 
 	[HideInInspector] public Tile prev;
+	[HideInInspector] public Tile next;
 	[HideInInspector] public int distance;
 
 	[HideInInspector] public int g;

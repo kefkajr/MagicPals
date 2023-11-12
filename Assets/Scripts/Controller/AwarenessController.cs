@@ -53,8 +53,10 @@ public class AwarenessController : MonoBehaviour {
 	}
 
 	public void InitializeAwarenessMap() {
+		List<Unit> computerUnits = battleController.units.Where(unit => unit.GetComponent<Driver>().normal == DriverType.Computer).ToList();
+
 		// Allow all units to look at any other units
-		foreach (Unit perceivingUnit in battleController.units) {
+		foreach (Unit perceivingUnit in computerUnits) {
 			foreach (Unit perceivedUnit in battleController.units) {
 				if (perceivingUnit != perceivedUnit) {
 
@@ -81,6 +83,10 @@ public class AwarenessController : MonoBehaviour {
     }
 
 	public List<Awareness> Look(Unit unit) {
+		// Prevent player characters from looking
+		if (!awarenessMap.ContainsKey(unit)) return new List<Awareness>();
+
+		Alliance perceiverAlliance = unit.GetComponentInChildren<Alliance>();
 		Perception perception = unit.perception;
 		List<Awareness> updatedAwarenesses = new List<Awareness>();
 		Dictionary<Tile, AwarenessType> tilesInRange = GetTilesInVisibleRange(unit);
@@ -93,11 +99,17 @@ public class AwarenessController : MonoBehaviour {
 			List<Unit> unitsInRange = tileOccupants.Select(o => o.GetComponent<Unit>()).Where(u => u != null).ToList();
 			List<Stealth> stealthsInRange = unitsInRange.Select(unit => unit.GetComponent<Stealth>()).ToList();
 			foreach (Stealth stealth in stealthsInRange) {
+				// Skip this unit if the perceiver shares their alliance.
+				Alliance perceivedAlliance = stealth.GetComponentInChildren<Alliance>();
+				if (perceiverAlliance.IsMatch(perceivedAlliance, TargetType.Ally)) continue; // skip this one
+
 				// If the unit is not invisible
 				if (!stealth.isInvisible) {
 					// Find existing awareness and update it with the perceived unit's existing location
+					// OR the location they're about to go to next (in case they're disappearing around the corner)
 					Awareness awareness = awarenessMap[perception.unit][stealth.unit];
-					if (UpdateAwareness(awareness, type, stealth.unit.tile.pos)) {
+					Point pointOfInterest = stealth.unit.tile.next != null ? stealth.unit.tile.next.pos : unit.tile.pos;
+					if (UpdateAwareness(awareness, type, pointOfInterest)) {
 						updatedAwarenesses.Add(awareness);
 					}
 				}
@@ -233,8 +245,8 @@ public class AwarenessController : MonoBehaviour {
 	}
 
 	public List<Awareness> TopAwarenesses(Unit perceivingUnit) {
-		if (awarenessMap.Count == 0) return new List<Awareness>();
-		List<Awareness> relevantAwarenesses = awarenessMap[perceivingUnit].Select(kv => kv.Value).ToList();
+		if (awarenessMap.Count == 0 || !awarenessMap.ContainsKey(perceivingUnit)) return new List<Awareness>();
+ 		List<Awareness> relevantAwarenesses = awarenessMap[perceivingUnit].Select(kv => kv.Value).ToList();
 		List<Awareness> activeAwarenesses = relevantAwarenesses.Where(a => a.type != AwarenessType.Unaware).ToList();
 		List<Awareness> orderedAwarenesses = activeAwarenesses.OrderByDescending(a => (int)a.type).ToList();
 		return orderedAwarenesses;
