@@ -1,6 +1,28 @@
 # MagicPals
 This is where change summaries, work intentions, and related planning will be written.
 
+#### 11/11/23
+
+Turn order control has changed. All units have a counter (CTR) stat. When CTR is the right value (5), their turn activates. Each command has a different turn cost: 3 for actions, 2 for moving, 2 for waiting after perofrming another command (or 3 for ONLY waiting). When the turn is over, the next "activated" unit goes, and the remaning units have their CTR increase by 1 each turn until another unit is activated.
+- Right now, ties are broken by whoever has the higher starting initiative. And right now, that initiative is given to each unit manually per encounter, in whichever way seems most interesting for that encounter. This could change.
+- Move actions can be performed up to twice. Back-to-back move actions can be undone. Right now, awareness changes that happen during the move sequence (the enemy spotting the player) can't be undone, and no other actions can be undone. That would require logging a history of every change that occurs at each step of a turn at the data level. It's unclear yet what level of "undo" we want to keep yet.
+
+<img src="https://raw.githubusercontent.com/kefkajr/MagicPals/develop/Progress%20Pics/2023.11.11_patrol.gif" width=500>
+
+Enemies have patrol routes now. This includes just looking left and right. They can be roused to chase the player or investigate noises. When they lose track of the player, they return to the nearest node on the closest available patrol route.
+
+<img src="https://raw.githubusercontent.com/kefkajr/MagicPals/develop/Progress%20Pics/2023.11.11_awareness.gif" width=500>
+
+An enemy's perception is displayed when they are selected. Their visible range is shown as highlighted tiles, and any awarenesses (knowledge of the player's location) are represented as lines.
+
+Next:
+
+- If the enemy is investigating a tile and they find a hero, they should be able to attack right away.
+    - Right now, the enemy’s entire plan of attack is made at the beginning of the turn. When they move with no attack option, they just see the player and then end their turn. Instead of ending their turn (presumably going to the EndFacingState), they should request the ComputerPlayer class to come up with new options.
+- How should the enemy react when damaged by a hero? They could look in the hero’s direction or at least create a point of interest where the hero is standing.
+- Keep running an escape to come up with different improvements
+- Create the inventory window
+
 #### 3/18/23
 <img src="https://raw.githubusercontent.com/kefkajr/MagicPals/develop/Progress%20Pics/2023.03.18_spawnpoints.png" width=500>
 

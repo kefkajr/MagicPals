@@ -99,19 +99,15 @@ MonoBehaviour:
       origin: 1
       thickness: 1
       height: 3
-  - point:
-      x: 4
-      y: 2
-    height: 1
-    wallData:
-    - direction: 2
-      origin: 1
-      thickness: 1
-      height: 3
     - direction: 1
       origin: 1
       thickness: 1
       height: 3
+  - point:
+      x: 4
+      y: 2
+    height: 1
+    wallData: []
   - point:
       x: 0
       y: 3
@@ -135,16 +131,16 @@ MonoBehaviour:
       x: 3
       y: 3
     height: 1
-    wallData: []
-  - point:
-      x: 4
-      y: 3
-    height: 1
     wallData:
     - direction: 1
       origin: 1
       thickness: 1
       height: 3
+  - point:
+      x: 4
+      y: 3
+    height: 1
+    wallData: []
   - point:
       x: 0
       y: 4
@@ -214,62 +210,66 @@ MonoBehaviour:
       x: 5
       y: 4
     height: 1
-    wallData: []
+    wallData:
+    - direction: 0
+      origin: 1
+      thickness: 1
+      height: 3
   - point:
       x: 0
       y: 5
     height: 1
     wallData: []
   spawns:
-  - recipeName: Sentry
-    position:
-      x: 2
-      y: 4
-    direction: 2
-    turnInitiativeOffset: 2
   - recipeName: Nessa
     position:
       x: 1
       y: 1
     direction: 0
-    turnInitiativeOffset: 1
+    turnInitiativeOffset: 4
   - recipeName: Cece
     position:
       x: 4
       y: 1
     direction: 0
-    turnInitiativeOffset: 0
+    turnInitiativeOffset: 3
   - recipeName: Sentry
     position:
       x: 0
       y: 2
-    direction: 1
-    turnInitiativeOffset: 3
+    direction: 0
+    turnInitiativeOffset: 2
+  - recipeName: Sentry
+    position:
+      x: 2
+      y: 4
+    direction: 2
+    turnInitiativeOffset: 1
   exits:
   - x: 0
     y: 5
   patrols:
   - nodes:
     - targetMovePoint:
-        x: 0
+        x: 3
         y: 2
-      facingDirection: 1
-      reverseDirection: 1
+      facingDirection: 0
+      reverseDirection: 3
     - targetMovePoint:
         x: 0
         y: 2
       facingDirection: 0
-      reverseDirection: 0
-    currentPatrolNodeIndex: 1
+      reverseDirection: 1
+    currentPatrolNodeIndex: 0
   - nodes:
-    - targetMovePoint:
-        x: 2
-        y: 4
-      facingDirection: 2
-      reverseDirection: 2
     - targetMovePoint:
         x: 2
         y: 4
       facingDirection: 1
       reverseDirection: 1
-    currentPatrolNodeIndex: 1
+    - targetMovePoint:
+        x: 2
+        y: 4
+      facingDirection: 1
+      reverseDirection: 1
+    currentPatrolNodeIndex: 0

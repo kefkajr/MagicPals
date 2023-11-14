@@ -155,21 +155,25 @@ public class BoardCreator : MonoBehaviour {
 		if (!Directory.Exists(filePath))
 			CreateSaveDirectory ();
 		
-		LevelData board = ScriptableObject.CreateInstance<LevelData>();
-		board.tiles = new List<TileData>( tiles.Count );
+		LevelData levelData = AssetDatabase.LoadAssetAtPath<LevelData>(string.Format("Assets/Resources/Levels/{0}.asset", levelName));
+		
+		if (levelData == null)
+			levelData = ScriptableObject.CreateInstance<LevelData>();
+			
+		levelData.tiles = new List<TileData>( tiles.Count );
 		foreach (Tile t in tiles.Values)
-			board.tiles.Add( new TileData(t) );
+			levelData.tiles.Add( new TileData(t) );
 
-		board.spawns = new List<SpawnData>( spawns.Count );
+		levelData.spawns = new List<SpawnData>( spawns.Count );
 		foreach (SpawnMarker s in spawns.Values)
-			board.spawns.Add( new SpawnData(s.recipeName, s.position, s.direction, s.turnInitiativeOffset) );
+			levelData.spawns.Add( new SpawnData(s.recipeName, s.position, s.direction, s.turnInitiativeOffset) );
 
-		board.exits = new List<Point>( exits.Count );
+		levelData.exits = new List<Point>( exits.Count );
 		foreach (ExitMarker e in exits.Values)
-			board.exits.Add( new Point(e.position.x, e.position.y) );
+			levelData.exits.Add( new Point(e.position.x, e.position.y) );
 		
 		string fileName = string.Format("Assets/Resources/Levels/{1}.asset", filePath, (levelName != "" || levelName != null)  ? levelName : "New Level");
-		AssetDatabase.CreateAsset(board, fileName);
+		AssetDatabase.CreateAsset(levelData, fileName);
 	}
 
 	public void Load() {
