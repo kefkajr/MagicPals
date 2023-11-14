@@ -1,0 +1,5 @@
+# all files are owned by a specific team
+*	@ohterrytorres @kefkajr
+
+# the files in the docs folder needs extra signify by another user
+/docs	@ohterrytorres @kefkajr

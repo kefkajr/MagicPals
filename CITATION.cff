@@ -1,0 +1,13 @@
+cff-version: 0.1.0
+message: "If you use this software, please cite it as below."
+authors:
+  - family-names: Torres
+    given-names: Terry
+title: "MagicPals"
+version: 2.0.4
+date-released: 2021-08-11
+references:
+  - authors:
+    - family-names: Parham
+      given-names: Jon
+    title: "Tactics RPG"
