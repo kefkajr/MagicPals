@@ -193,8 +193,10 @@ public class AwarenessController : MonoBehaviour {
 	}
 
 	public List<Awareness> Listen(Unit unit, Point pointOfNoise, List<Tile> noisyTiles, Stealth noisyStealth) {
-		Perception perception = unit.GetComponent<Perception>();
+		Perception perception = unit.perception;
 		List<Awareness> updatedAwarenesses = new List<Awareness>();
+
+		if (unit.GetComponent<Driver>().normal == DriverType.Human) return updatedAwarenesses;
 
 		List<Tile> tilesInRange = board.Search(unit.tile, delegate (Tile from, Tile to) {
 			// Height isn't being handled right now for noise perception.

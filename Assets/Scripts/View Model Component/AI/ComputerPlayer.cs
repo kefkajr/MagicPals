@@ -10,7 +10,6 @@ public class ComputerPlayer : MonoBehaviour {
 	AwarenessController AC { get { return BC.awarenessController; } }
 	PatrolController PC { get { return BC.patrolController; } }
 	Alliance actorAlliance { get { return actor.GetComponent<Alliance>(); }}
-	Perception perception { get { return actor.GetComponent<Perception>(); } }
 	Awareness topPriorityFoeAwareness;
 	Awareness topPriorityInterestAwareness;
 	#endregion

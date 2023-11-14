@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 11482262}
   - component: {fileID: 11490612}
   - component: {fileID: 7144873483728166675}
+  - component: {fileID: -1883746476510898103}
   m_Layer: 0
   m_Name: Rifle Fire
   m_TagString: Untagged
@@ -77,7 +78,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   horizontal: 0
   vertical: 2147483647
-  isMissile: 1
+  doesPassThroughWalls: 0
 --- !u!114 &7144873483728166675
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -91,6 +92,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   description: Fire a bullet at a target
+--- !u!114 &-1883746476510898103
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 116620}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eda6f537f0f974c3189b80b6c0c2b756, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radius: 5
 --- !u!1 &192764
 GameObject:
   m_ObjectHideFlags: 0

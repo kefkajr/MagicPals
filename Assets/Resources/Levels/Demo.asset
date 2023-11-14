@@ -253,8 +253,8 @@ MonoBehaviour:
     - targetMovePoint:
         x: 3
         y: 2
-      facingDirection: 0
-      reverseDirection: 3
+      facingDirection: 3
+      reverseDirection: 0
     - targetMovePoint:
         x: 0
         y: 2
@@ -265,11 +265,11 @@ MonoBehaviour:
     - targetMovePoint:
         x: 2
         y: 4
-      facingDirection: 1
-      reverseDirection: 1
+      facingDirection: 2
+      reverseDirection: 2
     - targetMovePoint:
         x: 2
         y: 4
       facingDirection: 1
       reverseDirection: 1
-    currentPatrolNodeIndex: 0
+    currentPatrolNodeIndex: 1
