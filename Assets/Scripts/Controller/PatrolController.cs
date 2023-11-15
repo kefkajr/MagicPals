@@ -17,7 +17,7 @@ public class PatrolController : MonoBehaviour {
         this.patrols = patrols;
     }
 
-    public IEnumerator GetNearestAvailablePatrol(Unit unit, Action<Patrol> completionHandler) {
+    public void GetNearestAvailablePatrol(Unit unit, Action<Patrol> completionHandler) {
 		int shortestDistance = int.MaxValue;
 		Patrol nearestPatrol = null;
 		foreach (Patrol patrol in patrols) {
@@ -28,7 +28,7 @@ public class PatrolController : MonoBehaviour {
             while (patrolNodesToCheck > 0) {
                 for (int i = 0; i < patrol.nodes.Count; ++i) {
                     PatrolNode patrolNode = patrol.nodes[i];
-                    yield return board.FindPath(unit, unit.tile, board.GetTile(patrolNode.targetMovePoint), delegate (List<Tile> finalPath) {
+                    board.FindPath(unit, unit.tile, board.GetTile(patrolNode.targetMovePoint), delegate (List<Tile> finalPath) {
                         int distance = finalPath.Count;
                         if (distance < shortestDistance) {
                             shortestDistance = distance;

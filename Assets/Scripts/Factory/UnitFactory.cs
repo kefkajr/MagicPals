@@ -29,7 +29,7 @@ public static class UnitFactory
 		AddAttack(unitObject, recipe.attack);
 		AddAbilityCatalog(unitObject, recipe.abilityCatalog);
 		AddAlliance(unitObject, recipe.alliance);
-		AddAttackPattern(unitObject, recipe.attackPattern);
+		AddGambitSet(unitObject, recipe.gambitSet);
 		AddInventory(unitObject);
 
 		AddAwareness(unitObject, recipe.perceptionRecipe);
@@ -160,13 +160,13 @@ public static class UnitFactory
 			inv.Equip(toEquip, toEquip.defaultSlots);
 	}
 
-	static void AddAttackPattern (GameObject obj, string name) {
+	static void AddGambitSet (GameObject obj, string name) {
 		Driver driver = obj.AddComponent<Driver>();
 		if (string.IsNullOrEmpty(name)) {
 			driver.normal = DriverType.Human;
 		} else {
 			driver.normal = DriverType.Computer;
-			GameObject instance = InstantiatePrefab("Attack Pattern/" + name);
+			GameObject instance = InstantiatePrefab("Gambit Set/" + name);
 			instance.transform.SetParent(obj.transform);
 		}
 	}

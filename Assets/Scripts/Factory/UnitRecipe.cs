@@ -8,7 +8,7 @@ public class UnitRecipe : ScriptableObject
 	public string job;
 	public string attack;
 	public string abilityCatalog;
-	public string attackPattern;
+	public string gambitSet;
 	public Locomotions locomotion;
 	public Alliances alliance;
 	public PerceptionRecipe perceptionRecipe;

@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-/* The primary “picker” used by this first implementation will be
+/* The primary gambit used by this first implementation will be
  * one which says exactly what we want to use.
  * This goes back to the sequential list idea where I specify something
  * like “Attack, Fire, Heal” and it will use those specific abilities. */
@@ -10,46 +10,56 @@ using System.Collections.Generic;
 /* We accomplish the job by exposing two fields,
  * the name of an ability and who or what we want to target with that ability.
  * Then in the Pick method, we use the base class’s Find method to get
- * the actual ability of the same name and then update the plan of attack with our decisions.
+ * the actual ability of the same name and then update the turn plan with our decisions.
  * If the named ability can’t be found, we grab the first ability it can find instead
  * (which would be Attack). */
-public class FixedAbilityPicker : BaseAbilityPicker {
+public class Gambit : MonoBehaviour {
 	public TargetType targetType;
-	public AbilityPickerCriteria abilityPickerCriteria;
-	public string ability;
+	public GambitCriteria gambitCriteria;
+	public string abilityName;
+	public  Unit owner;
+	public AbilityCatalog ac;
+	public Ability ability { get { return FindAbility(); } }
 
-    public override bool IsViable(BattleController bc) {
-        return abilityPickerCriteria.IsFulfilled(bc, owner, targetType);
+	void Start() {
+		owner = GetComponentInParent<Unit>();
+		ac = owner.GetComponentInChildren<AbilityCatalog>();
+	}
+
+    public bool IsViable(BattleController bc) {
+        return gambitCriteria.IsFulfilled(bc, owner, targetType);
     }
 
-    public override void Pick (PlanOfAttack plan) {
-		plan.targetType = targetType;
-		plan.ability = Find(ability);
 
-		if (plan.ability == null) {
-			plan.ability = Default();
-			plan.targetType = TargetType.Foe;
+	protected Ability FindAbility() {
+		for (int i = 0; i < ac.transform.childCount; ++i)
+		{
+			Transform category = ac.transform.GetChild(i);
+			Transform child = category.Find(abilityName);
+			if (child != null)
+				return child.GetComponent<Ability>();
 		}
+		return null;
 	}
 }
 
 
-public enum AbilityPickerCriteria {
+public enum GambitCriteria {
 	IsSeen,
     IsNotAwareOfTheSameFoes
 }
 
-public static class AbilityPickerCriteriaExtensions {
-    public static bool IsFulfilled(this AbilityPickerCriteria apc, BattleController bc, Unit actor, TargetType targetType) {
+public static class GambitCriteriaExtensions {
+    public static bool IsFulfilled(this GambitCriteria apc, BattleController bc, Unit actor, TargetType targetType) {
 		switch (apc) {
-			case AbilityPickerCriteria.IsSeen:
+			case GambitCriteria.IsSeen:
 				List<Awareness> topAwarenesses = bc.awarenessController.TopAwarenesses(actor);
 				foreach (Awareness awareness in topAwarenesses) {
 					if (awareness.type == AwarenessType.Seen)
 						return true;
 				}
 				return false;
-			case AbilityPickerCriteria.IsNotAwareOfTheSameFoes:
+			case GambitCriteria.IsNotAwareOfTheSameFoes:
                 topAwarenesses = bc.awarenessController.TopAwarenesses(actor);
                 foreach (Unit perceiver in bc.awarenessController.awarenessMap.Keys) {
                     Alliance actorAliance = actor.GetComponent<Alliance>();

@@ -27,53 +27,23 @@ public class ComputerPlayer : MonoBehaviour {
 	#endregion
 
 	#region Public
-	// Create and fill out a plan of attack
-	public IEnumerator Evaluate(Turn turn) {
+	// Create and fill out a turn plan
+	public TurnPlan FormulatePlan() {
 		SetTopPriorityFoeAndPointOfInterest();
 
-		PlanOfAttack poa = new PlanOfAttack();
+		TurnPlan plan = new TurnPlan();
 
-		if (topPriorityFoeAwareness != null) {
-			// Step 1: Decide what ability to use
-			AttackPattern pattern = actor.GetComponentInChildren<AttackPattern>();
-			if (pattern)
-				pattern.Pick(BC, poa);
-			else
-				yield return DefaultAttackPattern(poa);
+		// Are the conditions met for the highest priority gambit?
+		// Can the ability be used?
+		GambitSet gambitSet = actor.GetComponentInChildren<GambitSet>();
+		Gambit gambit = gambitSet.PickGambit((Gambit g) => {
+			plan = EvaluateGambit(g);
+			return plan == null;
+		});
 
-			Console.Main.Log(string.Format("{0} wants to use {1}", actor.name, poa.ability.name));
-
-			// Step 2: Determine where to move and aim to best use the ability
-			if (IsPositionIndependent(poa))
-				// It doesn't matter where you stand
-				yield return PlanPositionIndependent(poa);
-			else if (IsDirectionIndependent(poa))
-				// It DOES matter where you stand, but it doesn't matter where you face
-				yield return PlanDirectionIndependent(poa);
-			else
-				// It DOES matter where you stand and it DOES matter where you face
-				yield return PlanDirectionDependent(poa);
-		}
-		if (poa.ability == null) {
-			if (topPriorityInterestAwareness != null) {
-				// Just position yourself better for the next turn.
-				/// TODO: Update the attack option algorithm to just give us the best move option for next turn.
-				yield return Investigate(poa);
-			} else {
-				Patrol patrol = PC.GetPatrolForUnit(actor);
-				if (patrol != null) {
-					patrol.SetPlan(poa, actor, BC.board);
-				} else {
-					List<Tile> moveOptions = GetMoveOptions();
-					yield return PC.GetNearestAvailablePatrol(actor, delegate (Patrol p) {
-						if (p != null) {
-							p.SetPlan(poa, actor, BC.board);
-						} else {
-							Console.Main.Log("No patrol found.");
-						}
-					});
-				}
-			}
+		// If none of the gambit conditions could be met.
+		if (gambit == null) {
+			plan = InvestigateOrPatrol();
 		}
 
 		if (topPriorityFoeAwareness != null || topPriorityInterestAwareness != null) {
@@ -81,36 +51,34 @@ public class ComputerPlayer : MonoBehaviour {
 			PC.RemoveUnitFromPatrol(actor);
 		}
 
-		// Find the nearest viable move option, if the current planned location is too far
-		if (poa.moveLocation != null) {
-			List<Tile> moveOptions = GetMoveOptions();
-			if (!moveOptions.Contains(poa.moveLocation)) {
-				yield return BC.board.FindPath(actor, actor.tile, BC.board.GetTile(poa.moveLocation.pos), delegate (List<Tile> finalPath) {
-					poa.moveLocation = FindNearestMoveOptionToTile(moveOptions, poa.moveLocation);
-				});
-			}
-		}	
-
-		// Step 3: Return the completed plan
-		turn.plan = poa;
+		// Return the completed plan
+		return plan;
 	}
 	#endregion
 	
 	#region Private
-	IEnumerator DefaultAttackPattern(PlanOfAttack poa) {
-		// Just get the first "Attack" ability
-		poa.ability = actor.GetComponentInChildren<Ability>();
-		poa.targetType = TargetType.Foe;
-		yield return null;
+
+	TurnPlan EvaluateGambit(Gambit gambit) {
+		// Step 2: Determine where to move and aim to best use the ability
+		if (IsPositionIndependent(gambit.ability))
+			// It doesn't matter where you stand
+			return PlanPositionIndependent(gambit);
+		else if (IsDirectionIndependent(gambit.ability))
+			// It DOES matter where you stand, but it doesn't matter where you face
+			return PlanDirectionIndependent(gambit);
+		else
+			// It DOES matter where you stand and it DOES matter where you face
+			return PlanDirectionDependent(gambit);
 	}
 
-	bool IsPositionIndependent(PlanOfAttack poa) {
-		AbilityRange range = poa.ability.GetComponent<AbilityRange>();
+
+	bool IsPositionIndependent(Ability ability) {
+		AbilityRange range = ability.GetComponent<AbilityRange>();
 		return range.positionOriented == false;
 	}
 	
-	bool IsDirectionIndependent(PlanOfAttack poa) {
-		AbilityRange range = poa.ability.GetComponent<AbilityRange>();
+	bool IsDirectionIndependent(Ability ability) {
+		AbilityRange range = ability.GetComponent<AbilityRange>();
 		return !range.directionOriented;
 	}
 
@@ -120,12 +88,13 @@ public class ComputerPlayer : MonoBehaviour {
 	 * perhaps the unit would rather move toward or away from its foes during this time.
 	 * If you want more specific behavior like that it shouldn’t be hard to add.
 	 * I’ll show an example of moving toward the nearest foe soon. */
-	IEnumerator PlanPositionIndependent(PlanOfAttack poa) {
+	TurnPlan PlanPositionIndependent(Gambit gambit) {
 		List<Tile> moveOptions = GetMoveOptions();
 		// TODO: Have the unit move somewhere logical, instead of moving randomly
 		Tile tile = moveOptions[Random.Range(0, moveOptions.Count - 1)];
-		poa.moveLocation = poa.fireLocation = tile;
-		yield return null;
+		TurnPlan plan = new(gambit);
+		plan.moveLocation = plan.fireLocation = tile;
+		return plan;
 	}
 
 	/* The next case is where the position matters, but the facing angle does not.
@@ -156,10 +125,10 @@ public class ComputerPlayer : MonoBehaviour {
 	 * 
 	 * Finally, I pass the list of options we have built up to this point to a method
 	 * which can pick the best overall option for our turn. */
-	IEnumerator PlanDirectionIndependent(PlanOfAttack poa) {
+	TurnPlan PlanDirectionIndependent(Gambit gambit) {
 		Tile startTile = actor.tile;
 		Dictionary<Tile, AttackOption> attackOptionsByTile = new Dictionary<Tile, AttackOption>();
-		AbilityRange ar = poa.ability.GetComponent<AbilityRange>();
+		AbilityRange ar = gambit.ability.GetComponent<AbilityRange>();
 		List<Tile> moveOptions = GetMoveOptions();
 		
 		for (int i = 0; i < moveOptions.Count; ++i) {
@@ -177,33 +146,26 @@ public class ComputerPlayer : MonoBehaviour {
 					attackOptionsByTile[fireTile] = attackOption;
 					attackOption.target = fireTile;
 					attackOption.direction = actor.dir;
-					yield return RateFireLocation(poa, attackOption);
+					attackOption = RateFireLocation(gambit, attackOption);
 				}
 
 				attackOption.AddMoveTarget(moveTile);
-
-				// isPaused = GameConfig.Main.DebugComputerPlayer;
-				// int score = attackOption.GetScore(actor, poa.ability);
-				// Console.Main.Log(string.Format("Option {0} - Score: {1}",
-				// 	j, score));
-				
-				// BC.board.SelectTiles(new List<Tile>{moveTile}, Color.green);
-				// BC.board.SelectTiles(attackOption.areaTargets, Color.cyan);
-				// BC.board.SelectTiles(attackOption.marks.Select(mark => mark.tile).ToList(), Color.magenta);
-				// BC.board.SelectTiles(attackOption.marks.Where(mark => mark.isMatch).Select(mark => mark.tile).ToList(), Color.red);
-				// BC.board.SelectTiles(new List<Tile>{attackOption.target}, Color.blue);
-
-				// while(isPaused) {
-				// 	yield return null;
-				// }
-				// BC.board.DeSelectAllTiles();
-				
 			}
 		}
 		
 		actor.Place(startTile);
 		List<AttackOption> attackOptions = new List<AttackOption>(attackOptionsByTile.Values);
-		yield return PickBestOption(poa, attackOptions);
+		AttackOption bestOption = PickBestOption(gambit.ability, attackOptions);
+
+		if (bestOption == null) return null;
+
+		TurnPlan plan = new(gambit) {
+			fireLocation = bestOption.target,
+			attackDirection = bestOption.direction,
+			moveLocation = bestOption.bestMoveTile
+		};
+
+		return plan;
 	}
 
 	/* This last case depends both on a unit’s position on the board
@@ -214,7 +176,7 @@ public class ComputerPlayer : MonoBehaviour {
 	 * Every single entry generated will have a unique area of effect –
 	 * there is no overlap or need for the dictionary as I had last time.
 	 * We can simply track each entry in a list directly. */
-	IEnumerator PlanDirectionDependent(PlanOfAttack poa) {
+	TurnPlan PlanDirectionDependent(Gambit gambit) {
 		Tile startTile = actor.tile;
 		Direction startDirection = actor.dir;
 		List<AttackOption> attackOptions = new List<AttackOption>();
@@ -226,10 +188,11 @@ public class ComputerPlayer : MonoBehaviour {
 			
 			for (int ii = 0; ii < 4; ++ii) {
 				actor.dir = (Direction)ii;
-				AttackOption attackOption = new AttackOption();
-				attackOption.target = moveTile;
-				attackOption.direction = actor.dir;
-				yield return RateFireLocation(poa, attackOption);
+                AttackOption attackOption = new AttackOption {
+                    target = moveTile,
+                    direction = actor.dir
+                };
+                attackOption = RateFireLocation(gambit, attackOption);
 				attackOption.AddMoveTarget(moveTile);
 				attackOptions.Add(attackOption);
 			}
@@ -237,10 +200,20 @@ public class ComputerPlayer : MonoBehaviour {
 		
 		actor.Place(startTile);
 		actor.dir = startDirection;
-		yield return PickBestOption(poa, attackOptions);
+		AttackOption bestOption = PickBestOption(gambit.ability, attackOptions);
+		
+		if (bestOption == null) return null;
+
+		TurnPlan plan = new(gambit) {
+			fireLocation = bestOption.target,
+			attackDirection = bestOption.direction,
+			moveLocation = bestOption.bestMoveTile
+		};
+
+		return plan;
 	}
 	
-	List<Tile> GetMoveOptions() {
+	public List<Tile> GetMoveOptions() {
 		List<Tile> tiles = actor.GetComponent<Movement>().GetTilesInRange(BC.board);
 		List<Tile> unoccupiedTiles = tiles.Where((t) => t.occupant == null).ToList();
 		return unoccupiedTiles.OrderBy(tile => tile.pos.x).ThenBy(tile => tile.pos.y).ToList();
@@ -268,42 +241,42 @@ public class ComputerPlayer : MonoBehaviour {
 	 * Note that I intentially skip the tile on which the caster is currently standing,
 	 * because that may not be the unit’s location when it moves before firing.
 	 * We will need to adjust scores based on the caster’s location at a later point. */
-	IEnumerator RateFireLocation (PlanOfAttack poa, AttackOption option) {
-		AbilityArea area = poa.ability.GetComponent<AbilityArea>();
+	AttackOption RateFireLocation (Gambit gambit, AttackOption option) {
+		AbilityArea area = gambit.ability.GetComponent<AbilityArea>();
 		List<Tile> tiles = area.GetTilesInArea(BC.board, option.target.pos);
 		option.areaTargets = tiles;
-		option.isCasterMatch = IsAbilityTargetMatch(poa, actor.tile);
+		option.isCasterMatch = IsAbilityTargetMatch(gambit.targetType, actor.tile);
 
 		for (int i = 0; i < tiles.Count; ++i) {
 			Tile tile = tiles[i];
-			if (actor.tile == tiles[i] || !poa.ability.IsTarget(tile))
+			if (actor.tile == tiles[i] || !gambit.ability.IsTarget(tile))
 				continue;
 			
-			bool isMatch = IsAbilityTargetMatch(poa, tile);
+			bool isMatch = IsAbilityTargetMatch(gambit.targetType, tile);
 			option.AddMark(tile, isMatch);
 		}
-		yield return null;
+		return option;
 	}
 
 	/* This method shows how to determine which marks are a match or not.
 	 * An ability which targets a tile is simply marked as true
 	 * (I havent actually implemented any such abilities, so I might change this logic later).
 	 * Otherwise, I use the alliance component to determine whether or not the target type is a match. */
-	bool IsAbilityTargetMatch(PlanOfAttack poa, Tile tile) {
+	bool IsAbilityTargetMatch(TargetType targetType, Tile tile) {
 		bool isMatch = false;
-		if (poa.targetType == TargetType.Tile)
+		if (targetType == TargetType.Tile)
 			isMatch = true;
-		else if (poa.targetType != TargetType.None) {
+		else if (targetType != TargetType.None) {
 			// TODO: Revisit this after implemeting GAMBITS or some other AI method
 
 			Alliance targetAlliance = tile.occupant.GetComponentInChildren<Alliance>();
 			Unit targetUnit = targetAlliance.GetComponent<Unit>();
 			if (targetAlliance != null) {
-				if (actorAlliance.IsMatch(targetAlliance, poa.targetType)) {
+				if (actorAlliance.IsMatch(targetAlliance, targetType)) {
 					if (actorAlliance == targetAlliance &&
-					  (poa.targetType == TargetType.Self || poa.targetType == TargetType.AllyOrSelf)) {
+					  (targetType == TargetType.Self || targetType == TargetType.AllyOrSelf)) {
 						isMatch = true;
-					} else if (poa.targetType == TargetType.Ally) {
+					} else if (targetType == TargetType.Ally) {
 						// Allies are assumed to have automatic knowledge of each other's location
 						isMatch = true;
 					} else {
@@ -346,29 +319,14 @@ public class ComputerPlayer : MonoBehaviour {
 	 * 
 	 * By the end of this second “pass” I should have one or more options which were added to the final picks.
 	 * Because they all share the same score,
-	 * I pick any of them at random and assign the relevant details to our plan of attack. */
-	IEnumerator PickBestOption(PlanOfAttack poa, List<AttackOption> options) {
+	 * I pick any of them at random and assign the relevant details to our turn plan. */
+	AttackOption PickBestOption(Ability ability, List<AttackOption> options) {
 
 		int bestScore = 1;
 		List<AttackOption> bestOptions = new List<AttackOption>();
 		for (int i = 0; i < options.Count; ++i) {
-			isPaused = GameConfig.Main.DebugComputerPlayer;
-
 			AttackOption option = options[i];
-			int score = option.GetScore(actor, poa.ability);
-			// Console.Main.Log(string.Format("Option {0} - Best Move: {1}, Target: {2}, Score: {3}", i, option.bestMoveTile.ToString(), option.target.ToString(), score));
-
-			BC.board.HighlightTiles(new List<Tile>{option.bestMoveTile}, TileHighlightColorType.moveRangeHighlight);
-			BC.board.HighlightTiles(option.areaTargets, TileHighlightColorType.targetRangeHighlight);
-			BC.board.HighlightTiles(option.marks.Select(mark => mark.tile).ToList(), TileHighlightColorType.targetAreaHighlight);
-			BC.board.HighlightTiles(option.marks.Where(mark => mark.isMatch).Select(mark => mark.tile).ToList(), TileHighlightColorType.viewingRangeHighlight);
-			BC.board.HighlightTiles(new List<Tile>{option.target}, TileHighlightColorType.viewingRangeEdgeHighlight);
-
-			while(isPaused) {
-				yield return null;
-			}
-
-			BC.board.DeHighlightAllTiles();
+			int score = option.GetScore(actor, ability);
 			
 			if (score > bestScore) {
 				bestScore = score;
@@ -380,8 +338,7 @@ public class ComputerPlayer : MonoBehaviour {
 		}
 
 		if (bestOptions.Count == 0) {
-			poa.ability = null; // Clear ability as a sign not to perform it
-			yield break;
+			return null;
 		}
 
 		List<AttackOption> finalPicks = new List<AttackOption>();
@@ -398,38 +355,47 @@ public class ComputerPlayer : MonoBehaviour {
 			}
 		}
 
-		AttackOption choice = finalPicks[ UnityEngine.Random.Range(0, finalPicks.Count)];
-		poa.fireLocation = choice.target;
-		poa.attackDirection = choice.direction;
-		poa.moveLocation = choice.bestMoveTile;
-		yield return null;
+		AttackOption choice = finalPicks[ Random.Range(0, finalPicks.Count)];
+		return choice;
 	}
 
 	// NEW Investigation Methods
 
-	IEnumerator Investigate(PlanOfAttack poa) {
+	TurnPlan InvestigateOrPatrol() {
+		TurnPlan plan = null;
+		if (topPriorityInterestAwareness != null) {
+			// Just position yourself better for the next turn.
+			/// TODO: Update the attack option algorithm to just give us the best move option for next turn.
+			plan = Investigate();
+		} else {
+			Patrol patrol = PC.GetPatrolForUnit(actor);
+			if (patrol != null) {
+				plan = patrol.GetPlan(actor, BC.board);
+			} else {
+				List<Tile> moveOptions = GetMoveOptions();
+				PC.GetNearestAvailablePatrol(actor, delegate (Patrol p) {
+					if (p != null) {
+						plan = p.GetPlan(actor, BC.board);
+					} else {
+						Console.Main.Log("No patrol found.");
+					}
+				});
+			}
+		}
+		return plan;
+	}
+
+	TurnPlan Investigate() {
+		TurnPlan plan = new();
 		if (topPriorityInterestAwareness != null) {
 			Tile topPriorityTileOfInterest = BC.board.GetTile(topPriorityInterestAwareness.pointOfInterest);
 			List<Tile> moveOptions = GetMoveOptions();
-			yield return BC.board.FindPath(actor, actor.tile, topPriorityTileOfInterest, delegate (List<Tile> finalPath) {
+			BC.board.FindPath(actor, actor.tile, topPriorityTileOfInterest, delegate (List<Tile> finalPath) {
 				Console.Main.Log(string.Format("{0} is investigating {1}", actor.name, topPriorityTileOfInterest.ToString()));
-				poa.moveLocation = finalPath.Count > 0 ? finalPath.Last() : null;
+				plan.moveLocation = finalPath.Count > 0 ? finalPath.Last() : null;
 			});
 		}
-		yield return null;
-	}
-
-	Tile FindNearestMoveOptionToTile(List<Tile> moveOptions, Tile tile) {
-		Tile toCheck = tile;
-		while (toCheck != null) {
-			if (moveOptions.Contains(toCheck)) {
-				// Move toward top awareness / point of interest
-				return toCheck;
-			}
-			// Board search keeps previous tiles in memory
-			toCheck = toCheck.prev;
-		}
-		return toCheck;
+		return plan;
 	}
 
 	void SetTopPriorityFoeAndPointOfInterest() {
@@ -498,7 +464,7 @@ public class ComputerPlayer : MonoBehaviour {
 			actor.dir = start;
 		} else if (topPriorityInterestAwareness != null) {
 			// Try to face the tile of interest
-			// *** TODO: Find some other way to access the PlanOfAttack than this. Maybe make it a class property?
+			// *** TODO: Find some other way to access the TurnPlan than this. Maybe make it a class property?
 			var origin = BC.turn.plan.moveLocation != null ? BC.turn.plan.moveLocation : actor.tile;
 			var interestingTile = BC.board.GetTile(topPriorityInterestAwareness.pointOfInterest);
 			var directions = origin.GetDirections(interestingTile);

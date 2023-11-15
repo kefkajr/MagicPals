@@ -24,13 +24,13 @@ public class Board : MonoBehaviour {
 
 	void Awake() {
 		GameObject.Find("Battle Controller").GetComponent<BattleController>();
-		InputController.submitEvent += OnSubmit;
+		// InputController.submitEvent += OnSubmit;
 	}
 
-	bool isPaused = false;
-	void OnSubmit() {
-		isPaused = false;
-	}
+	// bool isPaused = false;
+	// void OnSubmit() {
+	// 	isPaused = false;
+	// }
 
 	#region Public
 	public void Load (LevelData data) {
@@ -118,7 +118,7 @@ public class Board : MonoBehaviour {
 		return retValue;
 	}
 
-	public IEnumerator FindPath(Unit unit, Tile start, Tile end, Action<List<Tile>> completionHandler) {
+	public void FindPath(Unit unit, Tile start, Tile end, Action<List<Tile>> completionHandler) {
 		List<Tile> openSet = new List<Tile>();
 		HashSet<Tile> closedSet = new HashSet<Tile>();
 		openSet.Add(start);
@@ -143,8 +143,6 @@ public class Board : MonoBehaviour {
 			}
 
 			foreach (Tile neighbour in GetNeighbours(currentTile.pos.x, currentTile.pos.y, max.x, max.y)) {
-				isPaused = GameConfig.Main.DebugPathfinding;
-
 				if (WallSeparatingTiles(currentTile, neighbour) != null || closedSet.Contains(neighbour)) continue;
 
 				HighlightTiles(new List<Tile>{neighbour}, TileHighlightColorType.targetRangeHighlight);
@@ -160,19 +158,11 @@ public class Board : MonoBehaviour {
 						openSet.Add(neighbour);
 					}
 				}
-
-				if (isPaused)
-					Console.Main.Log(string.Format("{0} - G: {1}, H: {2}, F: {3}", neighbour, neighbour.g, neighbour.h, neighbour.f));
-
-				while(isPaused) {
-					yield return null;
-				}
 			}
 			HighlightTiles(new List<Tile>{currentTile}, TileHighlightColorType.viewingRangeHighlight);
 		}
 
 		DeHighlightAllTiles();
-		yield break;
 	}
 
 	public int GetDistance(Tile tileA, Tile tileB) {

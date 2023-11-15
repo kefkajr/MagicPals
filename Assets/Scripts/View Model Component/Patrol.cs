@@ -17,7 +17,7 @@ public class Patrol {
         this.patroller = null;
     }
 
-    public void SetPlan(PlanOfAttack poa, Unit unit, Board board) {
+    public TurnPlan GetPlan(Unit unit, Board board) {
         SetPatroller(unit);
         
         PatrolNode node = nodes[currentPatrolNodeIndex];
@@ -58,8 +58,10 @@ public class Patrol {
             currentPatrolNodeIndex = newIndex;
             node = nodes[currentPatrolNodeIndex];
         }
-
-        poa.moveLocation = board.GetTile(node.targetMovePoint) ?? poa.moveLocation;
+        
+        TurnPlan plan = new();
+        plan.moveLocation = board.GetTile(node.targetMovePoint) ?? plan.moveLocation;
+        return plan;
     }
 
     public Direction GetCurrentDirection() {

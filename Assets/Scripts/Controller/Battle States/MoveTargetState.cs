@@ -44,6 +44,16 @@ public class MoveTargetState : BattleState {
 		// In case the move location is outside of the unit's movement range,
 		// find the nearest accessible tile still in the pathfinding memory
 		Tile destination = turn.plan.moveLocation;
+		// Find the nearest viable move option, if the current planned location is too far
+		if (destination != null) {
+			List<Tile> moveOptions = owner.cpu.GetMoveOptions();
+			if (!moveOptions.Contains(destination)) {
+				owner.board.FindPath(turn.actor, turn.actor.tile, owner.board.GetTile(destination.pos), delegate (List<Tile> finalPath) {
+					destination = FindNearestMoveOptionToTile(moveOptions, destination);
+				});
+			}
+		}
+
 		if (destination == null)
 			destination = turn.actor.tile;
 
@@ -60,5 +70,18 @@ public class MoveTargetState : BattleState {
 		yield return new WaitForSeconds(0.5f);
 		owner.ChangeState<MoveSequenceState>();
 		owner.board.DeHighlightTiles(new List<Tile>(owner.board.tiles.Values)); // TODO remove this when done debugging pathfinding
+	}
+
+	Tile FindNearestMoveOptionToTile(List<Tile> moveOptions, Tile tile) {
+		Tile toCheck = tile;
+		while (toCheck != null) {
+			if (moveOptions.Contains(toCheck)) {
+				// Move toward top awareness / point of interest
+				return toCheck;
+			}
+			// Board search keeps previous tiles in memory
+			toCheck = toCheck.prev;
+		}
+		return toCheck;
 	}
 }

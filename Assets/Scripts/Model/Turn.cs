@@ -9,7 +9,7 @@ public class Turn
 	public Ability ability;
 	public Tile abilityEpicenterTile;
 	public List<Tile> targets;
-	public PlanOfAttack plan;
+	public TurnPlan plan;
 	Tile startTile;
 	Direction startDir;
 

@@ -16,7 +16,7 @@ MonoBehaviour:
   job: Warrior
   attack: Sentry Skill/Rifle Fire
   abilityCatalog: Sentry
-  attackPattern: Sentry Attack Pattern
+  gambitSet: Sentry Gambit Set
   locomotion: 0
   alliance: 4
   perceptionRecipe: {fileID: 11400000, guid: fc02c695f023448b8a13b06ce378615c, type: 2}
