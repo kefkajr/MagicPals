@@ -102,7 +102,8 @@ public class CommandSelectionState : BaseAbilityMenuState {
 	IEnumerator ComputerTurn () {
 		if (turn.plan == null) {
 			turn.plan = owner.cpu.FormulatePlan();
-			turn.ability = turn.plan.ability;
+			if (turn.plan != null)
+				turn.ability = turn.plan.ability;
 		}
 
 		yield return new WaitForSeconds (1f);

@@ -46,7 +46,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a6234b0f44cb4c778f7dbde1fd39ed9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gambits: []
+  gambits:
+  - {fileID: 1824039968515538889}
+  - {fileID: 4706408028579350891}
 --- !u!1 &1824039968521583089
 GameObject:
   m_ObjectHideFlags: 0
@@ -141,7 +143,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetType: 2
-  gambitCriteria: 0
+  gambitCriteria: 1
   abilityName: Shout
   owner: {fileID: 0}
   ac: {fileID: 0}

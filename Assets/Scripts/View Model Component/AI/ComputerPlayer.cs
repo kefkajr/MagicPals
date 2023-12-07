@@ -36,18 +36,19 @@ public class ComputerPlayer : MonoBehaviour {
 		// Are the conditions met for the highest priority gambit?
 		// Can the ability be used?
 		GambitSet gambitSet = actor.GetComponentInChildren<GambitSet>();
-		Gambit gambit = gambitSet.PickGambit((Gambit g) => {
+		Gambit gambit = gambitSet.PickGambit(BC, (Gambit g) => {
 			plan = EvaluateGambit(g);
-			return plan == null;
+			return plan != null;
 		});
 
-		// If none of the gambit conditions could be met.
+		// If none of the gambit conditions could be met,
+		// investigate or patrol.
 		if (gambit == null) {
 			plan = InvestigateOrPatrol();
 		}
 
+		// If this unit is preoccupied, make sure they're not on patrol anymore
 		if (topPriorityFoeAwareness != null || topPriorityInterestAwareness != null) {
-			// If this unit is preoccupied, make sure they're not on patrol anymore
 			PC.RemoveUnitFromPatrol(actor);
 		}
 
@@ -59,27 +60,17 @@ public class ComputerPlayer : MonoBehaviour {
 	#region Private
 
 	TurnPlan EvaluateGambit(Gambit gambit) {
-		// Step 2: Determine where to move and aim to best use the ability
-		if (IsPositionIndependent(gambit.ability))
+		// Determine where to move and aim to best use the ability
+		AbilityRange range = gambit.ability.GetComponent<AbilityRange>();
+		if (range.positionOriented == false)
 			// It doesn't matter where you stand
 			return PlanPositionIndependent(gambit);
-		else if (IsDirectionIndependent(gambit.ability))
+		else if (!range.directionOriented)
 			// It DOES matter where you stand, but it doesn't matter where you face
 			return PlanDirectionIndependent(gambit);
 		else
 			// It DOES matter where you stand and it DOES matter where you face
 			return PlanDirectionDependent(gambit);
-	}
-
-
-	bool IsPositionIndependent(Ability ability) {
-		AbilityRange range = ability.GetComponent<AbilityRange>();
-		return range.positionOriented == false;
-	}
-	
-	bool IsDirectionIndependent(Ability ability) {
-		AbilityRange range = ability.GetComponent<AbilityRange>();
-		return !range.directionOriented;
 	}
 
 	/* When it is determined that an ability is position independent,
@@ -267,8 +258,6 @@ public class ComputerPlayer : MonoBehaviour {
 		if (targetType == TargetType.Tile)
 			isMatch = true;
 		else if (targetType != TargetType.None) {
-			// TODO: Revisit this after implemeting GAMBITS or some other AI method
-
 			Alliance targetAlliance = tile.occupant.GetComponentInChildren<Alliance>();
 			Unit targetUnit = targetAlliance.GetComponent<Unit>();
 			if (targetAlliance != null) {
@@ -359,7 +348,7 @@ public class ComputerPlayer : MonoBehaviour {
 		return choice;
 	}
 
-	// NEW Investigation Methods
+	// Investigation Methods
 
 	TurnPlan InvestigateOrPatrol() {
 		TurnPlan plan = null;

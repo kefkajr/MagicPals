@@ -26,10 +26,10 @@ public class GambitSet : MonoBehaviour
 {
 	public List<Gambit> gambits;
 	
-	public Gambit PickGambit (Func<Gambit, bool> canGambitAbilityBeUsed)
+	public Gambit PickGambit (BattleController bc, Func<Gambit, bool> CanGambitAbilityBeUsed)
 	{
 		foreach (Gambit gambit in gambits) {
-			if (canGambitAbilityBeUsed(gambit)) {
+			if (gambit.IsViable(bc) && CanGambitAbilityBeUsed(gambit)) {
 				return gambit;
 			}
 		}
