@@ -4,8 +4,7 @@ using System.Collections.Generic;
 
 /* The “notes” I take on any given location from which to evaluate the usage of an ability is also a somewhat lengthy class.
  * A lot of its functionality I talked through while covering the ComputerPlayer script, but just to be clear I will break it down as well. */
-public class AttackOption 
-{
+public class AttackOption {
 	#region Classes
 	/* I created another class inside of AttackOption called Mark to hold a pair of data.
 	 * This is a little cleaner and less error prone than maintaining two separate lists
@@ -14,8 +13,7 @@ public class AttackOption
 	 * and is only used for convenience and readability.
 	 * If other classes needed to know about it or use it,
 	 * then I would probably stick it in its own file. */
-	public class Mark
-	{
+	public class Mark {
 		public Tile tile;
 		public bool isMatch;
 		
@@ -69,8 +67,7 @@ public class AttackOption
 	/* The AddMoveTarget method is called to build up the list of locations which are in firing range of the current tile.
 	 * Note that I don’t actually include options that would be bad for the caster,
 	 * for example I wouldn’t want to move within the blast radius of my own attack. */
-	public void AddMoveTarget (Tile tile)
-	{
+	public void AddMoveTarget (Tile tile) {
 		// Dont allow moving to a tile that would negatively affect the caster
 		if (!isCasterMatch && areaTargets.Contains(tile))
 			return;
@@ -79,8 +76,7 @@ public class AttackOption
 
 	/* The AddMark method creates an instance of the class we defined above and adds it to a list.
 	 * Remember that a mark indicates a target (good or bad) can be hit by whatever fire location was chosen for this AttackOption instance. */
-	public void AddMark (Tile tile, bool isMatch)
-	{
+	public void AddMark (Tile tile, bool isMatch) {
 		marks.Add (new Mark(tile, isMatch));
 	}
 
@@ -96,15 +92,13 @@ public class AttackOption
 	 * the score is then tallied based on how many of the marks are a match or not.
 	 * If the caster is a match for the ability then an extra point is awarded,
 	 * because we can potentially move to a location where the ability will include it.*/
-	public int GetScore (Unit caster, Ability ability)
-	{
-		GetBestMoveTarget(caster, ability);
+	public int GetScore (Unit caster, Ability ability) {
+		GetBestMoveTile(caster, ability);
 		if (bestMoveTile == null)
 			return 0;
 
 		int score = 0;
-		for (int i = 0; i < marks.Count; ++i)
-		{
+		for (int i = 0; i < marks.Count; ++i) {
 			if (marks[i].isMatch)
 				score++;
 			else
@@ -130,13 +124,11 @@ public class AttackOption
 	 * When a score is greater than the previous best score, we reset the list of best options,
 	 * and when we have considered all options, we pick at random from tiles with the highest score.
 	 * When the angle is irrelevant, we can simply return any tile at random. */
-	void GetBestMoveTarget (Unit caster, Ability ability)
-	{
+	void GetBestMoveTile (Unit caster, Ability ability) {
 		if (moveTargets.Count == 0)
 			return;
 		
-		if (IsAbilityAngleBased(ability))
-		{
+		if (IsAbilityAngleBased(ability)) {
 			bestAngleBasedScore = int.MinValue;
 			Tile startTile = caster.tile;
 			Direction startDirection = caster.dir;
@@ -147,14 +139,18 @@ public class AttackOption
 			{
 				caster.Place(moveTargets[i]);
 				int score = GetAngleBasedScore(caster);
-				if (score > bestAngleBasedScore)
-				{
+
+				// Increaase the score if the unit doesn't have to move.
+				if (moveTargets[i] == startTile) {
+					score++;
+				}
+
+				if (score > bestAngleBasedScore) {
 					bestAngleBasedScore = score;
 					bestOptions.Clear();
 				}
 
-				if (score == bestAngleBasedScore)
-				{
+				if (score == bestAngleBasedScore) {
 					bestOptions.Add(moveTargets[i]);
 				}
 			}
@@ -164,9 +160,7 @@ public class AttackOption
 
 			FilterBestMoves(bestOptions);
 			bestMoveTile = bestOptions[ UnityEngine.Random.Range(0, bestOptions.Count) ];
-		}
-		else
-		{
+		} else {
 			bestMoveTile = moveTargets[ UnityEngine.Random.Range(0, moveTargets.Count) ];
 		}
 	}
@@ -177,14 +171,11 @@ public class AttackOption
 	 * The resulting score is either incremented or decremented
 	 * based on whether or not the mark was an intended match.
 	 * The amount the score goes up or down is based on the angle (front, side or back). */
-	bool IsAbilityAngleBased (Ability ability)
-	{
+	bool IsAbilityAngleBased (Ability ability) {
 		bool isAngleBased = false;
-		for (int i = 0; i < ability.transform.childCount; ++i)
-		{
+		for (int i = 0; i < ability.transform.childCount; ++i) {
 			HitRate hr = ability.transform.GetChild(i).GetComponent<HitRate>();
-			if (hr.IsAngleBased)
-			{
+			if (hr.IsAngleBased) {
 				isAngleBased = true;
 				break;
 			}
@@ -194,11 +185,9 @@ public class AttackOption
 
 	// Scores the option based on how many of the targets are a match
 	// and considers the angle of attack to each mark
-	int GetAngleBasedScore (Unit caster)
-	{
+	int GetAngleBasedScore (Unit caster) {
 		int score = 0;
-		for (int i = 0; i < marks.Count; ++i)
-		{
+		for (int i = 0; i < marks.Count; ++i) {
 			int value = marks[i].isMatch ? 1 : -1;
 			int multiplier = MultiplierForAngle(caster, marks[i].tile);
 			score += value * multiplier;
@@ -215,25 +204,20 @@ public class AttackOption
 	 * Then we need to decide whether or not the caster can move to one of the locations
 	 * which is also included in the area of effect.
 	 * If so, we remove any tile from the best choices list which isn’t that good. */
-	void FilterBestMoves (List<Tile> list)
-	{
+	void FilterBestMoves (List<Tile> list) {
 		if (!isCasterMatch)
 			return;
 
 		bool canTargetSelf = false;
-		for (int i = 0; i < list.Count; ++i)
-		{
-			if (areaTargets.Contains(list[i]))
-			{
+		for (int i = 0; i < list.Count; ++i) {
+			if (areaTargets.Contains(list[i])) {
 				canTargetSelf = true;
 				break;
 			}
 		}
 
-		if (canTargetSelf)
-		{
-			for (int i = list.Count - 1; i >= 0; --i)
-			{
+		if (canTargetSelf) {
+			for (int i = list.Count - 1; i >= 0; --i) {
 				if (!areaTargets.Contains(list[i]))
 					list.RemoveAt(i);
 			}
@@ -245,8 +229,7 @@ public class AttackOption
 	 * but I chose numbers which currently match the general percent chance of hitting from that angle.
 	 * This means that in general I favor attacks from behind,
 	 * but having a chance to hit two units from the front could still be better than targeting one unit from behind. */
-	int MultiplierForAngle (Unit caster, Tile tile)
-	{
+	int MultiplierForAngle (Unit caster, Tile tile) {
 		if (tile.occupant == null)
 			return 0;
 
