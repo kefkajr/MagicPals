@@ -477,7 +477,8 @@ public class ComputerPlayer : MonoBehaviour {
 		if (topPriorityInterestAwareness != null) {
 			var interestingTile = BC.board.GetTile(topPriorityInterestAwareness.pointOfInterest);
 			bool didUnitFinishInvestigation = topPriorityInterestAwareness != null && actor.tile == interestingTile;
-			if (didUnitFinishInvestigation) {
+			// Investigation is done, but target of interest was not found
+			if (didUnitFinishInvestigation && topPriorityFoeAwareness.type != AwarenessType.Seen) {
 				BC.awarenessController.UpdateAwareness(topPriorityInterestAwareness, AwarenessType.Unaware, topPriorityInterestAwareness.pointOfInterest);
 				SetTopPriorityFoeAndPointOfInterest();
 				if (topPriorityInterestAwareness != null) {
