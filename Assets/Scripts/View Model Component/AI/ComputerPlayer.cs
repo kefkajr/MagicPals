@@ -206,7 +206,9 @@ public class ComputerPlayer : MonoBehaviour {
 	
 	public List<Tile> GetMoveOptions() {
 		List<Tile> tiles = actor.GetComponent<Movement>().GetTilesInRange(BC.board);
-		List<Tile> unoccupiedTiles = tiles.Where((t) => t.occupant == null).ToList();
+		// Add the tile the actor is on now as a viable move option.
+		tiles.Add(actor.tile);
+		List<Tile> unoccupiedTiles = tiles.Where((t) => t.occupant != actor).ToList();
 		return unoccupiedTiles.OrderBy(tile => tile.pos.x).ThenBy(tile => tile.pos.y).ToList();
 	}
 
