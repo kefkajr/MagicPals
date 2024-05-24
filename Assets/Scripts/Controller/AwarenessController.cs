@@ -58,7 +58,7 @@ public class AwarenessController : MonoBehaviour {
 		// Allow all units to look at any other units
 		foreach (Unit perceivingUnit in computerUnits) {
 			foreach (Unit perceivedUnit in battleController.units) {
-				if (perceivingUnit != perceivedUnit) {
+				if (perceivingUnit != perceivedUnit && perceivedUnit.GetComponent<Driver>().normal != DriverType.Computer) {
 
 					var newAwareness = new Awareness(
 						perceivingUnit.perception,
@@ -204,7 +204,7 @@ public class AwarenessController : MonoBehaviour {
 		});
 
 		List<Tile> intersection = noisyTiles.Intersect(tilesInRange).ToList();
-		if (intersection.Count > 0) {
+		if (intersection.Count > 0 && awarenessMap[perception.unit].ContainsKey(noisyStealth.unit)) {
 			Awareness awareness = awarenessMap[perception.unit][noisyStealth.unit];
 			if (UpdateAwareness(awareness, AwarenessType.MayHaveHeard, pointOfNoise)) {
 				updatedAwarenesses.Add(awareness);
