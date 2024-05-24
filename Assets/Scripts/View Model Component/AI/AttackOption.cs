@@ -4,12 +4,12 @@ using System.Collections.Generic;
 
 /* The “notes” I take on any given location from which to evaluate the usage of an ability is also a somewhat lengthy class.
  * A lot of its functionality I talked through while covering the ComputerPlayer script, but just to be clear I will break it down as well. */
-public class AttackOption {
+public class ActionScratchPad {
 	#region Classes
-	/* I created another class inside of AttackOption called Mark to hold a pair of data.
+	/* I created another class inside of ActionScratchPad called Mark to hold a pair of data.
 	 * This is a little cleaner and less error prone than maintaining two separate lists
 	 * (one for the tiles and one for whether or not the tile was a match).
-	 * The Mark class is private to the implementation of the AttackOption class,
+	 * The Mark class is private to the implementation of the ActionScratchPad class,
 	 * and is only used for convenience and readability.
 	 * If other classes needed to know about it or use it,
 	 * then I would probably stick it in its own file. */
@@ -31,7 +31,7 @@ public class AttackOption {
 	 * For example, “target” would represent either the tile which we highlighted to use as a firing location, 
 	 * or the tile we would want to move to in order to fire,
 	 * and direction may or may not apply. */
-	public Tile target;
+	public Tile abilityTargetTile;
 	public Direction direction;
 
 	/* The area targets are the list of tiles which fall within an ability’s area of effect,
@@ -75,7 +75,7 @@ public class AttackOption {
 	}
 
 	/* The AddMark method creates an instance of the class we defined above and adds it to a list.
-	 * Remember that a mark indicates a target (good or bad) can be hit by whatever fire location was chosen for this AttackOption instance. */
+	 * Remember that a mark indicates a target (good or bad) can be hit by whatever fire location was chosen for this ActionScratchPad instance. */
 	public void AddMark (Tile tile, bool isMatch) {
 		marks.Add (new Mark(tile, isMatch));
 	}
@@ -140,7 +140,7 @@ public class AttackOption {
 				caster.Place(moveTargets[i]);
 				int score = GetAngleBasedScore(caster);
 
-				// Increaase the score if the unit doesn't have to move.
+				// Increase the score if the unit doesn't have to move.
 				if (moveTargets[i] == startTile) {
 					score++;
 				}
