@@ -239,10 +239,10 @@ public class PlanScratchPad {
 
 		Facings facing = caster.GetFacing(defender);
 		if (facing == Facings.Back)
-			return 90;
+			return 3;
 		if (facing == Facings.Side)
-			return 75;
-		return 50;
+			return 2;
+		return 1;
 	}
 	#endregion
 }
