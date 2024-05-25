@@ -124,18 +124,9 @@ public class ComputerPlayer : MonoBehaviour {
 		
 		for (int i = 0; i < moveOptions.Count; ++i) {
 			Tile moveTile = moveOptions[i];
-			if (moveTile.ToString() == "Tile: (2,1)") {
-				print("This is it.");
-			}
-			if (moveTile.ToString() == "Tile: (4,4)") {
-				print("This is it.");
-			}
-			if (moveTile.ToString() == "Tile: (4,3)") {
-				print("This is it.");
-			}
-			if (moveTile.ToString() == "Tile: (5,4)") {
-				print("This is it.");
-			}
+			// if (moveTile.ToString() == "Tile: (2,1)") {
+			// 	print("This is it.");
+			// }
 			actor.Place( moveTile );
 			List<Tile> abilityTargetOptions = ar.GetTilesInRange(BC.board).OrderBy(tile => tile.pos.x).ThenBy(tile => tile.pos.y).ToList();;
 			

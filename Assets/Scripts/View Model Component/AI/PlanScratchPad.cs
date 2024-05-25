@@ -125,6 +125,9 @@ public class PlanScratchPad {
 	 * and when we have considered all options, we pick at random from tiles with the highest score.
 	 * When the angle is irrelevant, we can simply return any tile at random. */
 	void GetBestMoveTile (Unit caster, Ability ability) {
+		// if(abilityTargetTile.ToString() == "Tile: (4,1)") {
+		// 	string tileName = abilityTargetTile.ToString();
+		// }
 		if (moveTargets.Count == 0)
 			return;
 		
