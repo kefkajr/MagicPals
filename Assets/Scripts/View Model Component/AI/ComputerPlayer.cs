@@ -114,46 +114,61 @@ public class ComputerPlayer : MonoBehaviour {
 	 * It’s important not to forget this step or the game would be out of sync with the visuals
 	 * in the game every time the AI took a turn.
 	 * 
-	 * Finally, I pass the list of options we have built up to this point to a method
-	 * which can pick the best overall option for our turn. */
+	 * Finally, I pass the list of action scratch pad we have built up to this point to a method
+	 * which can pick the best overall action for our turn. */
 	TurnPlan PlanDirectionIndependent(Gambit gambit) {
 		Tile startTile = actor.tile;
-		Dictionary<Tile, ActionScratchPad> actionScratchPadByTile = new Dictionary<Tile, ActionScratchPad>();
+		Dictionary<Tile, PlanScratchPad> planScratchPadByTile = new Dictionary<Tile, PlanScratchPad>();
 		AbilityRange ar = gambit.ability.GetComponent<AbilityRange>();
 		List<Tile> moveOptions = GetMoveOptions();
 		
 		for (int i = 0; i < moveOptions.Count; ++i) {
 			Tile moveTile = moveOptions[i];
+			if (moveTile.ToString() == "Tile: (2,1)") {
+				print("This is it.");
+			}
+			if (moveTile.ToString() == "Tile: (4,4)") {
+				print("This is it.");
+			}
+			if (moveTile.ToString() == "Tile: (4,3)") {
+				print("This is it.");
+			}
+			if (moveTile.ToString() == "Tile: (5,4)") {
+				print("This is it.");
+			}
 			actor.Place( moveTile );
 			List<Tile> abilityTargetOptions = ar.GetTilesInRange(BC.board).OrderBy(tile => tile.pos.x).ThenBy(tile => tile.pos.y).ToList();;
 			
 			for (int j = 0; j < abilityTargetOptions.Count; ++j) {
 				Tile abilityTargetOption = abilityTargetOptions[j];
-				ActionScratchPad actionScratchPad = null;
-				if (actionScratchPadByTile.ContainsKey(abilityTargetOption)) {
-					actionScratchPad = actionScratchPadByTile[abilityTargetOption];
+				if (abilityTargetOption.ToString() == "Tile: (4,1)") {
+					print("This is it.");
+				}
+				PlanScratchPad planScratchPad = null;
+				if (planScratchPadByTile.ContainsKey(abilityTargetOption)) {
+					planScratchPad = planScratchPadByTile[abilityTargetOption];
 				} else {
-					actionScratchPad = new ActionScratchPad();
-					actionScratchPadByTile[abilityTargetOption] = actionScratchPad;
-					actionScratchPad.abilityTargetTile = abilityTargetOption;
-					actionScratchPad.direction = actor.dir;
-					actionScratchPad = RateFireLocation(gambit, actionScratchPad);
+					planScratchPad = new PlanScratchPad();
+					planScratchPadByTile[abilityTargetOption] = planScratchPad;
+					planScratchPad.abilityTargetTile = abilityTargetOption;
+					planScratchPad.direction = actor.dir;
+					planScratchPad = RateFireLocation(gambit, planScratchPad);
 				}
 
-				actionScratchPad.AddMoveTarget(moveTile);
+				planScratchPad.AddMoveTarget(moveTile);
 			}
 		}
 		
 		actor.Place(startTile);
-		List<ActionScratchPad> actionScratchPads = new List<ActionScratchPad>(actionScratchPadByTile.Values);
-		ActionScratchPad bestOption = PickBestOption(gambit.ability, actionScratchPads);
+		List<PlanScratchPad> planScratchPads = new List<PlanScratchPad>(planScratchPadByTile.Values);
+		PlanScratchPad bestPlanScratchPad = PickBestPlanScratchPad(gambit.ability, planScratchPads);
 
-		if (bestOption == null) return null;
+		if (bestPlanScratchPad == null) return null;
 
 		TurnPlan plan = new(gambit) {
-			fireLocation = bestOption.abilityTargetTile,
-			attackDirection = bestOption.direction,
-			moveLocation = bestOption.bestMoveTile
+			fireLocation = bestPlanScratchPad.abilityTargetTile,
+			attackDirection = bestPlanScratchPad.direction,
+			moveLocation = bestPlanScratchPad.bestMoveTile
 		};
 
 		return plan;
@@ -170,7 +185,7 @@ public class ComputerPlayer : MonoBehaviour {
 	TurnPlan PlanDirectionDependent(Gambit gambit) {
 		Tile startTile = actor.tile;
 		Direction startDirection = actor.dir;
-		List<ActionScratchPad> actionScratchPads = new List<ActionScratchPad>();
+		List<PlanScratchPad> planScratchPads = new List<PlanScratchPad>();
 		List<Tile> moveOptions = GetMoveOptions();
 		
 		for (int i = 0; i < moveOptions.Count; ++i) {
@@ -179,19 +194,19 @@ public class ComputerPlayer : MonoBehaviour {
 			
 			for (int ii = 0; ii < 4; ++ii) {
 				actor.dir = (Direction)ii;
-                ActionScratchPad actionScratchPad = new ActionScratchPad {
+                PlanScratchPad planScratchPad = new PlanScratchPad {
                     abilityTargetTile = moveTile,
                     direction = actor.dir
                 };
-                actionScratchPad = RateFireLocation(gambit, actionScratchPad);
-				actionScratchPad.AddMoveTarget(moveTile);
-				actionScratchPads.Add(actionScratchPad);
+                planScratchPad = RateFireLocation(gambit, planScratchPad);
+				planScratchPad.AddMoveTarget(moveTile);
+				planScratchPads.Add(planScratchPad);
 			}
 		}
 		
 		actor.Place(startTile);
 		actor.dir = startDirection;
-		ActionScratchPad bestOption = PickBestOption(gambit.ability, actionScratchPads);
+		PlanScratchPad bestOption = PickBestPlanScratchPad(gambit.ability, planScratchPads);
 		
 		if (bestOption == null) return null;
 
@@ -234,7 +249,7 @@ public class ComputerPlayer : MonoBehaviour {
 	 * Note that I intentially skip the tile on which the caster is currently standing,
 	 * because that may not be the unit’s location when it moves before firing.
 	 * We will need to adjust scores based on the caster’s location at a later point. */
-	ActionScratchPad RateFireLocation (Gambit gambit, ActionScratchPad option) {
+	PlanScratchPad RateFireLocation (Gambit gambit, PlanScratchPad option) {
 		AbilityArea area = gambit.ability.GetComponent<AbilityArea>();
 		List<Tile> tiles = area.GetTilesInArea(BC.board, option.abilityTargetTile.pos);
 		option.areaTargets = tiles;
@@ -311,42 +326,45 @@ public class ComputerPlayer : MonoBehaviour {
 	 * By the end of this second “pass” I should have one or more options which were added to the final picks.
 	 * Because they all share the same score,
 	 * I pick any of them at random and assign the relevant details to our turn plan. */
-	ActionScratchPad PickBestOption(Ability ability, List<ActionScratchPad> options) {
+	PlanScratchPad PickBestPlanScratchPad(Ability ability, List<PlanScratchPad> planScratchPads) {
 
 		int bestScore = 1;
-		List<ActionScratchPad> bestOptions = new List<ActionScratchPad>();
-		for (int i = 0; i < options.Count; ++i) {
-			ActionScratchPad option = options[i];
-			int score = option.GetScore(actor, ability);
+		List<PlanScratchPad> bestPlanScratchPads = new List<PlanScratchPad>();
+		for (int i = 0; i < planScratchPads.Count; ++i) {
+			PlanScratchPad planScratchPad = planScratchPads[i];
+			if (planScratchPad.abilityTargetTile.ToString() == "Tile: (4,1)") {
+				print("This is it.");
+			}
+			int score = planScratchPad.GetScore(actor, ability);
 			
 			if (score > bestScore) {
 				bestScore = score;
-				bestOptions.Clear();
-				bestOptions.Add(option);
+				bestPlanScratchPads.Clear();
+				bestPlanScratchPads.Add(planScratchPad);
 			} else if (score == bestScore) {
-				bestOptions.Add(option);
+				bestPlanScratchPads.Add(planScratchPad);
 			}
 		}
 
-		if (bestOptions.Count == 0) {
+		if (bestPlanScratchPads.Count == 0) {
 			return null;
 		}
 
-		List<ActionScratchPad> finalPicks = new List<ActionScratchPad>();
+		List<PlanScratchPad> finalPicks = new List<PlanScratchPad>();
 		bestScore = 0;
-		for (int i = 0; i < bestOptions.Count; ++i) {
-			ActionScratchPad option = bestOptions[i];
-			int score = option.bestAngleBasedScore;
+		for (int i = 0; i < bestPlanScratchPads.Count; ++i) {
+			PlanScratchPad planScratchPad = bestPlanScratchPads[i];
+			int score = planScratchPad.bestAngleBasedScore;
 			if (score > bestScore) {
 				bestScore = score;
 				finalPicks.Clear();
-				finalPicks.Add(option);
+				finalPicks.Add(planScratchPad);
 			} else if (score == bestScore) {
-				finalPicks.Add(option);
+				finalPicks.Add(planScratchPad);
 			}
 		}
 
-		ActionScratchPad choice = finalPicks[ Random.Range(0, finalPicks.Count)];
+		PlanScratchPad choice = finalPicks[ Random.Range(0, finalPicks.Count)];
 		return choice;
 	}
 
@@ -356,7 +374,7 @@ public class ComputerPlayer : MonoBehaviour {
 		TurnPlan plan = null;
 		if (topPriorityInterestAwareness != null) {
 			// Just position yourself better for the next turn.
-			/// TODO: Update the attack option algorithm to just give us the best move option for next turn.
+			/// TODO: Update the PlanScratchPad algorithm to just give us the best move option for next turn.
 			plan = Investigate();
 		} else {
 			Patrol patrol = PC.GetPatrolForUnit(actor);

@@ -4,12 +4,12 @@ using System.Collections.Generic;
 
 /* The “notes” I take on any given location from which to evaluate the usage of an ability is also a somewhat lengthy class.
  * A lot of its functionality I talked through while covering the ComputerPlayer script, but just to be clear I will break it down as well. */
-public class ActionScratchPad {
+public class PlanScratchPad {
 	#region Classes
-	/* I created another class inside of ActionScratchPad called Mark to hold a pair of data.
+	/* I created another class inside of PlanScratchPad called Mark to hold a pair of data.
 	 * This is a little cleaner and less error prone than maintaining two separate lists
 	 * (one for the tiles and one for whether or not the tile was a match).
-	 * The Mark class is private to the implementation of the ActionScratchPad class,
+	 * The Mark class is private to the implementation of the PlanScratchPad class,
 	 * and is only used for convenience and readability.
 	 * If other classes needed to know about it or use it,
 	 * then I would probably stick it in its own file. */
@@ -75,7 +75,7 @@ public class ActionScratchPad {
 	}
 
 	/* The AddMark method creates an instance of the class we defined above and adds it to a list.
-	 * Remember that a mark indicates a target (good or bad) can be hit by whatever fire location was chosen for this ActionScratchPad instance. */
+	 * Remember that a mark indicates a target (good or bad) can be hit by whatever fire location was chosen for this PlanScratchPad instance. */
 	public void AddMark (Tile tile, bool isMatch) {
 		marks.Add (new Mark(tile, isMatch));
 	}
@@ -159,9 +159,9 @@ public class ActionScratchPad {
 			caster.dir = startDirection;
 
 			FilterBestMoves(bestOptions);
-			bestMoveTile = bestOptions[ UnityEngine.Random.Range(0, bestOptions.Count) ];
+			bestMoveTile = bestOptions[Random.Range(0, bestOptions.Count)];
 		} else {
-			bestMoveTile = moveTargets[ UnityEngine.Random.Range(0, moveTargets.Count) ];
+			bestMoveTile = moveTargets[Random.Range(0, moveTargets.Count)];
 		}
 	}
 
