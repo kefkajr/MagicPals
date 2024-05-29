@@ -10,6 +10,8 @@ public class ComputerPlayer : MonoBehaviour {
 	AwarenessController AC { get { return BC.awarenessController; } }
 	PatrolController PC { get { return BC.patrolController; } }
 	Alliance actorAlliance { get { return actor.GetComponent<Alliance>(); }}
+	bool canActorPerformMoveAction { get { return BC.turnOrderController.CanActorPerformActionType(ActionType.Move); }}
+	bool canActorPerformMajorAction { get { return BC.turnOrderController.CanActorPerformActionType(ActionType.Major); }}
 	Awareness topPriorityFoeAwareness;
 	Awareness topPriorityInterestAwareness;
 	#endregion
@@ -29,6 +31,7 @@ public class ComputerPlayer : MonoBehaviour {
 	#region Public
 	// Create and fill out a turn plan
 	public TurnPlan FormulatePlan() {
+		Debug.Log(actor.name + " is formulating a plan.");
 		SetTopPriorityFoeAndPointOfInterest();
 
 		TurnPlan plan = new TurnPlan();
@@ -37,6 +40,7 @@ public class ComputerPlayer : MonoBehaviour {
 		// Can the ability be used?
 		GambitSet gambitSet = actor.GetComponentInChildren<GambitSet>();
 		Gambit gambit = gambitSet.PickGambit(BC, (Gambit g) => {
+			Debug.Log("Evaluating " + g.name);
 			plan = EvaluateGambit(g);
 			return plan != null;
 		});
@@ -83,6 +87,7 @@ public class ComputerPlayer : MonoBehaviour {
 		List<Tile> moveOptions = GetMoveOptions();
 		// TODO: Have the unit move somewhere logical, instead of moving randomly
 		Tile tile = moveOptions[Random.Range(0, moveOptions.Count - 1)];
+		Debug.Log("moveOptions.Count is " + moveOptions.Count + ". Randomly moving to " + tile);
 		TurnPlan plan = new(gambit);
 		plan.moveLocation = plan.fireLocation = tile;
 		return plan;
@@ -124,34 +129,36 @@ public class ComputerPlayer : MonoBehaviour {
 		
 		for (int i = 0; i < moveOptions.Count; ++i) {
 			Tile moveTile = moveOptions[i];
-			// if (moveTile.ToString() == "Tile: (2,1)") {
-			// 	print("This is it.");
-			// }
 			actor.Place( moveTile );
 			List<Tile> abilityTargetOptions = ar.GetTilesInRange(BC.board).OrderBy(tile => tile.pos.x).ThenBy(tile => tile.pos.y).ToList();;
-			
 			for (int j = 0; j < abilityTargetOptions.Count; ++j) {
 				Tile abilityTargetOption = abilityTargetOptions[j];
-				if (abilityTargetOption.ToString() == "Tile: (4,1)") {
-					print("This is it.");
-				}
-				PlanScratchPad planScratchPad = null;
+				// if (abilityTargetOption.ToString() == "Tile: (4,1)") {
+				// 	print("This is it.");
+				// }
+				PlanScratchPad planScratchPad;
 				if (planScratchPadByTile.ContainsKey(abilityTargetOption)) {
 					planScratchPad = planScratchPadByTile[abilityTargetOption];
 				} else {
-					planScratchPad = new PlanScratchPad();
+                    planScratchPad = new PlanScratchPad();
+					// Only add an ability target if the unit can perform a major action.
+					if (canActorPerformMajorAction) {
+						planScratchPad.abilityTargetTile = abilityTargetOption;
+						planScratchPad.direction = actor.dir;
+						planScratchPad = RateFireLocation(gambit, planScratchPad);
+					}
 					planScratchPadByTile[abilityTargetOption] = planScratchPad;
-					planScratchPad.abilityTargetTile = abilityTargetOption;
-					planScratchPad.direction = actor.dir;
-					planScratchPad = RateFireLocation(gambit, planScratchPad);
 				}
-
-				planScratchPad.AddMoveTarget(moveTile);
+				// Only add a move target if the unit can perform a move action.
+				if (canActorPerformMoveAction) {
+					planScratchPad.AddMoveTarget(moveTile);
+				}
 			}
 		}
 		
 		actor.Place(startTile);
 		List<PlanScratchPad> planScratchPads = new List<PlanScratchPad>(planScratchPadByTile.Values);
+		Debug.Log("planScratchPads.Count: " + planScratchPads.Count);
 		PlanScratchPad bestPlanScratchPad = PickBestPlanScratchPad(gambit.ability, planScratchPads);
 
 		if (bestPlanScratchPad == null) return null;
@@ -218,7 +225,7 @@ public class ComputerPlayer : MonoBehaviour {
 		return unoccupiedTiles.OrderBy(tile => tile.pos.x).ThenBy(tile => tile.pos.y).ToList();
 	}
 
-	/* As we were creating each Attack Option (a note on the effect area of using an ability),
+	/* As we were creating each PlanScratchPad (a note on the effect area of using an ability),
 	 * we needed a way to rate it, so we could sort them later and pick the best one.
 	 * We accomplish this by looping through the area that the ability could reach from a given firing location.
 	 * Any tile which is a “legal” target for an ability gets a “mark” –
@@ -240,11 +247,11 @@ public class ComputerPlayer : MonoBehaviour {
 	 * Note that I intentially skip the tile on which the caster is currently standing,
 	 * because that may not be the unit’s location when it moves before firing.
 	 * We will need to adjust scores based on the caster’s location at a later point. */
-	PlanScratchPad RateFireLocation (Gambit gambit, PlanScratchPad option) {
+	PlanScratchPad RateFireLocation (Gambit gambit, PlanScratchPad planScratchPad) {
 		AbilityArea area = gambit.ability.GetComponent<AbilityArea>();
-		List<Tile> tiles = area.GetTilesInArea(BC.board, option.abilityTargetTile.pos);
-		option.areaTargets = tiles;
-		option.isCasterMatch = IsAbilityTargetMatch(gambit.targetType, actor.tile);
+		List<Tile> tiles = area.GetTilesInArea(BC.board, planScratchPad.abilityTargetTile.pos);
+		planScratchPad.areaTargets = tiles;
+		planScratchPad.isCasterMatch = IsAbilityTargetMatch(gambit.targetType, actor.tile);
 
 		for (int i = 0; i < tiles.Count; ++i) {
 			Tile tile = tiles[i];
@@ -252,9 +259,9 @@ public class ComputerPlayer : MonoBehaviour {
 				continue;
 			
 			bool isMatch = IsAbilityTargetMatch(gambit.targetType, tile);
-			option.AddMark(tile, isMatch);
+			planScratchPad.AddMark(tile, isMatch);
 		}
-		return option;
+		return planScratchPad;
 	}
 
 	/* This method shows how to determine which marks are a match or not.
@@ -288,33 +295,33 @@ public class ComputerPlayer : MonoBehaviour {
 		return isMatch;
 	}
 
-	/* This is the method that actually provides a score for each of the attack options.
-	 * It goes through two “passes” of analyzing our options.
-	 * On the first pass, it scores each attack option based on having
+	/* This is the method that actually provides a score for each of the PlanScratchPads.
+	 * It goes through two “passes” of analyzing our PlanScratchPads.
+	 * On the first pass, it scores each PlanScratchPad based on having
 	 * more marks which are matches than marks which are not matches.
 	 * 
 	 * Whenever I find a new “best” score, I track what the score was,
-	 * and add the ability to a list of the options which I consider to be the best.
+	 * and add the ability to a list of the PlanScratchPads which I consider to be the best.
 	 * This list will be cleared if I should find a better score,
-	 * but if I find additional options with a tied score then I will also add them to the list.
+	 * but if I find additional PlanScratchPads with a tied score then I will also add them to the list.
 	 * 
-	 * When all of the options have been scored, it is actually possible
-	 * that I wont have any entries in my best options list.
+	 * When all of the PlanScratchPads have been scored, it is actually possible
+	 * that I wont have any entries in my best PlanScratchPads list.
 	 * This would be the case where an ability could technically be used,
 	 * but the effect would be detrimental to the user’s party.
-	 * For example, if the only option an AI unit had to attack was one of its allies,
+	 * For example, if the only PlanScratchPad an AI unit had to attack was one of its allies,
 	 * then it would be better not to do anything than to actually perform the ability.
 	 * In these cases, I mark the plan’s abilty as null so that it wont be performed.
 	 * 
-	 * In the cases where I do have some beneficial options to pick from,
-	 * I will then run another pass to help trim down the options even further.
+	 * In the cases where I do have some beneficial PlanScratchPads to pick from,
+	 * I will then run another pass to help trim down the PlanScratchPads even further.
 	 * There are multiple reasons for this. For example,
 	 * lets say I can attack a target unit from multiple different move locations.
 	 * Some of those locations may be from the front, while others may be from the back.
 	 * If I can pick, I would want to pick an angle from the back
 	 * so that my chances of the attack hitting are greater.
 	 * 
-	 * By the end of this second “pass” I should have one or more options which were added to the final picks.
+	 * By the end of this second “pass” I should have one or more PlanScratchPads which were added to the final picks.
 	 * Because they all share the same score,
 	 * I pick any of them at random and assign the relevant details to our turn plan. */
 	PlanScratchPad PickBestPlanScratchPad(Ability ability, List<PlanScratchPad> planScratchPads) {
@@ -323,9 +330,6 @@ public class ComputerPlayer : MonoBehaviour {
 		List<PlanScratchPad> bestPlanScratchPads = new List<PlanScratchPad>();
 		for (int i = 0; i < planScratchPads.Count; ++i) {
 			PlanScratchPad planScratchPad = planScratchPads[i];
-			if (planScratchPad.abilityTargetTile.ToString() == "Tile: (4,1)") {
-				print("This is it.");
-			}
 			int score = planScratchPad.GetScore(actor, ability);
 			
 			if (score > bestScore) {
@@ -338,6 +342,7 @@ public class ComputerPlayer : MonoBehaviour {
 		}
 
 		if (bestPlanScratchPads.Count == 0) {
+			Debug.Log("Could not find a best plan scratch pad.");
 			return null;
 		}
 
@@ -355,7 +360,15 @@ public class ComputerPlayer : MonoBehaviour {
 			}
 		}
 
+		if (finalPicks.Count > 0) {
+			Debug.Log("Final picks count: " + finalPicks.Count);
+			for (int i = 0; i < finalPicks.Count; ++i) {
+				PlanScratchPad planScratchPad = bestPlanScratchPads[i];
+				Debug.Log("Ability target tile: " + planScratchPad.abilityTargetTile + ", best move tile: " + planScratchPad.bestMoveTile);
+			}
+		}
 		PlanScratchPad choice = finalPicks[ Random.Range(0, finalPicks.Count)];
+		Debug.Log("FINAL CHOICE: Ability target tile: " + choice.abilityTargetTile + ", best move tile: " + choice.bestMoveTile);
 		return choice;
 	}
 
@@ -366,8 +379,9 @@ public class ComputerPlayer : MonoBehaviour {
 		if (topPriorityInterestAwareness != null) {
 			// Just position yourself better for the next turn.
 			/// TODO: Update the PlanScratchPad algorithm to just give us the best move option for next turn.
-			plan = Investigate();
+			plan = Investigate(topPriorityFoeAwareness ?? topPriorityInterestAwareness);
 		} else {
+			Debug.Log("Going on patrol");
 			Patrol patrol = PC.GetPatrolForUnit(actor);
 			if (patrol != null) {
 				plan = patrol.GetPlan(actor, BC.board);
@@ -385,16 +399,21 @@ public class ComputerPlayer : MonoBehaviour {
 		return plan;
 	}
 
-	TurnPlan Investigate() {
-		TurnPlan plan = new();
-		if (topPriorityInterestAwareness != null) {
-			Tile topPriorityTileOfInterest = BC.board.GetTile(topPriorityInterestAwareness.pointOfInterest);
-			List<Tile> moveOptions = GetMoveOptions();
-			BC.board.FindPath(actor, actor.tile, topPriorityTileOfInterest, delegate (List<Tile> finalPath) {
-				Console.Main.Log(string.Format("{0} is investigating {1}", actor.name, topPriorityTileOfInterest.ToString()));
-				plan.moveLocation = finalPath.Count > 0 ? finalPath.Last() : null;
-			});
+	TurnPlan Investigate(Awareness awareness) {
+		if (awareness == topPriorityFoeAwareness) {
+			Debug.Log("Investigating topPriorityFoeAwareness");
 		}
+		if (awareness == topPriorityInterestAwareness) {
+			Debug.Log("Investigating topPriorityInterestAwareness");
+		}
+		TurnPlan plan = new();
+		if (awareness == null) return plan;
+		Tile topPriorityTileOfInterest = BC.board.GetTile(awareness.pointOfInterest);
+		List<Tile> moveOptions = GetMoveOptions();
+		BC.board.FindPath(actor, actor.tile, topPriorityTileOfInterest, delegate (List<Tile> finalPath) {
+			Console.Main.Log(string.Format("{0} is investigating {1}", actor.name, topPriorityTileOfInterest.ToString()));
+			plan.moveLocation = finalPath.Count > 0 ? finalPath.Last() : null;
+		});
 		return plan;
 	}
 
@@ -458,6 +477,7 @@ public class ComputerPlayer : MonoBehaviour {
 				actor.dir = (Direction)i;
 				if (topPriorityFoeAwareness.stealth.unit.GetFacing(actor) == Facings.Front) {
 					dir = actor.dir;
+					Debug.Log("Facing top priority foe: " + dir);
 					break;
 				}
 			}
@@ -468,15 +488,19 @@ public class ComputerPlayer : MonoBehaviour {
 			var origin = BC.turn.plan.moveLocation != null ? BC.turn.plan.moveLocation : actor.tile;
 			var interestingTile = BC.board.GetTile(topPriorityInterestAwareness.pointOfInterest);
 			var directions = origin.GetDirections(interestingTile);
-			if (directions.Count > 0)
+			if (directions.Count > 0) {
 				dir = directions.First();
-			else
+				Debug.Log("Facing top priority interest (best guess): " + dir);
+			} else {
 				dir = actor.dir; // Just continue facing in the current direction.
+				Debug.Log("Continuing to face the current direction.");
+			}
 		} else {
 			Patrol patrol = PC.GetPatrolForUnit(actor);
 			if (patrol != null) {
 				// If patrolling, end in the patrol 
 				dir = patrol.GetCurrentDirection();
+				Debug.Log("Facing in patrol direction: " + dir);
 			}
 		}
 		return dir;
@@ -487,7 +511,7 @@ public class ComputerPlayer : MonoBehaviour {
 			var interestingTile = BC.board.GetTile(topPriorityInterestAwareness.pointOfInterest);
 			bool didUnitFinishInvestigation = topPriorityInterestAwareness != null && actor.tile == interestingTile;
 			// Investigation is done, but target of interest was not found
-			if (didUnitFinishInvestigation && topPriorityFoeAwareness.type != AwarenessType.Seen) {
+			if (didUnitFinishInvestigation && topPriorityFoeAwareness != null && topPriorityFoeAwareness.type != AwarenessType.Seen) {
 				BC.awarenessController.UpdateAwareness(topPriorityInterestAwareness, AwarenessType.Unaware, topPriorityInterestAwareness.pointOfInterest);
 				SetTopPriorityFoeAndPointOfInterest();
 				if (topPriorityInterestAwareness != null) {
@@ -495,6 +519,11 @@ public class ComputerPlayer : MonoBehaviour {
 				}
 			}
 		}
+	}
+
+	public bool CanActorContinue() {
+		// If the actor has a target and can act to reach it, do so
+		return topPriorityFoeAwareness != null && (canActorPerformMajorAction || canActorPerformMoveAction);
 	}
 
 	#endregion

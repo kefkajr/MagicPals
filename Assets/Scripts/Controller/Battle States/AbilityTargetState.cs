@@ -110,6 +110,7 @@ public class AbilityTargetState : BattleState {
 		if (range.directionOriented || tiles.Contains(board.GetTile(pos))) {
 			turn.abilityEpicenterTile = board.GetTile(pos);
 		}
+		Debug.Log("Targeting ability epicenter: " + turn.abilityEpicenterTile);
 
 		owner.ChangeState<ConfirmAbilityTargetState>();
 	}

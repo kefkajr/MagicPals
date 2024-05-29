@@ -44,6 +44,7 @@ public class MoveTargetState : BattleState {
 		// In case the move location is outside of the unit's movement range,
 		// find the nearest accessible tile still in the pathfinding memory
 		Tile destination = turn.plan.moveLocation;
+		Debug.Log("Attempting to move to " + destination);
 		// Find the nearest viable move option, if the current planned location is too far
 		if (destination != null) {
 			List<Tile> moveOptions = owner.cpu.GetMoveOptions();
@@ -54,8 +55,12 @@ public class MoveTargetState : BattleState {
 			}
 		}
 
-		if (destination == null)
+		if (destination == null) {
+			Debug.Log("No destination, staying put.");
 			destination = turn.actor.tile;
+		} else {
+			Debug.Log("Destination: " + destination);
+		}
 
 		Point cursorPos = pos;
 		while (cursorPos != destination.pos)

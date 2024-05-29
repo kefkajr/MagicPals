@@ -110,11 +110,15 @@ public class CommandSelectionState : BaseAbilityMenuState {
 
 		bool unitShouldMove = turn.plan.moveLocation != turn.actor.tile && turn.plan.moveLocation != null;
 
-		if (turn.hasUnitMoved == false && unitShouldMove)
+		if (owner.turnOrderController.CanActorPerformActionType(ActionType.Move) && unitShouldMove)
 			owner.ChangeState<MoveTargetState>();
-		else if (turn.hasUnitActed == false && turn.plan.ability != null)
+		else if (owner.turnOrderController.CanActorPerformActionType(ActionType.Major) && turn.plan.ability != null)
 			owner.ChangeState<AbilityTargetState>();
-		else
+		else if (owner.cpu.CanActorContinue()) {
+			// Formulate new plan to use up remaining action uses
+			turn.plan = null;
+			Enter(); 
+		} else
 			owner.ChangeState<EndFacingState>();
 	}
 }
