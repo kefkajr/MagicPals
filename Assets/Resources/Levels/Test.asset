@@ -512,26 +512,30 @@ MonoBehaviour:
       thickness: 1
       height: 3
   spawns:
-  - recipeName: Sentry
+  - recipeName: Wedge
     position:
       x: 5
       y: 7
     direction: 1
+    turnInitiativeOffset: 0
   - recipeName: Nessa
     position:
       x: 8
       y: 7
     direction: 3
+    turnInitiativeOffset: 0
   - recipeName: Cece
     position:
       x: 4
       y: 4
     direction: 0
-  - recipeName: Sentry
+    turnInitiativeOffset: 0
+  - recipeName: Biggs
     position:
       x: 8
       y: 4
     direction: 0
+    turnInitiativeOffset: 0
   exits:
   - x: 8
     y: 10

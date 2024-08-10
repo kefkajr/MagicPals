@@ -2,6 +2,7 @@
 using System.IO;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public static class UnitFactory
 {
@@ -18,7 +19,7 @@ public static class UnitFactory
 
 		GameObject unitObject = InstantiatePrefab("Units/" + recipe.model);
 		unitObject.name = recipe.name;
-		unitObject.AddComponent<Unit>();
+		Unit unit = unitObject.AddComponent<Unit>();
 		AddStats(unitObject, recipe.statsTemplate, spawn.turnInitiativeOffset);
 		AddLocomotion(unitObject, recipe.locomotion);
 		unitObject.AddComponent<Status>();
@@ -29,10 +30,10 @@ public static class UnitFactory
 		AddAttack(unitObject, recipe.attack);
 		AddAbilityCatalog(unitObject, recipe.abilityCatalog);
 		AddAlliance(unitObject, recipe.alliance);
-		AddGambitSet(unitObject, recipe.gambitSet);
+		AddGambitSet(unitObject, recipe.gambitSet);		
 		AddInventory(unitObject);
-
 		AddAwareness(unitObject, recipe.perceptionRecipe);
+		AddObjective(unitObject, recipe.objectiveTypes);
 		return unitObject;
 	}
 	#endregion
@@ -176,6 +177,12 @@ public static class UnitFactory
 		Perception perception = obj.GetComponentInChildren<Perception>();
 		perception.viewingRange = perceptionRecipe.viewingRange;
 		perception.hearingRange = perceptionRecipe.hearingRange;
+	}
+
+	static void AddObjective(GameObject obj, ObjectiveType[] types) {
+		if (types == null) return;
+		Objective objective = obj.AddComponent<Objective>();
+		objective.types = types.ToList();
 	}
 	#endregion
 }

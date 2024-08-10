@@ -10,6 +10,7 @@ public class ComputerPlayer : MonoBehaviour {
 	AwarenessController AC { get { return BC.awarenessController; } }
 	PatrolController PC { get { return BC.patrolController; } }
 	Alliance actorAlliance { get { return actor.GetComponent<Alliance>(); }}
+	Objective objective { get { return actor.GetComponent<Objective>(); }}
 	bool canActorPerformMoveAction { get { return BC.turnOrderController.CanActorPerformActionType(ActionType.Move); }}
 	bool canActorPerformMajorAction { get { return BC.turnOrderController.CanActorPerformActionType(ActionType.Major); }}
 	Awareness topPriorityFoeAwareness;
@@ -224,6 +225,11 @@ public class ComputerPlayer : MonoBehaviour {
 		}
 	}
 
+	public bool ShouldActorPrepareForNextTurn() {
+		// If the actor has a target and can move, they should do so
+		return topPriorityFoeAwareness != null && canActorPerformMoveAction;
+	}
+
 	TurnPlan PrepareForNextTurn(TurnPlan plan) {
 		Debug.Log("Preparing for next turn.");
 		if (!canActorPerformMajorAction ) {
@@ -233,11 +239,6 @@ public class ComputerPlayer : MonoBehaviour {
 
 		}
 		return plan;
-	}
-
-	public bool CanActorContinue() {
-		// If the actor has a target and can act to reach it, do so
-		return topPriorityFoeAwareness != null && (canActorPerformMajorAction || canActorPerformMoveAction);
 	}
 
 	#endregion

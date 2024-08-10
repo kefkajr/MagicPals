@@ -114,8 +114,7 @@ public class CommandSelectionState : BaseAbilityMenuState {
 			owner.ChangeState<MoveTargetState>();
 		else if (owner.turnOrderController.CanActorPerformActionType(ActionType.Major) && turn.plan.ability != null)
 			owner.ChangeState<AbilityTargetState>();
-		else if (owner.cpu.CanActorContinue()) {
-			// Formulate new plan to use up remaining action uses
+		else if (owner.cpu.ShouldActorPrepareForNextTurn()) {
 			turn.plan = null;
 			Enter(); 
 		} else

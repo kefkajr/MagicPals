@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Unit : MonoBehaviour {
 	public Tile tile { get; protected set; }
 	public Direction dir;
 	public int turnInitiativeOffset;
-
 	public Perception perception { get { return GetComponentInChildren<Perception>(); } }
 	public Stealth stealth { get { return GetComponent<Stealth>(); } }
 

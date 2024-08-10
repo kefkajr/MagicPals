@@ -233,13 +233,13 @@ MonoBehaviour:
       y: 1
     direction: 0
     turnInitiativeOffset: 3
-  - recipeName: Sentry
+  - recipeName: Wedge
     position:
       x: 0
       y: 2
     direction: 0
     turnInitiativeOffset: 2
-  - recipeName: Sentry
+  - recipeName: Biggs
     position:
       x: 2
       y: 4
