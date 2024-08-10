@@ -51,5 +51,65 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "MagicPals.sln"
+    "dotnet.defaultSolution": "MagicPals.sln",
+    "editor.tokenColorCustomizations": {
+        "textMateRules": [
+            {
+                "scope": [
+                    "variable.other.object.property.cs",
+                ],
+                "settings": {
+                    "foreground": "#9ffdea",
+                },
+            },
+            {
+                "scope": [
+                    "variable.other.readwrite.cs",
+                ],
+                "settings": {
+                    "foreground": "#9CDCFE",
+                },
+            },
+            {
+                "scope": [
+                    "entity.name.type.cs",
+                ],
+                "settings": {
+                    "foreground": "#4EC9B0",
+                },
+            },
+            {
+                "scope": [
+                    "variable.other.object.cs",
+                ],
+                "settings": {
+                    "foreground": "#4EC9B0",
+                },
+            },
+            {
+                "scope": [
+                    "entity.name.function.cs",
+                ],
+                "settings": {
+                    "foreground": "#dcd0aa",
+                },
+            },
+            {
+                "scope": [
+                    "entity.name.variable.local.cs",
+                ],
+                "settings": {
+                    "foreground": "#cacaca",
+                },
+            },
+            {
+                "scope": [
+                    "constant.numeric.decimal.cs",
+                ],
+                "settings": {
+                    "foreground": "#b5cea8",
+                },
+            },
+        ],
+    },
 }
