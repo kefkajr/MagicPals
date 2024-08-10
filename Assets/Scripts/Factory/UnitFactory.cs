@@ -30,10 +30,9 @@ public static class UnitFactory
 		AddAttack(unitObject, recipe.attack);
 		AddAbilityCatalog(unitObject, recipe.abilityCatalog);
 		AddAlliance(unitObject, recipe.alliance);
-		AddGambitSet(unitObject, recipe.gambitSet);		
 		AddInventory(unitObject);
 		AddAwareness(unitObject, recipe.perceptionRecipe);
-		AddObjective(unitObject, recipe.objectiveTypes);
+		AddStrategy(unitObject, recipe.strategy);
 		return unitObject;
 	}
 	#endregion
@@ -161,17 +160,6 @@ public static class UnitFactory
 			inv.Equip(toEquip, toEquip.defaultSlots);
 	}
 
-	static void AddGambitSet (GameObject obj, string name) {
-		Driver driver = obj.AddComponent<Driver>();
-		if (string.IsNullOrEmpty(name)) {
-			driver.normal = DriverType.Human;
-		} else {
-			driver.normal = DriverType.Computer;
-			GameObject instance = InstantiatePrefab("Gambit Set/" + name);
-			instance.transform.SetParent(obj.transform);
-		}
-	}
-
 	static void AddAwareness(GameObject obj, PerceptionRecipe perceptionRecipe) {
 		Stealth stealth = obj.AddComponent<Stealth>();
 		Perception perception = obj.GetComponentInChildren<Perception>();
@@ -179,10 +167,15 @@ public static class UnitFactory
 		perception.hearingRange = perceptionRecipe.hearingRange;
 	}
 
-	static void AddObjective(GameObject obj, ObjectiveType[] types) {
-		if (types == null) return;
-		Objective objective = obj.AddComponent<Objective>();
-		objective.types = types.ToList();
+	static void AddStrategy(GameObject obj, string strategyName) {
+		Driver driver = obj.AddComponent<Driver>();
+		if (string.IsNullOrEmpty(strategyName)) {
+			driver.normal = DriverType.Human;
+		} else {
+			driver.normal = DriverType.Computer;
+			GameObject instance = InstantiatePrefab("Strategies/" + strategyName + " Strategy");
+			instance.transform.SetParent(obj.transform);
+		}
 	}
 	#endregion
 }

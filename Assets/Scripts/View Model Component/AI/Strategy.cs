@@ -22,9 +22,15 @@ When I have verified that the system works well and is sufficiently flexible,
 it would be nice to come up with a way to create them by simpler “recipes”
 and allow a factory to automatically generate them like we do with ability catalogs.*/
 
-public class GambitSet : MonoBehaviour 
+public enum ObjectiveType {
+    BlockExit,
+    ProtectSelf
+}
+
+public class Strategy : MonoBehaviour 
 {
 	public List<Gambit> gambits;
+	public List<ObjectiveType> objectiveTypes;
 	
 	public Gambit PickGambit (BattleController bc, Func<Gambit, bool> CanGambitAbilityBeUsed)
 	{

@@ -10,7 +10,7 @@ public class ComputerPlayer : MonoBehaviour {
 	AwarenessController AC { get { return BC.awarenessController; } }
 	PatrolController PC { get { return BC.patrolController; } }
 	Alliance actorAlliance { get { return actor.GetComponent<Alliance>(); }}
-	Objective objective { get { return actor.GetComponent<Objective>(); }}
+	Gambit strategy { get { return actor.GetComponent<Gambit>(); }}
 	bool canActorPerformMoveAction { get { return BC.turnOrderController.CanActorPerformActionType(ActionType.Move); }}
 	bool canActorPerformMajorAction { get { return BC.turnOrderController.CanActorPerformActionType(ActionType.Major); }}
 	Awareness topPriorityFoeAwareness;
@@ -35,29 +35,18 @@ public class ComputerPlayer : MonoBehaviour {
 		Debug.Log(actor.name + " is formulating a plan.");
 		SetTopPriorityFoeAndPointOfInterest();
 
-		TurnPlan plan = new TurnPlan();
 
 		// Are the conditions met for the highest priority gambit?
 		// Can the ability be used?
-		GambitSet gambitSet = actor.GetComponentInChildren<GambitSet>();
-		Gambit gambit = gambitSet.PickGambit(BC, (Gambit g) => {
-			Debug.Log("Evaluating " + g.name);
-			plan = new TurnPlanFactory(this).EvaluateGambit(g);
-			return plan != null;
-		});
+		Strategy strategy = actor.GetComponentInChildren<Strategy>();
+		TurnPlan plan = new TurnPlanFactory(this).EvaluateStrategy(strategy);
 
-		if (gambit == null) {
-			// If none of the gambit conditions could be met,
-			// investigate or patrol.
-			plan = InvestigateOrPatrol();
-		} else if (!canActorPerformMajorAction || !canActorPerformMoveAction) {
-			// Actor cannot perform a major action,
-			// so instead prepare to perform it next turn.
-			plan = PrepareForNextTurn(plan);
-		}
+        // If none of the gambit conditions could be met,
+        // investigate or patrol.
+        plan ??= InvestigateOrPatrol();
 
-		// If this unit is preoccupied, make sure they're not on patrol anymore
-		if (topPriorityFoeAwareness != null || topPriorityInterestAwareness != null) {
+        // If this unit is preoccupied, make sure they're not on patrol anymore
+        if (topPriorityFoeAwareness != null || topPriorityInterestAwareness != null) {
 			PC.RemoveUnitFromPatrol(actor);
 		}
 

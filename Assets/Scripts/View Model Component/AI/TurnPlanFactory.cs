@@ -15,18 +15,30 @@ public class TurnPlanFactory {
         this.cpu = cpu;
     }
 
-    public TurnPlan EvaluateGambit(Gambit gambit) {
-		// Determine where to move and aim to best use the ability
-		AbilityRange range = gambit.ability.GetComponent<AbilityRange>();
-		if (range.positionOriented == false)
-			// It doesn't matter where you stand
-			return PlanPositionIndependent(gambit);
-		else if (!range.directionOriented)
-			// It DOES matter where you stand, but it doesn't matter where you face
-			return PlanDirectionIndependent(gambit);
-		else
-			// It DOES matter where you stand and it DOES matter where you face
-			return PlanDirectionDependent(gambit);
+    public TurnPlan EvaluateStrategy(Strategy strategy) {
+		for (int i = 0; i < strategy.objectiveTypes.Count; ++i) {
+			ObjectiveType objectiveType = strategy.objectiveTypes[i];
+			for (int ii = 0; ii < strategy.gambits.Count; ++ii) {
+				Gambit gambit = strategy.gambits[i];
+				if (!gambit.IsViable(BC)) {
+					continue;
+				}
+				Debug.Log("Evaluating gambit " + gambit.name + " with objective " + objectiveType.ToString());
+
+				// Determine where to move and aim to best use the ability
+				AbilityRange range = gambit.ability.GetComponent<AbilityRange>();
+				if (range.positionOriented == false)
+					// It doesn't matter where you stand
+					return PlanPositionIndependent(gambit);
+				else if (!range.directionOriented)
+					// It DOES matter where you stand, but it doesn't matter where you face
+					return PlanDirectionIndependent(gambit);
+				else
+					// It DOES matter where you stand and it DOES matter where you face
+					return PlanDirectionDependent(gambit);
+			}
+		}
+		return null;
 	}
 
 	/* When it is determined that an ability is position independent,
@@ -113,7 +125,7 @@ public class TurnPlanFactory {
 		TurnPlan plan = new(gambit) {
 			fireLocation = bestPlanScratchPad.abilityTargetTile,
 			attackDirection = bestPlanScratchPad.direction,
-			moveLocation = bestPlanScratchPad.bestMoveTile
+			moveLocation = FindNearestMoveOptionToTile(bestPlanScratchPad.bestMoveTile)
 		};
 
 		return plan;
@@ -158,7 +170,7 @@ public class TurnPlanFactory {
 		TurnPlan plan = new(gambit) {
 			fireLocation = bestOption.abilityTargetTile,
 			attackDirection = bestOption.direction,
-			moveLocation = bestOption.bestMoveTile
+			moveLocation = FindNearestMoveOptionToTile(bestOption.bestMoveTile)
 		};
 
 		return plan;
@@ -309,5 +321,26 @@ public class TurnPlanFactory {
 		PlanScratchPad choice = finalPicks[ Random.Range(0, finalPicks.Count)];
 		Debug.Log("FINAL CHOICE: Ability target tile: " + choice.abilityTargetTile + ", best move tile: " + choice.bestMoveTile);
 		return choice;
+	}
+
+	Tile FindNearestMoveOptionToTile(Tile tile) {
+		var moveOptions = cpu.GetMoveOptions();
+		Tile destination = null;
+		if (moveOptions.Contains(tile)) {
+			return tile;
+		} else {
+			BC.board.FindPath(BC.turn.actor, BC.turn.actor.tile, BC.board.GetTile(destination.pos), delegate (List<Tile> finalPath) {
+				Tile toCheck = tile;
+				while (toCheck != null) {
+					if (moveOptions.Contains(toCheck)) {
+						// Move toward top awareness / point of interest
+						destination = toCheck;
+					}
+					// Board search keeps previous tiles in memory
+					toCheck = toCheck.prev;
+				}
+			});
+		}
+		return destination;
 	}
 }

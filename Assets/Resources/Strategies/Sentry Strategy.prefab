@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1824039968521315839}
   - component: {fileID: 1824039968515450823}
   m_Layer: 0
-  m_Name: Sentry Gambit Set
+  m_Name: Sentry Strategy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -49,6 +49,7 @@ MonoBehaviour:
   gambits:
   - {fileID: 1824039968515538889}
   - {fileID: 4706408028579350891}
+  objectiveTypes: 01000000
 --- !u!1 &1824039968521583089
 GameObject:
   m_ObjectHideFlags: 0

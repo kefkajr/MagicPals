@@ -15,6 +15,8 @@ public class TurnPlan {
 	public Tile fireLocation;
 	public Direction attackDirection;
 
+	public bool IsEmpty { get { return ability == null && moveLocation == null; }}
+
 	public TurnPlan() {}
 	public TurnPlan(Gambit gambit) {
 		targetType = gambit.targetType;
