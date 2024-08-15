@@ -27,6 +27,16 @@ public enum ObjectiveType {
     ProtectSelf
 }
 
+public class Strategem {
+	public Gambit gambit;
+	public ObjectiveType objectiveType;
+	public Strategem (Gambit gambit, ObjectiveType objectiveType)
+		{
+			this.gambit = gambit;
+			this.objectiveType = objectiveType;
+		}
+}
+
 public class Strategy : MonoBehaviour 
 {
 	public List<Gambit> gambits;

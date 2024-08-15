@@ -54,12 +54,48 @@ public class ComputerPlayer : MonoBehaviour {
 		return plan;
 	}
 
-	public List<Tile> GetMoveOptions() {
+	public List<Tile> GetMoveOptions(ObjectiveType? objectiveType) {
 		List<Tile> tiles = actor.GetComponent<Movement>().GetTilesInRange(BC.board);
 		// Add the tile the actor is on now as a viable move option.
 		tiles.Add(actor.tile);
-		List<Tile> unoccupiedTiles = tiles.Where((t) => t.occupant != actor).ToList();
-		return unoccupiedTiles.OrderBy(tile => tile.pos.x).ThenBy(tile => tile.pos.y).ToList();
+		List<Tile> unoccupiedTilesInRange = tiles.Where((t) => t.occupant != actor).ToList();
+		List<Tile> orderedTiles = unoccupiedTilesInRange.OrderBy(tile => tile.pos.x).ThenBy(tile => tile.pos.y).ToList();
+		switch (objectiveType) {
+			case ObjectiveType.BlockExit:
+				// Find tiles between the exit and all known foes
+				// then look for overlap with the existing tiles
+				/// Find nearest exit
+				Tile nearestExitMarkerTile = null;
+				int nearestExitMarkerTilePathLength = int.MaxValue;
+				for (int i = 0; i < BC.board.exitMarkers.Count; i++) {
+					ExitMarker exitMarker = BC.board.exitMarkers[i];
+					Tile exitMarkerTile = BC.board.GetTile(exitMarker.position);
+					BC.board.FindPath(actor, actor.tile, exitMarkerTile, delegate (List<Tile> finalPath) {
+						if (finalPath.Count < nearestExitMarkerTilePathLength) {
+							nearestExitMarkerTile = exitMarkerTile;
+						}
+					});
+				}
+				// Get paths to exit for each foe's LAST known location
+				List<Awareness> awarenesses = AC.TopAwarenesses(actor);
+				HashSet<Tile> tilesLeadingFromFoesToExit = new HashSet<Tile>();
+				for (int i = 0; i < awarenesses.Count; i++) {
+					Awareness awareness = awarenesses[i];
+					BC.board.FindPath(awareness.stealth.unit,
+									  BC.board.GetTile(awareness.pointOfInterest),
+									  nearestExitMarkerTile,
+									  delegate (List<Tile> finalPath) {
+						finalPath.ForEach(tile => tilesLeadingFromFoesToExit.Add(tile));
+					});
+				} 
+				var overlappingTiles = tilesLeadingFromFoesToExit.ToList().Intersect(orderedTiles);
+				return overlappingTiles.ToList();
+			case ObjectiveType.ProtectSelf:
+				// Among the existing tiles, find the ones furthest from all known foes
+				return orderedTiles;
+			default:
+				return orderedTiles;
+		}
 	}
 	#endregion
 	
@@ -79,7 +115,7 @@ public class ComputerPlayer : MonoBehaviour {
 			if (patrol != null) {
 				plan = patrol.GetPlan(actor, BC.board);
 			} else {
-				List<Tile> moveOptions = GetMoveOptions();
+				List<Tile> moveOptions = GetMoveOptions(null);
 				PC.GetNearestAvailablePatrol(actor, delegate (Patrol p) {
 					if (p != null) {
 						plan = p.GetPlan(actor, BC.board);
@@ -102,7 +138,7 @@ public class ComputerPlayer : MonoBehaviour {
 		TurnPlan plan = new();
 		if (awareness == null) return plan;
 		Tile topPriorityTileOfInterest = BC.board.GetTile(awareness.pointOfInterest);
-		List<Tile> moveOptions = GetMoveOptions();
+		List<Tile> moveOptions = GetMoveOptions(null);
 		BC.board.FindPath(actor, actor.tile, topPriorityTileOfInterest, delegate (List<Tile> finalPath) {
 			Console.Main.Log(string.Format("{0} is investigating {1}", actor.name, topPriorityTileOfInterest.ToString()));
 			plan.moveLocation = finalPath.Count > 0 ? finalPath.Last() : null;

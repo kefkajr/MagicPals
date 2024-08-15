@@ -26,6 +26,8 @@ public class PlanScratchPad {
 	#endregion
 
 	#region Fields
+
+	public Strategem strategem;
 	/* There are several fields to fill out here.
 	 * The “target” and “direction” fields are treated slightly differently (or not at all) based on the type of ability being used.
 	 * For example, “target” would represent either the tile which we highlighted to use as a firing location, 
@@ -64,6 +66,10 @@ public class PlanScratchPad {
 	#endregion
 
 	#region Public
+	public PlanScratchPad (Strategem strategem) {
+		this.strategem = strategem;
+	}
+
 	/* The AddMoveTarget method is called to build up the list of locations which are in firing range of the current tile.
 	 * Note that I don’t actually include options that would be bad for the caster,
 	 * for example I wouldn’t want to move within the blast radius of my own attack. */

@@ -12,6 +12,7 @@ public class Board : MonoBehaviour {
 	public Dictionary<Point, Tile> tiles = new Dictionary<Point, Tile>();
 	public Point min { get { return _min; }}
 	public Point max { get { return _max; }}
+	public List<ExitMarker> exitMarkers = new List<ExitMarker>();
 	Point _min;
 	Point _max;
 	Point[] dirs = new Point[4] {
@@ -65,6 +66,7 @@ public class Board : MonoBehaviour {
 			e.position = exitPoint;
 			e.height = tiles[exitPoint].height;
 			e.Match();
+			exitMarkers.Add(e);
 		}
 	}
 

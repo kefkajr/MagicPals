@@ -45,15 +45,6 @@ public class MoveTargetState : BattleState {
 		// find the nearest accessible tile still in the pathfinding memory
 		Tile destination = turn.plan.moveLocation;
 		Debug.Log("Attempting to move to " + destination);
-		// Find the nearest viable move option, if the current planned location is too far
-		if (destination != null) {
-			List<Tile> moveOptions = owner.cpu.GetMoveOptions();
-			if (!moveOptions.Contains(destination)) {
-				owner.board.FindPath(turn.actor, turn.actor.tile, owner.board.GetTile(destination.pos), delegate (List<Tile> finalPath) {
-					destination = FindNearestMoveOptionToTile(moveOptions, destination);
-				});
-			}
-		}
 
 		if (destination == null) {
 			Debug.Log("No destination, staying put.");

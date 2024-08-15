@@ -16,6 +16,7 @@ public class TurnPlanFactory {
     }
 
     public TurnPlan EvaluateStrategy(Strategy strategy) {
+		List<PlanScratchPad> planScratchPads = new();
 		for (int i = 0; i < strategy.objectiveTypes.Count; ++i) {
 			ObjectiveType objectiveType = strategy.objectiveTypes[i];
 			for (int ii = 0; ii < strategy.gambits.Count; ++ii) {
@@ -24,21 +25,41 @@ public class TurnPlanFactory {
 					continue;
 				}
 				Debug.Log("Evaluating gambit " + gambit.name + " with objective " + objectiveType.ToString());
+				Strategem strategem = new Strategem(gambit, objectiveType);
 
 				// Determine where to move and aim to best use the ability
 				AbilityRange range = gambit.ability.GetComponent<AbilityRange>();
 				if (range.positionOriented == false)
 					// It doesn't matter where you stand
-					return PlanPositionIndependent(gambit);
+					planScratchPads.AddRange(
+						PlanPositionIndependent(strategem)
+					);
 				else if (!range.directionOriented)
 					// It DOES matter where you stand, but it doesn't matter where you face
-					return PlanDirectionIndependent(gambit);
+					planScratchPads.AddRange(
+						PlanDirectionIndependent(strategem)
+					);
 				else
 					// It DOES matter where you stand and it DOES matter where you face
-					return PlanDirectionDependent(gambit);
+					planScratchPads.AddRange(
+						PlanDirectionDependent(strategem)
+					);
 			}
 		}
-		return null;
+
+		Debug.Log("planScratchPads.Count: " + planScratchPads.Count);
+		PlanScratchPad bestPlanScratchPad = PickBestPlanScratchPad(planScratchPads);
+
+		if (bestPlanScratchPad == null) return null;
+
+		TurnPlan plan = new(bestPlanScratchPad.strategem.gambit) {
+			fireLocation = bestPlanScratchPad.abilityTargetTile,
+			attackDirection = bestPlanScratchPad.direction,
+			moveLocation = FindNearestMoveOptionToTile(bestPlanScratchPad.bestMoveTile,
+				objectiveType: bestPlanScratchPad.strategem.objectiveType)
+		};
+
+		return plan;
 	}
 
 	/* When it is determined that an ability is position independent,
@@ -47,14 +68,16 @@ public class TurnPlanFactory {
 	 * perhaps the unit would rather move toward or away from its foes during this time.
 	 * If you want more specific behavior like that it shouldn’t be hard to add.
 	 * I’ll show an example of moving toward the nearest foe soon. */
-	TurnPlan PlanPositionIndependent(Gambit gambit) {
-		List<Tile> moveOptions = cpu.GetMoveOptions();
+	List<PlanScratchPad> PlanPositionIndependent(Strategem strategem) {
+		List<Tile> moveOptions = cpu.GetMoveOptions(strategem.objectiveType);
 		// TODO: Have the unit move somewhere logical, instead of moving randomly
 		Tile tile = moveOptions[Random.Range(0, moveOptions.Count - 1)];
 		Debug.Log("moveOptions.Count is " + moveOptions.Count + ". Randomly moving to " + tile);
-		TurnPlan plan = new(gambit);
+		TurnPlan plan = new(strategem.gambit);
 		plan.moveLocation = plan.fireLocation = tile;
-		return plan;
+		PlanScratchPad planScratchPad = new PlanScratchPad(strategem);
+		planScratchPad.AddMoveTarget(tile);
+		return new List<PlanScratchPad>{planScratchPad};
 	}
 
 	/* The next case is where the position matters, but the facing angle does not.
@@ -85,11 +108,11 @@ public class TurnPlanFactory {
 	 * 
 	 * Finally, I pass the list of action scratch pad we have built up to this point to a method
 	 * which can pick the best overall action for our turn. */
-	TurnPlan PlanDirectionIndependent(Gambit gambit) {
+	List<PlanScratchPad> PlanDirectionIndependent(Strategem strategem) {
 		Tile startTile = actor.tile;
 		Dictionary<Tile, PlanScratchPad> planScratchPadByTile = new Dictionary<Tile, PlanScratchPad>();
-		AbilityRange ar = gambit.ability.GetComponent<AbilityRange>();
-		List<Tile> moveOptions = cpu.GetMoveOptions();
+		AbilityRange ar = strategem.gambit.ability.GetComponent<AbilityRange>();
+		List<Tile> moveOptions = cpu.GetMoveOptions(strategem.objectiveType);
 		
 		for (int i = 0; i < moveOptions.Count; ++i) {
 			Tile moveTile = moveOptions[i];
@@ -104,10 +127,10 @@ public class TurnPlanFactory {
 				if (planScratchPadByTile.ContainsKey(abilityTargetOption)) {
 					planScratchPad = planScratchPadByTile[abilityTargetOption];
 				} else {
-                    planScratchPad = new PlanScratchPad();
+                    planScratchPad = new PlanScratchPad(strategem);
 					planScratchPad.abilityTargetTile = abilityTargetOption;
 					planScratchPad.direction = actor.dir;
-					planScratchPad = RateFireLocation(gambit, planScratchPad);
+					planScratchPad = RateFireLocation(strategem.gambit, planScratchPad);
 					planScratchPadByTile[abilityTargetOption] = planScratchPad;
 				}
 				// Include the original move option as a target for this PlanScratchPad
@@ -117,18 +140,7 @@ public class TurnPlanFactory {
 		
 		actor.Place(startTile);
 		List<PlanScratchPad> planScratchPads = new List<PlanScratchPad>(planScratchPadByTile.Values);
-		Debug.Log("planScratchPads.Count: " + planScratchPads.Count);
-		PlanScratchPad bestPlanScratchPad = PickBestPlanScratchPad(gambit.ability, planScratchPads);
-
-		if (bestPlanScratchPad == null) return null;
-
-		TurnPlan plan = new(gambit) {
-			fireLocation = bestPlanScratchPad.abilityTargetTile,
-			attackDirection = bestPlanScratchPad.direction,
-			moveLocation = FindNearestMoveOptionToTile(bestPlanScratchPad.bestMoveTile)
-		};
-
-		return plan;
+		return planScratchPads;
 	}
 
 	/* This last case depends both on a unit’s position on the board
@@ -139,11 +151,11 @@ public class TurnPlanFactory {
 	 * Every single entry generated will have a unique area of effect –
 	 * there is no overlap or need for the dictionary as I had last time.
 	 * We can simply track each entry in a list directly. */
-	TurnPlan PlanDirectionDependent(Gambit gambit) {
+	List<PlanScratchPad> PlanDirectionDependent(Strategem strategem) {
 		Tile startTile = actor.tile;
 		Direction startDirection = actor.dir;
 		List<PlanScratchPad> planScratchPads = new List<PlanScratchPad>();
-		List<Tile> moveOptions = cpu.GetMoveOptions();
+		List<Tile> moveOptions = cpu.GetMoveOptions(strategem.objectiveType);
 		
 		for (int i = 0; i < moveOptions.Count; ++i) {
 			Tile moveTile = moveOptions[i];
@@ -151,11 +163,11 @@ public class TurnPlanFactory {
 			
 			for (int ii = 0; ii < 4; ++ii) {
 				actor.dir = (Direction)ii;
-                PlanScratchPad planScratchPad = new PlanScratchPad {
+                PlanScratchPad planScratchPad = new PlanScratchPad(strategem) {
                     abilityTargetTile = moveTile,
                     direction = actor.dir
                 };
-                planScratchPad = RateFireLocation(gambit, planScratchPad);
+                planScratchPad = RateFireLocation(strategem.gambit, planScratchPad);
 				planScratchPad.AddMoveTarget(moveTile);
 				planScratchPads.Add(planScratchPad);
 			}
@@ -163,17 +175,7 @@ public class TurnPlanFactory {
 		
 		actor.Place(startTile);
 		actor.dir = startDirection;
-		PlanScratchPad bestOption = PickBestPlanScratchPad(gambit.ability, planScratchPads);
-		
-		if (bestOption == null) return null;
-
-		TurnPlan plan = new(gambit) {
-			fireLocation = bestOption.abilityTargetTile,
-			attackDirection = bestOption.direction,
-			moveLocation = FindNearestMoveOptionToTile(bestOption.bestMoveTile)
-		};
-
-		return plan;
+		return planScratchPads;
 	}
 
 	/* As we were creating each PlanScratchPad (a note on the effect area of using an ability),
@@ -275,13 +277,13 @@ public class TurnPlanFactory {
 	 * By the end of this second “pass” I should have one or more PlanScratchPads which were added to the final picks.
 	 * Because they all share the same score,
 	 * I pick any of them at random and assign the relevant details to our turn plan. */
-	PlanScratchPad PickBestPlanScratchPad(Ability ability, List<PlanScratchPad> planScratchPads) {
+	PlanScratchPad PickBestPlanScratchPad(List<PlanScratchPad> planScratchPads) {
 
 		int bestScore = 1;
 		List<PlanScratchPad> bestPlanScratchPads = new List<PlanScratchPad>();
 		for (int i = 0; i < planScratchPads.Count; ++i) {
 			PlanScratchPad planScratchPad = planScratchPads[i];
-			int score = planScratchPad.GetScore(actor, ability);
+			int score = planScratchPad.GetScore(actor, planScratchPad.strategem.gambit.ability);
 			
 			if (score > bestScore) {
 				bestScore = score;
@@ -323,8 +325,8 @@ public class TurnPlanFactory {
 		return choice;
 	}
 
-	Tile FindNearestMoveOptionToTile(Tile tile) {
-		var moveOptions = cpu.GetMoveOptions();
+	Tile FindNearestMoveOptionToTile(Tile tile, ObjectiveType objectiveType) {
+		var moveOptions = cpu.GetMoveOptions(objectiveType);
 		Tile destination = null;
 		if (moveOptions.Contains(tile)) {
 			return tile;
