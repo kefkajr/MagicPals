@@ -283,7 +283,7 @@ public class TurnPlanFactory {
 		List<PlanScratchPad> bestPlanScratchPads = new List<PlanScratchPad>();
 		for (int i = 0; i < planScratchPads.Count; ++i) {
 			PlanScratchPad planScratchPad = planScratchPads[i];
-			int score = planScratchPad.GetScore(actor, planScratchPad.strategem.gambit.ability);
+			int score = planScratchPad.CalculateScore(cpu, actor, planScratchPad.strategem.gambit.ability);
 			
 			if (score > bestScore) {
 				bestScore = score;
@@ -316,6 +316,7 @@ public class TurnPlanFactory {
 		if (finalPicks.Count > 0) {
 			Debug.Log("Final picks count: " + finalPicks.Count);
 			for (int i = 0; i < finalPicks.Count; ++i) {
+
 				PlanScratchPad planScratchPad = bestPlanScratchPads[i];
 				Debug.Log("Ability target tile: " + planScratchPad.abilityTargetTile + ", best move tile: " + planScratchPad.bestMoveTile);
 			}

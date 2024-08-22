@@ -226,25 +226,25 @@ MonoBehaviour:
       x: 1
       y: 1
     direction: 0
-    turnInitiativeOffset: 4
+    turnInitiativeOffset: 3
   - recipeName: Cece
     position:
       x: 4
       y: 1
-    direction: 0
-    turnInitiativeOffset: 3
+    direction: 1
+    turnInitiativeOffset: 1
   - recipeName: Wedge
     position:
       x: 0
       y: 2
     direction: 0
-    turnInitiativeOffset: 2
+    turnInitiativeOffset: 4
   - recipeName: Biggs
     position:
       x: 2
       y: 4
-    direction: 2
-    turnInitiativeOffset: 1
+    direction: 1
+    turnInitiativeOffset: 2
   exits:
   - x: 0
     y: 5

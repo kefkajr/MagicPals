@@ -60,6 +60,10 @@ public class ComputerPlayer : MonoBehaviour {
 		tiles.Add(actor.tile);
 		List<Tile> unoccupiedTilesInRange = tiles.Where((t) => t.occupant != actor).ToList();
 		List<Tile> orderedTiles = unoccupiedTilesInRange.OrderBy(tile => tile.pos.x).ThenBy(tile => tile.pos.y).ToList();
+		return orderedTiles;
+	}
+
+	public int GetMoveScoreForObjective(Tile potentialMoveTile, ObjectiveType objectiveType) {
 		switch (objectiveType) {
 			case ObjectiveType.BlockExit:
 				// Find tiles between the exit and all known foes
@@ -76,25 +80,38 @@ public class ComputerPlayer : MonoBehaviour {
 						}
 					});
 				}
-				// Get paths to exit for each foe's LAST known location
+				/// Get paths to exit for each foe's LAST known location
 				List<Awareness> awarenesses = AC.TopAwarenesses(actor);
-				HashSet<Tile> tilesLeadingFromFoesToExit = new HashSet<Tile>();
+				HashSet<Tile> pathsToExit = new HashSet<Tile>();
 				for (int i = 0; i < awarenesses.Count; i++) {
 					Awareness awareness = awarenesses[i];
 					BC.board.FindPath(awareness.stealth.unit,
 									  BC.board.GetTile(awareness.pointOfInterest),
 									  nearestExitMarkerTile,
 									  delegate (List<Tile> finalPath) {
-						finalPath.ForEach(tile => tilesLeadingFromFoesToExit.Add(tile));
+						finalPath.ForEach(tile => pathsToExit.Add(tile));
 					});
 				} 
-				var overlappingTiles = tilesLeadingFromFoesToExit.ToList().Intersect(orderedTiles);
-				return overlappingTiles.ToList();
+
+				/// Remove exit tile itself
+				pathsToExit.Remove(nearestExitMarkerTile);
+
+				int score = 0;
+				/// Add point if tile is along a foe's path
+				if (pathsToExit.Contains(potentialMoveTile)) {
+					score++;
+				}
+				/// Rate each tile based on its distance from the exit!!!!
+				int movementRange = actor.GetComponent<Stats>()[StatTypes.MOV];
+				Point distance = nearestExitMarkerTile.pos - potentialMoveTile.pos;
+				int distanceRaw = Mathf.Abs(distance.x) + Mathf.Abs(distance.y);
+				score += movementRange - distanceRaw;
+				return score;
 			case ObjectiveType.ProtectSelf:
 				// Among the existing tiles, find the ones furthest from all known foes
-				return orderedTiles;
+				return 0;
 			default:
-				return orderedTiles;
+				return 0;
 		}
 	}
 	#endregion
@@ -253,6 +270,17 @@ public class ComputerPlayer : MonoBehaviour {
 	public bool ShouldActorPrepareForNextTurn() {
 		// If the actor has a target and can move, they should do so
 		return topPriorityFoeAwareness != null && canActorPerformMoveAction;
+	}
+
+	public bool IsMissileImpeded(Unit caster, Ability ability, Tile destination) {
+		ConstantAbilityRange range = ability.GetComponent<ConstantAbilityRange>();
+		if (range == null) return false;
+		if (!range.isMissile) return false;
+		if (BC.board.WallImpedingMissile(caster.tile, destination.pos) != null ||
+			BC.board.UnitImpedingMissile(caster.tile, destination.pos) != null) {
+			return true;
+		}
+		return false;
 	}
 
 	TurnPlan PrepareForNextTurn(TurnPlan plan) {

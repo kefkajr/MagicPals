@@ -54,8 +54,7 @@ public class PlanScratchPad {
 	 * This score would be based on the idea that attacking from behind gives a greater chance of a hit actually connecting.
 	 * Attacks from the front are easier for an enemy to dodge, so we want to naturally pick ones from the rear. */
 	public Tile bestMoveTile { get; private set; }
-	public int bestAngleBasedScore { get; private set; }
-
+    public int bestAngleBasedScore { get; private set; }
 	// The list of marks grows based on the number of legal targets which are
     // within the area of effect for an ability given the target tile and facing direction.
 	public List<Mark> marks = new List<Mark>();
@@ -98,8 +97,8 @@ public class PlanScratchPad {
 	 * the score is then tallied based on how many of the marks are a match or not.
 	 * If the caster is a match for the ability then an extra point is awarded,
 	 * because we can potentially move to a location where the ability will include it.*/
-	public int GetScore (Unit caster, Ability ability) {
-		GetBestMoveTile(caster, ability);
+	public int CalculateScore (ComputerPlayer cpu, Unit caster, Ability ability) {
+		GetBestMoveTile(cpu, caster, ability);
 		if (bestMoveTile == null)
 			return 0;
 
@@ -130,7 +129,7 @@ public class PlanScratchPad {
 	 * When a score is greater than the previous best score, we reset the list of best options,
 	 * and when we have considered all options, we pick at random from tiles with the highest score.
 	 * When the angle is irrelevant, we can simply return any tile at random. */
-	void GetBestMoveTile (Unit caster, Ability ability) {
+	void GetBestMoveTile (ComputerPlayer cpu, Unit caster, Ability ability) {
 		// if(abilityTargetTile.ToString() == "Tile: (4,1)") {
 		// 	string tileName = abilityTargetTile.ToString();
 		// }
@@ -146,9 +145,15 @@ public class PlanScratchPad {
 			List<Tile> bestOptions = new List<Tile>();
 			for (int i = 0; i < moveTargets.Count; ++i)
 			{
-				caster.Place(moveTargets[i]);
-				int score = GetAngleBasedScore(caster);
+				Tile moveTarget = moveTargets[i];
+				caster.Place(moveTarget);
 
+				if (cpu.IsMissileImpeded(caster, ability, moveTarget)) {
+					continue;
+				}
+				
+				int score = GetAngleBasedScore(caster);
+				score += cpu.GetMoveScoreForObjective(moveTarget, strategem.objectiveType);
 				// Increase the score if the unit doesn't have to move.
 				if (moveTargets[i] == startTile) {
 					score++;
@@ -160,7 +165,7 @@ public class PlanScratchPad {
 				}
 
 				if (score == bestAngleBasedScore) {
-					bestOptions.Add(moveTargets[i]);
+					bestOptions.Add(moveTarget);
 				}
 			}
 			
