@@ -106,9 +106,8 @@ public class AwarenessController : MonoBehaviour {
 				// If the unit is not invisible
 				if (!stealth.isInvisible) {
 					// Find existing awareness and update it with the perceived unit's existing location
-					// OR the location they're about to go to next (in case they're disappearing around the corner)
 					Awareness awareness = awarenessMap[perception.unit][stealth.unit];
-					Point pointOfInterest = stealth.unit.tile.next != null ? stealth.unit.tile.next.pos : unit.tile.pos;
+					Point pointOfInterest = stealth.unit.tile.pos;
 					if (UpdateAwareness(awareness, type, pointOfInterest)) {
 						updatedAwarenesses.Add(awareness);
 					}

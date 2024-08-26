@@ -204,7 +204,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c9f1723f52054d18b1d16966ea90bb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DebugComputerPlayer: 0
+  DebugComputerPlayer: 1
   DebugPathfinding: 0
   MakeAllUnitsSeeEachOther: 0
 --- !u!4 &85297742
@@ -576,6 +576,7 @@ MonoBehaviour:
   wallPrefab: {fileID: 169248, guid: 62c0e675ae7a645cc8506fdd82c9bbe0, type: 3}
   exitPrefab: {fileID: 3994794568852751041, guid: f31305faa638d436faebf1e5dce559f1,
     type: 3}
+  exitMarkers: []
 --- !u!1001 &411106485
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2280,6 +2281,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 943e46e5acdbe4defbe9150f94ee7179, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  BC: {fileID: 0}
 --- !u!1 &1786019209
 GameObject:
   m_ObjectHideFlags: 0
@@ -2724,7 +2726,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &192013275740184654
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2804,7 +2806,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: -22.820007}
-  m_SizeDelta: {x: 65, y: 40}
+  m_SizeDelta: {x: 65, y: 0}
   m_Pivot: {x: 0, y: 0}
 --- !u!222 &192013275761923249
 CanvasRenderer:

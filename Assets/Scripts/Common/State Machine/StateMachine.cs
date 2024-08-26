@@ -17,14 +17,14 @@ public class StateMachine : MonoBehaviour {
 	}
 	
 	public virtual void ChangeState<T>() where T : State {
-		CurrentState = GetState<T>();
+ 		CurrentState = GetState<T>();
 	}
 
 	protected virtual void Transition(State value) {
 		if (_currentState == value || _inTransition)
 			return;
 
-		_inTransition = true;
+ 		_inTransition = true;
 		
 		if (_currentState != null)
 			_currentState.Exit();

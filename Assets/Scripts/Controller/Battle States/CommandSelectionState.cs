@@ -14,6 +14,8 @@ public class CommandSelectionState : BaseAbilityMenuState {
 
 	TurnOrderController toc { get { return owner.turnOrderController; } }
 
+	public bool isDebug = false;
+
 	public override void Enter() {
 		base.Enter();
 		statPanelController.ShowPrimary(turn.actor.gameObject);
@@ -24,6 +26,8 @@ public class CommandSelectionState : BaseAbilityMenuState {
 		owner.awarenessController.Look(turn.actor);
 		owner.awarenessController.ClearAwarenessLines();
 		board.DeHighlightAllTiles();
+
+		isDebug = GameConfig.Main.DebugComputerPlayer;
 	}
 
 	public override void Exit() {
@@ -100,13 +104,19 @@ public class CommandSelectionState : BaseAbilityMenuState {
 	}
 
 	IEnumerator ComputerTurn () {
-		if (turn.plan == null) {
-			turn.plan = owner.cpu.FormulatePlan();
-			if (turn.plan != null)
-				turn.ability = turn.plan.ability;
+		yield return new WaitForSeconds (1f);
+
+		if (isDebug) {
+			isDebug = false;
+			owner.ChangeState<DebugTurnPlanViewState>();
+			yield break;
 		}
 
-		yield return new WaitForSeconds (1f);
+		if (turn.plan == null) {
+			turn.plan = owner.cpu.FormulatePlan();
+			if (turn.plan != null && turn.plan.strategem != null) {}
+				turn.ability = turn.plan.ability;
+		}
 
 		bool unitShouldMove = turn.plan.moveLocation != turn.actor.tile && turn.plan.moveLocation != null;
 

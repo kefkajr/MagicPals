@@ -54,12 +54,13 @@ public class ComputerPlayer : MonoBehaviour {
 		return plan;
 	}
 
-	public List<Tile> GetMoveOptions(ObjectiveType? objectiveType) {
+	public List<Tile> GetMoveOptions() {
 		List<Tile> tiles = actor.GetComponent<Movement>().GetTilesInRange(BC.board);
 		// Add the tile the actor is on now as a viable move option.
 		tiles.Add(actor.tile);
 		List<Tile> unoccupiedTilesInRange = tiles.Where((t) => t.occupant != actor).ToList();
-		List<Tile> orderedTiles = unoccupiedTilesInRange.OrderBy(tile => tile.pos.x).ThenBy(tile => tile.pos.y).ToList();
+		List<Tile> unrestrictedTiles = tiles.Where((t) => !BC.board.exitMarkers.Select(e => e.position).Contains(t.pos)).ToList();
+		List<Tile> orderedTiles = unrestrictedTiles.OrderBy(tile => tile.pos.x).ThenBy(tile => tile.pos.y).ToList();
 		return orderedTiles;
 	}
 
@@ -132,7 +133,7 @@ public class ComputerPlayer : MonoBehaviour {
 			if (patrol != null) {
 				plan = patrol.GetPlan(actor, BC.board);
 			} else {
-				List<Tile> moveOptions = GetMoveOptions(null);
+				List<Tile> moveOptions = GetMoveOptions();
 				PC.GetNearestAvailablePatrol(actor, delegate (Patrol p) {
 					if (p != null) {
 						plan = p.GetPlan(actor, BC.board);
@@ -155,11 +156,14 @@ public class ComputerPlayer : MonoBehaviour {
 		TurnPlan plan = new();
 		if (awareness == null) return plan;
 		Tile topPriorityTileOfInterest = BC.board.GetTile(awareness.pointOfInterest);
-		List<Tile> moveOptions = GetMoveOptions(null);
+		List<Tile> moveOptions = GetMoveOptions();
 		BC.board.FindPath(actor, actor.tile, topPriorityTileOfInterest, delegate (List<Tile> finalPath) {
 			Console.Main.Log(string.Format("{0} is investigating {1}", actor.name, topPriorityTileOfInterest.ToString()));
-			plan.moveLocation = finalPath.Count > 0 ? finalPath.Last() : null;
+			Tile destination = finalPath.Count > 0 ? finalPath.Last() : null;
+			if (destination != null)
+				plan.moveLocation = FindNearestMoveOptionToTile(destination);
 		});
+		
 		return plan;
 	}
 
@@ -238,8 +242,14 @@ public class ComputerPlayer : MonoBehaviour {
 				dir = directions.First();
 				Debug.Log("Facing top priority interest (best guess): " + dir);
 			} else {
-				dir = actor.dir; // Just continue facing in the current direction.
-				Debug.Log("Continuing to face the current direction.");
+				var directions2 = origin.GetDirections(topPriorityInterestAwareness.stealth.unit.tile);
+				if (directions2.Count > 0) {
+					dir = directions2.First();
+					Debug.Log("Facing top priority foe (best guess): " + dir);
+				} else {
+					dir = actor.dir; // Just continue facing in the current direction.
+					Debug.Log("Continuing to face the current direction.");
+				}
 			}
 		} else {
 			Patrol patrol = PC.GetPatrolForUnit(actor);
@@ -252,7 +262,7 @@ public class ComputerPlayer : MonoBehaviour {
 		return dir;
 	}
 
-	public void HandleEndOfInvestigation() {
+	public void HandleEndOfInvestigation() { 
 		if (topPriorityInterestAwareness != null) {
 			var interestingTile = BC.board.GetTile(topPriorityInterestAwareness.pointOfInterest);
 			bool didUnitFinishInvestigation = topPriorityInterestAwareness != null && actor.tile == interestingTile;
@@ -281,6 +291,28 @@ public class ComputerPlayer : MonoBehaviour {
 			return true;
 		}
 		return false;
+	}
+
+	Tile FindNearestMoveOptionToTile(Tile tile) {
+		var moveOptions = GetMoveOptions();
+		Tile destination = null;
+		if (moveOptions.Contains(tile)) {
+			return tile;
+		} else {
+			BC.board.FindPath(BC.turn.actor, BC.turn.actor.tile, BC.board.GetTile(tile.pos), delegate (List<Tile> finalPath) {
+				Tile toCheck = tile;
+				while (toCheck != null) {
+					if (moveOptions.Contains(toCheck)) {
+						// Move toward top awareness / point of interest
+						destination = toCheck;
+						break;
+					}
+					// Board search keeps previous tiles in memory
+					toCheck = toCheck.prev;
+				}
+			});
+		}
+		return destination;
 	}
 
 	TurnPlan PrepareForNextTurn(TurnPlan plan) {
