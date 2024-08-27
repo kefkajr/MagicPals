@@ -54,13 +54,15 @@ public class DebugTurnPlanViewState : BattleState {
         }
         TurnPlan turnPlan = turnPlans[currentIndex];
         turnPlan.CalculateScore(owner, owner.turn.actor);
-        owner.board.HighlightTiles(new List<Tile>{turnPlan.fireLocation}, TileHighlightColorType.targetRangeHighlight);
-        AbilityArea area = turnPlan.ability.GetComponent<AbilityArea>();
-		List<Tile> tiles = area.GetTilesInArea(owner.board, turnPlan.fireLocation.pos);
-        owner.board.HighlightTiles(tiles, TileHighlightColorType.targetAreaHighlight);
+
+        if (turnPlan.fireLocation != null) {
+            AbilityArea area = turnPlan.ability.GetComponent<AbilityArea>();
+            List<Tile> tiles = area.GetTilesInArea(owner.board, turnPlan.fireLocation.pos);
+            owner.board.HighlightTiles(tiles, TileHighlightColorType.targetAreaHighlight);
+            Console.Main.Log("Fire target: " + turnPlan.fireLocation);
+        }
         owner.board.HighlightTiles(new List<Tile>{turnPlan.moveLocation}, TileHighlightColorType.moveRangeHighlight);
         Console.Main.Log("Move target: " + turnPlan.moveLocation);
-        Console.Main.Log("Fire target: " + turnPlan.fireLocation);
         Console.Main.Log("Score: " + turnPlan.score);
         Debug.Log(turnPlan.description);
     }

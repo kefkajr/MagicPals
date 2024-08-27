@@ -32,11 +32,11 @@ public class TurnPlan {
 	public void CalculateScore(BattleController BC, Unit actor) {
 		_score = 0;
 		_description = "";
-		RateFireLocation(BC, actor);
 		CalculateScoreForPosition(BC, actor);
 		CalculateMoveScoreForObjective(BC, actor);
+		RateFireLocation(BC, actor);
 		_score += strategem.priorityBonus;
-		_description += "Adding priority bonus " + strategem.priorityBonus.ToString() + ". / ";
+		_description += "Adding priority bonus " + strategem.priorityBonus.ToString() + ". / Score is " + score.ToString() + ".";
 	}
 
 	void CalculateMoveScoreForObjective(BattleController BC, Unit actor) {
@@ -77,6 +77,7 @@ public class TurnPlan {
 					_description += "Move target is on a foe's path to the exit. +1 / ";
 					_score++;
 				}
+
 				/// Rate each tile based on its distance from the exit!!!!
 				int movementRange = actor.GetComponent<Stats>()[StatTypes.MOV];
 				Point distance = nearestExitMarkerTile.pos - moveLocation.pos;
@@ -130,8 +131,10 @@ public class TurnPlan {
 		}
 		_description += "fireLocationBonus is " + fireLocationBonus.ToString() + ".";
 		if (fireLocationBonus <= 0) {
-			_description += " No targets. Minimizing score. / ";
-			_score = -1000;
+			_description += " No targets. Minimizing score and removing ability / ";
+			_score -= 1000;
+			ability = null;
+			fireLocation = null;
 		} else {
 			_description += " / ";
 			_score += fireLocationBonus;
