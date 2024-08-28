@@ -10,10 +10,10 @@ public static class UnitFactory
 
 	public static GameObject Create (SpawnData spawn)
 	{
-		UnitRecipe recipe = Resources.Load<UnitRecipe>("Unit Recipes/" + spawn.recipeName);
+		UnitRecipe recipe = Resources.Load<UnitRecipe>("Unit Recipes/" + spawn.unitName);
 		if (recipe == null)
 		{
-			Debug.LogError("No Unit Recipe for name: " + spawn.recipeName);
+			Debug.LogError("No Unit Recipe for name: " + spawn.unitName);
 			return null;
 		}
 
@@ -173,7 +173,7 @@ public static class UnitFactory
 			driver.normal = DriverType.Human;
 		} else {
 			driver.normal = DriverType.Computer;
-			GameObject instance = InstantiatePrefab("Strategies/" + strategyName + " Strategy");
+			GameObject instance = InstantiatePrefab("Strategies/" + strategyName);
 			instance.transform.SetParent(obj.transform);
 		}
 	}
