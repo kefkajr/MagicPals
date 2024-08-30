@@ -221,30 +221,66 @@ MonoBehaviour:
     height: 1
     wallData: []
   spawns:
-  - recipeName: Nessa
-    position:
-      x: 1
-      y: 1
-    direction: 0
-    turnInitiativeOffset: 3
-  - recipeName: Cece
+  - name: Cece
+    model: Hero
+    job: Rogue
+    attack: Common/Attack
+    abilityCatalog: Sentry
+    strategy: 
+    locomotion: 0
+    alliance: 2
+    perceptionRecipe: {fileID: 11400000, guid: fc02c695f023448b8a13b06ce378615c, type: 2}
+    statsTemplate: {fileID: 11400000, guid: c73530da8110a4c1b9949ba764abf38e, type: 2}
     position:
       x: 4
-      y: 1
-    direction: 1
-    turnInitiativeOffset: 1
-  - recipeName: Wedge
-    position:
-      x: 0
       y: 2
     direction: 0
-    turnInitiativeOffset: 4
-  - recipeName: Biggs
+    turnInitiativeOffset: 1
+  - name: Biggs
+    model: Monster
+    job: Warrior
+    attack: Sentry Skill/Rifle Fire
+    abilityCatalog: Sentry
+    strategy: Sentry Officer
+    locomotion: 0
+    alliance: 4
+    perceptionRecipe: {fileID: 11400000, guid: fc02c695f023448b8a13b06ce378615c, type: 2}
+    statsTemplate: {fileID: 11400000, guid: 95e6717ce11d64d458204b352cb5f76a, type: 2}
     position:
       x: 2
       y: 4
     direction: 1
     turnInitiativeOffset: 2
+  - name: Nessa
+    model: Hero
+    job: Rogue
+    attack: Common/Attack
+    abilityCatalog: Sentry
+    strategy: 
+    locomotion: 0
+    alliance: 2
+    perceptionRecipe: {fileID: 11400000, guid: fc02c695f023448b8a13b06ce378615c, type: 2}
+    statsTemplate: {fileID: 11400000, guid: c73530da8110a4c1b9949ba764abf38e, type: 2}
+    position:
+      x: 1
+      y: 1
+    direction: 2
+    turnInitiativeOffset: 3
+  - name: Wedge
+    model: Monster
+    job: Warrior
+    attack: Sentry Skill/Rifle Fire
+    abilityCatalog: Sentry
+    strategy: Sentry Grunt
+    locomotion: 0
+    alliance: 4
+    perceptionRecipe: {fileID: 11400000, guid: fc02c695f023448b8a13b06ce378615c, type: 2}
+    statsTemplate: {fileID: 11400000, guid: 95e6717ce11d64d458204b352cb5f76a, type: 2}
+    position:
+      x: 0
+      y: 2
+    direction: 0
+    turnInitiativeOffset: 4
   exits:
   - x: 0
     y: 5
@@ -265,11 +301,11 @@ MonoBehaviour:
     - targetMovePoint:
         x: 2
         y: 4
-      facingDirection: 2
-      reverseDirection: 2
+      facingDirection: 1
+      reverseDirection: 1
     - targetMovePoint:
         x: 2
         y: 4
-      facingDirection: 1
-      reverseDirection: 1
+      facingDirection: 2
+      reverseDirection: 2
     currentPatrolNodeIndex: 1

@@ -35,7 +35,6 @@ public class ComputerPlayer : MonoBehaviour {
 		Debug.Log(actor.name + " is formulating a plan.");
 		SetTopPriorityFoeAndPointOfInterest();
 
-
 		// Are the conditions met for the highest priority gambit?
 		// Can the ability be used?
 		Strategy strategy = actor.GetComponentInChildren<Strategy>();

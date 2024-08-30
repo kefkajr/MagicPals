@@ -107,11 +107,11 @@ public class BoardCreator : MonoBehaviour {
 
 		GameObject instance = Instantiate(spawnMarkerPrefab);
 		instance.transform.parent = transform;
+
+		SpawnRecipe recipe = Resources.Load<SpawnRecipe>("Spawn Recipes/" + recipeName);
+		SpawnData spawnData = new SpawnData(recipe, pos, currentWallDirection, 0);
 		SpawnMarker spawnMarker = instance.GetComponent<SpawnMarker>();
-		spawnMarker.recipeName = recipeName;
-		spawnMarker.position = pos;
-		spawnMarker.height = tiles[pos].height;
-		spawnMarker.direction = currentWallDirection;
+		spawnMarker.Set(spawnData, tiles[pos].height);
 
 		spawns.Add(pos, spawnMarker);
 		spawnMarker.Match();
@@ -157,8 +157,11 @@ public class BoardCreator : MonoBehaviour {
 		
 		LevelData levelData = AssetDatabase.LoadAssetAtPath<LevelData>(string.Format("Assets/Resources/Levels/{0}.asset", levelName));
 		
-		if (levelData == null)
+		bool isLevelDataNew = false;
+		if (levelData == null) {
 			levelData = ScriptableObject.CreateInstance<LevelData>();
+			isLevelDataNew = true;
+		}
 			
 		levelData.tiles = new List<TileData>( tiles.Count );
 		foreach (Tile t in tiles.Values)
@@ -166,14 +169,19 @@ public class BoardCreator : MonoBehaviour {
 
 		levelData.spawns = new List<SpawnData>( spawns.Count );
 		foreach (SpawnMarker s in spawns.Values)
-			levelData.spawns.Add( new SpawnData(s.recipeName, s.position, s.direction, s.turnInitiativeOffset) );
+			levelData.spawns.Add( s.spawnData );
 
 		levelData.exits = new List<Point>( exits.Count );
 		foreach (ExitMarker e in exits.Values)
 			levelData.exits.Add( new Point(e.position.x, e.position.y) );
 		
-		string fileName = string.Format("Assets/Resources/Levels/{1}.asset", filePath, (levelName != "" || levelName != null)  ? levelName : "New Level");
-		AssetDatabase.CreateAsset(levelData, fileName);
+		if (isLevelDataNew) {
+			string fileName = string.Format("Assets/Resources/Levels/{1}.asset", filePath, (levelName != "" || levelName != null)  ? levelName : "New Level");
+			AssetDatabase.CreateAsset(levelData, fileName);
+		} else {
+			EditorUtility.SetDirty(levelData);
+			AssetDatabase.SaveAssetIfDirty(levelData);
+		}
 	}
 
 	public void Load() {
@@ -197,7 +205,7 @@ public class BoardCreator : MonoBehaviour {
 		foreach (SpawnData s in levelData.spawns) {
 			pos.x = s.position.x;
 			pos.y = s.position.y;
-			CreateSpawnMarker(s.recipeName);
+			CreateSpawnMarker(s.name);
 		}
 
 		foreach (Point p in levelData.exits) {

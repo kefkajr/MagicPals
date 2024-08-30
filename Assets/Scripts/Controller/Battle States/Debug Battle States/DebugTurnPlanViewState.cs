@@ -49,6 +49,12 @@ public class DebugTurnPlanViewState : BattleState {
 
     void HighlighTurnPlan() {
         if (currentIndex == turnPlans.Count) {
+            Console.Main.Log("Last turn plan. Quitting debug.");
+            owner.ChangeState<CommandSelectionState>();
+            return;
+        }
+        if (turnPlans.Count == 0) {
+            Console.Main.Log("No turn plans. Quitting debug.");
             owner.ChangeState<CommandSelectionState>();
             return;
         }

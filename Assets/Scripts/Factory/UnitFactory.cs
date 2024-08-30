@@ -10,29 +10,22 @@ public static class UnitFactory
 
 	public static GameObject Create (SpawnData spawn)
 	{
-		UnitRecipe recipe = Resources.Load<UnitRecipe>("Unit Recipes/" + spawn.unitName);
-		if (recipe == null)
-		{
-			Debug.LogError("No Unit Recipe for name: " + spawn.unitName);
-			return null;
-		}
-
-		GameObject unitObject = InstantiatePrefab("Units/" + recipe.model);
-		unitObject.name = recipe.name;
+		GameObject unitObject = InstantiatePrefab("Units/" + spawn.model);
+		unitObject.name = spawn.name;
 		Unit unit = unitObject.AddComponent<Unit>();
-		AddStats(unitObject, recipe.statsTemplate, spawn.turnInitiativeOffset);
-		AddLocomotion(unitObject, recipe.locomotion);
+		AddStats(unitObject, spawn.statsTemplate, spawn.turnInitiativeOffset);
+		AddLocomotion(unitObject, spawn.locomotion);
 		unitObject.AddComponent<Status>();
 		// AddJob(unitObject, recipe.job);
 		// AddRank(unitObject); 
 		unitObject.AddComponent<Health>();
 		unitObject.AddComponent<Mana>();
-		AddAttack(unitObject, recipe.attack);
-		AddAbilityCatalog(unitObject, recipe.abilityCatalog);
-		AddAlliance(unitObject, recipe.alliance);
+		AddAttack(unitObject, spawn.attack);
+		AddAbilityCatalog(unitObject, spawn.abilityCatalog);
+		AddAlliance(unitObject, spawn.alliance);
 		AddInventory(unitObject);
-		AddAwareness(unitObject, recipe.perceptionRecipe);
-		AddStrategy(unitObject, recipe.strategy);
+		AddAwareness(unitObject, spawn.perceptionRecipe);
+		AddStrategy(unitObject, spawn.strategy);
 		return unitObject;
 	}
 	#endregion

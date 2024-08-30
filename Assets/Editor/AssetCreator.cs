@@ -9,7 +9,7 @@ public class YourClassAsset {
 
 	[MenuItem("Assets/Create/Unit Recipe")]
 	public static void CreateUnitRecipe() {
-		ScriptableObjectUtility.CreateAsset<UnitRecipe>();
+		ScriptableObjectUtility.CreateAsset<SpawnRecipe>();
 	}
 	
 	[MenuItem("Assets/Create/Ability Catalog Recipe")]

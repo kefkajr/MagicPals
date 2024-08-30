@@ -15,157 +15,85 @@ MonoBehaviour:
   tiles:
   - point:
       x: 0
-      y: 7
-    height: 3
+      y: 0
+    height: 1
+    wallData: []
+  - point:
+      x: 1
+      y: 0
+    height: 1
     wallData: []
   - point:
       x: 2
-      y: 7
-    height: 3
+      y: 0
+    height: 1
+    wallData: []
+  - point:
+      x: 3
+      y: 0
+    height: 1
+    wallData: []
+  - point:
+      x: 4
+      y: 0
+    height: 1
+    wallData: []
+  - point:
+      x: 0
+      y: 1
+    height: 1
+    wallData: []
+  - point:
+      x: 1
+      y: 1
+    height: 1
+    wallData: []
+  - point:
+      x: 2
+      y: 1
+    height: 1
+    wallData: []
+  - point:
+      x: 3
+      y: 1
+    height: 1
+    wallData: []
+  - point:
+      x: 4
+      y: 1
+    height: 1
+    wallData: []
+  - point:
+      x: 0
+      y: 2
+    height: 1
     wallData:
-    - direction: 0
+    - direction: 3
       origin: 1
       thickness: 1
       height: 3
-    - direction: 3
+    - direction: 2
       origin: 1
       thickness: 1
       height: 3
   - point:
       x: 1
-      y: 7
-    height: 3
+      y: 2
+    height: 1
+    wallData:
+    - direction: 2
+      origin: 1
+      thickness: 1
+      height: 3
+  - point:
+      x: 2
+      y: 2
+    height: 1
     wallData: []
   - point:
       x: 3
-      y: 7
-    height: 3
-    wallData:
-    - direction: 0
-      origin: 1
-      thickness: 1
-      height: 3
-  - point:
-      x: 4
-      y: 7
-    height: 3
-    wallData:
-    - direction: 0
-      origin: 1
-      thickness: 1
-      height: 3
-    - direction: 1
-      origin: 1
-      thickness: 1
-      height: 3
-  - point:
-      x: 5
-      y: 7
-    height: 3
-    wallData: []
-  - point:
-      x: 6
-      y: 7
-    height: 3
-    wallData: []
-  - point:
-      x: 7
-      y: 7
-    height: 4
-    wallData: []
-  - point:
-      x: 8
-      y: 7
-    height: 3
-    wallData: []
-  - point:
-      x: 5
-      y: 8
-    height: 2
-    wallData: []
-  - point:
-      x: 5
-      y: 9
+      y: 2
     height: 1
-    wallData:
-    - direction: 0
-      origin: 1
-      thickness: 1
-      height: 3
-    - direction: 2
-      origin: 1
-      thickness: 1
-      height: 3
-  - point:
-      x: 6
-      y: 9
-    height: 1
-    wallData:
-    - direction: 0
-      origin: 1
-      thickness: 1
-      height: 3
-  - point:
-      x: 7
-      y: 9
-    height: 1
-    wallData:
-    - direction: 0
-      origin: 1
-      thickness: 1
-      height: 3
-  - point:
-      x: 8
-      y: 9
-    height: 1
-    wallData: []
-  - point:
-      x: 4
-      y: 3
-    height: 2
-    wallData: []
-  - point:
-      x: 5
-      y: 3
-    height: 2
-    wallData: []
-  - point:
-      x: 6
-      y: 3
-    height: 2
-    wallData: []
-  - point:
-      x: 7
-      y: 3
-    height: 2
-    wallData: []
-  - point:
-      x: 8
-      y: 3
-    height: 1
-    wallData: []
-  - point:
-      x: 4
-      y: 4
-    height: 3
-    wallData: []
-  - point:
-      x: 5
-      y: 4
-    height: 3
-    wallData:
-    - direction: 3
-      origin: 1
-      thickness: 1
-      height: 3
-    - direction: 2
-      origin: 1
-      thickness: 1
-      height: 3
-  - point:
-      x: 6
-      y: 4
-    height: 3
     wallData:
     - direction: 2
       origin: 1
@@ -176,275 +104,91 @@ MonoBehaviour:
       thickness: 1
       height: 3
   - point:
-      x: 7
-      y: 4
-    height: 3
-    wallData: []
-  - point:
-      x: 8
-      y: 4
-    height: 2
-    wallData: []
-  - point:
       x: 4
-      y: 5
-    height: 3
+      y: 2
+    height: 1
     wallData: []
   - point:
-      x: 5
-      y: 5
-    height: 3
+      x: 0
+      y: 3
+    height: 1
     wallData:
     - direction: 3
       origin: 1
       thickness: 1
       height: 3
   - point:
-      x: 6
-      y: 5
-    height: 3
-    wallData: []
-  - point:
-      x: 7
-      y: 5
-    height: 3
-    wallData: []
-  - point:
-      x: 8
-      y: 5
-    height: 2
-    wallData: []
-  - point:
-      x: 4
-      y: 6
-    height: 2
-    wallData: []
-  - point:
-      x: 5
-      y: 6
-    height: 2
-    wallData:
-    - direction: 3
-      origin: 1
-      thickness: 1
-      height: 4
-  - point:
-      x: 6
-      y: 6
-    height: 2
-    wallData: []
-  - point:
-      x: 7
-      y: 6
-    height: 3
-    wallData: []
-  - point:
-      x: 8
-      y: 6
-    height: 2
-    wallData: []
-  - point:
-      x: 0
-      y: 9
-    height: 1
-    wallData: []
-  - point:
       x: 1
-      y: 9
+      y: 3
     height: 1
     wallData: []
   - point:
       x: 2
-      y: 9
+      y: 3
     height: 1
     wallData: []
   - point:
       x: 3
-      y: 9
+      y: 3
+    height: 1
+    wallData:
+    - direction: 1
+      origin: 1
+      thickness: 1
+      height: 3
+  - point:
+      x: 4
+      y: 3
+    height: 1
+    wallData: []
+  - point:
+      x: 0
+      y: 4
+    height: 1
+    wallData:
+    - direction: 3
+      origin: 1
+      thickness: 1
+      height: 3
+  - point:
+      x: 1
+      y: 4
     height: 1
     wallData:
     - direction: 0
       origin: 1
       thickness: 1
-      height: 2
-    - direction: 2
-      origin: 1
-      thickness: 1
       height: 3
   - point:
-      x: 0
-      y: 6
-    height: 2
-    wallData: []
-  - point:
-      x: 1
-      y: 6
-    height: 2
-    wallData: []
-  - point:
-      x: 2
-      y: 6
-    height: 2
-    wallData:
-    - direction: 3
-      origin: 1
-      thickness: 1
-      height: 4
-  - point:
-      x: 3
-      y: 6
-    height: 1
-    wallData: []
-  - point:
-      x: 7
-      y: 8
-    height: 2
-    wallData: []
-  - point:
-      x: 4
-      y: 8
-    height: 1
-    wallData: []
-  - point:
-      x: 6
-      y: 8
-    height: 1
-    wallData: []
-  - point:
-      x: 8
-      y: 8
-    height: 1
-    wallData: []
-  - point:
-      x: 0
-      y: 1
-    height: 1
-    wallData: []
-  - point:
-      x: 1
-      y: 1
-    height: 1
-    wallData: []
-  - point:
-      x: 2
-      y: 1
-    height: 1
-    wallData: []
-  - point:
-      x: 0
-      y: 2
-    height: 1
-    wallData: []
-  - point:
-      x: 1
-      y: 2
-    height: 1
-    wallData: []
-  - point:
-      x: 2
-      y: 2
-    height: 1
-    wallData: []
-  - point:
-      x: 0
-      y: 3
-    height: 1
-    wallData: []
-  - point:
-      x: 1
-      y: 3
-    height: 1
-    wallData: []
-  - point:
-      x: 2
-      y: 3
-    height: 1
-    wallData: []
-  - point:
-      x: 0
-      y: 4
-    height: 1
-    wallData: []
-  - point:
-      x: 1
-      y: 4
-    height: 1
-    wallData: []
-  - point:
       x: 2
       y: 4
-    height: 1
-    wallData: []
-  - point:
-      x: 0
-      y: 5
-    height: 1
-    wallData: []
-  - point:
-      x: 1
-      y: 5
-    height: 1
-    wallData: []
-  - point:
-      x: 2
-      y: 5
-    height: 1
-    wallData:
-    - direction: 3
-      origin: 1
-      thickness: 1
-      height: 5
-  - point:
-      x: 1
-      y: 8
-    height: 2
-    wallData: []
-  - point:
-      x: 0
-      y: 8
-    height: 2
-    wallData: []
-  - point:
-      x: 2
-      y: 8
-    height: 3
-    wallData: []
-  - point:
-      x: 3
-      y: 8
-    height: 2
-    wallData: []
-  - point:
-      x: 3
-      y: 5
-    height: 2
-    wallData: []
-  - point:
-      x: 3
-      y: 4
-    height: 2
-    wallData: []
-  - point:
-      x: 4
-      y: 9
     height: 1
     wallData:
     - direction: 0
       origin: 1
       thickness: 1
-      height: 2
-    - direction: 2
+      height: 3
+  - point:
+      x: 3
+      y: 4
+    height: 1
+    wallData:
+    - direction: 0
       origin: 1
       thickness: 1
       height: 3
   - point:
-      x: 3
-      y: 1
-    height: 1
-    wallData: []
-  - point:
       x: 4
-      y: 1
+      y: 4
+    height: 1
+    wallData:
+    - direction: 0
+      origin: 1
+      thickness: 1
+      height: 3
+  - point:
+      x: 5
+      y: 0
     height: 1
     wallData: []
   - point:
@@ -453,112 +197,89 @@ MonoBehaviour:
     height: 1
     wallData: []
   - point:
-      x: 6
-      y: 1
-    height: 1
-    wallData: []
-  - point:
-      x: 7
-      y: 1
-    height: 1
-    wallData: []
-  - point:
-      x: 3
-      y: 2
-    height: 1
-    wallData: []
-  - point:
-      x: 4
-      y: 2
-    height: 1
-    wallData: []
-  - point:
       x: 5
       y: 2
     height: 1
     wallData: []
   - point:
-      x: 6
-      y: 2
-    height: 1
-    wallData: []
-  - point:
-      x: 7
-      y: 2
-    height: 1
-    wallData: []
-  - point:
-      x: 3
+      x: 5
       y: 3
     height: 1
     wallData: []
   - point:
-      x: 8
-      y: 1
-    height: 1
-    wallData: []
-  - point:
-      x: 8
-      y: 2
-    height: 1
-    wallData: []
-  - point:
-      x: 8
-      y: 10
+      x: 5
+      y: 4
     height: 1
     wallData:
-    - direction: 3
+    - direction: 0
       origin: 1
       thickness: 1
       height: 3
+  - point:
+      x: 0
+      y: 5
+    height: 1
+    wallData: []
   spawns:
-  - recipeName: Wedge
+  - name: Nessa
+    model: Hero
+    job: Rogue
+    attack: Common/Attack
+    abilityCatalog: Sentry
+    strategy: 
+    locomotion: 0
+    alliance: 2
+    perceptionRecipe: {fileID: 11400000, guid: fc02c695f023448b8a13b06ce378615c, type: 2}
+    statsTemplate: {fileID: 11400000, guid: c73530da8110a4c1b9949ba764abf38e, type: 2}
     position:
-      x: 5
-      y: 7
+      x: 1
+      y: 1
     direction: 1
     turnInitiativeOffset: 0
-  - recipeName: Nessa
-    position:
-      x: 8
-      y: 7
-    direction: 3
-    turnInitiativeOffset: 0
-  - recipeName: Cece
+  - name: Cece
+    model: Hero
+    job: Rogue
+    attack: Common/Attack
+    abilityCatalog: Sentry
+    strategy: 
+    locomotion: 0
+    alliance: 2
+    perceptionRecipe: {fileID: 11400000, guid: fc02c695f023448b8a13b06ce378615c, type: 2}
+    statsTemplate: {fileID: 11400000, guid: c73530da8110a4c1b9949ba764abf38e, type: 2}
     position:
       x: 4
-      y: 4
-    direction: 0
+      y: 2
+    direction: 2
     turnInitiativeOffset: 0
-  - recipeName: Biggs
+  - name: Biggs
+    model: Monster
+    job: Warrior
+    attack: Sentry Skill/Rifle Fire
+    abilityCatalog: Sentry
+    strategy: Sentry Officer
+    locomotion: 0
+    alliance: 4
+    perceptionRecipe: {fileID: 11400000, guid: fc02c695f023448b8a13b06ce378615c, type: 2}
+    statsTemplate: {fileID: 11400000, guid: 95e6717ce11d64d458204b352cb5f76a, type: 2}
     position:
-      x: 8
+      x: 2
       y: 4
-    direction: 0
+    direction: 1
     turnInitiativeOffset: 0
-  exits:
-  - x: 8
-    y: 10
-  patrols:
-  - nodes:
-    - targetMovePoint:
-        x: 2
-        y: 7
-      facingDirection: 2
-      reverseDirection: 1
-    - targetMovePoint:
-        x: 2
-        y: 4
-      facingDirection: 2
-      reverseDirection: 1
-    - targetMovePoint:
-        x: 1
-        y: 4
-      facingDirection: 3
-      reverseDirection: 2
-    - targetMovePoint:
-        x: 1
-        y: 7
-      facingDirection: 0
-      reverseDirection: 2
-    currentPatrolNodeIndex: 0
+  - name: Wedge
+    model: Monster
+    job: Warrior
+    attack: Sentry Skill/Rifle Fire
+    abilityCatalog: Sentry
+    strategy: Sentry Grunt
+    locomotion: 0
+    alliance: 4
+    perceptionRecipe: {fileID: 11400000, guid: fc02c695f023448b8a13b06ce378615c, type: 2}
+    statsTemplate: {fileID: 11400000, guid: 95e6717ce11d64d458204b352cb5f76a, type: 2}
+    position:
+      x: 0
+      y: 2
+    direction: 1
+    turnInitiativeOffset: 0
+  exits: []
+  patrols: []

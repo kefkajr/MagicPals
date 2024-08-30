@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 [CreateAssetMenu(menuName = "Create new unit recipe")]
-public class UnitRecipe : ScriptableObject 
+public class SpawnRecipe : ScriptableObject 
 {
 	public string model;
 	public string job;

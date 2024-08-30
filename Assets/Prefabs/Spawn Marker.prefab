@@ -144,14 +144,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f49c6772e075d43eeac14186670b4fd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  recipeName: 
+  spawnData:
+    name: 
+    model: 
+    job: 
+    attack: 
+    abilityCatalog: 
+    strategy: 
+    locomotion: 0
+    alliance: 0
+    perceptionRecipe: {fileID: 0}
+    statsTemplate: {fileID: 0}
+    position:
+      x: 0
+      y: 0
+    direction: 0
+    turnInitiativeOffset: 0
+    spawnMarker: {fileID: 0}
   recipeNameLabel: {fileID: 3994794568941800080}
-  position:
-    x: 0
-    y: 0
   height: 0
   directionMarker: {fileID: 4059296242176941919}
-  direction: 0
+  meshRenderer: {fileID: 3994794568852751045}
+  heroMaterial: {fileID: 2100000, guid: 6cfd78a61f57e4b198eb74409bcca72a, type: 2}
+  enemyMaterial: {fileID: 2100000, guid: e43bb82b685554a9eb44125a03e7a5c6, type: 2}
+  defaultMaterial: {fileID: 2100000, guid: 9a9697dac964048bab640cabc1cd5bc8, type: 2}
 --- !u!1 &3994794568941800078
 GameObject:
   m_ObjectHideFlags: 0
