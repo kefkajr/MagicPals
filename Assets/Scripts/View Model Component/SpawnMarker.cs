@@ -48,8 +48,6 @@ public class SpawnMarker : MonoBehaviour {
 public class SpawnData {
     public string name;
     public string model;
-	public string job;
-	public string attack;
 	public string abilityCatalog;
 	public string strategy;
 	public Locomotions locomotion;
@@ -63,8 +61,6 @@ public class SpawnData {
     public SpawnData(SpawnRecipe spawnRecipe, Point position, Direction direction, int turnInitiativeOffset) {
         name = spawnRecipe.name;
         model = spawnRecipe.model;
-        job = spawnRecipe.job; 
-        attack = spawnRecipe.attack;
         abilityCatalog = spawnRecipe.abilityCatalog;
         strategy = spawnRecipe.strategy;
         locomotion = spawnRecipe.locomotion;
@@ -75,11 +71,9 @@ public class SpawnData {
         this.direction = direction;
         this.turnInitiativeOffset = turnInitiativeOffset;
     }
-	public SpawnData(string name, string model, string job, string attack, string abilityCatalog, string strategy, Locomotions locomotion, Alliances alliance, PerceptionRecipe perceptionRecipe, StatsTemplate statsTemplate, Point position, Direction direction, int turnInitiativeOffset) {
+	public SpawnData(string name, string model, string abilityCatalog, string strategy, Locomotions locomotion, Alliances alliance, PerceptionRecipe perceptionRecipe, StatsTemplate statsTemplate, Point position, Direction direction, int turnInitiativeOffset) {
 		this.name = name;
         this.model = model;
-        this.job = job;
-        this.attack = attack;
         this.abilityCatalog = abilityCatalog;
         this.strategy = strategy;
         this.locomotion = locomotion;

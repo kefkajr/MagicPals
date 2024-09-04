@@ -20,7 +20,6 @@ public static class UnitFactory
 		// AddRank(unitObject); 
 		unitObject.AddComponent<Health>();
 		unitObject.AddComponent<Mana>();
-		AddAttack(unitObject, spawn.attack);
 		AddAbilityCatalog(unitObject, spawn.abilityCatalog);
 		AddAlliance(unitObject, spawn.alliance);
 		AddInventory(unitObject);
@@ -79,18 +78,6 @@ public static class UnitFactory
 	{
 		Alliance alliance = unitObject.AddComponent<Alliance>();
 		alliance.type = type;
-	}
-
-	static void AddRank (GameObject unitObject)
-	{
-		Rank rank = unitObject.AddComponent<Rank>();
-		rank.Init(1);
-	}
-
-	static void AddAttack (GameObject unitObject, string name)
-	{
-		GameObject instance = InstantiatePrefab("Abilities/" + name);
-		instance.transform.SetParent(unitObject.transform);
 	}
 
 	static void AddAbilityCatalog (GameObject unitObject, string name)

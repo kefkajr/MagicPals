@@ -223,8 +223,6 @@ MonoBehaviour:
   spawns:
   - name: Cece
     model: Hero
-    job: Rogue
-    attack: Common/Attack
     abilityCatalog: Sentry
     strategy: 
     locomotion: 0
@@ -238,10 +236,8 @@ MonoBehaviour:
     turnInitiativeOffset: 1
   - name: Biggs
     model: Monster
-    job: Warrior
-    attack: Sentry Skill/Rifle Fire
     abilityCatalog: Sentry
-    strategy: Sentry Officer
+    strategy: Sentry Grunt
     locomotion: 0
     alliance: 4
     perceptionRecipe: {fileID: 11400000, guid: fc02c695f023448b8a13b06ce378615c, type: 2}
@@ -253,8 +249,6 @@ MonoBehaviour:
     turnInitiativeOffset: 2
   - name: Nessa
     model: Hero
-    job: Rogue
-    attack: Common/Attack
     abilityCatalog: Sentry
     strategy: 
     locomotion: 0
@@ -268,8 +262,6 @@ MonoBehaviour:
     turnInitiativeOffset: 3
   - name: Wedge
     model: Monster
-    job: Warrior
-    attack: Sentry Skill/Rifle Fire
     abilityCatalog: Sentry
     strategy: Sentry Grunt
     locomotion: 0
@@ -308,4 +300,4 @@ MonoBehaviour:
         y: 4
       facingDirection: 2
       reverseDirection: 2
-    currentPatrolNodeIndex: 1
+    currentPatrolNodeIndex: 0

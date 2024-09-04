@@ -6,8 +6,6 @@ using System.Collections.Generic;
 public class SpawnRecipe : ScriptableObject 
 {
 	public string model;
-	public string job;
-	public string attack;
 	public string abilityCatalog;
 	public string strategy;
 	public Locomotions locomotion;
