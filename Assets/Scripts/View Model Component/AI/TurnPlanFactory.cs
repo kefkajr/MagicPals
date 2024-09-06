@@ -18,13 +18,11 @@ public class TurnPlanFactory {
 
 		for (int i = 0; i < strategy.gambits.Count; ++i) {
 			Gambit gambit = strategy.gambits[i];
-			for (int ii = 0; ii < strategy.objectiveTypes.Count; ++ii) {
-			ObjectiveType objectiveType = strategy.objectiveTypes[ii];
 			if (!gambit.IsViable(BC)) {
 				continue;
 			}
-			Debug.Log("Evaluating gambit " + gambit.name + " with " + objectiveType.ToString());
-			Strategem strategem = new(gambit, objectiveType, strategy.gambits.Count - i + (strategy.objectiveTypes.Count - ii) );
+			Debug.Log("Evaluating gambit " + gambit.name);
+			Strategem strategem = new(gambit, strategy.objectiveTypes, strategy.gambits.Count - i);
 
 			// Determine where to move and aim to best use the ability
 			AbilityRange range = gambit.ability.GetComponent<AbilityRange>();
@@ -43,7 +41,6 @@ public class TurnPlanFactory {
 				turnPlans.AddRange(
 					PlanDirectionDependent(strategem)
 				);
-			}
 		}
 
 		for (int i = 0; i < turnPlans.Count; ++i) {
@@ -250,32 +247,29 @@ public class TurnPlanFactory {
 
 		for (int i = 0; i < strategy.gambits.Count; ++i) {
 			Gambit gambit = strategy.gambits[i];
-			for (int ii = 0; ii < strategy.objectiveTypes.Count; ++ii) {
-				ObjectiveType objectiveType = strategy.objectiveTypes[ii];
-				if (!gambit.IsViable(BC)) {
-					continue;
-				}
-				Debug.Log("Evaluating gambit " + gambit.name + " with " + objectiveType.ToString());
-				Strategem strategem = new(gambit, objectiveType, strategy.gambits.Count - i + (strategy.objectiveTypes.Count - ii) );
-
-				// Determine where to move and aim to best use the ability
-				AbilityRange range = gambit.ability.GetComponent<AbilityRange>();
-				if (range.positionOriented == false)
-					// It doesn't matter where you stand
-					turnPlans.AddRange(
-						PlanPositionIndependent(strategem)
-					);
-				else if (!range.directionOriented)
-					// It DOES matter where you stand, but it doesn't matter where you face
-					turnPlans.AddRange(
-						PlanDirectionIndependent(strategem)
-					);
-				else
-					// It DOES matter where you stand and it DOES matter where you face
-					turnPlans.AddRange(
-						PlanDirectionDependent(strategem)
-					);
+			if (!gambit.IsViable(BC)) {
+				continue;
 			}
+			Debug.Log("Evaluating gambit " + gambit.name);
+			Strategem strategem = new(gambit, strategy.objectiveTypes, strategy.gambits.Count - i);
+
+			// Determine where to move and aim to best use the ability
+			AbilityRange range = gambit.ability.GetComponent<AbilityRange>();
+			if (range.positionOriented == false)
+				// It doesn't matter where you stand
+				turnPlans.AddRange(
+					PlanPositionIndependent(strategem)
+				);
+			else if (!range.directionOriented)
+				// It DOES matter where you stand, but it doesn't matter where you face
+				turnPlans.AddRange(
+					PlanDirectionIndependent(strategem)
+				);
+			else
+				// It DOES matter where you stand and it DOES matter where you face
+				turnPlans.AddRange(
+					PlanDirectionDependent(strategem)
+				);
 		}
 		return turnPlans;
 	}

@@ -29,11 +29,11 @@ public enum ObjectiveType {
 
 public class Strategem {
 	public Gambit gambit;
-	public ObjectiveType objectiveType;
+	public List<ObjectiveType> objectiveTypes;
 	public int priorityBonus;
-	public Strategem (Gambit gambit, ObjectiveType objectiveType, int priorityBonus) {
+	public Strategem (Gambit gambit, List<ObjectiveType> objectiveTypes, int priorityBonus) {
 		this.gambit = gambit;
-		this.objectiveType = objectiveType;
+		this.objectiveTypes = objectiveTypes;
 		this.priorityBonus = priorityBonus;
 	}
 }

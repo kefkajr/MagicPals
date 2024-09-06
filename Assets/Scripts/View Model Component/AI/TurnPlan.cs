@@ -33,65 +33,83 @@ public class TurnPlan {
 		_score = 0;
 		_description = "";
 		CalculateScoreForPosition(BC, actor);
-		CalculateMoveScoreForObjective(BC, actor);
+		CalculateMoveScoreForObjectives(BC, actor);
 		RateFireLocation(BC, actor);
 		_score += strategem.priorityBonus;
 		_description += "Adding priority bonus " + strategem.priorityBonus.ToString() + ". / Score is " + score.ToString() + ".";
 	}
 
-	void CalculateMoveScoreForObjective(BattleController BC, Unit actor) {
-		switch (strategem.objectiveType) {
-			case ObjectiveType.BlockExit:
-				// Find tiles between the exit and all known foes
-				// then look for overlap with the existing tiles
-				/// Find nearest exit
-				Tile nearestExitMarkerTile = null;
-				int nearestExitMarkerTilePathLength = int.MaxValue;
-				for (int i = 0; i < BC.board.exitMarkers.Count; i++) {
-					ExitMarker exitMarker = BC.board.exitMarkers[i];
-					Tile exitMarkerTile = BC.board.GetTile(exitMarker.position);
-					BC.board.FindPath(actor, actor.tile, exitMarkerTile, delegate (List<Tile> finalPath) {
-						if (finalPath.Count < nearestExitMarkerTilePathLength) {
-							nearestExitMarkerTile = exitMarkerTile;
-						}
-					});
-				}
-				/// Get paths to exit for each foe's LAST known location
-				List<Awareness> awarenesses = BC.awarenessController.TopAwarenesses(actor);
-				HashSet<Tile> pathsToExit = new HashSet<Tile>();
-				for (int i = 0; i < awarenesses.Count; i++) {
-					Awareness awareness = awarenesses[i];
-					BC.board.FindPath(awareness.stealth.unit,
-									  BC.board.GetTile(awareness.pointOfInterest),
-									  nearestExitMarkerTile,
-									  delegate (List<Tile> finalPath) {
-						finalPath.ForEach(tile => pathsToExit.Add(tile));
-					});
-				} 
+	void CalculateMoveScoreForObjectives(BattleController BC, Unit actor) {
+		for (int i = 0; i < strategem.objectiveTypes.Count; i++) {
+			var objectiveType = strategem.objectiveTypes[i];
+			int objectiveBonus = strategem.objectiveTypes.Count - i;
+			switch (objectiveType) {
+				case ObjectiveType.BlockExit:
+					/// Move actor aside so that they don't block paths to exit
+					Tile currentTile = actor.tile;
+					actor.Place(BC.board.GetTile(new Point(0,0)));
 
-				/// Remove exit tile itself
-				pathsToExit.Remove(nearestExitMarkerTile);
+					// Find tiles between the exit and all known foes
+					// then look for overlap with the existing tiles
+					/// Find nearest exit
+					Tile nearestExitMarkerTile = null;
+					int nearestExitMarkerTilePathLength = int.MaxValue;
+					for (int ii = 0; ii < BC.board.exitMarkers.Count; ii++) {
+						ExitMarker exitMarker = BC.board.exitMarkers[ii];
+						Tile exitMarkerTile = BC.board.GetTile(exitMarker.position);
+						BC.board.FindPath(actor, actor.tile, exitMarkerTile, delegate (List<Tile> finalPath) {
+							if (finalPath.Count < nearestExitMarkerTilePathLength) {
+								nearestExitMarkerTile = exitMarkerTile;
+							}
+						});
+					}
+					/// Get paths to exit for each foe's LAST known location
+					List<Awareness> awarenesses = BC.awarenessController.TopAwarenesses(actor);
+					HashSet<Tile> pathsToExit = new HashSet<Tile>();
+					for (int ii = 0; ii < awarenesses.Count; ii++) {
+						Awareness awareness = awarenesses[i];
+						BC.board.FindPath(awareness.stealth.unit,
+										// BC.board.GetTile(awareness.pointOfInterest),
+										BC.board.GetTile(awareness.stealth.unit.tile.pos), // *** This may be too smart for the enemy
+										nearestExitMarkerTile,
+										delegate (List<Tile> finalPath) {
+							finalPath.ForEach(tile => pathsToExit.Add(tile));
+						});
+					}
+					
+					actor.Place(currentTile);
 
-				/// Add point if tile is along a foe's path
-				if (pathsToExit.Contains(moveLocation)) {
-					_description += "Move target is on a foe's path to the exit. +1 / ";
-					_score++;
-				}
+					/// Remove exit tile itself
+					pathsToExit.Remove(nearestExitMarkerTile);
 
-				/// Rate each tile based on its distance from the exit!!!!
-				int movementRange = actor.GetComponent<Stats>()[StatTypes.MOV];
-				Point distance = nearestExitMarkerTile.pos - moveLocation.pos;
-				int distanceRaw = Mathf.Abs(distance.x) + Mathf.Abs(distance.y);
-				int differenceBetweenRangeAndDistance = movementRange - distanceRaw;
-				_score += differenceBetweenRangeAndDistance;
-				_description += "Difference between range and distance from exit is " + differenceBetweenRangeAndDistance.ToString();
-				_description += ". " + (differenceBetweenRangeAndDistance < 0? "": "+") + differenceBetweenRangeAndDistance.ToString() + ". / ";
-				break;
-			case ObjectiveType.ProtectSelf:
-				// Among the existing tiles, find the ones furthest from all known foes
-				break;
-			default:
-				break;
+					/// Does the move location block an exit?
+					if (pathsToExit.Contains(moveLocation)) {
+						_description += "Move target is on a foe's path to the exit. +1 with objective bonus +" + objectiveBonus + "/ ";
+						_score += objectiveBonus + 1;
+
+						/// Scaling bonus: distance from the exit!!!!
+						Point currentDistance = nearestExitMarkerTile.pos - currentTile.pos;
+						currentDistance.x = Mathf.Abs(currentDistance.x);
+						currentDistance.y = Mathf.Abs(currentDistance.y);
+						Point potentialDistance = nearestExitMarkerTile.pos - moveLocation.pos;
+						potentialDistance.x = Mathf.Abs(potentialDistance.x);
+						potentialDistance.y = Mathf.Abs(potentialDistance.y);
+						Point closedDistance = currentDistance - potentialDistance;
+						int closedDistanceRaw = closedDistance.x + closedDistance.y;
+						_score += closedDistanceRaw;
+						_description += "Difference between range and distance from exit is " + closedDistanceRaw.ToString();
+						_description += ". " + (closedDistanceRaw < 0? "": "+") + closedDistanceRaw.ToString() + ". / ";
+						// int distanceBonus = closedDistanceRaw > 0 ? 1 : closedDistanceRaw < 0 ? -1 : 0;
+						// _score += distanceBonus;
+						// _description += "Distance bonus is " + distanceBonus + ". / ";
+					}
+					break;
+				case ObjectiveType.ProtectSelf:
+					// Among the existing tiles, find the ones furthest from all known foes
+					break;
+				default:
+					break;
+			}
 		}
 	}
 
@@ -178,6 +196,14 @@ public class TurnPlan {
 	}
 
 	void CalculateScoreForPosition(BattleController BC, Unit actor) {
+		// Increase the score if the unit doesn't have to move.
+		if (moveLocation == actor.tile) {
+			// _score++;
+			// _description += "Unit does not have to move. +1 / ";
+			_score += 2;
+			_description += "Unit does not have to move. +2 / ";
+		}
+
 		if (IsAbilityAngleBased(ability)) {
 			Tile startTile = actor.tile;
 			Direction startDirection = actor.dir;
@@ -188,12 +214,6 @@ public class TurnPlan {
 			if (BC.cpu.IsMissileImpeded(actor, ability, fireLocation)) {
 				_score--;
 				_description += "Missle is impeded by wall or other unit. -1 / ";
-			}
-			
-			// Increase the score if the unit doesn't have to move.
-			if (moveLocation == startTile) {
-				_score++;
-				_description += "Unit does not have to move. +1 / ";
 			}
 			
 			actor.Place(startTile);

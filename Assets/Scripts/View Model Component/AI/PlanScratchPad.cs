@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 /* The “notes” I take on any given location from which to evaluate the usage of an ability is also a somewhat lengthy class.
  * A lot of its functionality I talked through while covering the ComputerPlayer script, but just to be clear I will break it down as well. */
@@ -153,7 +154,7 @@ public class PlanScratchPad {
 				}
 				
 				int score = GetAngleBasedScore(caster);
-				score += cpu.GetMoveScoreForObjective(moveTarget, strategem.objectiveType);
+				score += cpu.GetMoveScoreForObjective(moveTarget, strategem.objectiveTypes.First()); // TODO fix this or throw out the whole class
 				// Increase the score if the unit doesn't have to move.
 				if (moveTargets[i] == startTile) {
 					score++;

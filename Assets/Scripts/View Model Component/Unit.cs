@@ -29,6 +29,9 @@ public class Unit : MonoBehaviour {
 			if (target.occupant == null) {
 				target.occupant = gameObject;
 			}
+		} else {
+			Debug.Log("Unit " + name + " is floating in space!!");
+			tile = null;
 		}
 	}
 
