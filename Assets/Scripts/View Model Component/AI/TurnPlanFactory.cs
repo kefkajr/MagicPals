@@ -118,10 +118,12 @@ public class TurnPlanFactory {
                 // if (abilityTargetOption.ToString() == "Tile: (4,1)") {
                 // 	print("This is it.");
                 // }
+				List<Direction> directions = moveTile.GetDirections(abilityTargetOption);
+				Direction attackDirection = directions.Count > 0 ? directions.First() : actor.dir;
                 TurnPlan turnPlan = new (strategem) {
 					moveLocation = moveTile,
                     fireLocation = abilityTargetOption,
-                    attackDirection = actor.dir
+                    attackDirection = attackDirection
                 };
 				turnPlans.Add(turnPlan);
             }

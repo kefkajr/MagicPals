@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SocialPlatforms.Impl;
+using System.Linq;
 
 /* As soon as it is determined that it is the computer’s turn to make a move,
  * we will need to formulate a turn plan. This means I decide what ability to use,
@@ -33,8 +34,8 @@ public class TurnPlan {
 		_score = 0;
 		_description = "";
 		CalculateScoreForPosition(BC, actor);
-		CalculateMoveScoreForObjectives(BC, actor);
 		RateFireLocation(BC, actor);
+		CalculateMoveScoreForObjectives(BC, actor);
 		_score += strategem.priorityBonus;
 		_description += "Adding priority bonus " + strategem.priorityBonus.ToString() + ". / Score is " + score.ToString() + ".";
 	}
@@ -67,7 +68,7 @@ public class TurnPlan {
 					List<Awareness> awarenesses = BC.awarenessController.TopAwarenesses(actor);
 					HashSet<Tile> pathsToExit = new HashSet<Tile>();
 					for (int ii = 0; ii < awarenesses.Count; ii++) {
-						Awareness awareness = awarenesses[i];
+						Awareness awareness = awarenesses[ii];
 						BC.board.FindPath(awareness.stealth.unit,
 										// BC.board.GetTile(awareness.pointOfInterest),
 										BC.board.GetTile(awareness.stealth.unit.tile.pos), // *** This may be too smart for the enemy
@@ -84,28 +85,88 @@ public class TurnPlan {
 
 					/// Does the move location block an exit?
 					if (pathsToExit.Contains(moveLocation)) {
-						_description += "Move target is on a foe's path to the exit. +1 with objective bonus +" + objectiveBonus + "/ ";
+						_description += "Move target is on a foe's path to the exit. +1 with objective bonus +" + objectiveBonus + "./ ";
 						_score += objectiveBonus + 1;
-
-						/// Scaling bonus: distance from the exit!!!!
-						Point currentDistance = nearestExitMarkerTile.pos - currentTile.pos;
-						currentDistance.x = Mathf.Abs(currentDistance.x);
-						currentDistance.y = Mathf.Abs(currentDistance.y);
-						Point potentialDistance = nearestExitMarkerTile.pos - moveLocation.pos;
-						potentialDistance.x = Mathf.Abs(potentialDistance.x);
-						potentialDistance.y = Mathf.Abs(potentialDistance.y);
-						Point closedDistance = currentDistance - potentialDistance;
-						int closedDistanceRaw = closedDistance.x + closedDistance.y;
-						_score += closedDistanceRaw;
-						_description += "Difference between range and distance from exit is " + closedDistanceRaw.ToString();
-						_description += ". " + (closedDistanceRaw < 0? "": "+") + closedDistanceRaw.ToString() + ". / ";
-						// int distanceBonus = closedDistanceRaw > 0 ? 1 : closedDistanceRaw < 0 ? -1 : 0;
-						// _score += distanceBonus;
-						// _description += "Distance bonus is " + distanceBonus + ". / ";
 					}
+					/// Scaling bonus: distance from the exit!!!!
+					Point currentDistance = nearestExitMarkerTile.pos - currentTile.pos;
+					currentDistance.x = Mathf.Abs(currentDistance.x);
+					currentDistance.y = Mathf.Abs(currentDistance.y);
+					Point potentialDistance = nearestExitMarkerTile.pos - moveLocation.pos;
+					potentialDistance.x = Mathf.Abs(potentialDistance.x);
+					potentialDistance.y = Mathf.Abs(potentialDistance.y);
+					Point closedDistance = currentDistance - potentialDistance;
+					int closedDistanceRaw = closedDistance.x + closedDistance.y;
+					_score += closedDistanceRaw;
+					// _score += 1;
+					_description += "Difference between range and distance from exit is " + closedDistanceRaw.ToString();
+					_description += ". " + (closedDistanceRaw < 0? "": "+") + closedDistanceRaw.ToString() + ". / ";
+					// _description += ". +1 / ";
 					break;
 				case ObjectiveType.ProtectSelf:
 					// Among the existing tiles, find the ones furthest from all known foes
+					List<Point> hostilePoints = BC.awarenessController.TopAwarenesses(actor).Select((a) => a.pointOfInterest).ToList();
+					// Get total distance from all known foes at current location
+					// Get total distance from all known foes at current location
+					// Get total number of foes separated by walls at each location
+					int rawTotalCurrentDistance = 0;
+					int rawTotalPotentialDistance = 0;
+					int currentWallSeparations = 0;
+					int potentialWallSeparations = 0;
+					for (int ii = 0; ii < hostilePoints.Count; ii++) {
+						Point hostilePoint = hostilePoints[ii];
+						Point currentFoeDistance = hostilePoint - actor.tile.pos;
+						rawTotalCurrentDistance += Mathf.Abs(currentFoeDistance.x) + Mathf.Abs(currentFoeDistance.y);
+						currentWallSeparations += BC.board.WallImpedingMissile(actor.tile, hostilePoint) ? 1 : 0;
+
+						Point potentialFoeDistance = hostilePoint - moveLocation.pos;
+						rawTotalPotentialDistance += Mathf.Abs(potentialFoeDistance.x) + Mathf.Abs(potentialFoeDistance.y);
+						potentialWallSeparations += BC.board.WallImpedingMissile(actor.tile, hostilePoint) ? 1 : 0;
+					}
+					int distanceDifference = rawTotalPotentialDistance - rawTotalCurrentDistance;
+					if (distanceDifference > 0) {
+						_score += objectiveBonus + distanceDifference;
+						_description += "Move target is further from known foes. +" + distanceDifference + " with objective bonus +" + objectiveBonus + "./ ";
+						// _score += objectiveBonus + 1;
+						// _description += "Move target is further from known foes. +1 with objective bonus +" + objectiveBonus + "./ ";
+
+						// Bonus for walls separating foes
+						int wallSeparationsDifference = potentialWallSeparations - currentWallSeparations;
+						if (wallSeparationsDifference > 0) {
+							_score += wallSeparationsDifference;
+							_description += "Walls block more foes. +" + wallSeparationsDifference +  "./ ";
+							// _score += 1;
+							// _description += "Walls block more foes. +1./ ";
+						}
+					}
+					break;
+				case ObjectiveType.MaintainVisual:
+					// Can a foe be seen from this spot?
+					Tile startTile = actor.tile;
+					actor.Place(moveLocation);
+					Direction startDirection = actor.dir;
+					actor.dir = attackDirection;
+
+					List<Tile> hostileTiles = BC.awarenessController.TopAwarenesses(actor).Select((a) => a.stealth.unit.tile).ToList();
+					List<Tile> tilesInRange = BC.awarenessController.GetTilesInVisibleRange(actor).Keys.ToList();
+					List<Tile> intersection = hostileTiles.Intersect(tilesInRange).ToList();
+					if (intersection.Count > 0) {
+						_description += "Maintains visibility of target. +1 with objective bonus +" + objectiveBonus + "./ ";
+						_score += objectiveBonus + 1;
+						List<GameObject> tileOccupants = tilesInRange.Select(t => t.occupant).Where(o => o != null).ToList();
+						List<Unit> unitsInRange = tileOccupants.Select(o => o.GetComponent<Unit>()).Where(u => u != null).ToList();
+						List<Stealth> stealthsInRange = unitsInRange.Select(unit => unit.GetComponent<Stealth>()).ToList();
+						foreach (Stealth stealth in stealthsInRange) {
+							Alliance perceiverAlliance = actor.GetComponentInChildren<Alliance>();
+							Alliance perceivedAlliance = stealth.GetComponentInChildren<Alliance>();
+							if (perceiverAlliance.IsMatch(perceivedAlliance, TargetType.Foe) && !stealth.isInvisible) {
+								_score += 1;
+								_description += "Additional foe seen +1./ ";
+							}
+						}
+					}
+					actor.Place(startTile);
+					actor.dir = startDirection;
 					break;
 				default:
 					break;

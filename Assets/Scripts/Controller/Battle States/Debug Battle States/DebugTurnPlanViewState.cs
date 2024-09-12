@@ -31,10 +31,14 @@ public class DebugTurnPlanViewState : BattleState {
 	}
 
     void OnMove(object sender, InfoEventArgs<Point> e) {
-		if (e.info.x > 0 || e.info.y > 0) {
+		if (e.info.x > 0) {
             currentIndex++;
-        } else {
+        } else if (e.info.x < 0) {
             currentIndex--;
+        } else if (e.info.y > 0) {
+            currentIndex += 10;
+        } else {
+            currentIndex -= 10;
         }
         HighlighTurnPlan();
 	}
@@ -48,6 +52,7 @@ public class DebugTurnPlanViewState : BattleState {
 	}
 
     void HighlighTurnPlan() {
+        owner.board.DeHighlightAllTiles();
         if (currentIndex == turnPlans.Count) {
             Console.Main.Log("Last turn plan. Quitting debug.");
             owner.ChangeState<CommandSelectionState>();

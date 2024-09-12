@@ -49,7 +49,7 @@ MonoBehaviour:
   gambits:
   - {fileID: 1824039968515538889}
   - {fileID: 4706408028579350891}
-  objectiveTypes: 00000000
+  objectiveTypes: 020000000100000000000000
 --- !u!1 &1824039968521583089
 GameObject:
   m_ObjectHideFlags: 0

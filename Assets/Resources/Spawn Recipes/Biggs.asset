@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   model: Monster
   abilityCatalog: Sentry
-  strategy: 
+  strategy: Sentry Officer
   locomotion: 0
   alliance: 4
   perceptionRecipe: {fileID: 0}

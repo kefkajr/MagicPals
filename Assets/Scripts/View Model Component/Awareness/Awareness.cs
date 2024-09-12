@@ -139,7 +139,7 @@ public class Awareness: IEquatable<Awareness> {
 	}
 
 	public override string ToString() {
-		return string.Format("{0} > {1} > {2}", perception.unit.name, type.ActionVerb(), stealth.unit.name);
+		return string.Format("{0} > {1} > {2} (POS {3}, POI {4})", perception.unit.name, type.ActionVerb(), stealth.unit.name, stealth.unit.tile.pos, pointOfInterest);
 	}
     #endregion
 }

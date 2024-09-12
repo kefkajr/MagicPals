@@ -63,7 +63,7 @@ public class AwarenessController : MonoBehaviour {
 					var newAwareness = new Awareness(
 						perceivingUnit.perception,
 						perceivedUnit.stealth,
-						perceivedUnit.tile.pos,
+						new Point(0, 0),
 						doesEveryoneSeeEveryone ? AwarenessType.Seen : AwarenessType.Unaware);
 
 					if (awarenessMap.ContainsKey(perceivingUnit)) {
