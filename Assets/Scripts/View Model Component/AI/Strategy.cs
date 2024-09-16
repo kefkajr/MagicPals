@@ -25,7 +25,9 @@ and allow a factory to automatically generate them like we do with ability catal
 public enum ObjectiveType {
     BlockExit,
     ProtectSelf,
-	MaintainVisual
+	MaintainVisual,
+	AttackFoes,
+	ProtectHotSpots
 }
 
 public class Strategem {

@@ -8,4 +8,5 @@ public class LevelData : ScriptableObject
 	public List<SpawnData> spawns;
 	public List<Point> exits;
 	public List<Patrol> patrols;
+	public List<Point> hotSpots;
 }

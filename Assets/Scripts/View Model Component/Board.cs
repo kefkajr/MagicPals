@@ -13,6 +13,7 @@ public class Board : MonoBehaviour {
 	public Point min { get { return _min; }}
 	public Point max { get { return _max; }}
 	public List<ExitMarker> exitMarkers = new List<ExitMarker>();
+	public List<Point> hotspots = new List<Point>();
 	Point _min;
 	Point _max;
 	Point[] dirs = new Point[4] {
@@ -68,6 +69,8 @@ public class Board : MonoBehaviour {
 			e.Match();
 			exitMarkers.Add(e);
 		}
+
+		this.hotspots = data.hotSpots;
 	}
 
 	public Tile GetTile (Point p) {

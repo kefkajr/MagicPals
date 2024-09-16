@@ -45,7 +45,7 @@ public class TurnPlan {
 			var objectiveType = strategem.objectiveTypes[i];
 			int objectiveBonus = strategem.objectiveTypes.Count - i;
 			switch (objectiveType) {
-				case ObjectiveType.BlockExit:
+				case ObjectiveType.BlockExit: {
 					/// Move actor aside so that they don't block paths to exit
 					Tile currentTile = actor.tile;
 					actor.Place(BC.board.GetTile(new Point(0,0)));
@@ -85,8 +85,8 @@ public class TurnPlan {
 
 					/// Does the move location block an exit?
 					if (pathsToExit.Contains(moveLocation)) {
-						_description += "Move target is on a foe's path to the exit. +1 with objective bonus +" + objectiveBonus + "./ ";
-						_score += objectiveBonus + 1;
+						_description += "Move target is on a foe's path to the exit. with objective bonus +" + objectiveBonus + "./ ";
+						_score += objectiveBonus;
 					}
 					/// Scaling bonus: distance from the exit!!!!
 					Point currentDistance = nearestExitMarkerTile.pos - currentTile.pos;
@@ -103,7 +103,7 @@ public class TurnPlan {
 					_description += ". " + (closedDistanceRaw < 0? "": "+") + closedDistanceRaw.ToString() + ". / ";
 					// _description += ". +1 / ";
 					break;
-				case ObjectiveType.ProtectSelf:
+				} case ObjectiveType.ProtectSelf: {
 					// Among the existing tiles, find the ones furthest from all known foes
 					List<Point> hostilePoints = BC.awarenessController.TopAwarenesses(actor).Select((a) => a.pointOfInterest).ToList();
 					// Get total distance from all known foes at current location
@@ -140,7 +140,7 @@ public class TurnPlan {
 						}
 					}
 					break;
-				case ObjectiveType.MaintainVisual:
+				} case ObjectiveType.MaintainVisual: {
 					// Can a foe be seen from this spot?
 					Tile startTile = actor.tile;
 					actor.Place(moveLocation);
@@ -151,8 +151,8 @@ public class TurnPlan {
 					List<Tile> tilesInRange = BC.awarenessController.GetTilesInVisibleRange(actor).Keys.ToList();
 					List<Tile> intersection = hostileTiles.Intersect(tilesInRange).ToList();
 					if (intersection.Count > 0) {
-						_description += "Maintains visibility of target. +1 with objective bonus +" + objectiveBonus + "./ ";
-						_score += objectiveBonus + 1;
+						_description += "Maintains visibility of target +" + objectiveBonus + " bonus./ ";
+						_score += objectiveBonus;
 						List<GameObject> tileOccupants = tilesInRange.Select(t => t.occupant).Where(o => o != null).ToList();
 						List<Unit> unitsInRange = tileOccupants.Select(o => o.GetComponent<Unit>()).Where(u => u != null).ToList();
 						List<Stealth> stealthsInRange = unitsInRange.Select(unit => unit.GetComponent<Stealth>()).ToList();
@@ -161,14 +161,47 @@ public class TurnPlan {
 							Alliance perceivedAlliance = stealth.GetComponentInChildren<Alliance>();
 							if (perceiverAlliance.IsMatch(perceivedAlliance, TargetType.Foe) && !stealth.isInvisible) {
 								_score += 1;
-								_description += "Additional foe seen +1./ ";
+								_description += " Foe seen +1./ ";
 							}
 						}
 					}
 					actor.Place(startTile);
 					actor.dir = startDirection;
 					break;
-				default:
+				} case ObjectiveType.ProtectHotSpots: {
+					// Look for nearest unoccupied hot spot, prioritizing unoccupied ones
+					/// TRUE if potential move is hotspot. Bonus if move is closer
+					Dictionary<Tile, int> potentialHotspotDistances = new Dictionary<Tile, int>();
+					for (int ii = 0; ii < BC.board.hotspots.Count; ii++) {
+						Tile hotspotTile = BC.board.GetTile(BC.board.hotspots[ii]);
+						potentialHotspotDistances.Add(hotspotTile, BC.board.GetDistance(moveLocation, hotspotTile));
+					}
+					List<Tile> closestHotspots = potentialHotspotDistances.OrderBy(kvp => kvp.Value).Select(kvp => kvp.Key).ToList();
+					List<Tile> closestUnoccupiedHotspots = closestHotspots.Where(h => h.occupant == null).ToList();
+
+					Tile targetHotspot = null;
+					if (closestUnoccupiedHotspots.Count > 0) {
+						targetHotspot = closestUnoccupiedHotspots.First();
+					} else if (closestHotspots.Count > 0) {
+						targetHotspot = closestHotspots.First();
+					}
+
+					if (targetHotspot != null) {
+						if (moveLocation == targetHotspot) {
+							_description += "Move location is hotspot +1 +" + objectiveBonus + " bonus.";
+							_score += objectiveBonus;
+						}
+
+						if (BC.board.GetDistance(moveLocation, targetHotspot) < BC.board.GetDistance(actor.tile, targetHotspot)) {
+							_score += 1;
+							_description += "Closer to hotspot +1.";
+						}
+
+						_description += "/ ";
+					}
+					
+					break;
+				} default:
 					break;
 			}
 		}
@@ -247,6 +280,10 @@ public class TurnPlan {
 						// If the target is a foe who has been seen by the actor, it's viable
 						isMatch = BC.awarenessController.IsAwareOfUnit(actor, targetUnit, new AwarenessType[] {AwarenessType.Seen});
 						if (isMatch) {
+							if (strategem.objectiveTypes.Contains(ObjectiveType.AttackFoes)) {
+								_description += " [ATTACK FOES BONUS +1] ";
+								_score += 1;
+							}
 							_description += tile.ToString() + " is a target match. (target was seen by actor) / ";
 						}
 					}
